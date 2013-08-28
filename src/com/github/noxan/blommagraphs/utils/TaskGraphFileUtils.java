@@ -14,7 +14,20 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
 
 
+/**
+ * A helper class to provide basic file operations to import and export graphs.
+ * 
+ * @author noxan
+ */
 public class TaskGraphFileUtils {
+    /**
+     * Exports a single graph to a file with the given serializer.
+     * 
+     * @param pathname
+     * @param graph
+     * @param serializer
+     * @throws IOException
+     */
     public static void writeFile(String pathname, TaskGraph graph, TaskGraphSerializer serializer)
             throws IOException {
         FileOutputStream fos = new FileOutputStream(new File(pathname));
@@ -28,6 +41,14 @@ public class TaskGraphFileUtils {
         fos.close();
     }
 
+    /**
+     * Imports a graph from a file with the given deserializer.
+     * 
+     * @param pathname
+     * @param deserializer
+     * @return
+     * @throws IOException
+     */
     public static TaskGraph readFile(String pathname, TaskGraphSerializer deserializer)
             throws IOException {
         FileInputStream fis = new FileInputStream(new File(pathname));
