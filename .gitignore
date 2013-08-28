@@ -2,3 +2,5 @@
 # files
 /.classpath
 /.project
+*.swp
+*.swo
