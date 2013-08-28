@@ -3,6 +3,7 @@
 # Files
 *.swp
 *.swo
+*.stg
 
 # Sublime
 *.sublime-project
