@@ -15,7 +15,8 @@ import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
 
 
 public class TaskGraphFileUtils {
-    public static void writeFile(String pathname, TaskGraph graph, TaskGraphSerializer serializer) throws IOException {
+    public static void writeFile(String pathname, TaskGraph graph, TaskGraphSerializer serializer)
+            throws IOException {
         FileOutputStream fos = new FileOutputStream(new File(pathname));
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
@@ -27,7 +28,8 @@ public class TaskGraphFileUtils {
         fos.close();
     }
 
-    public static TaskGraph readFile(String pathname, TaskGraphSerializer deserializer) throws IOException {
+    public static TaskGraph readFile(String pathname, TaskGraphSerializer deserializer)
+            throws IOException {
         FileInputStream fis = new FileInputStream(new File(pathname));
 
         StringBuilder graphString = new StringBuilder();
