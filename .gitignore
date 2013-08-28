@@ -1,4 +1,5 @@
 /bin
+
 # files
 /.classpath
 /.project
@@ -6,3 +7,14 @@
 *.swo
 *.sublime-project
 *.sublime-workspace
+
+# Eclipse
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
