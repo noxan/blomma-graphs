@@ -1,15 +1,17 @@
 /bin
 
-# files
-/.classpath
-/.project
+# Files
 *.swp
 *.swo
+
+# Sublime
 *.sublime-project
 *.sublime-workspace
 
 # Eclipse
-.settings/
+/.classpath
+/.project
+/.settings/
 
 # Intellij
 .idea/
