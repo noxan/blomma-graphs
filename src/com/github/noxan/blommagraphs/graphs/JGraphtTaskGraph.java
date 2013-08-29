@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
+import java.util.Set;
+
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
@@ -79,5 +81,17 @@ public class JGraphtTaskGraph implements TaskGraph {
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Set<TaskGraphEdge> getEdgeSet() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Set<TaskGraphNode> getNodeSet() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

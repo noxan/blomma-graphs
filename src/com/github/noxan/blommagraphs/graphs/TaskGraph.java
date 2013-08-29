@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
+import java.util.Set;
+
+
 public interface TaskGraph {
     public TaskGraphNode getFirstNode();
 
@@ -23,4 +26,8 @@ public interface TaskGraph {
             TaskGraphNode nextNode, int nextCommunicationTime);
 
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime);
+
+    public Set<TaskGraphEdge> getEdgeSet();
+
+    public Set<TaskGraphNode> getNodeSet();
 }

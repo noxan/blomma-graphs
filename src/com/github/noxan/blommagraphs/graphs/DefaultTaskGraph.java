@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
+import java.util.Set;
+
+
 public class DefaultTaskGraph implements TaskGraph {
     @Override
     public TaskGraphNode getFirstNode() {
@@ -58,5 +61,17 @@ public class DefaultTaskGraph implements TaskGraph {
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Set<TaskGraphEdge> getEdgeSet() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Set<TaskGraphNode> getNodeSet() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
