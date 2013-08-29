@@ -1,7 +1,10 @@
-package com.github.noxan.blommagraphs.graphs;
+package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.List;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {

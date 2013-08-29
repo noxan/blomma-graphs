@@ -1,4 +1,8 @@
-package com.github.noxan.blommagraphs.graphs;
+package com.github.noxan.blommagraphs.graphs.impl;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 import java.util.Set;
