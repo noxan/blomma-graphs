@@ -1,4 +1,7 @@
-package com.github.noxan.blommagraphs.graphs;
+package com.github.noxan.blommagraphs.graphs.impl;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphEdge implements TaskGraphEdge {

@@ -3,8 +3,8 @@ package com.github.noxan.blommagraphs;
 
 import java.io.IOException;
 
-import com.github.noxan.blommagraphs.graphs.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.serializer.STGSerializer;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
