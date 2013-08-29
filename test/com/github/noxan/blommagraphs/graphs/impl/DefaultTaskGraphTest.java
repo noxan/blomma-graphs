@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.graphs;
+package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import static org.junit.Assert.fail;
