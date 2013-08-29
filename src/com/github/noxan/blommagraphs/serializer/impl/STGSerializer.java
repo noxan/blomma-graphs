@@ -1,8 +1,9 @@
-package com.github.noxan.blommagraphs.serializer;
+package com.github.noxan.blommagraphs.serializer.impl;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
 
 
 public class STGSerializer implements TaskGraphSerializer {
