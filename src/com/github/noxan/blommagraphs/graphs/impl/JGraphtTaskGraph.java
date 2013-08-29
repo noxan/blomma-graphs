@@ -1,10 +1,14 @@
-package com.github.noxan.blommagraphs.graphs;
+package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
