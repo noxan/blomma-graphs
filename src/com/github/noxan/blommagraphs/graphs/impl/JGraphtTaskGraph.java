@@ -3,7 +3,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -12,19 +12,19 @@ import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
+    private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
     public JGraphtTaskGraph() {
-        graph = new DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
+        graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
-        firstNode = new JGraphtTaskGraphNode(graph, 1);
+        firstNode = new JGraphtTaskGraphNode(graph, 0, 1);
         graph.addVertex(firstNode);
 
-        lastNode = new JGraphtTaskGraphNode(graph, 1);
+        lastNode = new JGraphtTaskGraphNode(graph, 1, 1);
         graph.addVertex(lastNode);
 
         TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
@@ -71,7 +71,9 @@ public class JGraphtTaskGraph implements TaskGraph {
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime,
             boolean keepExistingEdge) {
-        TaskGraphNode node = new JGraphtTaskGraphNode(graph, computationTime);
+        int lastId = lastNode.getId();
+        ((JGraphtTaskGraphNode) lastNode).setId(lastId + 1);
+        TaskGraphNode node = new JGraphtTaskGraphNode(graph, lastId, computationTime);
         graph.addVertex(node);
 
         TaskGraphEdge prevEdge = graph.addEdge(prevNode, node);

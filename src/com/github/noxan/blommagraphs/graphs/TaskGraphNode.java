@@ -21,5 +21,7 @@ public interface TaskGraphNode {
 
     public int getNextEdgeCount();
 
+    public int getId();
+
     public int getComputationTime();
 }

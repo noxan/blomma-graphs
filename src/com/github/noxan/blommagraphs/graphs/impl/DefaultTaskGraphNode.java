@@ -57,6 +57,12 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
+    public int getId() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
     public int getComputationTime() {
         // TODO Auto-generated method stub
         return 0;
