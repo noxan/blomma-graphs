@@ -47,12 +47,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         if (minIncommingEdges > 0) {
             if (minIncommingEdges <= this.maxIncommingEdges) {
                 this.minIncommingEdges = minIncommingEdges;
-            }
-            else {
+            } else {
                 throw new BoundaryConflictException();
             }
-        }
-        else {
+        } else {
             throw new OutOfRangeException();
         }
     }
@@ -65,8 +63,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
             else {
                 throw new BoundaryConflictException();
             }
-        }
-        else {
+        } else {
             throw new OutOfRangeException();
         }
     }
@@ -74,8 +71,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     public void setSpreadEdges(int spreadEdges) throws OutOfRangeException {
         if (spreadEdges >= 0) {
             this.spreadEdges = spreadEdges;
-        }
-        else {
+        } else {
             throw new OutOfRangeException();
         }
     }
@@ -84,24 +80,23 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         if (minComputationTime > 0) {
             if (minComputationTime <= this.maxCommunicationTime) {
                 this.minCommunicationTime = minComputationTime;
-            }
-            else {
+            } else {
                 throw new BoundaryConflictException();
             }
-        }
-        else {
+        } else {
             throw new OutOfRangeException();
         }
     }
 
     public void setMaxComputationTime(int maxComputationTime) throws GeneratorException{
         if (maxComputationTime > 0) {
-            this.maxComputationTime = maxComputationTime;
+            if (maxComputationTime < minComputationTime) {
+                throw new BoundaryConflictException();
+            } else {
+                this.maxComputationTime = maxComputationTime;
+            }
         } else {
             throw new OutOfRangeException();
-        }
-        if (maxComputationTime < minComputationTime) {
-            throw new BoundaryConflictException();
         }
     }
 
@@ -112,24 +107,28 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
     public void setMinCommunicationTime(int minCommunicationTime) throws GeneratorException {
         if (minCommunicationTime >= 0) {
-            this.minCommunicationTime = minCommunicationTime;
+            if (minCommunicationTime > maxCommunicationTime) {
+                throw new BoundaryConflictException();
+            } else {
+                this.minCommunicationTime = minCommunicationTime;
+            }
         } else {
             throw new OutOfRangeException();
         }
-        if (minCommunicationTime > maxCommunicationTime) {
-            throw new BoundaryConflictException();
-        }
+
     }
 
     public void setMaxCommunicationTime(int maxCommunicationTime) throws GeneratorException {
         if (maxCommunicationTime >= 0) {
-            this.maxCommunicationTime = maxCommunicationTime;
+            if (maxCommunicationTime < minCommunicationTime) {
+                throw new BoundaryConflictException();
+            } else {
+                this.maxCommunicationTime = maxCommunicationTime;
+            }
         } else {
             throw new OutOfRangeException();
         }
-        if (maxCommunicationTime < minCommunicationTime) {
-            throw new BoundaryConflictException();
-        }
+
 
     }
 
