@@ -52,14 +52,12 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public int getPrevNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getPrevNodes().size();
     }
 
     @Override
     public int getNextNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getNextNodes().size();
     }
 
     @Override
@@ -74,14 +72,12 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public int getPrevEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getPrevEdges().size();
     }
 
     @Override
     public int getNextEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getNextEdges().size();
     }
 
     protected void setId(int id) {
