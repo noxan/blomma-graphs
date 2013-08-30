@@ -193,6 +193,9 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         this.spreadCommunicationTime = spreadCommunicationTime;
     }
 
+    /**
+     *
+     */
     public void generator() {
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
@@ -230,7 +233,6 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     } while (graph.checkEdge(currentNode, prevNode));
                     int communicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
                     graph.insertEdge(prevNode, currentNode, communicationTime);
-
                 }
             }
         }
