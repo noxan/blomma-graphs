@@ -3,14 +3,19 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.Set;
 
+import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraphNode implements TaskGraphNode {
+    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
     private int computationTime;
 
-    public JGraphtTaskGraphNode(int computationTime) {
+    public JGraphtTaskGraphNode(DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
+            int computationTime) {
+        this.graph = graph;
         if (computationTime <= 0) {
             this.computationTime = 1;
         } else {
