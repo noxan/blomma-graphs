@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -38,6 +39,13 @@ public class JGraphtTaskGraphTest {
     @Test
     public void testGetEdgeSet() {
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 1);
+    }
+
+    @Test
+    public void testNodeGetEdgeSet() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
+                taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(node.getPrevEdges().size(), 1);
     }
 
     @Test
