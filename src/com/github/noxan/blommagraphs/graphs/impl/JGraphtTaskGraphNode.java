@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
@@ -25,14 +26,26 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public Set<TaskGraphNode> getPrevNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphEdge> prevEdges = graph.incomingEdgesOf(this);
+        Set<TaskGraphNode> prevNodes = new HashSet<TaskGraphNode>();
+
+        for (TaskGraphEdge prevEdge : prevEdges) {
+            prevNodes.add(prevEdge.getPrevNode());
+        }
+
+        return prevNodes;
     }
 
     @Override
     public Set<TaskGraphNode> getNextNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphEdge> nextEdges = graph.outgoingEdgesOf(this);
+        Set<TaskGraphNode> nextNodes = new HashSet<TaskGraphNode>();
+
+        for (TaskGraphEdge prevEdge : nextEdges) {
+            nextNodes.add(prevEdge.getNextNode());
+        }
+
+        return nextNodes;
     }
 
     @Override
