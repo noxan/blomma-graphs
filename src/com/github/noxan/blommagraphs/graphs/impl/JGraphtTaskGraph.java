@@ -4,7 +4,6 @@ package com.github.noxan.blommagraphs.graphs.impl;
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -12,14 +11,14 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private DefaultDirectedWeightedGraph<TaskGraphNode, DefaultWeightedEdge> graph;
+    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
     public JGraphtTaskGraph() {
-        graph = new DefaultDirectedWeightedGraph<TaskGraphNode, DefaultWeightedEdge>(
-                DefaultWeightedEdge.class);
+        graph = new DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
+                JGraphtTaskGraphEdge.class);
 
         firstNode = new JGraphtTaskGraphNode(1);
         graph.addVertex(firstNode);
@@ -70,10 +69,10 @@ public class JGraphtTaskGraph implements TaskGraph {
         TaskGraphNode node = new JGraphtTaskGraphNode(computationTime);
         graph.addVertex(node);
 
-        DefaultWeightedEdge prevEdge = graph.addEdge(prevNode, node);
+        TaskGraphEdge prevEdge = graph.addEdge(prevNode, node);
         graph.setEdgeWeight(prevEdge, prevCommunicationTime);
 
-        DefaultWeightedEdge nextEdge = graph.addEdge(node, nextNode);
+        TaskGraphEdge nextEdge = graph.addEdge(node, nextNode);
         graph.setEdgeWeight(nextEdge, nextCommunicationTime);
 
         if (!keepExistingEdge) {
@@ -92,7 +91,7 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        DefaultWeightedEdge edge = graph.getEdge(prevNode, nextNode);
+        TaskGraphEdge edge = graph.getEdge(prevNode, nextNode);
 
         graph.setEdgeWeight(edge, newCommunicationTime);
     }
