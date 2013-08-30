@@ -13,6 +13,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 public class JGraphtTaskGraphNode implements TaskGraphNode {
     private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
     private int computationTime;
+    private int id;
 
     public JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
             int computationTime) {
@@ -84,8 +85,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public int getId() {
-        // TODO Auto-generated method stub
-        return 0;
+        return id;
     }
 
     @Override
