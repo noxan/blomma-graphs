@@ -67,4 +67,10 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         // TODO Auto-generated method stub
         return 0;
     }
+
+    @Override
+    public int compareTo(TaskGraphNode o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }
