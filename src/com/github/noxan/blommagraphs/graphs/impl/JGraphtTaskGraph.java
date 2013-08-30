@@ -101,7 +101,6 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphNode> getNodeSet() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.vertexSet();
     }
 }
