@@ -59,8 +59,17 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
-        // TODO Auto-generated method stub
-        return null;
+
+        TaskGraphNode node = new JGraphtTaskGraphNode(computationTime);
+        graph.addVertex(node);
+
+        DefaultWeightedEdge prevEdge = graph.addEdge(prevNode, node);
+        graph.setEdgeWeight(prevEdge, prevCommunicationTime);
+
+        DefaultWeightedEdge nextEdge = graph.addEdge(node, nextNode);
+        graph.setEdgeWeight(nextEdge, nextCommunicationTime);
+
+        return node;
     }
 
     @Override
