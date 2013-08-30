@@ -49,14 +49,12 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public Set<TaskGraphEdge> getPrevEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.incomingEdgesOf(this);
     }
 
     @Override
     public Set<TaskGraphEdge> getNextEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.outgoingEdgesOf(this);
     }
 
     @Override
