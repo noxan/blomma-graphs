@@ -98,7 +98,7 @@ public class JGraphtTaskGraph implements TaskGraph {
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
         return insertNode(prevNode, prevCommunicationTime, nextNode, nextCommunicationTime,
-                computationTime, true);
+                computationTime, false);
     }
 
     @Override
