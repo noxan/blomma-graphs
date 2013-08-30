@@ -5,8 +5,16 @@ import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictExcept
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+
+/**
+ *
+ */
 public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     TaskGraph graph;
     private int numberOfNodes;
@@ -20,6 +28,9 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     private int maxCommunicationTime;
     private int spreadCommunicationTime;
 
+    /**
+     *
+     */
     public DefaultTaskGraphGenerator() {
         graph = new DefaultTaskGraph();
 
@@ -35,6 +46,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         spreadCommunicationTime = 1;
     }
 
+    /**
+     *
+     * @param numberOfNodes
+     * @throws OutOfRangeException
+     */
     public void setNumberOfNodes(int numberOfNodes) throws OutOfRangeException {
         if (numberOfNodes >= 0) {
             this.numberOfNodes = numberOfNodes;
@@ -43,8 +59,13 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param minIncommingEdges
+     * @throws GeneratorException
+     */
     public void setMinIncommingEdges(int minIncommingEdges) throws GeneratorException {
-        if (minIncommingEdges > 0) {
+        if (minIncommingEdges == 1) {
             if (minIncommingEdges <= this.maxIncommingEdges) {
                 this.minIncommingEdges = minIncommingEdges;
             } else {
@@ -55,6 +76,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param maxIncommingEdges
+     * @throws GeneratorException
+     */
     public void setMaxIncommingEdges(int maxIncommingEdges) throws GeneratorException{
         if (maxIncommingEdges > 0) {
             if (maxIncommingEdges >= this.minIncommingEdges) {
@@ -68,6 +94,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param spreadEdges
+     * @throws OutOfRangeException
+     */
     public void setSpreadEdges(int spreadEdges) throws OutOfRangeException {
         if (spreadEdges >= 0) {
             this.spreadEdges = spreadEdges;
@@ -76,6 +107,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param minComputationTime
+     * @throws GeneratorException
+     */
     public void setMinComputationTime(int minComputationTime) throws GeneratorException {
         if (minComputationTime > 0) {
             if (minComputationTime <= this.maxCommunicationTime) {
@@ -88,6 +124,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param maxComputationTime
+     * @throws GeneratorException
+     */
     public void setMaxComputationTime(int maxComputationTime) throws GeneratorException{
         if (maxComputationTime > 0) {
             if (maxComputationTime < minComputationTime) {
@@ -100,11 +141,20 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
     }
 
+    /**
+     *
+     * @param spreadComputationTime
+     */
     public void setSpreadComputationTime(int spreadComputationTime) {
         //coming soon...
         this.spreadComputationTime = spreadComputationTime;
     }
 
+    /**
+     *
+     * @param minCommunicationTime
+     * @throws GeneratorException
+     */
     public void setMinCommunicationTime(int minCommunicationTime) throws GeneratorException {
         if (minCommunicationTime >= 0) {
             if (minCommunicationTime > maxCommunicationTime) {
@@ -115,9 +165,13 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         } else {
             throw new OutOfRangeException();
         }
-
     }
 
+    /**
+     *
+     * @param maxCommunicationTime
+     * @throws GeneratorException
+     */
     public void setMaxCommunicationTime(int maxCommunicationTime) throws GeneratorException {
         if (maxCommunicationTime >= 0) {
             if (maxCommunicationTime < minCommunicationTime) {
@@ -128,12 +182,58 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         } else {
             throw new OutOfRangeException();
         }
-
-
     }
 
+    /**
+     *
+     * @param spreadCommunicationTime
+     */
     public void setSpreadCommunicationTime(int spreadCommunicationTime) {
         //coming soon...
         this.spreadCommunicationTime = spreadCommunicationTime;
     }
+
+    public void generator() {
+        TaskGraphNode firstNode = graph.getFirstNode();
+        TaskGraphNode lastNode = graph.getLastNode();
+        ArrayList<TaskGraphNode> nodes= new ArrayList<TaskGraphNode>();
+        //nodes.add(...);
+
+        int numberOfNodesFirstLevel = maxIncommingEdges + (int) Math.round(Math.random() * (numberOfNodes-maxIncommingEdges));
+        for (int i = 0; i<numberOfNodesFirstLevel; i++) {
+            int computationTime = (int) Math.round(Math.random() * (maxComputationTime-minComputationTime) + minComputationTime);
+            int prevCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int nextCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+
+            nodes.add(graph.insertNode(firstNode, prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
+        }
+
+        Random random = new Random();
+        int restNodes = numberOfNodes-numberOfNodesFirstLevel;
+        for (int i = 0; i<restNodes; i++) {
+            int computationTime = (int) Math.round(Math.random() * (maxComputationTime-minComputationTime) + minComputationTime);
+            int prevCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int nextCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+
+            nodes.add(graph.insertNode(nodes.get(random.nextInt(nodes.size())), prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
+
+        }
+        int nodesSize = nodes.size();
+        for (int i = numberOfNodesFirstLevel; i<nodesSize; i++) {
+            TaskGraphNode currentNode = nodes.get(i);
+            if (currentNode.getPrevEdgeCount() < minIncommingEdges) {
+                int newEdges = (int) Math.round(Math.random() * (maxIncommingEdges-minIncommingEdges)) - currentNode.getPrevEdgeCount();
+                for (int j = 0; j<newEdges; j++){
+                    TaskGraphNode prevNode;
+                    do {
+                        prevNode = nodes.get(random.nextInt(i));
+                    } while (graph.checkEdge(currentNode, prevNode));
+                    int communicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+                    graph.insertEdge(prevNode, currentNode, communicationTime);
+
+                }
+            }
+        }
+    }
+
 }
