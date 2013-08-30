@@ -202,36 +202,47 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         ArrayList<TaskGraphNode> nodes= new ArrayList<TaskGraphNode>();
         //nodes.add(...);
 
-        int numberOfNodesFirstLevel = maxIncommingEdges + (int) Math.round(Math.random() * (numberOfNodes-maxIncommingEdges));
+        int numberOfNodesFirstLevel = maxIncommingEdges + (int) Math.round(Math.random() *
+                (numberOfNodes-maxIncommingEdges));
         for (int i = 0; i<numberOfNodesFirstLevel; i++) {
-            int computationTime = (int) Math.round(Math.random() * (maxComputationTime-minComputationTime) + minComputationTime);
-            int prevCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
-            int nextCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int computationTime = (int) Math.round(Math.random() *
+                    (maxComputationTime-minComputationTime) + minComputationTime);
+            int prevCommunicationTime = (int) Math.round(Math.random() *
+                    (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int nextCommunicationTime = (int) Math.round(Math.random() *
+                    (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
 
-            nodes.add(graph.insertNode(firstNode, prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
+            nodes.add(graph.insertNode(firstNode, prevCommunicationTime, lastNode,
+                    nextCommunicationTime, computationTime));
         }
 
         Random random = new Random();
         int restNodes = numberOfNodes-numberOfNodesFirstLevel;
         for (int i = 0; i<restNodes; i++) {
-            int computationTime = (int) Math.round(Math.random() * (maxComputationTime-minComputationTime) + minComputationTime);
-            int prevCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
-            int nextCommunicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int computationTime = (int) Math.round(Math.random() *
+                    (maxComputationTime-minComputationTime) + minComputationTime);
+            int prevCommunicationTime = (int) Math.round(Math.random() *
+                    (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+            int nextCommunicationTime = (int) Math.round(Math.random() *
+                    (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
 
-            nodes.add(graph.insertNode(nodes.get(random.nextInt(nodes.size())), prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
+            nodes.add(graph.insertNode(nodes.get(random.nextInt(nodes.size())),
+                    prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
 
         }
         int nodesSize = nodes.size();
         for (int i = numberOfNodesFirstLevel; i<nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
             if (currentNode.getPrevEdgeCount() < minIncommingEdges) {
-                int newEdges = (int) Math.round(Math.random() * (maxIncommingEdges-minIncommingEdges)) - currentNode.getPrevEdgeCount();
+                int newEdges = (int) Math.round(Math.random() *
+                        (maxIncommingEdges-minIncommingEdges)) - currentNode.getPrevEdgeCount();
                 for (int j = 0; j<newEdges; j++){
                     TaskGraphNode prevNode;
                     do {
                         prevNode = nodes.get(random.nextInt(i));
                     } while (graph.checkEdge(currentNode, prevNode));
-                    int communicationTime = (int) Math.round(Math.random() * (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
+                    int communicationTime = (int) Math.round(Math.random() *
+                            (maxCommunicationTime-minCommunicationTime) + minCommunicationTime);
                     graph.insertEdge(prevNode, currentNode, communicationTime);
                 }
             }
