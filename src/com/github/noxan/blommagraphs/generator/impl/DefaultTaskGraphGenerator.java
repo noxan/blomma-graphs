@@ -1,12 +1,11 @@
 package com.github.noxan.blommagraphs.generator.impl;
 
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
-import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
-import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     TaskGraph graph;
@@ -96,13 +95,13 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     public void setMaxComputationTime(int maxComputationTime) throws GeneratorException{
-        if (maxComputationTime >= 0) {
+        if (maxComputationTime > 0) {
             this.maxComputationTime = maxComputationTime;
         } else {
             throw new OutOfRangeException();
         }
         if (maxComputationTime < minComputationTime) {
-            throw new BoundryConflictException();
+            throw new BoundaryConflictException();
         }
     }
 
@@ -118,18 +117,18 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
             throw new OutOfRangeException();
         }
         if (minCommunicationTime > maxCommunicationTime) {
-            throw new BoundryConflictException();
+            throw new BoundaryConflictException();
         }
     }
 
-    public void setMaxCommunicationTime(int maxCommunicationTime) throws OutOfRangeException {
+    public void setMaxCommunicationTime(int maxCommunicationTime) throws GeneratorException {
         if (maxCommunicationTime >= 0) {
             this.maxCommunicationTime = maxCommunicationTime;
         } else {
             throw new OutOfRangeException();
         }
         if (maxCommunicationTime < minCommunicationTime) {
-            throw new BoundryConflictException();
+            throw new BoundaryConflictException();
         }
 
     }
