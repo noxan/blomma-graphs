@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.serializer.impl;
 
 
+import java.util.Set;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -12,9 +14,13 @@ public class STGSerializer implements TaskGraphSerializer {
     @Override
     public String serialize(TaskGraph graph) {
         StringBuffer stringBuffer = new StringBuffer();
+        Set<TaskGraphNode> nodeSet = graph.getNodeSet();
+
+        // Add number of nodes
+        stringBuffer.append(nodeSet.size()).append("\n");
 
         // Iterate through nodes
-        for (TaskGraphNode node : graph.getNodeSet()) {
+        for (TaskGraphNode node : nodeSet) {
             stringBuffer.append(String.format("(%i) (%i) (%i)\n", node.getID(),
                     node.getComputationTime(), node.getPrevNodeCount()));
 
