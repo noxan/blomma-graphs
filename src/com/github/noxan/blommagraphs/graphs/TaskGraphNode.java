@@ -1,21 +1,21 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
-import java.util.List;
+import java.util.Set;
 
 
 public interface TaskGraphNode {
-    public List<TaskGraphNode> getPrevNodes();
+    public Set<TaskGraphNode> getPrevNodes();
 
-    public List<TaskGraphNode> getNextNodes();
+    public Set<TaskGraphNode> getNextNodes();
 
     public int getPrevNodeCount();
 
     public int getNextNodeCount();
 
-    public List<TaskGraphEdge> getPrevEdges();
+    public Set<TaskGraphEdge> getPrevEdges();
 
-    public List<TaskGraphEdge> getNextEdges();
+    public Set<TaskGraphEdge> getNextEdges();
 
     public int getPrevEdgeCount();
 

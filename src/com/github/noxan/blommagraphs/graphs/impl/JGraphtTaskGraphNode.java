@@ -1,7 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
-import java.util.List;
+import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -19,13 +19,13 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
-    public List<TaskGraphNode> getPrevNodes() {
+    public Set<TaskGraphNode> getPrevNodes() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<TaskGraphNode> getNextNodes() {
+    public Set<TaskGraphNode> getNextNodes() {
         // TODO Auto-generated method stub
         return null;
     }
@@ -43,13 +43,13 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
-    public List<TaskGraphEdge> getPrevEdges() {
+    public Set<TaskGraphEdge> getPrevEdges() {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<TaskGraphEdge> getNextEdges() {
+    public Set<TaskGraphEdge> getNextEdges() {
         // TODO Auto-generated method stub
         return null;
     }
