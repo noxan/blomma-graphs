@@ -12,21 +12,20 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private DefaultDirectedWeightedGraph<Integer, DefaultWeightedEdge> graph;
+    private DefaultDirectedWeightedGraph<JGraphtTaskGraphNode, DefaultWeightedEdge> graph;
+
+    private JGraphtTaskGraphNode first;
+    private JGraphtTaskGraphNode last;
 
     public JGraphtTaskGraph() {
-        graph = new DefaultDirectedWeightedGraph<Integer, DefaultWeightedEdge>(
+        graph = new DefaultDirectedWeightedGraph<JGraphtTaskGraphNode, DefaultWeightedEdge>(
                 DefaultWeightedEdge.class);
 
-        for (int i = 0; i < 10; i++) {
-            graph.addVertex(i);
-        }
-        for (int i = 0; i < 9; i++) {
-            DefaultWeightedEdge edge = graph.addEdge(i, i + 1);
-            graph.setEdgeWeight(edge, i * 10);
-        }
+        first = new JGraphtTaskGraphNode(1);
+        graph.addVertex(first);
 
-        System.out.println(graph.toString());
+        last = new JGraphtTaskGraphNode(1);
+        graph.addVertex(last);
     }
 
     @Override
