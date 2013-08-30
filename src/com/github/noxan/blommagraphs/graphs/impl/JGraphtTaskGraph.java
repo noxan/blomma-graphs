@@ -100,8 +100,7 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.edgeSet();
     }
 
     @Override
