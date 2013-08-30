@@ -73,7 +73,6 @@ public class JGraphtTaskGraphTest {
         TaskGraphNode taskGraphNode = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
                 taskGraph.getLastNode(), 1, 1);
         taskGraph.insertNode(taskGraphNode, 1, taskGraph.getLastNode(), 1, 1);
-        taskGraph.insertNode(taskGraphNode, 1, taskGraph.getLastNode(), 1, 1);
         taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
         Assert.assertEquals(taskGraph.getLayerCount(), 4);
     }
