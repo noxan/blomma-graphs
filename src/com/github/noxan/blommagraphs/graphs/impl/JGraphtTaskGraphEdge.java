@@ -1,27 +1,28 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
-public class JGraphtTaskGraphEdge implements TaskGraphEdge {
+public class JGraphtTaskGraphEdge extends DefaultWeightedEdge implements TaskGraphEdge {
+    private static final long serialVersionUID = -4219328248276314926L;
+
     @Override
     public TaskGraphNode getPrevNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return (TaskGraphNode) getSource();
     }
 
     @Override
     public TaskGraphNode getNextNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return (TaskGraphNode) getTarget();
     }
 
     @Override
     public int getCommunicationTime() {
-        // TODO Auto-generated method stub
-        return 0;
+        return (int) getWeight();
     }
 
 }
