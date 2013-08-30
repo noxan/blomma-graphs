@@ -4,41 +4,42 @@ package com.github.noxan.blommagraphs.graphs.impl;
 import java.util.Set;
 
 import org.jgrapht.graph.DefaultDirectedWeightedGraph;
-import org.jgrapht.graph.DefaultWeightedEdge;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private DefaultDirectedWeightedGraph<Integer, DefaultWeightedEdge> graph;
+    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
+
+    private TaskGraphNode firstNode;
+    private TaskGraphNode lastNode;
 
     public JGraphtTaskGraph() {
-        graph = new DefaultDirectedWeightedGraph<Integer, DefaultWeightedEdge>(
-                DefaultWeightedEdge.class);
+        graph = new DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
+                JGraphtTaskGraphEdge.class);
 
-        for (int i = 0; i < 10; i++) {
-            graph.addVertex(i);
-        }
-        for (int i = 0; i < 9; i++) {
-            DefaultWeightedEdge edge = graph.addEdge(i, i + 1);
-            graph.setEdgeWeight(edge, i * 10);
-        }
+        firstNode = new JGraphtTaskGraphNode(graph, 1);
+        graph.addVertex(firstNode);
 
-        System.out.println(graph.toString());
+        lastNode = new JGraphtTaskGraphNode(graph, 1);
+        graph.addVertex(lastNode);
+
+        TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
+        graph.setEdgeWeight(edge, 1);
+
     }
 
     @Override
     public TaskGraphNode getFirstNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return firstNode;
     }
 
     @Override
     public TaskGraphNode getLastNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return lastNode;
     }
 
     @Override
@@ -62,40 +63,58 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
-        // TODO Auto-generated method stub
-        return null;
+        return insertNode(prevNode, prevCommunicationTime, nextNode, nextCommunicationTime,
+                computationTime, true);
     }
 
     @Override
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime,
             boolean keepExistingEdge) {
-        // TODO Auto-generated method stub
-        return null;
+        TaskGraphNode node = new JGraphtTaskGraphNode(graph, computationTime);
+        graph.addVertex(node);
+
+        TaskGraphEdge prevEdge = graph.addEdge(prevNode, node);
+        graph.setEdgeWeight(prevEdge, prevCommunicationTime);
+
+        TaskGraphEdge nextEdge = graph.addEdge(node, nextNode);
+        graph.setEdgeWeight(nextEdge, nextCommunicationTime);
+
+        if (!keepExistingEdge) {
+            graph.removeAllEdges(prevNode, nextNode);
+        }
+
+        return node;
     }
 
     @Override
-    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, int prevCommunicationTime,
-            TaskGraphNode nextNode, int nextCommunicationTime) {
-        // TODO Auto-generated method stub
-        return null;
+    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
+            int communicationTime) throws DuplicateEdgeException {
+
+        if (graph.containsEdge(prevNode, nextNode)) {
+            throw new DuplicateEdgeException();
+        }
+
+        TaskGraphEdge edge = graph.addEdge(prevNode, nextNode);
+        graph.setEdgeWeight(edge, communicationTime);
+
+        return edge;
     }
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        // TODO Auto-generated method stub
+        TaskGraphEdge edge = graph.getEdge(prevNode, nextNode);
 
+        graph.setEdgeWeight(edge, newCommunicationTime);
     }
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.edgeSet();
     }
 
     @Override
     public Set<TaskGraphNode> getNodeSet() {
-        // TODO Auto-generated method stub
-        return null;
+        return graph.vertexSet();
     }
 }
