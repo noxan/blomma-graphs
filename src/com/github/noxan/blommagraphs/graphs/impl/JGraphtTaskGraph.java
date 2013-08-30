@@ -26,6 +26,10 @@ public class JGraphtTaskGraph implements TaskGraph {
 
         lastNode = new JGraphtTaskGraphNode(1);
         graph.addVertex(lastNode);
+
+        TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
+        graph.setEdgeWeight(edge, 1);
+
     }
 
     @Override
