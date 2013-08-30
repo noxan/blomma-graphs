@@ -21,10 +21,10 @@ public class JGraphtTaskGraph implements TaskGraph {
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
-        firstNode = new JGraphtTaskGraphNode(graph, 1);
+        firstNode = new JGraphtTaskGraphNode(graph, 0, 1);
         graph.addVertex(firstNode);
 
-        lastNode = new JGraphtTaskGraphNode(graph, 1);
+        lastNode = new JGraphtTaskGraphNode(graph, 1, 1);
         graph.addVertex(lastNode);
 
         TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
@@ -71,7 +71,9 @@ public class JGraphtTaskGraph implements TaskGraph {
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime,
             boolean keepExistingEdge) {
-        TaskGraphNode node = new JGraphtTaskGraphNode(graph, computationTime);
+        int lastId = lastNode.getId();
+        ((JGraphtTaskGraphNode) lastNode).setId(lastId + 1);
+        TaskGraphNode node = new JGraphtTaskGraphNode(graph, lastId, computationTime);
         graph.addVertex(node);
 
         TaskGraphEdge prevEdge = graph.addEdge(prevNode, node);

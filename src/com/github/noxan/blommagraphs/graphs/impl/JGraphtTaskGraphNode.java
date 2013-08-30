@@ -16,7 +16,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     private int id;
 
     public JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
-            int computationTime) {
+            int id, int computationTime) {
         this.graph = graph;
         if (computationTime <= 0) {
             this.computationTime = 1;
@@ -81,6 +81,10 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     public int getNextEdgeCount() {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    protected void setId(int id) {
+        this.id = id;
     }
 
     @Override
