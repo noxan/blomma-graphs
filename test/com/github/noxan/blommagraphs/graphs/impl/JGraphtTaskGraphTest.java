@@ -39,4 +39,17 @@ public class JGraphtTaskGraphTest {
     public void testGetEdgeSet() {
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 1);
     }
+
+    @Test
+    public void testFirstAndLastNodeIds() {
+        Assert.assertEquals(taskGraph.getFirstNode().getId(), 0);
+        Assert.assertEquals(taskGraph.getLastNode().getId(), 1);
+    }
+
+    @Test
+    public void testFirstAndLastNodeIdsWithInsert() {
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(taskGraph.getFirstNode().getId(), 0);
+        Assert.assertEquals(taskGraph.getLastNode().getId(), 2);
+    }
 }
