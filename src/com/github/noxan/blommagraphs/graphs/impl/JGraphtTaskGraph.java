@@ -30,14 +30,12 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public TaskGraphNode getFirstNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return firstNode;
     }
 
     @Override
     public TaskGraphNode getLastNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return lastNode;
     }
 
     @Override
