@@ -84,8 +84,8 @@ public class JGraphtTaskGraph implements TaskGraph {
     }
 
     @Override
-    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, int prevCommunicationTime,
-            TaskGraphNode nextNode, int nextCommunicationTime) {
+    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
+            int communicationTime) {
         // TODO Auto-generated method stub
         return null;
     }

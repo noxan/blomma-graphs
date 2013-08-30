@@ -22,8 +22,8 @@ public interface TaskGraph {
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime,
             boolean keepExistingEdge);
 
-    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, int prevCommunicationTime,
-            TaskGraphNode nextNode, int nextCommunicationTime);
+    public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
+            int communicationTime);
 
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime);
 
