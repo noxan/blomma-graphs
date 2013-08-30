@@ -94,4 +94,8 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
         return computationTime;
     }
 
+    @Override
+    public int compareTo(TaskGraphNode other) {
+        return this.getId() - other.getId();
+    }
 }

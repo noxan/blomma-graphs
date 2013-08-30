@@ -4,7 +4,7 @@ package com.github.noxan.blommagraphs.graphs;
 import java.util.Set;
 
 
-public interface TaskGraphNode {
+public interface TaskGraphNode extends Comparable<TaskGraphNode> {
     public Set<TaskGraphNode> getPrevNodes();
 
     public Set<TaskGraphNode> getNextNodes();

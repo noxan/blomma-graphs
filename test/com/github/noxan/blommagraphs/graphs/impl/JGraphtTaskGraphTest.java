@@ -60,4 +60,11 @@ public class JGraphtTaskGraphTest {
         Assert.assertEquals(taskGraph.getFirstNode().getId(), 0);
         Assert.assertEquals(taskGraph.getLastNode().getId(), 2);
     }
+
+    @Test
+    public void testNodeComparable() {
+        Assert.assertTrue(taskGraph.getFirstNode().compareTo(taskGraph.getLastNode()) < 0);
+        Assert.assertEquals(taskGraph.getFirstNode().compareTo(taskGraph.getFirstNode()), 0);
+        Assert.assertTrue(taskGraph.getLastNode().compareTo(taskGraph.getFirstNode()) > 0);
+    }
 }
