@@ -8,8 +8,14 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraphNode implements TaskGraphNode {
-    public JGraphtTaskGraphNode() {
-        // TODO Auto-generated constructor stub
+    private int computationTime;
+
+    public JGraphtTaskGraphNode(int computationTime) {
+        if (computationTime <= 0) {
+            this.computationTime = 1;
+        } else {
+            this.computationTime = computationTime;
+        }
     }
 
     @Override
@@ -62,8 +68,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
 
     @Override
     public int getComputationTime() {
-        // TODO Auto-generated method stub
-        return 0;
+        return computationTime;
     }
 
 }
