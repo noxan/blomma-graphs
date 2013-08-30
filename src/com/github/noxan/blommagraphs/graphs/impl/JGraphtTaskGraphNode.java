@@ -83,6 +83,12 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
+    public int getId() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
     public int getComputationTime() {
         return computationTime;
     }
