@@ -1,7 +1,8 @@
 package com.github.noxan.blommagraphs.serializer.impl;
 
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -14,20 +15,21 @@ public class STGSerializer implements TaskGraphSerializer {
     @Override
     public String serialize(TaskGraph graph) {
         StringBuffer stringBuffer = new StringBuffer();
-        Set<TaskGraphNode> nodeSet = graph.getNodeSet();
+        List<TaskGraphNode> nodeList = new ArrayList<TaskGraphNode>(graph.getNodeSet());
+        java.util.Collections.sort(nodeList);
 
         // Add number of nodes
-        stringBuffer.append(nodeSet.size()).append("\n");
+        stringBuffer.append(nodeList.size()).append("\n");
 
         // Iterate through nodes
-        for (TaskGraphNode node : nodeSet) {
-            stringBuffer.append(String.format("(%i) (%i) (%i)\n", node.getID(),
+        for (TaskGraphNode node : nodeList) {
+            stringBuffer.append(String.format("%d %d %d\n", node.getId(),
                     node.getComputationTime(), node.getPrevNodeCount()));
 
             // Iterate through dependencies of node
             for (TaskGraphEdge edge : node.getPrevEdges()) {
-                String.format("\t(%i) (%i)\n", edge.getPrevNode().getID(),
-                        edge.getCommunicationTime());
+                stringBuffer.append(String.format("\t%d %d\n", edge.getPrevNode().getId(),
+                        edge.getCommunicationTime()));
             }
         }
         return stringBuffer.toString();
