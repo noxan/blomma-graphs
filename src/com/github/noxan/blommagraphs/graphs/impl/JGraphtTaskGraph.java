@@ -14,18 +14,18 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 public class JGraphtTaskGraph implements TaskGraph {
     private DefaultDirectedWeightedGraph<JGraphtTaskGraphNode, DefaultWeightedEdge> graph;
 
-    private JGraphtTaskGraphNode first;
-    private JGraphtTaskGraphNode last;
+    private JGraphtTaskGraphNode firstNode;
+    private JGraphtTaskGraphNode lastNode;
 
     public JGraphtTaskGraph() {
         graph = new DefaultDirectedWeightedGraph<JGraphtTaskGraphNode, DefaultWeightedEdge>(
                 DefaultWeightedEdge.class);
 
-        first = new JGraphtTaskGraphNode(1);
-        graph.addVertex(first);
+        firstNode = new JGraphtTaskGraphNode(1);
+        graph.addVertex(firstNode);
 
-        last = new JGraphtTaskGraphNode(1);
-        graph.addVertex(last);
+        lastNode = new JGraphtTaskGraphNode(1);
+        graph.addVertex(lastNode);
     }
 
     @Override
