@@ -153,4 +153,9 @@ public class JGraphtTaskGraph implements TaskGraph {
     public Set<TaskGraphNode> getNodeSet() {
         return graph.vertexSet();
     }
+
+    @Override
+    public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        return graph.containsEdge(prevNode, nextNode);
+    }
 }
