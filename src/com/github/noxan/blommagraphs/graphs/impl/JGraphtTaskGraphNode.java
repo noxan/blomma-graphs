@@ -4,18 +4,18 @@ package com.github.noxan.blommagraphs.graphs.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class JGraphtTaskGraphNode implements TaskGraphNode {
-    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
+    private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
     private int computationTime;
 
-    protected JGraphtTaskGraphNode(
-            DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph, int computationTime) {
+    protected JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
+            int computationTime) {
         this.graph = graph;
         if (computationTime <= 0) {
             this.computationTime = 1;

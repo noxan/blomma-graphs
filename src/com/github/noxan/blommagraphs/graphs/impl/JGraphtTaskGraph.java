@@ -3,7 +3,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.Set;
 
-import org.jgrapht.graph.DefaultDirectedWeightedGraph;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -12,13 +12,13 @@ import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
+    private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
     public JGraphtTaskGraph() {
-        graph = new DefaultDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
+        graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
         firstNode = new JGraphtTaskGraphNode(graph, 1);
