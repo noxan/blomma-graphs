@@ -92,8 +92,9 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        // TODO Auto-generated method stub
+        DefaultWeightedEdge edge = graph.getEdge(prevNode, nextNode);
 
+        graph.setEdgeWeight(edge, newCommunicationTime);
     }
 
     @Override
