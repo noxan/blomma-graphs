@@ -10,6 +10,9 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 public class JGraphtTaskGraphEdge extends DefaultWeightedEdge implements TaskGraphEdge {
     private static final long serialVersionUID = -4219328248276314926L;
 
+    protected JGraphtTaskGraphEdge() {
+    }
+
     @Override
     public TaskGraphNode getPrevNode() {
         return (TaskGraphNode) getSource();
