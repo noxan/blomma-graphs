@@ -8,6 +8,7 @@ import org.jgrapht.graph.DefaultDirectedWeightedGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
@@ -84,7 +85,12 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
-            int communicationTime) {
+            int communicationTime) throws DuplicateEdgeException {
+
+        if (graph.containsEdge(prevNode, nextNode)) {
+            throw new DuplicateEdgeException();
+        }
+
         TaskGraphEdge edge = graph.addEdge(prevNode, nextNode);
         graph.setEdgeWeight(edge, communicationTime);
 

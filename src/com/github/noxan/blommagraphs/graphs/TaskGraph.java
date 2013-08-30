@@ -3,6 +3,8 @@ package com.github.noxan.blommagraphs.graphs;
 
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
+
 
 public interface TaskGraph {
     public TaskGraphNode getFirstNode();
@@ -23,7 +25,7 @@ public interface TaskGraph {
             boolean keepExistingEdge);
 
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
-            int communicationTime);
+            int communicationTime) throws DuplicateEdgeException;
 
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime);
 
