@@ -14,7 +14,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
     private int computationTime;
 
-    protected JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
+    public JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
             int computationTime) {
         this.graph = graph;
         if (computationTime <= 0) {
