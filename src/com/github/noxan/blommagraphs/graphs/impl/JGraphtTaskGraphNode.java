@@ -18,6 +18,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     public JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
             int id, int computationTime) {
         this.graph = graph;
+        this.id = id;
         if (computationTime <= 0) {
             this.computationTime = 1;
         } else {
