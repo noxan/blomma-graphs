@@ -3,7 +3,9 @@ package com.github.noxan.blommagraphs.generator.impl;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
+import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 
 public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     TaskGraph graph;
@@ -34,29 +36,62 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     public void setNumberOfNodes(int numberOfNodes) throws OutOfRangeException {
-        if(numberOfNodes < 0){
+        if (numberOfNodes >= 0) {
             this.numberOfNodes = numberOfNodes;
         } else {
             throw new OutOfRangeException();
         }
     }
 
-    public void setMinIncommingEdges(int minIncommingEdges) {
-        if(minIncommingEdges < 0){
-            this.minIncommingEdges = minIncommingEdges;
+    public void setMinIncommingEdges(int minIncommingEdges) throws GeneratorException {
+        if (minIncommingEdges > 0) {
+            if (minIncommingEdges <= this.maxIncommingEdges) {
+                this.minIncommingEdges = minIncommingEdges;
+            }
+            else {
+                throw new BoundaryConflictException();
+            }
+        }
+        else {
+            throw new OutOfRangeException();
         }
     }
 
-    public void setMaxIncommingEdges(int maxIncommingEdges) {
-        this.maxIncommingEdges = maxIncommingEdges;
+    public void setMaxIncommingEdges(int maxIncommingEdges) throws GeneratorException{
+        if (maxIncommingEdges > 0) {
+            if (maxIncommingEdges >= this.minIncommingEdges) {
+                this.maxIncommingEdges = maxIncommingEdges;
+            }
+            else {
+                throw new BoundaryConflictException();
+            }
+        }
+        else {
+            throw new OutOfRangeException();
+        }
     }
 
-    public void setSpreadEdges(int spreadEdges) {
-        this.spreadEdges = spreadEdges;
+    public void setSpreadEdges(int spreadEdges) throws OutOfRangeException {
+        if (spreadEdges >= 0) {
+            this.spreadEdges = spreadEdges;
+        }
+        else {
+            throw new OutOfRangeException();
+        }
     }
 
-    public void setMinComputationTime(int minComputationTime) {
-        this.minComputationTime = minComputationTime;
+    public void setMinComputationTime(int minComputationTime) throws GeneratorException {
+        if (minComputationTime > 0) {
+            if (minComputationTime <= this.maxCommunicationTime) {
+                this.minCommunicationTime = minComputationTime;
+            }
+            else {
+                throw new BoundaryConflictException();
+            }
+        }
+        else {
+            throw new OutOfRangeException();
+        }
     }
 
     public void setMaxComputationTime(int maxComputationTime) {
