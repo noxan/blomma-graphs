@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -16,6 +17,10 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
+    /**
+     * global auxiliary variable for the layerCake function
+     */
+    private int layer;
 
     public JGraphtTaskGraph() {
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
@@ -44,8 +49,37 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public int getLayerCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return layerCake(0, firstNode);
+    }
+
+    /**
+     * recursive function to determine the layers of the graph
+     * 
+     * @param layer
+     * @param vertex
+     * @return
+     */
+    private int layerCake(int layer, TaskGraphNode vertex) {
+        int max = layer;
+        ArrayList<TaskGraphEdge> defWeiEdg = new ArrayList<TaskGraphEdge>();
+
+        defWeiEdg.addAll(graph.edgesOf(vertex));
+        for (int j = 0; j < defWeiEdg.size(); j++) {
+            if (graph.getEdgeTarget(defWeiEdg.get(j)) == null
+                    || graph.getEdgeTarget(defWeiEdg.get(j)) == vertex) {
+                this.layer = layer;
+                continue;
+            } else {
+                layer += 1;
+                layerCake(layer, graph.getEdgeTarget(defWeiEdg.get(j)));
+            }
+            if (layer > this.layer) {
+                this.layer = layer;
+            }
+
+        }
+        max = this.layer;
+        return max;
     }
 
     @Override
@@ -64,7 +98,7 @@ public class JGraphtTaskGraph implements TaskGraph {
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
         return insertNode(prevNode, prevCommunicationTime, nextNode, nextCommunicationTime,
-                computationTime, true);
+                computationTime, false);
     }
 
     @Override
@@ -118,5 +152,10 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public Set<TaskGraphNode> getNodeSet() {
         return graph.vertexSet();
+    }
+
+    @Override
+    public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        return graph.containsEdge(prevNode, nextNode);
     }
 }

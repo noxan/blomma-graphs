@@ -32,4 +32,6 @@ public interface TaskGraph {
     public Set<TaskGraphEdge> getEdgeSet();
 
     public Set<TaskGraphNode> getNodeSet();
+
+    public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
 }
