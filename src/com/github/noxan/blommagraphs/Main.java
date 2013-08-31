@@ -3,21 +3,24 @@ package com.github.noxan.blommagraphs;
 
 import java.io.IOException;
 
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
+import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
+import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("blomma-graphs");
 
-        TaskGraph graph = new DefaultTaskGraph();
+        TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
+        TaskGraphSerializer serializer = new STGSerializer();
         try {
-            TaskGraphFileUtils.writeFile("graph.stg", graph, new STGSerializer());
+            TaskGraphFileUtils.writeFile("graph.stg", taskGraphGenerator.generator(), serializer);
         } catch (IOException e) {
             e.printStackTrace();
+        }
         }
     }
 }
