@@ -205,15 +205,15 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     *
+     * Graphgenerator generates Graph depending to the setted values
      */
     @Override
     public TaskGraph generator() {
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
         ArrayList<TaskGraphNode> nodes = new ArrayList<TaskGraphNode>();
-        // nodes.add(...);
 
+        //insert nodes in the first level
         int numberOfNodesFirstLevel = maxIncommingEdges
                 + (int) Math.round(Math.random() * (numberOfNodes - maxIncommingEdges));
         for (int i = 0; i < numberOfNodesFirstLevel; i++) {
@@ -228,6 +228,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     nextCommunicationTime, computationTime));
         }
 
+        //insert rest nodes randomly
         Random random = new Random();
         int restNodes = numberOfNodes - numberOfNodesFirstLevel;
         for (int i = 0; i < restNodes; i++) {
@@ -242,18 +243,20 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     prevCommunicationTime, lastNode, nextCommunicationTime, computationTime));
 
         }
+
+        //added edges to keep incomming edge count
         int nodesSize = nodes.size();
         for (int i = numberOfNodesFirstLevel; i < nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
-            if (currentNode.getPrevEdgeCount() < minIncommingEdges) {
+            if (currentNode.getPrevEdgeCount() <= minIncommingEdges) {
                 int newEdges = (int) Math.round(Math.random()
                         * (maxIncommingEdges - minIncommingEdges))
-                        - currentNode.getPrevEdgeCount();
+                        + (minIncommingEdges - currentNode.getPrevEdgeCount());
                 for (int j = 0; j < newEdges; j++) {
                     TaskGraphNode prevNode;
                     do {
                         prevNode = nodes.get(random.nextInt(i));
-                    } while (graph.containsEdge(currentNode, prevNode));
+                    } while (graph.containsEdge(prevNode, currentNode));
                     int communicationTime = (int) Math.round(Math.random()
                             * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
 
