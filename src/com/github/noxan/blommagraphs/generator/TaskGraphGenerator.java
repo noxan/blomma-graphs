@@ -2,7 +2,7 @@ package com.github.noxan.blommagraphs.generator;
 
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
-
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
 
 
 public interface TaskGraphGenerator {
@@ -27,5 +27,5 @@ public interface TaskGraphGenerator {
 
     public void setSpreadCommunicationTime(int spreadCommunicationTime);
 
-    public void generator();
+    public TaskGraph generator();
 }

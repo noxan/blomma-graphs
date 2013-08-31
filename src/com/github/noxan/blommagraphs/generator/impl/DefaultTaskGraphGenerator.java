@@ -196,7 +196,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     /**
      *
      */
-    public void generator() {
+    public TaskGraph generator() {
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
         ArrayList<TaskGraphNode> nodes= new ArrayList<TaskGraphNode>();
@@ -247,6 +247,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                 }
             }
         }
+        return graph;
     }
 
 }
