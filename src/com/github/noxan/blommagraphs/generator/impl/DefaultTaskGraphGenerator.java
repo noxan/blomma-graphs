@@ -11,7 +11,7 @@ import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 
 
 /**
@@ -34,7 +34,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      *
      */
     public DefaultTaskGraphGenerator() {
-        graph = new DefaultTaskGraph();
+        graph = new JGraphtTaskGraph();
 
         numberOfNodes = 10;
         minIncommingEdges = 1;
