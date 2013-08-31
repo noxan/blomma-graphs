@@ -10,6 +10,7 @@ import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 
@@ -255,11 +256,16 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     } while (graph.containsEdge(currentNode, prevNode));
                     int communicationTime = (int) Math.round(Math.random()
                             * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
-                    graph.insertEdge(prevNode, currentNode, communicationTime);
+
+                    try {
+                        graph.insertEdge(prevNode, currentNode, communicationTime);
+                    } catch (DuplicateEdgeException e) {
+                        // Should not be possible because we checked it before.
+                        e.printStackTrace();
+                    }
                 }
             }
         }
         return graph;
     }
-
 }
