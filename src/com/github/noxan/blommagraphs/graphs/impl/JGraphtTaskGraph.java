@@ -76,7 +76,6 @@ public class JGraphtTaskGraph implements TaskGraph {
             if (layer > this.layer) {
                 this.layer = layer;
             }
-
         }
         max = this.layer;
         return max;
