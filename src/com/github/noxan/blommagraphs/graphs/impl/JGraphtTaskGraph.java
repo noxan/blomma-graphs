@@ -138,6 +138,12 @@ public class JGraphtTaskGraph implements TaskGraph {
     }
 
     @Override
+    public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
         TaskGraphEdge edge = graph.getEdge(prevNode, nextNode);
 

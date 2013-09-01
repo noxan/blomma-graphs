@@ -62,6 +62,12 @@ public class DefaultTaskGraph implements TaskGraph {
     }
 
     @Override
+    public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
         // TODO Auto-generated method stub
 
