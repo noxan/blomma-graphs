@@ -57,7 +57,7 @@ public class TaskGraphFileUtils {
         String line;
         BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
         while ((line = reader.readLine()) != null) {
-            graphString.append(line);
+            graphString.append(line + "\n");
         }
 
         reader.close();
