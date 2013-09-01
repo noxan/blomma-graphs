@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
+import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
+import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
@@ -19,14 +21,44 @@ public class Main {
         // settings
         String folderName = "export/";
         int numberOfGraphs = 10;
+        // graph generator settings
+        int numberOfNodes = 10;
+        int minIncommingEdges = 1;
+        int maxIncommingEdges = 2;
+        int spreadEdges = 1;
+        int minComputationTime = 1;
+        int maxComputationTime = 10;
+        int spreadComputationTime = 1;
+        int minCommunicationTime = 1;
+        int maxCommunicationTime = 10;
+        int spreadCommunicationTime = 1;
 
         // logging
         System.out.println(String.format("Writing exports to folder: %s", folderName));
         new File(folderName).mkdir();
 
-        System.out.println(String.format("Generating %d graphs...", numberOfGraphs));
+        System.out.println(String.format("Number of nodes: %d", numberOfNodes));
 
         TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
+        try {
+            taskGraphGenerator.setNumberOfNodes(numberOfNodes);
+            taskGraphGenerator.setMinIncommingEdges(minIncommingEdges);
+            taskGraphGenerator.setMaxIncommingEdges(maxIncommingEdges);
+            taskGraphGenerator.setSpreadEdges(spreadEdges);
+            taskGraphGenerator.setMinComputationTime(minComputationTime);
+            taskGraphGenerator.setMaxComputationTime(maxComputationTime);
+            taskGraphGenerator.setSpreadComputationTime(spreadComputationTime);
+            taskGraphGenerator.setMinCommunicationTime(minCommunicationTime);
+            taskGraphGenerator.setMaxCommunicationTime(maxCommunicationTime);
+            taskGraphGenerator.setSpreadCommunicationTime(spreadCommunicationTime);
+        } catch (OutOfRangeException outOfRangeException) {
+            System.err.println("Missconfigured generator: " + outOfRangeException.getMessage());
+        } catch (GeneratorException generatorException) {
+            System.err.println("Missconfigured generator: " + generatorException.getMessage());
+        }
+
+        System.out.println(String.format("Generating %d graphs...", numberOfGraphs));
+
         TaskGraphSerializer serializer = new STGSerializer();
 
         for (int i = 0; i < numberOfGraphs; i++) {
