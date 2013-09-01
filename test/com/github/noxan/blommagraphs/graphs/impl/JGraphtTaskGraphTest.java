@@ -110,4 +110,15 @@ public class JGraphtTaskGraphTest {
         Assert.assertEquals(taskGraph.getNodeCount(), 5);
         Assert.assertEquals(taskGraph.getLayerCount(), 3);
     }
+
+    @Test
+    public void testGetLayerCount4() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
+                taskGraph.getLastNode(), 1, 1);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, node, 1, 1);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, node, 1, 1);
+
+        Assert.assertEquals(taskGraph.getNodeCount(), 5);
+        Assert.assertEquals(taskGraph.getLayerCount(), 4);
+    }
 }
