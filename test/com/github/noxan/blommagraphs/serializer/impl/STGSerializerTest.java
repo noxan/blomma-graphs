@@ -1,10 +1,8 @@
 package com.github.noxan.blommagraphs.serializer.impl;
 
 
-import static org.junit.Assert.fail;
-import junit.framework.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +47,6 @@ public class STGSerializerTest {
 
     @Test
     public void testDeserialize() {
-        fail("Not yet implemented");
+        Assert.fail("Not yet implemented");
     }
-
 }
