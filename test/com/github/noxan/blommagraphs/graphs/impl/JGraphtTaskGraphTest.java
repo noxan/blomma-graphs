@@ -75,6 +75,30 @@ public class JGraphtTaskGraphTest {
         TaskGraphNode taskGraphNode2 = taskGraph.insertNode(taskGraphNode, 1,
                 taskGraph.getLastNode(), 1, 1);
         taskGraph.insertNode(taskGraphNode2, 1, taskGraph.getLastNode(), 1, 1);
-        Assert.assertEquals(taskGraph.getLayerCount(), 4);
+        Assert.assertEquals(taskGraph.getLayerCount(), 5);
+    }
+
+    @Test
+    public void testGetLayerCountForList() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 10; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 12);
+        Assert.assertEquals(taskGraph.getLayerCount(), 12);
+    }
+
+    @Test
+    public void testGetLayerCount2() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 3; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 5; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 10);
+        Assert.assertEquals(taskGraph.getLayerCount(), 7);
     }
 }
