@@ -20,8 +20,8 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
  *
  * long seed - seed to generate randomly
  * int numberOfNodes
- * int minIncommingEdges
- * int maxIncommingEdges
+ * int minIncomingEdges
+ * int maxIncomingEdges
  * int spreadEdges
  * int minComputationTime
  * int maxComputationTime
@@ -34,8 +34,8 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     TaskGraph graph;
     private long seed;
     private int numberOfNodes;
-    private int minIncommingEdges;
-    private int maxIncommingEdges;
+    private int minIncomingEdges;
+    private int maxIncomingEdges;
     private int spreadEdges;
     private int minComputationTime;
     private int maxComputationTime;
@@ -54,8 +54,8 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         seed = random.nextLong();
 
         numberOfNodes = 10;
-        minIncommingEdges = 1;
-        maxIncommingEdges = 2;
+        minIncomingEdges = 1;
+        maxIncomingEdges = 2;
         spreadEdges = 1;
         minComputationTime = 1;
         maxComputationTime = 10;
@@ -89,14 +89,14 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
     /**
      * 
-     * @param minIncommingEdges
+     * @param minIncomingEdges
      * @throws GeneratorException
      */
     @Override
-    public void setMinIncommingEdges(int minIncommingEdges) throws GeneratorException {
-        if (minIncommingEdges >= 1) {
-            if (minIncommingEdges <= this.maxIncommingEdges) {
-                this.minIncommingEdges = minIncommingEdges;
+    public void setMinIncomingEdges(int minIncomingEdges) throws GeneratorException {
+        if (minIncomingEdges >= 1) {
+            if (minIncomingEdges <= this.maxIncomingEdges) {
+                this.minIncomingEdges = minIncomingEdges;
             } else {
                 throw new BoundaryConflictException();
             }
@@ -107,14 +107,14 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
     /**
      * 
-     * @param maxIncommingEdges
+     * @param maxIncomingEdges
      * @throws GeneratorException
      */
     @Override
-    public void setMaxIncommingEdges(int maxIncommingEdges) throws GeneratorException {
-        if (maxIncommingEdges > 0) {
-            if (maxIncommingEdges >= this.minIncommingEdges) {
-                this.maxIncommingEdges = maxIncommingEdges;
+    public void setMaxIncomingEdges(int maxIncomingEdges) throws GeneratorException {
+        if (maxIncomingEdges > 0) {
+            if (maxIncomingEdges >= this.minIncomingEdges) {
+                this.maxIncomingEdges = maxIncomingEdges;
             } else {
                 throw new BoundaryConflictException();
             }
@@ -240,8 +240,8 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         ArrayList<TaskGraphNode> nodes = new ArrayList<TaskGraphNode>();
 
         //insert nodes in the first level
-        int numberOfNodesFirstLevel = maxIncommingEdges
-                + (int) Math.round(random.nextFloat() * (numberOfNodes - maxIncommingEdges));
+        int numberOfNodesFirstLevel = maxIncomingEdges
+                + (int) Math.round(random.nextFloat() * (numberOfNodes - maxIncomingEdges));
         for (int i = 0; i < numberOfNodesFirstLevel; i++) {
             int computationTime = (int) Math.round(random.nextFloat()
                     * (maxComputationTime - minComputationTime) + minComputationTime);
@@ -272,10 +272,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         int nodesSize = nodes.size();
         for (int i = numberOfNodesFirstLevel; i < nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
-            if (currentNode.getPrevEdgeCount() <= minIncommingEdges) {
+            if (currentNode.getPrevEdgeCount() <= minIncomingEdges) {
                 int newEdges = (int) Math.round(random.nextFloat()
-                        * (maxIncommingEdges - minIncommingEdges))
-                        + (minIncommingEdges - currentNode.getPrevEdgeCount());
+                        * (maxIncomingEdges - minIncomingEdges))
+                        + (minIncomingEdges - currentNode.getPrevEdgeCount());
                 for (int j = 0; j < newEdges; j++) {
                     TaskGraphNode prevNode;
                     do {

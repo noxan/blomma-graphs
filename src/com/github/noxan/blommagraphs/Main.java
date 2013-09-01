@@ -23,8 +23,8 @@ public class Main {
         int numberOfGraphs = 10;
         // graph generator settings
         int numberOfNodes = 10;
-        int minIncommingEdges = 1;
-        int maxIncommingEdges = 2;
+        int minIncomgEdges = 1;
+        int maxIncomingEdges = 2;
         int spreadEdges = 1;
         int minComputationTime = 1;
         int maxComputationTime = 10;
@@ -42,8 +42,8 @@ public class Main {
         TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
         try {
             taskGraphGenerator.setNumberOfNodes(numberOfNodes);
-            taskGraphGenerator.setMinIncommingEdges(minIncommingEdges);
-            taskGraphGenerator.setMaxIncommingEdges(maxIncommingEdges);
+            taskGraphGenerator.setMinIncomingEdges(minIncomgEdges);
+            taskGraphGenerator.setMaxIncomingEdges(maxIncomingEdges);
             taskGraphGenerator.setSpreadEdges(spreadEdges);
             taskGraphGenerator.setMinComputationTime(minComputationTime);
             taskGraphGenerator.setMaxComputationTime(maxComputationTime);

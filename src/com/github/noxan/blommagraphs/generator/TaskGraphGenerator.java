@@ -9,9 +9,9 @@ public interface TaskGraphGenerator {
 
     public void setNumberOfNodes(int numberOfNodes) throws OutOfRangeException;
 
-    public void setMinIncommingEdges(int minIncommingEdges) throws GeneratorException;
+    public void setMinIncomingEdges(int minIncommingEdges) throws GeneratorException;
 
-    public void setMaxIncommingEdges(int maxIncommingEdges) throws GeneratorException;
+    public void setMaxIncomingEdges(int maxIncommingEdges) throws GeneratorException;
 
     public void setSpreadEdges(int spreadEges) throws OutOfRangeException;
 
