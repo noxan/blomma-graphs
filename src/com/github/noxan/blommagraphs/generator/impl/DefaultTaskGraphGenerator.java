@@ -1,9 +1,6 @@
 package com.github.noxan.blommagraphs.generator.impl;
 
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
@@ -12,6 +9,9 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -93,7 +93,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMinIncomingEdges(int minIncomingEdges) throws GeneratorException {
+    public void setMinIncomingEdges(int minIncomingEdges) throws BoundaryConflictException, OutOfRangeException {
         if (minIncomingEdges >= 1) {
             if (minIncomingEdges <= this.maxIncomingEdges) {
                 this.minIncomingEdges = minIncomingEdges;
@@ -111,7 +111,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMaxIncomingEdges(int maxIncomingEdges) throws GeneratorException {
+    public void setMaxIncomingEdges(int maxIncomingEdges) throws BoundaryConflictException, OutOfRangeException {
         if (maxIncomingEdges > 0) {
             if (maxIncomingEdges >= this.minIncomingEdges) {
                 this.maxIncomingEdges = maxIncomingEdges;
@@ -143,7 +143,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMinComputationTime(int minComputationTime) throws GeneratorException {
+    public void setMinComputationTime(int minComputationTime) throws BoundaryConflictException, OutOfRangeException {
         if (minComputationTime > 0) {
             if (minComputationTime <= this.maxCommunicationTime) {
                 this.minCommunicationTime = minComputationTime;
@@ -161,7 +161,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMaxComputationTime(int maxComputationTime) throws GeneratorException {
+    public void setMaxComputationTime(int maxComputationTime) throws BoundaryConflictException, OutOfRangeException {
         if (maxComputationTime > 0) {
             if (maxComputationTime < minComputationTime) {
                 throw new BoundaryConflictException();
@@ -189,7 +189,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMinCommunicationTime(int minCommunicationTime) throws GeneratorException {
+    public void setMinCommunicationTime(int minCommunicationTime) throws BoundaryConflictException, OutOfRangeException {
         if (minCommunicationTime >= 0) {
             if (minCommunicationTime > maxCommunicationTime) {
                 throw new BoundaryConflictException();
@@ -207,7 +207,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * @throws GeneratorException
      */
     @Override
-    public void setMaxCommunicationTime(int maxCommunicationTime) throws GeneratorException {
+    public void setMaxCommunicationTime(int maxCommunicationTime) throws BoundaryConflictException, OutOfRangeException {
         if (maxCommunicationTime >= 0) {
             if (maxCommunicationTime < minCommunicationTime) {
                 throw new BoundaryConflictException();
