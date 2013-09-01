@@ -75,6 +75,68 @@ public class JGraphtTaskGraphTest {
         TaskGraphNode taskGraphNode2 = taskGraph.insertNode(taskGraphNode, 1,
                 taskGraph.getLastNode(), 1, 1);
         taskGraph.insertNode(taskGraphNode2, 1, taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(taskGraph.getLayerCount(), 5);
+    }
+
+    @Test
+    public void testGetLayerCountForList() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 10; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 12);
+        Assert.assertEquals(taskGraph.getLayerCount(), 12);
+    }
+
+    @Test
+    public void testGetLayerCount2() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 3; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 5; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 10);
+        Assert.assertEquals(taskGraph.getLayerCount(), 7);
+    }
+
+    @Test
+    public void testGetLayerCount3() {
+        for (int i = 0; i < 3; i++) {
+            taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 5);
+        Assert.assertEquals(taskGraph.getLayerCount(), 3);
+    }
+
+    @Test
+    public void testGetLayerCount4() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
+                taskGraph.getLastNode(), 1, 1);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, node, 1, 1);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, node, 1, 1);
+
+        Assert.assertEquals(taskGraph.getNodeCount(), 5);
         Assert.assertEquals(taskGraph.getLayerCount(), 4);
+    }
+
+    @Test
+    public void testGetLayerCount5() {
+        for (int i = 0; i < 2; i++) {
+            taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 4);
+        Assert.assertEquals(taskGraph.getLayerCount(), 3);
+    }
+
+    @Test
+    public void testGetLayerCount6() {
+        for (int i = 0; i < 4; i++) {
+            taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getNodeCount(), 6);
+        Assert.assertEquals(taskGraph.getLayerCount(), 3);
     }
 }

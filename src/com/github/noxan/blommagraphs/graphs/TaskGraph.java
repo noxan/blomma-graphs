@@ -27,6 +27,8 @@ public interface TaskGraph {
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
             int communicationTime) throws DuplicateEdgeException;
 
+    public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
+
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime);
 
     public Set<TaskGraphEdge> getEdgeSet();

@@ -76,7 +76,6 @@ public class JGraphtTaskGraph implements TaskGraph {
             if (layer > this.layer) {
                 this.layer = layer;
             }
-
         }
         max = this.layer;
         return max;
@@ -84,14 +83,12 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public int getEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return graph.edgeSet().size();
     }
 
     @Override
     public int getNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return graph.vertexSet().size();
     }
 
     @Override
@@ -135,6 +132,11 @@ public class JGraphtTaskGraph implements TaskGraph {
         graph.setEdgeWeight(edge, communicationTime);
 
         return edge;
+    }
+
+    @Override
+    public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        return graph.removeEdge(prevNode, nextNode);
     }
 
     @Override
