@@ -84,14 +84,12 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public int getEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return graph.edgeSet().size();
     }
 
     @Override
     public int getNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return graph.vertexSet().size();
     }
 
     @Override
