@@ -2,7 +2,6 @@ package com.github.noxan.blommagraphs.generator.impl;
 
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
-import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,43 +18,38 @@ public class DefaultTaskGraphGeneratorTest {
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setNumberOfNodesNegativ() throws OutOfRangeException {
+    public void setNumberOfNodesNegativ() throws BoundaryConflictException, OutOfRangeException {
         int numberOfNodes = -1;
         taskGraphGenerator.setNumberOfNodes(numberOfNodes);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setNumberOfNodesZero() throws OutOfRangeException {
-        int numberOfNodes = 0;
-        taskGraphGenerator.setNumberOfNodes(numberOfNodes);
-    }
-
-    @Test(expected = OutOfRangeException.class)
-    public void setMinIncomingEdgesNegativ() throws GeneratorException {
+    public void setMinIncomingEdgesNegativ() throws BoundaryConflictException, OutOfRangeException {
         int minIncomingEdges = -1;
         taskGraphGenerator.setMinIncomingEdges(minIncomingEdges);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMinIncomingEdgesZero() throws GeneratorException {
+    public void setMinIncomingEdgesZero() throws BoundaryConflictException, OutOfRangeException {
         int minIncomingEdges = 0;
         taskGraphGenerator.setMinIncomingEdges(minIncomingEdges);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMaxIncomingEdgesNegativ() throws GeneratorException {
+    public void setMaxIncomingEdgesNegativ() throws BoundaryConflictException, OutOfRangeException {
         int maxIncomingEdges = -1;
         taskGraphGenerator.setMaxIncomingEdges(maxIncomingEdges);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMaxIncomingEdgesZero() throws GeneratorException {
+    public void setMaxIncomingEdgesZero() throws BoundaryConflictException, OutOfRangeException {
         int maxIncomingEdges = 0;
         taskGraphGenerator.setMaxIncomingEdges(maxIncomingEdges);
     }
 
     @Test(expected = BoundaryConflictException.class)
-    public void setMinIncomingEdgesHigherThanMaxIncomingEdges() throws GeneratorException {
+    public void setMinIncomingEdgesHigherThanMaxIncomingEdges() throws BoundaryConflictException,
+            OutOfRangeException {
         int minIncomingEdges = 100;
         int maxIncomingEdges = 5;
         taskGraphGenerator.setMaxIncomingEdges(maxIncomingEdges);
@@ -63,7 +57,8 @@ public class DefaultTaskGraphGeneratorTest {
     }
 
     @Test(expected = BoundaryConflictException.class)
-    public void setMaxIncomingEdgesLessThanMinIncomingEdges() throws GeneratorException {
+    public void setMaxIncomingEdgesLessThanMinIncomingEdges() throws BoundaryConflictException,
+            OutOfRangeException {
         int minIncomingEdges = 100;
         int maxIncomingEdges = 5;
         taskGraphGenerator.setMinIncomingEdges(minIncomingEdges);
@@ -71,31 +66,35 @@ public class DefaultTaskGraphGeneratorTest {
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMinComputationTimeNegativ() throws GeneratorException {
+    public void setMinComputationTimeNegativ() throws BoundaryConflictException,
+            OutOfRangeException {
         int minComputationTime = -1;
         taskGraphGenerator.setMinComputationTime(minComputationTime);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMinComputationTimeZero() throws GeneratorException {
+    public void setMinComputationTimeZero() throws BoundaryConflictException,
+            OutOfRangeException {
         int minComputationTime = 0;
         taskGraphGenerator.setMinComputationTime(minComputationTime);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMaxComputationTimeNegativ() throws GeneratorException {
+    public void setMaxComputationTimeNegativ() throws BoundaryConflictException,
+            OutOfRangeException {
         int maxComputationTime = -1;
         taskGraphGenerator.setMaxComputationTime(maxComputationTime);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMaxComputationTimeZero() throws GeneratorException {
+    public void setMaxComputationTimeZero() throws BoundaryConflictException, OutOfRangeException {
         int maxComputationTime = 0;
         taskGraphGenerator.setMaxComputationTime(maxComputationTime);
     }
 
     @Test(expected = BoundaryConflictException.class)
-    public void setMinComputationTimeHigherThanMaxComputationTime() throws GeneratorException {
+    public void setMinComputationTimeHigherThanMaxComputationTime() throws
+            BoundaryConflictException, OutOfRangeException {
         int minComputationTime = 100;
         int maxComputationTime = 5;
         taskGraphGenerator.setMaxComputationTime(maxComputationTime);
@@ -103,7 +102,8 @@ public class DefaultTaskGraphGeneratorTest {
     }
 
     @Test(expected = BoundaryConflictException.class)
-    public void setMaxComputationTimeLessThanMinComputationTime() throws GeneratorException {
+    public void setMaxComputationTimeLessThanMinComputationTime() throws BoundaryConflictException,
+            OutOfRangeException {
         int minComputationTime = 100;
         int maxComputationTime = 5;
         taskGraphGenerator.setMinComputationTime(minComputationTime);
@@ -114,31 +114,22 @@ public class DefaultTaskGraphGeneratorTest {
 
 
     @Test(expected = OutOfRangeException.class)
-    public void setMinCommunicationTimeNegativ() throws GeneratorException {
+    public void setMinCommunicationTimeNegativ() throws BoundaryConflictException,
+            OutOfRangeException {
         int minCommunicationTime = -1;
         taskGraphGenerator.setMinCommunicationTime(minCommunicationTime);
     }
 
     @Test(expected = OutOfRangeException.class)
-    public void setMinCommunicationTimeZero() throws GeneratorException {
-        int minCommunicationTime = 0;
-        taskGraphGenerator.setMinCommunicationTime(minCommunicationTime);
-    }
-
-    @Test(expected = OutOfRangeException.class)
-    public void setMaxCommunicationTimeNegativ() throws GeneratorException {
+    public void setMaxCommunicationTimeNegativ() throws
+            BoundaryConflictException, OutOfRangeException {
         int maxCommunicationTime = -1;
         taskGraphGenerator.setMaxCommunicationTime(maxCommunicationTime);
     }
 
-    @Test(expected = OutOfRangeException.class)
-    public void setMaxCommunicationTimeZero() throws GeneratorException {
-        int maxCommunicationTime = 0;
-        taskGraphGenerator.setMaxCommunicationTime(maxCommunicationTime);
-    }
-
     @Test(expected = BoundaryConflictException.class)
-    public void setMinCommunicationTimeHigherThanMaxCommunicationTime() throws GeneratorException {
+    public void setMinCommunicationTimeHigherThanMaxCommunicationTime() throws
+            BoundaryConflictException, OutOfRangeException {
         int minCommunicationTime = 100;
         int maxCommunicationTime = 5;
         taskGraphGenerator.setMaxCommunicationTime(maxCommunicationTime);
@@ -146,7 +137,8 @@ public class DefaultTaskGraphGeneratorTest {
     }
 
     @Test(expected = BoundaryConflictException.class)
-    public void setMinCommunicationTimeLessThanMaxCommunicationTime() throws GeneratorException {
+    public void setMinCommunicationTimeLessThanMaxCommunicationTime() throws
+            BoundaryConflictException, OutOfRangeException {
         int minCommunicationTime = 100;
         int maxCommunicationTime = 5;
         taskGraphGenerator.setMinCommunicationTime(minCommunicationTime);
