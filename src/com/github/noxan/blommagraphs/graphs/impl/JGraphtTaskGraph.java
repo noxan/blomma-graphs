@@ -49,11 +49,11 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public int getLayerCount() {
-        return layerCake(0, firstNode);
+        return layerCake(1, firstNode);
     }
 
     /**
-     * recursive function to determine the layers of the graph
+     * recursive function to determine the layers of the graph #LaPush
      * 
      * @param layer
      * @param vertex
@@ -61,17 +61,15 @@ public class JGraphtTaskGraph implements TaskGraph {
      */
     private int layerCake(int layer, TaskGraphNode vertex) {
         int max = layer;
-        ArrayList<TaskGraphEdge> defWeiEdg = new ArrayList<TaskGraphEdge>();
+        ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
 
-        defWeiEdg.addAll(graph.edgesOf(vertex));
-        for (int j = 0; j < defWeiEdg.size(); j++) {
-            if (graph.getEdgeTarget(defWeiEdg.get(j)) == null
-                    || graph.getEdgeTarget(defWeiEdg.get(j)) == vertex) {
-                this.layer = layer;
+        taskGraphEdge.addAll(graph.outgoingEdgesOf(vertex));
+        for (int j = 0; j < taskGraphEdge.size(); j++) {
+            if (graph.getEdgeTarget(taskGraphEdge.get(j)).equals(lastNode)) {
+                this.layer = layer + 1;
                 continue;
             } else {
-                layer += 1;
-                layerCake(layer, graph.getEdgeTarget(defWeiEdg.get(j)));
+                layerCake(layer + 1, graph.getEdgeTarget(taskGraphEdge.get(j)));
             }
             if (layer > this.layer) {
                 this.layer = layer;
