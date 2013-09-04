@@ -47,9 +47,13 @@ public class JGraphtTaskGraph implements TaskGraph {
         return lastNode;
     }
 
+    /**
+     * the start value for the first parameter in the fuction which is to be
+     * returned has to be 1, because 1 vertex already counts als 1 layer #LaPush
+     */
     @Override
     public int getLayerCount() {
-        return layerCake(1, firstNode);
+        return getLayerCount(1, firstNode);
     }
 
     /**
@@ -59,7 +63,7 @@ public class JGraphtTaskGraph implements TaskGraph {
      * @param vertex
      * @return
      */
-    private int layerCake(int layer, TaskGraphNode vertex) {
+    private int getLayerCount(int layer, TaskGraphNode vertex) {
         int max = layer;
         ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
 
@@ -69,7 +73,7 @@ public class JGraphtTaskGraph implements TaskGraph {
                 this.layer = layer + 1;
                 continue;
             } else {
-                layerCake(layer + 1, graph.getEdgeTarget(taskGraphEdge.get(j)));
+                getLayerCount(layer + 1, graph.getEdgeTarget(taskGraphEdge.get(j)));
             }
             if (layer > this.layer) {
                 this.layer = layer;
