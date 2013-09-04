@@ -31,7 +31,6 @@ import java.util.Random;
  * int spreadCommunicationTime
  */
 public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
-    TaskGraph graph;
     private long seed;
     private int numberOfNodes;
     private int minIncomingEdges;
@@ -48,7 +47,6 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * Constructor with default values and random seed
      */
     public DefaultTaskGraphGenerator() {
-        graph = new JGraphtTaskGraph();
 
         Random random = new Random();
         seed = random.nextLong();
@@ -240,6 +238,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      */
     @Override
     public TaskGraph generator() {
+        TaskGraph graph = new JGraphtTaskGraph();
         Random random = new Random(seed);
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
