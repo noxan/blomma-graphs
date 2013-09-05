@@ -84,4 +84,15 @@ public class DefaultTaskGraphTest {
         }
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 44);
     }
+
+    @Test
+    public void testGetNodeSetWithEmptyGraph() {
+        Assert.assertEquals(taskGraph.getNodeSet().size(), 2);
+    }
+
+    @Test
+    public void testGetNodeSetWithSimpleGraph() {
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(taskGraph.getNodeSet().size(), 3);
+    }
 }
