@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
+import java.util.Map;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
@@ -160,4 +161,13 @@ public interface TaskGraph {
      * @return true if there is a edge between the two given nodes, else false
      */
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
+
+    /**
+     * Returns all the meta information related to this graph. Also contains the
+     * generator meta information if available. The returned map should be
+     * considered as immutable.
+     * 
+     * @return meta information related to this graph
+     */
+    public Map<String, Object> getMetaInformation();
 }

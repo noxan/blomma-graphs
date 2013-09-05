@@ -13,6 +13,9 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
+
 
 /**
  * TaskgraphGenerator implementation with a random seed and parameters to restrict the randomly
@@ -238,7 +241,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      */
     @Override
     public TaskGraph generator() {
-        TaskGraph graph = new JGraphtTaskGraph();
+        TaskGraph graph = new JGraphtTaskGraph(getGeneratorMetaInformation());
         Random random = new Random(seed);
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
@@ -298,5 +301,25 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
             }
         }
         return graph;
+    }
+
+    private TaskGraphMetaInformation getGeneratorMetaInformation() {
+        TaskGraphMetaInformation metaInformation = new DefaultTaskGraphMetaInformation();
+
+        metaInformation.setMetaInformation("generatorName", "DefaultTaskGraphGenerator");
+        metaInformation.setMetaInformation("generatorVersion", "0.1.0");
+        metaInformation.setMetaInformation("seed", seed);
+        metaInformation.setMetaInformation("numberOfNodes", numberOfNodes);
+        metaInformation.setMetaInformation("minIncomingEdges", minIncomingEdges);
+        metaInformation.setMetaInformation("maxIncomingEdges", maxIncomingEdges);
+        metaInformation.setMetaInformation("spreadEdges", spreadEdges);
+        metaInformation.setMetaInformation("minComputationTime", minComputationTime);
+        metaInformation.setMetaInformation("maxComputationTime", maxComputationTime);
+        metaInformation.setMetaInformation("spreadComputationTime", spreadComputationTime);
+        metaInformation.setMetaInformation("minCommunicationTime", minCommunicationTime);
+        metaInformation.setMetaInformation("maxCommunicationTime", maxCommunicationTime);
+        metaInformation.setMetaInformation("spreadCommunicationTime", spreadCommunicationTime);
+
+        return metaInformation;
     }
 }

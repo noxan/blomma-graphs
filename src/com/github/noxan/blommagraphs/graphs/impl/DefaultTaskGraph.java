@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.Map;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -89,5 +90,11 @@ public class DefaultTaskGraph implements TaskGraph {
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public Map<String, Object> getMetaInformation() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

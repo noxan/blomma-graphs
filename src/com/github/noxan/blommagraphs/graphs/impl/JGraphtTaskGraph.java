@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -10,9 +11,13 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
+    private TaskGraphMetaInformation metaInformation;
+
     private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
     private TaskGraphNode firstNode;
@@ -23,6 +28,12 @@ public class JGraphtTaskGraph implements TaskGraph {
     private int layer;
 
     public JGraphtTaskGraph() {
+        this(new DefaultTaskGraphMetaInformation());
+    }
+
+    public JGraphtTaskGraph(TaskGraphMetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
+
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
@@ -161,5 +172,18 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         return graph.containsEdge(prevNode, nextNode);
+    }
+
+    @Override
+    public Map<String, Object> getMetaInformation() {
+        metaInformation.setMetaInformation("nodeCount", getNodeCount());
+        metaInformation.setMetaInformation("dummyNodeCount", 2);
+        metaInformation.setMetaInformation("edgeCount", getEdgeCount());
+        metaInformation.setMetaInformation("dummyEdgeCount", getFirstNode().getNextEdgeCount()
+                + getLastNode().getPrevEdgeCount());
+        metaInformation.setMetaInformation("layerCount", getLayerCount());
+        metaInformation.setMetaInformation("edgesPerNodeRatio", getEdgeCount() / getNodeCount());
+
+        return metaInformation.getMetaInformation();
     }
 }

@@ -206,15 +206,14 @@ public class STGSerializer implements TaskGraphSerializer {
     private String generateMetaInfo(TaskGraph graph) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("# BlommaGraphs:\tthis is a Standard Task Graph project file\n");
-        // Nodes
-        stringBuffer
-                .append(String.format("# Tasks:\t%d (+ dummy tasks: 2)\n", graph.getNodeCount()));
-        // Layers
-        stringBuffer.append(String.format("# Layers:\t%d\n", graph.getLayerCount()));
-        // Edges
-        stringBuffer.append(String.format("# Edges:\t%d (+ dummy edges: %d)\n",
-                graph.getEdgeCount(), graph.getFirstNode().getNextEdgeCount()
-                        + graph.getLastNode().getPrevEdgeCount()));
+
+        Map<String, Object> metaMap = graph.getMetaInformation();
+
+        for (String key : metaMap.keySet()) {
+            String value = metaMap.get(key).toString();
+            stringBuffer.append(String.format("# %s:\t%s\n", key, value));
+        }
+
         return stringBuffer.toString();
     }
 }

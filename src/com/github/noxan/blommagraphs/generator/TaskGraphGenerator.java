@@ -1,5 +1,6 @@
 package com.github.noxan.blommagraphs.generator;
 
+
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
