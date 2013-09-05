@@ -8,13 +8,22 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
 
 public class DefaultTaskGraph implements TaskGraph {
+    private TaskGraphMetaInformation metaInformation;
+
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
     public DefaultTaskGraph() {
+        this(new DefaultTaskGraphMetaInformation());
+    }
+
+    public DefaultTaskGraph(TaskGraphMetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
         firstNode = new DefaultTaskGraphNode(0, 1);
         lastNode = new DefaultTaskGraphNode(1, 1);
         ((DefaultTaskGraphNode) firstNode).addNextNode(lastNode, 1);
@@ -169,7 +178,6 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Map<String, Object> getMetaInformation() {
-        // TODO Auto-generated method stub
-        return null;
+        return metaInformation.getMetaInformation();
     }
 }
