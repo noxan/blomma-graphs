@@ -9,10 +9,12 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {
+    private int computationTime;
     private Set<TaskGraphEdge> prevEdges;
     private Set<TaskGraphEdge> nextEdges;
 
-    public DefaultTaskGraphNode() {
+    public DefaultTaskGraphNode(int computationTime) {
+        this.computationTime = computationTime;
         prevEdges = new HashSet<TaskGraphEdge>();
         nextEdges = new HashSet<TaskGraphEdge>();
     }
