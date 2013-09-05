@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.generator.impl;
 
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
@@ -9,29 +12,28 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
-
-import java.util.ArrayList;
-import java.util.Random;
-
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
 
 /**
- * TaskgraphGenerator implementation with a random seed and parameters to restrict the randomly
- * generated Graph. Following parameters could be set through setter.
- *
- * long seed - seed to generate randomly
- * int numberOfNodes
- * int minIncomingEdges
- * int maxIncomingEdges
- * int spreadEdges
- * int minComputationTime
- * int maxComputationTime
- * int spreadComputationTime
- * int minCommunicationTime
- * int maxCommunicationTime
- * int spreadCommunicationTime
+ * TaskgraphGenerator implementation with a random seed and parameters to
+ * restrict the randomly generated Graph. Following parameters could be set
+ * through setter.
+ * 
+ * <ul>
+ * <li>long seed - seed to generate randomly</li>
+ * <li>int numberOfNodes</li>
+ * <li>int minIncomingEdges</li>
+ * <li>int maxIncomingEdges</li>
+ * <li>int spreadEdges</li>
+ * <li>int minComputationTime</li>
+ * <li>int maxComputationTime</li>
+ * <li>int spreadComputationTime</li>
+ * <li>int minCommunicationTime</li>
+ * <li>int maxCommunicationTime</li>
+ * <li>int spreadCommunicationTime</li>
+ * </ul>
  */
 public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     private long seed;
@@ -67,7 +69,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     *
+     * 
      * @param seed
      */
     public void setSeed(long seed) {
