@@ -33,9 +33,8 @@ public class STGSerializerTest {
                 + "\t5 23\n" + "3 3 1\n" + "\t0 3\n" + "4 4 1\n" + "\t1 15\n" + "5 5 1\n"
                 + "\t1 21\n" + "6 1 2\n" + "\t2 3\n" + "\t4 16\n"
                 + "\n# BlommaGraphs:\tthis is a Standard Task Graph project file\n"
-                + "# Tasks:\t7 (+ dummy tasks: 2)\n" + "# Layers:\t4\n"
-                + "# Edges:\t8 (+ dummy edges: 4)\n";
-
+                + "# edgesPerNodeRatio:\t1\n" + "# layerCount:\t4\n" + "# edgeCount:\t8\n"
+                + "# nodeCount:\t7\n" + "# dummyEdgeCount:\t4\n" + "# dummyNodeCount:\t2\n";
     }
 
     @After
