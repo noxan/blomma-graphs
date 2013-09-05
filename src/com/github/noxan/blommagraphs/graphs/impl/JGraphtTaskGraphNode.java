@@ -125,7 +125,6 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
         for (int j = 0; j < taskGraphEdge.size(); j++) {
             if (graph.getEdgeSource(taskGraphEdge.get(j)).equals(jGraphtTaskGraph.getFirstNode())) {
                 this.layersToTop = layer + 1;
-                continue;
             } else {
                 getTopLayerCount(layer + 1, graph.getEdgeSource(taskGraphEdge.get(j)));
             }
@@ -158,7 +157,6 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
         for (int j = 0; j < taskGraphEdge.size(); j++) {
             if (graph.getEdgeTarget(taskGraphEdge.get(j)).equals(jGraphtTaskGraph.getLastNode())) {
                 this.layersToBottom = layer + 1;
-                continue;
             } else {
                 getBottomLayerCount(layer + 1, graph.getEdgeTarget(taskGraphEdge.get(j)));
             }
