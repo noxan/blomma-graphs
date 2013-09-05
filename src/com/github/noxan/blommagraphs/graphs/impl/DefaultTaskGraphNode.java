@@ -21,6 +21,15 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         nextEdges = new HashSet<TaskGraphEdge>();
     }
 
+    public DefaultTaskGraphNode(int id, TaskGraphNode prevNode, int prevCommunicationTime,
+            TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
+        this(id, computationTime);
+        TaskGraphEdge prevEdge = new DefaultTaskGraphEdge(prevNode, this, prevCommunicationTime);
+        prevEdges.add(prevEdge);
+        TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
+        nextEdges.add(nextEdge);
+    }
+
     @Override
     public Set<TaskGraphNode> getPrevNodes() {
         Set<TaskGraphNode> prevNodes = new HashSet<TaskGraphNode>();
