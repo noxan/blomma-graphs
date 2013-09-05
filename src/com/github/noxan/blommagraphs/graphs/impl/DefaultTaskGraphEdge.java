@@ -1,20 +1,27 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
+
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphEdge implements TaskGraphEdge {
+    private TaskGraphNode prevNode;
+    private TaskGraphNode nextNode;
+
+    public DefaultTaskGraphEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        this.prevNode = prevNode;
+        this.nextNode = nextNode;
+    }
+
     @Override
     public TaskGraphNode getPrevNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return prevNode;
     }
 
     @Override
     public TaskGraphNode getNextNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return nextNode;
     }
 
     @Override
