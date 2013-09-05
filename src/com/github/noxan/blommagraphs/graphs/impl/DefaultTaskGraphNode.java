@@ -24,8 +24,16 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     public DefaultTaskGraphNode(int id, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
         this(id, computationTime);
+        addPrevNode(prevNode, prevCommunicationTime);
+        addNextNode(nextNode, nextCommunicationTime);
+    }
+
+    protected void addPrevNode(TaskGraphNode prevNode, int prevCommunicationTime) {
         TaskGraphEdge prevEdge = new DefaultTaskGraphEdge(prevNode, this, prevCommunicationTime);
         prevEdges.add(prevEdge);
+    }
+
+    protected void addNextNode(TaskGraphNode nextNode, int nextCommunicationTime) {
         TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
         nextEdges.add(nextEdge);
     }
