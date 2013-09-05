@@ -9,6 +9,7 @@ import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
@@ -136,6 +137,14 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         return graph.containsEdge(prevNode, nextNode);
+    }
+
+    public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
+            throws ContainsNoEdgeException {
+        if (graph.getEdge(prevNode, nextNode).equals(null)) {
+            throw new ContainsNoEdgeException();
+        }
+        return graph.getEdge(prevNode, nextNode);
     }
 
     @Override
