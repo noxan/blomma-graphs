@@ -58,4 +58,10 @@ public class DefaultTaskGraphTest {
     public void testGetEdgeSetWithEmptyGraph() {
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 1);
     }
+
+    @Test
+    public void testGetEdgeSetWithSimpleGraph() {
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(taskGraph.getEdgeSet().size(), 2);
+    }
 }
