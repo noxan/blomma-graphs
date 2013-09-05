@@ -3,6 +3,8 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.HashSet;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -64,6 +66,12 @@ public class DefaultTaskGraph implements TaskGraph {
     @Override
     public int getNodeCount() {
         return getNodeSet().size();
+    }
+
+    @Override
+    public List<TaskGraphEdge> getCriticalPath() {
+        // TODO Auto-generated method stub
+        return new ArrayList<TaskGraphEdge>();
     }
 
     @Override
