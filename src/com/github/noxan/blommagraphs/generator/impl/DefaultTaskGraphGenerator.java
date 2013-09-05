@@ -251,13 +251,13 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
         // insert nodes in the first level
         int numberOfNodesFirstLevel = maxIncomingEdges
-                + (int) Math.round(random.nextFloat() * (numberOfNodes - maxIncomingEdges));
+                + Math.round(random.nextFloat() * (numberOfNodes - maxIncomingEdges));
         for (int i = 0; i < numberOfNodesFirstLevel; i++) {
-            int computationTime = (int) Math.round(random.nextFloat()
+            int computationTime = Math.round(random.nextFloat()
                     * (maxComputationTime - minComputationTime) + minComputationTime);
-            int prevCommunicationTime = (int) Math.round(random.nextFloat()
+            int prevCommunicationTime = Math.round(random.nextFloat()
                     * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
-            int nextCommunicationTime = (int) Math.round(random.nextFloat()
+            int nextCommunicationTime = Math.round(random.nextFloat()
                     * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
             nodes.add(graph.insertNode(firstNode, prevCommunicationTime, lastNode,
                     nextCommunicationTime, computationTime));
@@ -266,11 +266,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         // insert rest nodes randomly
         int restNodes = numberOfNodes - numberOfNodesFirstLevel;
         for (int i = 0; i < restNodes; i++) {
-            int computationTime = (int) Math.round(random.nextFloat()
+            int computationTime = Math.round(random.nextFloat()
                     * (maxComputationTime - minComputationTime) + minComputationTime);
-            int prevCommunicationTime = (int) Math.round(random.nextFloat()
+            int prevCommunicationTime = Math.round(random.nextFloat()
                     * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
-            int nextCommunicationTime = (int) Math.round(random.nextFloat()
+            int nextCommunicationTime = Math.round(random.nextFloat()
                     * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
 
             nodes.add(graph.insertNode(nodes.get(random.nextInt(nodes.size())),
@@ -283,7 +283,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         for (int i = numberOfNodesFirstLevel; i < nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
             if (currentNode.getPrevEdgeCount() <= minIncomingEdges) {
-                int newEdges = (int) Math.round(random.nextFloat()
+                int newEdges = Math.round(random.nextFloat()
                         * (maxIncomingEdges - minIncomingEdges))
                         + (minIncomingEdges - currentNode.getPrevEdgeCount());
                 for (int j = 0; j < newEdges; j++) {
@@ -291,7 +291,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     do {
                         prevNode = nodes.get(random.nextInt(i));
                     } while (graph.containsEdge(prevNode, currentNode));
-                    int communicationTime = (int) Math.round(random.nextFloat()
+                    int communicationTime = Math.round(random.nextFloat()
                             * (maxCommunicationTime - minCommunicationTime) + minCommunicationTime);
                     try {
                         graph.insertEdge(prevNode, currentNode, communicationTime);
