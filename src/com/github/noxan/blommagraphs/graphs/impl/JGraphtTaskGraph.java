@@ -92,8 +92,8 @@ public class JGraphtTaskGraph implements TaskGraph {
         taskGraphEdge.addAll(graph.outgoingEdgesOf(node));
         for (int i = 0; i < taskGraphEdge.size(); i++) {
             edgeList.add(taskGraphEdge.get(i));
-            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime +
-                    taskGraphEdge.get(i).getCommunicationTime());
+            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime
+                    + taskGraphEdge.get(i).getCommunicationTime());
 
             if (maxTime > this.cp_time) {
                 this.cp_time = maxTime;
@@ -173,6 +173,7 @@ public class JGraphtTaskGraph implements TaskGraph {
         return graph.containsEdge(prevNode, nextNode);
     }
 
+    @Override
     public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
             throws ContainsNoEdgeException {
         if (graph.getEdge(prevNode, nextNode).equals(null)) {
