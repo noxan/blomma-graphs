@@ -13,8 +13,8 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.github.noxan.blommagraphs.graphs.meta.DefaultTaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
 
 /**

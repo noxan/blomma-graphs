@@ -1,9 +1,11 @@
-package com.github.noxan.blommagraphs.graphs.meta;
+package com.github.noxan.blommagraphs.graphs.meta.impl;
 
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 
 
 public class DefaultTaskGraphMetaInformation implements TaskGraphMetaInformation {
