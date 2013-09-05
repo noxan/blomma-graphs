@@ -28,7 +28,11 @@ public class JGraphtTaskGraph implements TaskGraph {
     private int layer;
 
     public JGraphtTaskGraph() {
-        metaInformation = new DefaultTaskGraphMetaInformation();
+        this(new DefaultTaskGraphMetaInformation());
+    }
+
+    public JGraphtTaskGraph(TaskGraphMetaInformation metaInformation) {
+        this.metaInformation = metaInformation;
 
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
