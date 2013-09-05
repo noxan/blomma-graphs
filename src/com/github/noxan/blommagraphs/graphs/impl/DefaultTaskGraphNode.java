@@ -86,6 +86,10 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         return nextEdges.size();
     }
 
+    protected void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int getId() {
         return id;

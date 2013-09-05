@@ -59,8 +59,13 @@ public class DefaultTaskGraph implements TaskGraph {
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime,
             boolean keepExistingEdge) {
-        // TODO Auto-generated method stub
-        return null;
+
+        int lastId = lastNode.getId();
+
+        ((DefaultTaskGraphNode) lastNode).setId(lastId + 1);
+
+        return new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime, nextNode,
+                nextCommunicationTime, computationTime);
     }
 
     @Override
