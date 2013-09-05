@@ -239,7 +239,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      */
     @Override
     public TaskGraph generator() {
-        TaskGraph graph = new JGraphtTaskGraph();
+        TaskGraph graph = new JGraphtTaskGraph(getMetaInformation());
         Random random = new Random(seed);
         TaskGraphNode firstNode = graph.getFirstNode();
         TaskGraphNode lastNode = graph.getLastNode();
