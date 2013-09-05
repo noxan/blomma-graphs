@@ -19,14 +19,20 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
 
     @Override
     public Set<TaskGraphNode> getPrevNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphNode> prevNodes = new HashSet<TaskGraphNode>();
+        for (TaskGraphEdge prevEdge : prevEdges) {
+            prevNodes.add(prevEdge.getPrevNode());
+        }
+        return prevNodes;
     }
 
     @Override
     public Set<TaskGraphNode> getNextNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphNode> nextNodes = new HashSet<TaskGraphNode>();
+        for (TaskGraphEdge nextEdge : nextEdges) {
+            nextNodes.add(nextEdge.getNextNode());
+        }
+        return nextNodes;
     }
 
     @Override
