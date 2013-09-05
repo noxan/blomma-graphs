@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.HashSet;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -8,6 +9,14 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {
+    private Set<TaskGraphEdge> prevEdges;
+    private Set<TaskGraphEdge> nextEdges;
+
+    public DefaultTaskGraphNode() {
+        prevEdges = new HashSet<TaskGraphEdge>();
+        nextEdges = new HashSet<TaskGraphEdge>();
+    }
+
     @Override
     public Set<TaskGraphNode> getPrevNodes() {
         // TODO Auto-generated method stub
@@ -34,26 +43,22 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
 
     @Override
     public Set<TaskGraphEdge> getPrevEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return prevEdges;
     }
 
     @Override
     public Set<TaskGraphEdge> getNextEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return nextEdges;
     }
 
     @Override
     public int getPrevEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return prevEdges.size();
     }
 
     @Override
     public int getNextEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return nextEdges.size();
     }
 
     @Override
