@@ -97,8 +97,12 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
-        // TODO Auto-generated method stub
-        return null;
+        TaskGraphEdge edge = findEdge(prevNode, nextNode);
+
+        ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
+        ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
+
+        return edge;
     }
 
     @Override
