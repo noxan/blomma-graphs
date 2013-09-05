@@ -8,6 +8,9 @@ import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+
 
 /**
  * This is a class that holds information about one node (task) in STG format.
@@ -35,6 +38,20 @@ public class STGNode {
         this.id = id;
         this.computationcosts = computationcosts;
         this.dependencies = new HashMap<Integer, Integer>();
+    }
+
+    /**
+     * Constructor that uses a node to initialize the STGNode.
+     * 
+     * @param node A TaskGraphNode which shall be represented by the new
+     *            STGNode.
+     */
+    public STGNode(TaskGraphNode node) {
+        this(node.getId(), node.getComputationTime());
+
+        for (TaskGraphEdge edge : node.getPrevEdges()) {
+            this.addDependency(edge.getPrevNode().getId(), edge.getCommunicationTime());
+        }
     }
 
     /**
