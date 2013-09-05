@@ -1,13 +1,14 @@
 package com.github.noxan.blommagraphs.generator.impl;
 
 
-import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
-import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
-import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
+import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
+import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 
 
 @RunWith(JUnit4.class)
@@ -142,5 +143,4 @@ public class DefaultTaskGraphGeneratorTest {
         taskGraphGenerator.setMinCommunicationTime(minCommunicationTime);
         taskGraphGenerator.setMaxCommunicationTime(maxCommunicationTime);
     }
-
 }
