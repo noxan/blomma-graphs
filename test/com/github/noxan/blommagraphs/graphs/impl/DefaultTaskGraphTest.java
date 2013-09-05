@@ -64,4 +64,24 @@ public class DefaultTaskGraphTest {
         taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 2);
     }
+
+    @Test
+    public void testGetEdgeSetWithListLikeGraph() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 10; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getEdgeSet().size(), 11);
+    }
+
+    @Test
+    public void testGetEdgeSetWithMultipleListLikeGraphs() {
+        for (int j = 0; j < 4; j++) {
+            TaskGraphNode prevNode = taskGraph.getFirstNode();
+            for (int i = 0; i < 10; i++) {
+                prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+            }
+        }
+        Assert.assertEquals(taskGraph.getEdgeSet().size(), 44);
+    }
 }
