@@ -9,6 +9,7 @@ import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 @RunWith(JUnit4.class)
@@ -52,6 +53,23 @@ public class DefaultTaskGraphTest {
         Assert.assertEquals(taskGraph.getLastNode().getPrevNodes().iterator().next(), node);
         Assert.assertEquals(taskGraph.getFirstNode().getNextNodeCount(), 1);
         Assert.assertEquals(taskGraph.getFirstNode().getNextNodes().iterator().next(), node);
+    }
+
+    @Test
+    public void testInsertEdgeToSimpleGraph() {
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+
+        Assert.assertEquals(taskGraph.getFirstNode().getNextEdgeCount(), 1);
+        Assert.assertEquals(taskGraph.getLastNode().getPrevEdgeCount(), 1);
+
+        try {
+            taskGraph.insertEdge(taskGraph.getFirstNode(), taskGraph.getLastNode(), 5);
+        } catch (DuplicateEdgeException e) {
+            Assert.fail("The edge between startNode and endNode has not been removed.");
+        }
+
+        Assert.assertEquals(taskGraph.getFirstNode().getNextEdgeCount(), 2);
+        Assert.assertEquals(taskGraph.getLastNode().getPrevEdgeCount(), 2);
     }
 
     @Test
