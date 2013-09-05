@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.graphs;
 
 
 import java.util.Map;
+import java.util.List;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
@@ -48,6 +49,14 @@ public interface TaskGraph {
      * @return number of nodes in the graph
      */
     public int getNodeCount();
+
+    /**
+     * Returns the critical path (the path with takes the longest time to execute
+     * from first node to last node) of the graph as list of edges
+     *
+     * @return list of edges
+     */
+    public List<TaskGraphEdge> getCriticalPath();
 
     /**
      * Adds a new node into the task graph and connecting it to a previous and

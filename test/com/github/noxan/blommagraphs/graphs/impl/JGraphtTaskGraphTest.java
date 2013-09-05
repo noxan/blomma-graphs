@@ -160,7 +160,11 @@ public class JGraphtTaskGraphTest {
         } catch (DuplicateEdgeException e) {
             e.printStackTrace();
         }
-        ArrayList<TaskGraphEdge> expectedArray = new ArrayList<TaskGraphEdge>();
-        Assert.assertEquals(4, taskGraph.getCriticalPath().size());
+        Assert.assertEquals(2 ,taskGraph.getCriticalPath().size());
+
+        ArrayList<TaskGraphEdge> criticalPath = (ArrayList) taskGraph.getCriticalPath();
+        for (TaskGraphEdge edge: criticalPath) {
+            System.out.println(edge.getPrevNode().getId());
+        }
     }
 }
