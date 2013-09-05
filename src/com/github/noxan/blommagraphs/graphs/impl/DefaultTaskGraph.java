@@ -100,16 +100,24 @@ public class DefaultTaskGraph implements TaskGraph {
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
         Set<TaskGraphEdge> edgeSet = new HashSet<TaskGraphEdge>();
+        Set<TaskGraphEdge> newEdgeSet = new HashSet<TaskGraphEdge>();
 
-        edgeSet.addAll(firstNode.getNextEdges());
+        newEdgeSet.addAll(firstNode.getNextEdges());
 
-        Iterator<TaskGraphEdge> it = edgeSet.iterator();
+        while (newEdgeSet.size() > 0) {
+            Set<TaskGraphEdge> tempEdgeSet = new HashSet<TaskGraphEdge>();
+            Iterator<TaskGraphEdge> it = newEdgeSet.iterator();
 
-        while (it.hasNext()) {
-            TaskGraphEdge edge = it.next();
-            if (edge.getNextNode() != lastNode) {
-                edgeSet.addAll(edge.getNextNode().getNextEdges());
+            while (it.hasNext()) {
+                TaskGraphEdge edge = it.next();
+                if (edge.getNextNode() != lastNode) {
+                    tempEdgeSet.addAll(edge.getNextNode().getNextEdges());
+                }
+                edgeSet.add(edge);
+                it.remove();
             }
+
+            newEdgeSet.addAll(tempEdgeSet);
         }
 
         return edgeSet;
