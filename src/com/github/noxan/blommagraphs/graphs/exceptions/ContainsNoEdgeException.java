@@ -8,5 +8,5 @@ package com.github.noxan.blommagraphs.graphs.exceptions;
  * 
  */
 public class ContainsNoEdgeException extends Exception {
-
+    private static final long serialVersionUID = -8180959620973222215L;
 }
