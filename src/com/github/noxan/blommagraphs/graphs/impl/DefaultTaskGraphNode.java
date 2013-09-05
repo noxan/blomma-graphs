@@ -123,4 +123,16 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     public int compareTo(TaskGraphNode other) {
         return this.getId() - other.getId();
     }
+
+    @Override
+    public int getTopLayerCount() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getBottomLayerCount() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

@@ -51,4 +51,9 @@ public class DefaultScheduledTask implements ScheduledTask {
         return node.getComputationTime();
     }
 
+    @Override
+    public int getTaskId() {
+        return node.getId();
+    }
+
 }

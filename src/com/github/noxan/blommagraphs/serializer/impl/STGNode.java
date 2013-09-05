@@ -4,8 +4,12 @@
 package com.github.noxan.blommagraphs.serializer.impl;
 
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 /**
@@ -37,6 +41,20 @@ public class STGNode {
     }
 
     /**
+     * Constructor that uses a node to initialize the STGNode.
+     * 
+     * @param node A TaskGraphNode which shall be represented by the new
+     *            STGNode.
+     */
+    public STGNode(TaskGraphNode node) {
+        this(node.getId(), node.getComputationTime());
+
+        for (TaskGraphEdge edge : node.getPrevEdges()) {
+            this.addDependency(edge.getPrevNode().getId(), edge.getCommunicationTime());
+        }
+    }
+
+    /**
      * Standard constructor.
      */
     public STGNode() {
@@ -48,6 +66,9 @@ public class STGNode {
     }
 
     public void setId(int id) {
+        if (id < 0)
+            throw new InvalidParameterException("id cannot be negativ: " + id);
+
         this.id = id;
     }
 
@@ -56,6 +77,10 @@ public class STGNode {
     }
 
     public void setComputationcosts(int computationcosts) {
+        if (computationcosts <= 0)
+            throw new InvalidParameterException("computation costs must be greater 0: "
+                    + computationcosts);
+
         this.computationcosts = computationcosts;
     }
 

@@ -1,7 +1,6 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class JGraphtTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
     /**
-     * global auxiliary variable for the layerCake function
+     * global auxiliary variable for the getLayerCount function
      */
     private int layer;
 
@@ -37,10 +36,10 @@ public class JGraphtTaskGraph implements TaskGraph {
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
-        firstNode = new JGraphtTaskGraphNode(graph, 0, 1);
+        firstNode = new JGraphtTaskGraphNode(graph, this, 0, 1);
         graph.addVertex(firstNode);
 
-        lastNode = new JGraphtTaskGraphNode(graph, 1, 1);
+        lastNode = new JGraphtTaskGraphNode(graph, this, 1, 1);
         graph.addVertex(lastNode);
 
         TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
@@ -58,40 +57,9 @@ public class JGraphtTaskGraph implements TaskGraph {
         return lastNode;
     }
 
-    /**
-     * the start value for the first parameter in the fuction which is to be
-     * returned has to be 1, because 1 vertex already counts als 1 layer #LaPush
-     */
     @Override
     public int getLayerCount() {
-        return getLayerCount(1, firstNode);
-    }
-
-    /**
-     * recursive function to determine the layers of the graph #LaPush
-     * 
-     * @param layer
-     * @param vertex
-     * @return
-     */
-    private int getLayerCount(int layer, TaskGraphNode vertex) {
-        int max = layer;
-        ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
-
-        taskGraphEdge.addAll(graph.outgoingEdgesOf(vertex));
-        for (int j = 0; j < taskGraphEdge.size(); j++) {
-            if (graph.getEdgeTarget(taskGraphEdge.get(j)).equals(lastNode)) {
-                this.layer = layer + 1;
-                continue;
-            } else {
-                getLayerCount(layer + 1, graph.getEdgeTarget(taskGraphEdge.get(j)));
-            }
-            if (layer > this.layer) {
-                this.layer = layer;
-            }
-        }
-        max = this.layer;
-        return max;
+        return firstNode.getBottomLayerCount() + 1;
     }
 
     @Override
@@ -117,7 +85,7 @@ public class JGraphtTaskGraph implements TaskGraph {
             boolean keepExistingEdge) {
         int lastId = lastNode.getId();
         ((JGraphtTaskGraphNode) lastNode).setId(lastId + 1);
-        TaskGraphNode node = new JGraphtTaskGraphNode(graph, lastId, computationTime);
+        TaskGraphNode node = new JGraphtTaskGraphNode(graph, this, lastId, computationTime);
         graph.addVertex(node);
 
         TaskGraphEdge prevEdge = graph.addEdge(prevNode, node);
