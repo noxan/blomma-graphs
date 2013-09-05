@@ -39,6 +39,22 @@ public class DefaultTaskGraphTest {
     }
 
     @Test
+    public void testInsertNodeInEmptyGraph() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
+                taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(node.getPrevEdgeCount(), 1);
+        Assert.assertEquals(node.getNextEdgeCount(), 1);
+        TaskGraphNode prevNode = node.getPrevNodes().iterator().next();
+        Assert.assertEquals(taskGraph.getFirstNode(), prevNode);
+        TaskGraphNode nextNode = node.getNextNodes().iterator().next();
+        Assert.assertEquals(taskGraph.getLastNode(), nextNode);
+        Assert.assertEquals(taskGraph.getLastNode().getPrevNodeCount(), 1);
+        Assert.assertEquals(taskGraph.getLastNode().getPrevNodes().iterator().next(), node);
+        Assert.assertEquals(taskGraph.getFirstNode().getNextNodeCount(), 1);
+        Assert.assertEquals(taskGraph.getFirstNode().getNextNodes().iterator().next(), node);
+    }
+
+    @Test
     public void testGetEdgeSetWithEmptyGraph() {
         Assert.assertEquals(taskGraph.getEdgeSet().size(), 1);
     }

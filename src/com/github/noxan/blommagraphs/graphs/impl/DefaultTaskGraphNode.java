@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -36,6 +37,24 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     protected void addNextNode(TaskGraphNode nextNode, int nextCommunicationTime) {
         TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
         nextEdges.add(nextEdge);
+    }
+
+    protected void removePrevNode(TaskGraphNode prevNode) {
+        Iterator<TaskGraphEdge> it = prevEdges.iterator();
+        while (it.hasNext()) {
+            if (it.next().getPrevNode() == prevNode) {
+                it.remove();
+            }
+        }
+    }
+
+    protected void removeNextNode(TaskGraphNode nextNode) {
+        Iterator<TaskGraphEdge> it = nextEdges.iterator();
+        while (it.hasNext()) {
+            if (it.next().getNextNode() == nextNode) {
+                it.remove();
+            }
+        }
     }
 
     @Override

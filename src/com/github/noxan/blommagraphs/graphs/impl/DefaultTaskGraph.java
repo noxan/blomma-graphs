@@ -64,8 +64,18 @@ public class DefaultTaskGraph implements TaskGraph {
 
         ((DefaultTaskGraphNode) lastNode).setId(lastId + 1);
 
-        return new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime, nextNode,
-                nextCommunicationTime, computationTime);
+        TaskGraphNode node = new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime,
+                nextNode, nextCommunicationTime, computationTime);
+
+        ((DefaultTaskGraphNode) prevNode).addNextNode(node, prevCommunicationTime);
+        ((DefaultTaskGraphNode) nextNode).addPrevNode(node, nextCommunicationTime);
+
+        if (!keepExistingEdge) {
+            ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
+            ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
+        }
+
+        return node;
     }
 
     @Override
