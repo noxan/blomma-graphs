@@ -3,7 +3,6 @@ package com.github.noxan.blommagraphs.generator;
 
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
-import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 
 
@@ -37,6 +36,4 @@ public interface TaskGraphGenerator {
     public void setSpreadCommunicationTime(int spreadCommunicationTime);
 
     public TaskGraph generator();
-
-    public TaskGraphGeneratorMetaInformation getMetaInformation();
 }

@@ -7,15 +7,16 @@ import java.util.Set;
 
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
-import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
+import com.github.noxan.blommagraphs.graphs.meta.DefaultTaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
-    private TaskGraphGeneratorMetaInformation generatorMetaInformation;
+    private TaskGraphMetaInformation metaInformation;
 
     private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
@@ -27,11 +28,7 @@ public class JGraphtTaskGraph implements TaskGraph {
     private int layer;
 
     public JGraphtTaskGraph() {
-        this(null);
-    }
-
-    public JGraphtTaskGraph(TaskGraphGeneratorMetaInformation generatorMetaInformation) {
-        this.generatorMetaInformation = generatorMetaInformation;
+        metaInformation = new DefaultTaskGraphMetaInformation();
 
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
@@ -175,7 +172,6 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public Map<String, Object> getMetaInformation() {
-        // TODO Auto-generated method stub
-        return null;
+        return metaInformation.getMetaInformation();
     }
 }
