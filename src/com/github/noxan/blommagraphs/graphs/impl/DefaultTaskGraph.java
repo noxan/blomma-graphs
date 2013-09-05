@@ -10,16 +10,22 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraph implements TaskGraph {
+    private TaskGraphNode firstNode;
+    private TaskGraphNode lastNode;
+
+    public DefaultTaskGraph() {
+        firstNode = new DefaultTaskGraphNode();
+        lastNode = new DefaultTaskGraphNode();
+    }
+
     @Override
     public TaskGraphNode getFirstNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return firstNode;
     }
 
     @Override
     public TaskGraphNode getLastNode() {
-        // TODO Auto-generated method stub
-        return null;
+        return lastNode;
     }
 
     @Override
