@@ -33,8 +33,18 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public int getLayerCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getLayerCount(firstNode, 1);
+    }
+
+    private int getLayerCount(TaskGraphNode node, int layer) {
+        int maxLayer = layer;
+        for (TaskGraphNode nextNode : node.getNextNodes()) {
+            int result = getLayerCount(nextNode, layer + 1);
+            if (maxLayer < result) {
+                maxLayer = result;
+            }
+        }
+        return maxLayer;
     }
 
     @Override
