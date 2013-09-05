@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling;
+package com.github.noxan.blommagraphs.scheduling.system;
 
 
 /**
