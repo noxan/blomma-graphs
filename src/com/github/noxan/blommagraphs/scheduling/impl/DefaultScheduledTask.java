@@ -42,13 +42,13 @@ public class DefaultScheduledTask implements ScheduledTask {
     }
 
     @Override
-    public TaskGraphNode getTaskGraphNode() {
-        return node;
+    public void setTaskGraphNode(TaskGraphNode node) {
+        this.node = node;
     }
 
     @Override
-    public void setTaskGraphNode(TaskGraphNode node) {
-        this.node = node;
+    public int getComputationTime() {
+        return node.getComputationTime();
     }
 
 }
