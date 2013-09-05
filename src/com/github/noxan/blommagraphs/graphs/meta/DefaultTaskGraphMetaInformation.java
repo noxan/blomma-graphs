@@ -14,6 +14,11 @@ public class DefaultTaskGraphMetaInformation implements TaskGraphMetaInformation
     }
 
     @Override
+    public void setMetaInformation(String key, Object value) {
+        metaInformation.put(key, value);
+    }
+
+    @Override
     public Map<String, Object> getMetaInformation() {
         return Collections.unmodifiableMap(metaInformation);
     }
