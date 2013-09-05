@@ -8,6 +8,7 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
@@ -105,30 +106,37 @@ public class DefaultTaskGraph implements TaskGraph {
         return new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
     }
 
-    private TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+    @Override
+    public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
+            throws ContainsNoEdgeException {
         for (TaskGraphEdge edge : getEdgeSet()) {
             if (edge.getPrevNode() == prevNode && edge.getNextNode() == nextNode) {
                 return edge;
             }
         }
-        return null;
+        throw new ContainsNoEdgeException();
     }
 
     @Override
     public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
-        TaskGraphEdge edge = findEdge(prevNode, nextNode);
+        try {
+            TaskGraphEdge edge = findEdge(prevNode, nextNode);
 
-        ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
-        ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
+            ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
+            ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
 
-        return edge;
+            return edge;
+        } catch (ContainsNoEdgeException e) {
+            return null;
+        }
     }
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        TaskGraphEdge edge = findEdge(prevNode, nextNode);
-        if (edge != null) {
+        try {
+            TaskGraphEdge edge = findEdge(prevNode, nextNode);
             ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
+        } catch (ContainsNoEdgeException e) {
         }
     }
 
@@ -173,7 +181,12 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
-        return findEdge(prevNode, nextNode) != null;
+        try {
+            findEdge(prevNode, nextNode);
+            return true;
+        } catch (ContainsNoEdgeException e) {
+            return false;
+        }
     }
 
     @Override
