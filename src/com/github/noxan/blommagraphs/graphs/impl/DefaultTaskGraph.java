@@ -49,8 +49,8 @@ public class DefaultTaskGraph implements TaskGraph {
     @Override
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
-        // TODO Auto-generated method stub
-        return null;
+        return insertNode(prevNode, prevCommunicationTime, nextNode, nextCommunicationTime,
+                computationTime, false);
     }
 
     @Override
