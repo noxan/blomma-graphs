@@ -247,7 +247,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         TaskGraphNode lastNode = graph.getLastNode();
         ArrayList<TaskGraphNode> nodes = new ArrayList<TaskGraphNode>();
 
-        //insert nodes in the first level
+        // insert nodes in the first level
         int numberOfNodesFirstLevel = maxIncomingEdges
                 + (int) Math.round(random.nextFloat() * (numberOfNodes - maxIncomingEdges));
         for (int i = 0; i < numberOfNodesFirstLevel; i++) {
@@ -261,7 +261,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
                     nextCommunicationTime, computationTime));
         }
 
-        //insert rest nodes randomly
+        // insert rest nodes randomly
         int restNodes = numberOfNodes - numberOfNodesFirstLevel;
         for (int i = 0; i < restNodes; i++) {
             int computationTime = (int) Math.round(random.nextFloat()
@@ -276,7 +276,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
         }
 
-        //added edges to keep incomming edge count
+        // added edges to keep incomming edge count
         int nodesSize = nodes.size();
         for (int i = numberOfNodesFirstLevel; i < nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
