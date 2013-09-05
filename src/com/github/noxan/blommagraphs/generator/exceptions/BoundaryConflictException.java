@@ -1,13 +1,12 @@
 package com.github.noxan.blommagraphs.generator.exceptions;
 
+
 /**
- * Created with IntelliJ IDEA.
- * User: Freax
- * Date: 30.08.13
- * Time: 10:49
- * To change this template use File | Settings | File Templates.
+ * @author Freax
  */
 public class BoundaryConflictException extends GeneratorException {
+    private static final long serialVersionUID = 8554208185844382115L;
+
     public BoundaryConflictException() {
         super("Boundary conflict! Wrong Boundary...");
     }

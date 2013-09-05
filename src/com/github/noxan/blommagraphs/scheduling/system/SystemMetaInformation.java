@@ -11,8 +11,7 @@ public interface SystemMetaInformation {
     /**
      * Sets the count of processors of the system.
      * 
-     * @param processorCount
-     *            value for processor count to be set
+     * @param processorCount value for processor count to be set
      */
     public void setProcessorCount(int processorCount);
 

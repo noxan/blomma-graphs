@@ -4,6 +4,7 @@ package com.github.noxan.blommagraphs.graphs;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -53,16 +54,11 @@ public interface TaskGraph {
      * next node. Makes sure the task graph itself stays valid and returns the
      * created node.
      * 
-     * @param prevNode
-     *            previous node
-     * @param prevCommunicationTime
-     *            communication time to the previous node
-     * @param nextNode
-     *            next node
-     * @param nextCommunicationTime
-     *            communication time to the next node
-     * @param computationTime
-     *            computation time of the new node
+     * @param prevNode previous node
+     * @param prevCommunicationTime communication time to the previous node
+     * @param nextNode next node
+     * @param nextCommunicationTime communication time to the next node
+     * @param computationTime computation time of the new node
      * @return the created node
      */
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
@@ -78,19 +74,13 @@ public interface TaskGraph {
      * 
      * @see insertNode
      * 
-     * @param prevNode
-     *            previous node
-     * @param prevCommunicationTime
-     *            communication time to the previous node
-     * @param nextNode
-     *            next node
-     * @param nextCommunicationTime
-     *            communication time to the next node
-     * @param computationTime
-     *            computation time of the new node
-     * @param keepExistingEdge
-     *            if true the graph keeps and existing edge between next and
-     *            previous node
+     * @param prevNode previous node
+     * @param prevCommunicationTime communication time to the previous node
+     * @param nextNode next node
+     * @param nextCommunicationTime communication time to the next node
+     * @param computationTime computation time of the new node
+     * @param keepExistingEdge if true the graph keeps and existing edge between
+     *            next and previous node
      * @return the created node
      */
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
@@ -101,15 +91,12 @@ public interface TaskGraph {
      * Adds a new edge between the previous and next node with a given
      * communication time. Does not allow duplicate edges and loops.
      * 
-     * @param prevNode
-     *            previous node
-     * @param nextNode
-     *            next node
-     * @param communicationTime
-     *            communication time for the new edge
+     * @param prevNode previous node
+     * @param nextNode next node
+     * @param communicationTime communication time for the new edge
      * @return the created edge
-     * @throws DuplicateEdgeException
-     *             thrown if an edge between those two nodes already exists
+     * @throws DuplicateEdgeException thrown if an edge between those two nodes
+     *             already exists
      */
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
             int communicationTime) throws DuplicateEdgeException;
@@ -117,10 +104,8 @@ public interface TaskGraph {
     /**
      * Removes an edge between the two given nodes
      * 
-     * @param prevNode
-     *            previous node
-     * @param nextNode
-     *            next node
+     * @param prevNode previous node
+     * @param nextNode next node
      * @return the deleted edge
      */
     public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
@@ -128,12 +113,9 @@ public interface TaskGraph {
     /**
      * Modifies the communication time between two nodes.
      * 
-     * @param prevNode
-     *            previous node
-     * @param nextNode
-     *            next node
-     * @param newCommunicationTime
-     *            the new communication time
+     * @param prevNode previous node
+     * @param nextNode next node
+     * @param newCommunicationTime the new communication time
      */
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime);
 
@@ -154,13 +136,22 @@ public interface TaskGraph {
     /**
      * Checks if there is a edge between the two given nodes.
      * 
-     * @param prevNode
-     *            previous node
-     * @param nextNode
-     *            next node
+     * @param prevNode previous node
+     * @param nextNode next node
      * @return true if there is a edge between the two given nodes, else false
      */
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
+
+    /**
+     * returns an edge between two given nodes throws exception in case there is
+     * no edge between those nodes
+     * 
+     * @param prevNode previous node
+     * @param nextNode next node
+     * @return TaskGraphEdge if there is one, otherwise exception is thrown
+     */
+    public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
+            throws ContainsNoEdgeException;
 
     /**
      * Returns all the meta information related to this graph. Also contains the
