@@ -65,8 +65,6 @@ public class STGSerializer implements TaskGraphSerializer {
         List<STGNode> nodeList = getSTGNodeList(graphString);
         int nodeCount = nodeList.size() - 1;
 
-        System.out.println("Number of STG nodes: " + nodeList.size());
-
         // Set up map for organisazion of inserted TaskGraphNodes
         Map<Integer, TaskGraphNode> taskGraphNodeMap = new HashMap<Integer, TaskGraphNode>();
         taskGraphNodeMap.put(0, graph.getFirstNode());
@@ -76,7 +74,6 @@ public class STGSerializer implements TaskGraphSerializer {
         STGNode stgNode = null;
         for (int i = 1; i < nodeList.size() - 1; ++i) {
             stgNode = nodeList.get(i);
-            System.out.println("Iteration #" + i + "node :\n" + stgNode);
 
             TaskGraphNode taskGraphNode = graph.insertNode(taskGraphNodeMap.get(0), 0,
                     taskGraphNodeMap.get(nodeCount), 0, stgNode.computationcosts);
