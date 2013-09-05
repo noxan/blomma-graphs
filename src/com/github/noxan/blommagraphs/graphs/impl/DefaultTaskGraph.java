@@ -38,14 +38,12 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public int getEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getEdgeSet().size();
     }
 
     @Override
     public int getNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getNodeSet().size();
     }
 
     @Override
