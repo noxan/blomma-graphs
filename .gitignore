@@ -1,4 +1,5 @@
 /bin
+/build/
 /export/
 # from gh-pages branch
 /assets/
