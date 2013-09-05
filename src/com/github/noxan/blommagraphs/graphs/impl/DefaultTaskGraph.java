@@ -86,6 +86,15 @@ public class DefaultTaskGraph implements TaskGraph {
         return new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
     }
 
+    private TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+        for (TaskGraphEdge edge : getEdgeSet()) {
+            if (edge.getPrevNode() == prevNode && edge.getNextNode() == nextNode) {
+                return edge;
+            }
+        }
+        return null;
+    }
+
     @Override
     public TaskGraphEdge deleteEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         // TODO Auto-generated method stub
@@ -94,11 +103,9 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        for (TaskGraphEdge edge : getEdgeSet()) {
-            if (edge.getPrevNode() == prevNode && edge.getNextNode() == nextNode) {
-                ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
-                return;
-            }
+        TaskGraphEdge edge = findEdge(prevNode, nextNode);
+        if (edge != null) {
+            ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
         }
     }
 
