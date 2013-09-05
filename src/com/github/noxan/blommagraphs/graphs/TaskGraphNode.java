@@ -80,4 +80,18 @@ public interface TaskGraphNode extends Comparable<TaskGraphNode> {
      * @return computation time of the node
      */
     public int getComputationTime();
+
+    /**
+     * returns the number of nodes from the top
+     * 
+     * @return
+     */
+    public int getTopLayerCount();
+
+    /**
+     * returns the number of nodes from the bottom
+     * 
+     * @return
+     */
+    public int getBottomLayerCount();
 }
