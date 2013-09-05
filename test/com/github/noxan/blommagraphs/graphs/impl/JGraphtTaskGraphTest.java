@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import org.junit.runners.JUnit4;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
+
+import java.util.ArrayList;
 
 
 @RunWith(JUnit4.class)
@@ -138,5 +141,24 @@ public class JGraphtTaskGraphTest {
         }
         Assert.assertEquals(taskGraph.getNodeCount(), 6);
         Assert.assertEquals(taskGraph.getLayerCount(), 3);
+    }
+
+    @Test
+    public void testgetCriticalPath() {
+        ArrayList<TaskGraphNode> nodeList = new ArrayList<TaskGraphNode>();
+        for (int i = 0; i < 3; i++) {
+            TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 0, taskGraph.getLastNode(), 0, 1);
+            TaskGraphNode nextnode = taskGraph.insertNode(node, 1+i, taskGraph.getLastNode(), 0, 1);
+            nodeList.add(node);
+            nodeList.add(nextnode);
+        }
+        try {
+            taskGraph.insertEdge(nodeList.get(0), nodeList.get(3), 4);
+            taskGraph.insertEdge(nodeList.get(2), nodeList.get(5), 5);
+        } catch (DuplicateEdgeException e) {
+            e.printStackTrace();
+        }
+        ArrayList<TaskGraphEdge> expectedArray = new ArrayList<TaskGraphEdge>();
+        Assert.assertEquals(4 ,taskGraph.getCriticalPath().size());
     }
 }
