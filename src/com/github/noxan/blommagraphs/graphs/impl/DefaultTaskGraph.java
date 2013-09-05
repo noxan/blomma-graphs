@@ -178,6 +178,14 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Map<String, Object> getMetaInformation() {
+        metaInformation.setMetaInformation("nodeCount", getNodeCount());
+        metaInformation.setMetaInformation("dummyNodeCount", 2);
+        metaInformation.setMetaInformation("edgeCount", getEdgeCount());
+        metaInformation.setMetaInformation("dummyEdgeCount", getFirstNode().getNextEdgeCount()
+                + getLastNode().getPrevEdgeCount());
+        metaInformation.setMetaInformation("layerCount", getLayerCount());
+        metaInformation.setMetaInformation("edgesPerNodeRatio", getEdgeCount() / getNodeCount());
+
         return metaInformation.getMetaInformation();
     }
 }
