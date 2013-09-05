@@ -6,12 +6,15 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphEdge implements TaskGraphEdge {
+    private int communicationTime;
     private TaskGraphNode prevNode;
     private TaskGraphNode nextNode;
 
-    public DefaultTaskGraphEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
+    public DefaultTaskGraphEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
+            int communicationTime) {
         this.prevNode = prevNode;
         this.nextNode = nextNode;
+        this.communicationTime = communicationTime;
     }
 
     @Override
@@ -26,7 +29,6 @@ public class DefaultTaskGraphEdge implements TaskGraphEdge {
 
     @Override
     public int getCommunicationTime() {
-        // TODO Auto-generated method stub
-        return 0;
+        return communicationTime;
     }
 }
