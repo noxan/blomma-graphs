@@ -73,4 +73,16 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         // TODO Auto-generated method stub
         return 0;
     }
+
+    @Override
+    public int getTopLayerCount() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public int getBottomLayerCount() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }
