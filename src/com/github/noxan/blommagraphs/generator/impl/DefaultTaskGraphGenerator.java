@@ -13,6 +13,9 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.github.noxan.blommagraphs.graphs.meta.DefaultTaskGraphMetaInformation;
+import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
+
 
 /**
  * TaskgraphGenerator implementation with a random seed and parameters to restrict the randomly
@@ -298,5 +301,23 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
             }
         }
         return graph;
+    }
+
+    private TaskGraphMetaInformation getGeneratorMetaInformation() {
+        TaskGraphMetaInformation metaInformation = new DefaultTaskGraphMetaInformation();
+
+        metaInformation.setMetaInformation("seed", seed);
+        metaInformation.setMetaInformation("numberOfNodes", numberOfNodes);
+        metaInformation.setMetaInformation("minIncomingEdges", minIncomingEdges);
+        metaInformation.setMetaInformation("maxIncomingEdges", maxIncomingEdges);
+        metaInformation.setMetaInformation("spreadEdges", spreadEdges);
+        metaInformation.setMetaInformation("minComputationTime", minComputationTime);
+        metaInformation.setMetaInformation("maxComputationTime", maxComputationTime);
+        metaInformation.setMetaInformation("spreadComputationTime", spreadComputationTime);
+        metaInformation.setMetaInformation("minCommunicationTime", minCommunicationTime);
+        metaInformation.setMetaInformation("maxCommunicationTime", maxCommunicationTime);
+        metaInformation.setMetaInformation("spreadCommunicationTime", spreadCommunicationTime);
+
+        return metaInformation;
     }
 }
