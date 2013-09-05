@@ -59,7 +59,7 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public int getLayerCount() {
-        return firstNode.getBottomLayerCount();
+        return firstNode.getBottomLayerCount() + 1;
     }
 
     @Override
