@@ -18,6 +18,8 @@ public interface ScheduledTask {
 
     public int getCommunicationTime();
 
+    public int getComputationTime();
+
     public void setTaskGraphNode(TaskGraphNode node);
 
     public TaskGraphNode getTaskGraphNode();
