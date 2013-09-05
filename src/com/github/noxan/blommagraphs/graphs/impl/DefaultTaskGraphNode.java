@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -8,81 +10,149 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {
+    private int id;
+    private int computationTime;
+    private Set<TaskGraphEdge> prevEdges;
+    private Set<TaskGraphEdge> nextEdges;
+
+    public DefaultTaskGraphNode(int id, int computationTime) {
+        this.id = id;
+        this.computationTime = computationTime;
+        prevEdges = new HashSet<TaskGraphEdge>();
+        nextEdges = new HashSet<TaskGraphEdge>();
+    }
+
+    public DefaultTaskGraphNode(int id, TaskGraphNode prevNode, int prevCommunicationTime,
+            TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
+        this(id, computationTime);
+        addPrevNode(prevNode, prevCommunicationTime);
+        addNextNode(nextNode, nextCommunicationTime);
+    }
+
+    protected void addPrevNode(TaskGraphNode prevNode, int prevCommunicationTime) {
+        TaskGraphEdge prevEdge = new DefaultTaskGraphEdge(prevNode, this, prevCommunicationTime);
+        prevEdges.add(prevEdge);
+    }
+
+    protected void addNextNode(TaskGraphNode nextNode, int nextCommunicationTime) {
+        TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
+        nextEdges.add(nextEdge);
+    }
+
+    protected void removePrevNode(TaskGraphNode prevNode) {
+        Iterator<TaskGraphEdge> it = prevEdges.iterator();
+        while (it.hasNext()) {
+            if (it.next().getPrevNode() == prevNode) {
+                it.remove();
+            }
+        }
+    }
+
+    protected void removeNextNode(TaskGraphNode nextNode) {
+        Iterator<TaskGraphEdge> it = nextEdges.iterator();
+        while (it.hasNext()) {
+            if (it.next().getNextNode() == nextNode) {
+                it.remove();
+            }
+        }
+    }
+
     @Override
     public Set<TaskGraphNode> getPrevNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphNode> prevNodes = new HashSet<TaskGraphNode>();
+        for (TaskGraphEdge prevEdge : prevEdges) {
+            prevNodes.add(prevEdge.getPrevNode());
+        }
+        return prevNodes;
     }
 
     @Override
     public Set<TaskGraphNode> getNextNodes() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphNode> nextNodes = new HashSet<TaskGraphNode>();
+        for (TaskGraphEdge nextEdge : nextEdges) {
+            nextNodes.add(nextEdge.getNextNode());
+        }
+        return nextNodes;
     }
 
     @Override
     public int getPrevNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getPrevEdges().size();
     }
 
     @Override
     public int getNextNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getNextEdges().size();
     }
 
     @Override
     public Set<TaskGraphEdge> getPrevEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return prevEdges;
     }
 
     @Override
     public Set<TaskGraphEdge> getNextEdges() {
-        // TODO Auto-generated method stub
-        return null;
+        return nextEdges;
     }
 
     @Override
     public int getPrevEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return prevEdges.size();
     }
 
     @Override
     public int getNextEdgeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return nextEdges.size();
+    }
+
+    protected void setId(int id) {
+        this.id = id;
     }
 
     @Override
     public int getId() {
-        // TODO Auto-generated method stub
-        return 0;
+        return id;
     }
 
     @Override
     public int getComputationTime() {
-        // TODO Auto-generated method stub
-        return 0;
+        return computationTime;
     }
 
     @Override
-    public int compareTo(TaskGraphNode o) {
-        // TODO Auto-generated method stub
-        return 0;
+    public int compareTo(TaskGraphNode other) {
+        return this.getId() - other.getId();
     }
 
     @Override
     public int getTopLayerCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getTopLayerCount(this, 0);
+    }
+
+    private int getTopLayerCount(TaskGraphNode node, int layer) {
+        int maxLayer = layer;
+        for (TaskGraphNode prevNode : node.getPrevNodes()) {
+            int result = getTopLayerCount(prevNode, layer + 1);
+            if (maxLayer < result) {
+                maxLayer = result;
+            }
+        }
+        return maxLayer;
     }
 
     @Override
     public int getBottomLayerCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getBottomLayerCount(this, 0);
+    }
+
+    private int getBottomLayerCount(TaskGraphNode node, int layer) {
+        int maxLayer = layer;
+        for (TaskGraphNode nextNode : node.getNextNodes()) {
+            int result = getBottomLayerCount(nextNode, layer + 1);
+            if (maxLayer < result) {
+                maxLayer = result;
+            }
+        }
+        return maxLayer;
     }
 }
