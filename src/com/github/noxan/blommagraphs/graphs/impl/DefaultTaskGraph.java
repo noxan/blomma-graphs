@@ -16,6 +16,8 @@ public class DefaultTaskGraph implements TaskGraph {
     public DefaultTaskGraph() {
         firstNode = new DefaultTaskGraphNode(0, 1);
         lastNode = new DefaultTaskGraphNode(1, 1);
+        ((DefaultTaskGraphNode) firstNode).addNextNode(lastNode, 1);
+        ((DefaultTaskGraphNode) lastNode).addPrevNode(firstNode, 1);
     }
 
     @Override
