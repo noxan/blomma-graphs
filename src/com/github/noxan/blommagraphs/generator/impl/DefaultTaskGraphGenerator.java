@@ -306,6 +306,8 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     private TaskGraphMetaInformation getGeneratorMetaInformation() {
         TaskGraphMetaInformation metaInformation = new DefaultTaskGraphMetaInformation();
 
+        metaInformation.setMetaInformation("generatorName", "DefaultTaskGraphGenerator");
+        metaInformation.setMetaInformation("generatorVersion", "0.1.0");
         metaInformation.setMetaInformation("seed", seed);
         metaInformation.setMetaInformation("numberOfNodes", numberOfNodes);
         metaInformation.setMetaInformation("minIncomingEdges", minIncomingEdges);
