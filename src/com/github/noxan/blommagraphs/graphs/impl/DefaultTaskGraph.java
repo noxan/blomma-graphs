@@ -154,8 +154,7 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
-        // TODO Auto-generated method stub
-        return false;
+        return findEdge(prevNode, nextNode) != null;
     }
 
     @Override
