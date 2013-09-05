@@ -38,15 +38,18 @@ public class STGSerializer implements TaskGraphSerializer {
         stringBuffer.append(nodeList.size()).append("\n");
 
         // Iterate through nodes
+        STGNode stgNode = null;
         for (TaskGraphNode node : nodeList) {
-            stringBuffer.append(String.format("%d %d %d\n", node.getId(),
-                    node.getComputationTime(), node.getPrevNodeCount()));
-
-            // Iterate through dependencies of node
-            for (TaskGraphEdge edge : node.getPrevEdges()) {
-                stringBuffer.append(String.format("\t%d %d\n", edge.getPrevNode().getId(),
-                        edge.getCommunicationTime()));
-            }
+            stgNode = new STGNode(node);
+            // stgNode.setId(node.getId());
+            // stgNode.setComputationcosts(node.getComputationTime());
+            //
+            // // Iterate through dependencies of node
+            // for (TaskGraphEdge edge : node.getPrevEdges()) {
+            // stgNode.addDependency(edge.getPrevNode().getId(),
+            // edge.getCommunicationTime());
+            // }
+            stringBuffer.append(stgNode.toString());
         }
         stringBuffer.append("\n").append(generateMetaInfo(graph));
         return stringBuffer.toString();
