@@ -4,6 +4,7 @@
 package com.github.noxan.blommagraphs.serializer.impl;
 
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +49,9 @@ public class STGNode {
     }
 
     public void setId(int id) {
+        if (id < 0)
+            throw new InvalidParameterException("id cannot be negativ: " + id);
+
         this.id = id;
     }
 
@@ -56,6 +60,10 @@ public class STGNode {
     }
 
     public void setComputationcosts(int computationcosts) {
+        if (computationcosts <= 0)
+            throw new InvalidParameterException("computation costs must be greater 0: "
+                    + computationcosts);
+
         this.computationcosts = computationcosts;
     }
 
