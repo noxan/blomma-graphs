@@ -5,6 +5,7 @@ import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.exceptions.BoundaryConflictException;
 import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
+import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
@@ -298,5 +299,13 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
             }
         }
         return graph;
+    }
+
+    @Override
+    public TaskGraphGeneratorMetaInformation getMetaInformation() {
+        return new TaskGraphGeneratorMetaInformation(seed, numberOfNodes, minIncomingEdges,
+                maxIncomingEdges, spreadEdges, minComputationTime, maxComputationTime,
+                spreadComputationTime, minCommunicationTime, maxCommunicationTime,
+                spreadCommunicationTime);
     }
 }
