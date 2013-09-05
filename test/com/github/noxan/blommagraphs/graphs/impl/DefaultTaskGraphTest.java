@@ -40,6 +40,37 @@ public class DefaultTaskGraphTest {
     }
 
     @Test
+    public void testGetLayerCountWithEmptyGraph() {
+        Assert.assertEquals(taskGraph.getLayerCount(), 2);
+    }
+
+    @Test
+    public void testGetLayerCountWithSimpleGraph() {
+        taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
+        Assert.assertEquals(taskGraph.getLayerCount(), 3);
+    }
+
+    @Test
+    public void testGetLayerCountWithListLikeGraph() {
+        TaskGraphNode prevNode = taskGraph.getFirstNode();
+        for (int i = 0; i < 10; i++) {
+            prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+        }
+        Assert.assertEquals(taskGraph.getLayerCount(), 12);
+    }
+
+    @Test
+    public void testGetLayerCountWithMultipleListLikeGraphs() {
+        for (int j = 0; j < 4; j++) {
+            TaskGraphNode prevNode = taskGraph.getFirstNode();
+            for (int i = 0; i < 10; i++) {
+                prevNode = taskGraph.insertNode(prevNode, 1, taskGraph.getLastNode(), 1, 1);
+            }
+        }
+        Assert.assertEquals(taskGraph.getLayerCount(), 12);
+    }
+
+    @Test
     public void testInsertNodeInEmptyGraph() {
         TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 1,
                 taskGraph.getLastNode(), 1, 1);
