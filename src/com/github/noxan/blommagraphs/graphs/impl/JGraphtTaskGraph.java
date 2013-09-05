@@ -21,10 +21,6 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
-    /**
-     * global auxiliary variable for the getLayerCount function
-     */
-    private int layer;
 
     public JGraphtTaskGraph() {
         this(new DefaultTaskGraphMetaInformation());
