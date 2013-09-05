@@ -4,6 +4,7 @@ package com.github.noxan.blommagraphs.graphs;
 import java.util.Map;
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -161,6 +162,19 @@ public interface TaskGraph {
      * @return true if there is a edge between the two given nodes, else false
      */
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
+
+    /**
+     * returns an edge between two given nodes throws exception in case there is
+     * no edge between those nodes
+     * 
+     * @param prevNode
+     *            previous node
+     * @param nextNode
+     *            next node
+     * @return TaskGraphEdge if there is one, otherwise exception is thrown
+     */
+    public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
+            throws ContainsNoEdgeException;
 
     /**
      * Returns all the meta information related to this graph. Also contains the
