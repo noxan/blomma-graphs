@@ -37,14 +37,12 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
 
     @Override
     public int getPrevNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getPrevEdges().size();
     }
 
     @Override
     public int getNextNodeCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        return getNextEdges().size();
     }
 
     @Override
