@@ -94,8 +94,12 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public void modifyEdge(TaskGraphNode prevNode, TaskGraphNode nextNode, int newCommunicationTime) {
-        // TODO Auto-generated method stub
-
+        for (TaskGraphEdge edge : getEdgeSet()) {
+            if (edge.getPrevNode() == prevNode && edge.getNextNode() == nextNode) {
+                ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
+                return;
+            }
+        }
     }
 
     @Override

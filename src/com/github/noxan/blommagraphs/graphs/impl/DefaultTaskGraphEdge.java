@@ -31,4 +31,8 @@ public class DefaultTaskGraphEdge implements TaskGraphEdge {
     public int getCommunicationTime() {
         return communicationTime;
     }
+
+    protected void setCommunicationTime(int newCommunicationTime) {
+        this.communicationTime = newCommunicationTime;
+    }
 }
