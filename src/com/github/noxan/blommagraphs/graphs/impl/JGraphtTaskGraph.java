@@ -1,11 +1,6 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
-import java.util.Map;
-import java.util.Set;
-
-import org.jgrapht.graph.SimpleDirectedWeightedGraph;
-
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -13,6 +8,12 @@ import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
+import org.jgrapht.ggraph.SimpleDirectedWeightedGraph;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
@@ -22,6 +23,13 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
+
+    /**
+     * global auxiliary variable for the layerCake function
+     */
+    private int layer;
+    private int cp_time;
+    private ArrayList<TaskGraphEdge> cp_edgeList;
 
     public JGraphtTaskGraph() {
         this(new DefaultTaskGraphMetaInformation());
@@ -67,6 +75,31 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public int getNodeCount() {
         return graph.vertexSet().size();
+    }
+
+    @Override
+    public List<TaskGraphEdge> getCriticalPath() {
+        return criticalPath(this.firstNode, 0);
+    }
+
+    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time) {
+        int maxTime = time + node.getComputationTime();
+        ArrayList<TaskGraphEdge> edgeList = new ArrayList<TaskGraphEdge>();
+
+        ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
+
+        taskGraphEdge.addAll(graph.outgoingEdgesOf(node));
+        for (int i = 0; i < taskGraphEdge.size(); i++) {
+            edgeList.add(taskGraphEdge.get(i));
+            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime +
+                    taskGraphEdge.get(i).getCommunicationTime());
+
+            if (maxTime > this.cp_time) {
+                this.cp_time = maxTime;
+                this.cp_edgeList = edgeList;
+            }
+        }
+        return new ArrayList<TaskGraphEdge>(this.cp_edgeList);
     }
 
     @Override

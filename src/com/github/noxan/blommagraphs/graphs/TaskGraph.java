@@ -8,6 +8,8 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
+import java.util.List;
+
 
 /**
  * Generic interface for the task graph data structure.
