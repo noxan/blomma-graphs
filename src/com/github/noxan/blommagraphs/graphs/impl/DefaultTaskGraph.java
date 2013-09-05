@@ -80,8 +80,10 @@ public class DefaultTaskGraph implements TaskGraph {
     @Override
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
             int communicationTime) {
-        // TODO Auto-generated method stub
-        return null;
+        ((DefaultTaskGraphNode) prevNode).addNextNode(nextNode, communicationTime);
+        ((DefaultTaskGraphNode) nextNode).addPrevNode(prevNode, communicationTime);
+
+        return new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
     }
 
     @Override
