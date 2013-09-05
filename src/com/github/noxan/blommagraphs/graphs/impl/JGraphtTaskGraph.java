@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Set;
 
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
@@ -173,7 +174,8 @@ public class JGraphtTaskGraph implements TaskGraph {
     }
 
     @Override
-    public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation() {
-        return generatorMetaInformation;
+    public Map<String, Object> getMetaInformation() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

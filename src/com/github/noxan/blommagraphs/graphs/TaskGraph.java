@@ -1,9 +1,9 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
+import java.util.Map;
 import java.util.Set;
 
-import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -163,10 +163,11 @@ public interface TaskGraph {
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
 
     /**
-     * Returns the meta information of the generator used to create this graph.
-     * If no generator has been used it returns null.
+     * Returns all the meta information related to this graph. Also contains the
+     * generator meta information if available. The returned map should be
+     * considered as immutable.
      * 
-     * @return generator meta information or null
+     * @return meta information related to this graph
      */
-    public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation();
+    public Map<String, Object> getMetaInformation();
 }
