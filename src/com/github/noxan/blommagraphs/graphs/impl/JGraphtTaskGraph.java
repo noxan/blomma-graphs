@@ -14,6 +14,8 @@ import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
+    private TaskGraphGeneratorMetaInformation generatorMetaInformation;
+
     private SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph;
 
     private TaskGraphNode firstNode;
@@ -24,6 +26,12 @@ public class JGraphtTaskGraph implements TaskGraph {
     private int layer;
 
     public JGraphtTaskGraph() {
+        this(null);
+    }
+
+    public JGraphtTaskGraph(TaskGraphGeneratorMetaInformation generatorMetaInformation) {
+        this.generatorMetaInformation = generatorMetaInformation;
+
         graph = new SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge>(
                 JGraphtTaskGraphEdge.class);
 
@@ -166,7 +174,6 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation() {
-        // TODO Auto-generated method stub
-        return null;
+        return generatorMetaInformation;
     }
 }
