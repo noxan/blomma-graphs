@@ -2,7 +2,6 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -99,25 +98,18 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
+        return getEdgeSet(firstNode);
+    }
+
+    private Set<TaskGraphEdge> getEdgeSet(TaskGraphNode node) {
         Set<TaskGraphEdge> edgeSet = new HashSet<TaskGraphEdge>();
-        Set<TaskGraphEdge> newEdgeSet = new HashSet<TaskGraphEdge>();
 
-        newEdgeSet.addAll(firstNode.getNextEdges());
-
-        while (newEdgeSet.size() > 0) {
-            Set<TaskGraphEdge> tempEdgeSet = new HashSet<TaskGraphEdge>();
-            Iterator<TaskGraphEdge> it = newEdgeSet.iterator();
-
-            while (it.hasNext()) {
-                TaskGraphEdge edge = it.next();
-                if (edge.getNextNode() != lastNode) {
-                    tempEdgeSet.addAll(edge.getNextNode().getNextEdges());
-                }
-                edgeSet.add(edge);
-                it.remove();
+        edgeSet.addAll(node.getNextEdges());
+        for (TaskGraphEdge nextEdge : node.getNextEdges()) {
+            TaskGraphNode nextNode = nextEdge.getNextNode();
+            if (nextNode != lastNode) {
+                edgeSet.addAll(getEdgeSet(nextNode));
             }
-
-            newEdgeSet.addAll(tempEdgeSet);
         }
 
         return edgeSet;
