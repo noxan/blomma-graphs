@@ -176,6 +176,11 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public Map<String, Object> getMetaInformation() {
+        metaInformation.setMetaInformation("nodeCount", getNodeCount());
+        metaInformation.setMetaInformation("edgeCount", getEdgeCount());
+        metaInformation.setMetaInformation("layerCount", getLayerCount());
+        metaInformation.setMetaInformation("edgesPerNodeRatio", getEdgeCount() / getNodeCount());
+
         return metaInformation.getMetaInformation();
     }
 }
