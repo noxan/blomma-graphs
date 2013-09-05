@@ -26,7 +26,7 @@ public class DefaultScheduledTaskListSerializerTest {
 
     @Before
     public void setUp() throws Exception {
-        scheduledTaskList = new ArrayList<>();
+        scheduledTaskList = new ArrayList<ScheduledTask>();
         serializer = new DefaultScheduledTaskListSerializer();
         graph = new JGraphtTaskGraph();
         TaskGraphNode node1 = graph.insertNode(graph.getFirstNode(), 1, graph.getLastNode(), 1, 11);
