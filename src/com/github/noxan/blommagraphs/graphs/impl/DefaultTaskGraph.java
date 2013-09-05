@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -87,8 +89,20 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
-        // TODO Auto-generated method stub
-        return null;
+        Set<TaskGraphEdge> edgeSet = new HashSet<TaskGraphEdge>();
+
+        edgeSet.addAll(firstNode.getNextEdges());
+
+        Iterator<TaskGraphEdge> it = edgeSet.iterator();
+
+        while (it.hasNext()) {
+            TaskGraphEdge edge = it.next();
+            if (edge.getNextNode() != lastNode) {
+                edgeSet.addAll(edge.getNextNode().getNextEdges());
+            }
+        }
+
+        return edgeSet;
     }
 
     @Override
