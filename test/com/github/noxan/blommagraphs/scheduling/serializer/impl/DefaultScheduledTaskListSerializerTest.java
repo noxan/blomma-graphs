@@ -4,9 +4,8 @@ package com.github.noxan.blommagraphs.scheduling.serializer.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
