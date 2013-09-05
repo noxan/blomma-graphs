@@ -3,6 +3,7 @@ package com.github.noxan.blommagraphs.graphs;
 
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -160,4 +161,12 @@ public interface TaskGraph {
      * @return true if there is a edge between the two given nodes, else false
      */
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
+
+    /**
+     * Returns the meta information of the generator used to create this graph.
+     * If no generator has been used it returns null.
+     * 
+     * @return generator meta information or null
+     */
+    public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation();
 }

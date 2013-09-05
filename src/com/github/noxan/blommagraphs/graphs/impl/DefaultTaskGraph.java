@@ -3,6 +3,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -89,5 +90,11 @@ public class DefaultTaskGraph implements TaskGraph {
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
+import com.github.noxan.blommagraphs.generator.meta.TaskGraphGeneratorMetaInformation;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -161,5 +162,11 @@ public class JGraphtTaskGraph implements TaskGraph {
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
         return graph.containsEdge(prevNode, nextNode);
+    }
+
+    @Override
+    public TaskGraphGeneratorMetaInformation getGeneratorMetaInformation() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
