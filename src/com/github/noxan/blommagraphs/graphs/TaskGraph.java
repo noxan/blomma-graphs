@@ -1,14 +1,12 @@
 package com.github.noxan.blommagraphs.graphs;
 
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-
-import java.util.List;
 
 
 /**
