@@ -70,12 +70,25 @@ public class Chromosome {
         // schedule current task node
         unscheduledNodes.remove(taskNode);
 
+        System.out.println(taskNode.getId());
+
+        int startTime = 0;
+        int processorId = 0;
+        int communicationTime = 0;
+
+        scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId, communicationTime,
+                taskNode));
+
         // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
+
+        System.out.println("readyNodes: ");
+        System.out.println(readyList);
 
         Iterator<TaskGraphNode> it = readyList.iterator();
         while (it.hasNext()) {
             TaskGraphNode nextTaskNode = it.next();
+            System.out.println("nextNode: " + nextTaskNode.getId());
             if (unscheduledNodes.contains(nextTaskNode)) {
                 decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
             }
