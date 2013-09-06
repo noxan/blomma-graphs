@@ -5,11 +5,16 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class LASTNode {
+    public enum Status {
+        FRONTIER, SCHEDULED
+    }
+
     private TaskGraphNode taskGraphNode;
     private float dNode;
     private int dEdge;
     private float strength;
     private Status status;
+    private int cpuId;
 
     public LASTNode(TaskGraphNode taskGraphNode) {
         this.taskGraphNode = taskGraphNode;
