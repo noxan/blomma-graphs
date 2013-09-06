@@ -18,4 +18,13 @@ public class Chromosome {
     public void addTaskToCPU(int cpu, int taskId) {
         genes.get(cpu).add(taskId);
     }
+
+    public int getProcessorForTask(int taskId) {
+        for (int processorId = 0; processorId < genes.size(); processorId++) {
+            if (genes.get(processorId).contains(taskId)) {
+                return processorId;
+            }
+        }
+        return -1; // TODO: should not happen but not nice
+    }
 }
