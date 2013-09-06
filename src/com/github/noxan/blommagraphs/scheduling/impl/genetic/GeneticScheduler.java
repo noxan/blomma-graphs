@@ -53,6 +53,6 @@ public class GeneticScheduler implements Scheduler {
         initialize();
 
         // TODO Auto-generated method stub
-        return null;
+        return initialPopulation;
     }
 }
