@@ -21,10 +21,10 @@ public class Chromosome {
 
     private int numberOfProcessors;
 
-    public Chromosome(int numberOfCPUs) {
+    public Chromosome(int numberOfProcessors) {
         this.numberOfProcessors = numberOfProcessors;
         genes = new ArrayList<List<TaskGraphNode>>();
-        for (int i = 0; i < numberOfCPUs; i++) {
+        for (int i = 0; i < numberOfProcessors; i++) {
             genes.add(new ArrayList<TaskGraphNode>());
         }
     }
