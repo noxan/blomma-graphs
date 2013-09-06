@@ -69,6 +69,12 @@
         </fileset>
       </batchtest>
     </junit>
+    <junitreport todir="${junit.dir}">
+      <fileset dir="${junit.dir}">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report todir="${junit.dir}" format="frames"/>
+    </junitreport>
   </target>
 
   <target name="clean-build" depends="clean,package"/>
