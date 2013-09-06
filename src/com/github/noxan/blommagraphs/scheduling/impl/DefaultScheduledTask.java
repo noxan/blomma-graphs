@@ -11,6 +11,16 @@ public class DefaultScheduledTask implements ScheduledTask {
     private int communicationTime;
     private TaskGraphNode node;
 
+    public DefaultScheduledTask() {
+    }
+
+    public DefaultScheduledTask(int startTime, int cpuId, int communicationTime, TaskGraphNode node) {
+        setStartTime(startTime);
+        setCpuId(cpuId);
+        setCommunicationTime(communicationTime);
+        setTaskGraphNode(node);
+    }
+
     @Override
     public int getStartTime() {
         return startTime;
