@@ -70,8 +70,10 @@ public class Chromosome {
 
     private void decode(TaskGraphNode taskNode, TaskGraph taskGraph,
             ScheduledTaskList scheduledTaskList, Set<TaskGraphNode> unscheduledNodes) {
+        // schedule current task node
         unscheduledNodes.remove(taskNode);
 
+        // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
     }
 
