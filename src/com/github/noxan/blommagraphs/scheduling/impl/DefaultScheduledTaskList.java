@@ -37,6 +37,17 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
+    public boolean containsTask(int taskId) {
+        Iterator<ScheduledTask> it = iterator();
+        while (it.hasNext()) {
+            if (it.next().getTaskId() == taskId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public ScheduledTask getLastScheduledTaskOnProcessor(int processorId) {
         ScheduledTask lastTask = null;
 

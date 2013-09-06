@@ -12,4 +12,6 @@ public interface ScheduledTaskList extends List<ScheduledTask> {
     public ScheduledTask getLastScheduledTaskOnProcessor(int processorId);
 
     public int getFinishTime();
+
+    public boolean containsTask(int taskId);
 }
