@@ -72,8 +72,18 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
      * 
      * @param seed
      */
+    @Override
     public void setSeed(long seed) {
         this.seed = seed;
+    }
+
+    /**
+     * generates a new seed to get a new graph with the same values
+     */
+    @Override
+    public void generateSeed() {
+        Random random = new Random();
+        this.setSeed(random.nextLong());
     }
 
     /**

@@ -62,6 +62,7 @@ public class Main {
         TaskGraphSerializer serializer = new STGSerializer();
 
         for (int i = 0; i < numberOfGraphs; i++) {
+            taskGraphGenerator.generateSeed();
             TaskGraph taskGraph = taskGraphGenerator.generator();
 
             String pathname = String.format("%s/graph%d.stg", folderName, i);

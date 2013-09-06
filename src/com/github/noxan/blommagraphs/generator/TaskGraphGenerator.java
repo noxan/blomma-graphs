@@ -8,6 +8,10 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 
 public interface TaskGraphGenerator {
 
+    public void setSeed(long seed);
+
+    public void generateSeed();
+
     public void setNumberOfNodes(int numberOfNodes) throws BoundaryConflictException,
             OutOfRangeException;
 
