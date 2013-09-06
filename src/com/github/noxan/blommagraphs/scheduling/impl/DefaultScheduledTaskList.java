@@ -13,6 +13,17 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implements ScheduledTaskList {
     private static final long serialVersionUID = -3333940630170033338L;
 
+    private int processorCount;
+
+    public DefaultScheduledTaskList(int processorCount) {
+        this.processorCount = processorCount;
+    }
+
+    @Override
+    public int getProcessorCount() {
+        return processorCount;
+    }
+
     @Override
     public boolean isTaskOnProcessor(int processorId, int taskId) {
         Iterator<ScheduledTask> it = iterator();
@@ -39,6 +50,23 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         }
 
         return lastTask;
+    }
+
+    @Override
+    public int getFinishTime() {
+        int maxFinishTime = -1;
+
+        for (int processorId = 0; processorId < processorCount; processorId++) {
+            ScheduledTask scheduledTask = getLastScheduledTaskOnProcessor(processorId);
+            if (scheduledTask != null) {
+                int finishTime = scheduledTask.getFinishTime();
+                if (finishTime > maxFinishTime) {
+                    maxFinishTime = finishTime;
+                }
+            }
+        }
+
+        return maxFinishTime;
     }
 
     @Override
