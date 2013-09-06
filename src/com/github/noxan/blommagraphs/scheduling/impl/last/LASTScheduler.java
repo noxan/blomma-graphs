@@ -13,7 +13,7 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class LASTScheduler implements Scheduler {
-    private float threshold;
+    private float threshold = 0.65f;
     private SystemMetaInformation systemInformation;
 
     private List<List<LASTNode>> groups;
