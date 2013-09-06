@@ -77,11 +77,13 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-        //return criticalPath1(this.firstNode, 0, new ArrayList<TaskGraphEdge>()).getKey();
+        // return criticalPath1(this.firstNode, 0, new
+        // ArrayList<TaskGraphEdge>()).getKey();
         return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>());
     }
 
-    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time, ArrayList<TaskGraphEdge> currentEdgeList) {
+    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time,
+            ArrayList<TaskGraphEdge> currentEdgeList) {
         int maxTime = time + node.getComputationTime();
 
         ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
@@ -89,12 +91,12 @@ public class JGraphtTaskGraph implements TaskGraph {
         taskGraphEdge.addAll(graph.outgoingEdgesOf(node));
         for (int i = 0; i < taskGraphEdge.size(); i++) {
             ArrayList<TaskGraphEdge> currentEdgeListCopy = new ArrayList<TaskGraphEdge>();
-            for(int j = 0; j < currentEdgeList.size(); j++){
+            for (int j = 0; j < currentEdgeList.size(); j++) {
                 currentEdgeListCopy.add(currentEdgeList.get(j));
             }
             currentEdgeListCopy.add(taskGraphEdge.get(i));
-            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime +
-                    taskGraphEdge.get(i).getCommunicationTime(), currentEdgeListCopy);
+            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime
+                    + taskGraphEdge.get(i).getCommunicationTime(), currentEdgeListCopy);
 
             if (maxTime > this.cp_time) {
                 this.cp_time = maxTime;
@@ -107,22 +109,23 @@ public class JGraphtTaskGraph implements TaskGraph {
     @SuppressWarnings("unused")
     private Tuple<ArrayList<TaskGraphEdge>, Integer> criticalPath1(TaskGraphNode node,
             int currentTime, ArrayList<TaskGraphEdge> currentEdgePath) {
-        //if node is last node return path and time
+        // if node is last node return path and time
         if (node.equals(this.getLastNode())) {
             return new Tuple<ArrayList<TaskGraphEdge>, Integer>(currentEdgePath, currentTime);
         }
 
-        //List of out going edges of this node
+        // List of out going edges of this node
         ArrayList<TaskGraphEdge> outgoingEdges = new ArrayList<TaskGraphEdge>();
         outgoingEdges.addAll(graph.outgoingEdgesOf(node));
 
-        //List to compare paths by cost
+        // List to compare paths by cost
         ArrayList<Tuple<ArrayList<TaskGraphEdge>, Integer>> currentPathList = new ArrayList<Tuple<ArrayList<TaskGraphEdge>, Integer>>();
 
-        //current time till this node
+        // current time till this node
         currentTime += node.getComputationTime();
 
-        //go through the list of outgoing edges and call this function again for every edge
+        // go through the list of outgoing edges and call this function again
+        // for every edge
         for (int i = 0; i < node.getNextEdgeCount(); i++) {
             ArrayList<TaskGraphEdge> nextEdgePath = new ArrayList<TaskGraphEdge>();
             for (TaskGraphEdge edge : currentEdgePath) {
@@ -135,7 +138,8 @@ public class JGraphtTaskGraph implements TaskGraph {
             currentPathList.add(path);
         }
 
-        //compare all returned paths and return the one which takes the most time
+        // compare all returned paths and return the one which takes the most
+        // time
         int max = 0;
         Tuple<ArrayList<TaskGraphEdge>, Integer> currentMaxPair = null;
         for (Tuple<ArrayList<TaskGraphEdge>, Integer> pair : currentPathList) {
@@ -217,6 +221,7 @@ public class JGraphtTaskGraph implements TaskGraph {
         return graph.containsEdge(prevNode, nextNode);
     }
 
+    @Override
     public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
             throws ContainsNoEdgeException {
         if (graph.getEdge(prevNode, nextNode).equals(null)) {
