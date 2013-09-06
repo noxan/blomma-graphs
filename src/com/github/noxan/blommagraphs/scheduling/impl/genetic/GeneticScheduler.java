@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic;
 
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -36,6 +37,17 @@ public class GeneticScheduler implements Scheduler {
         Collections.sort(initialPopulation);
         for (ScheduledTask task : initialPopulation) {
             scheduledChromosome.addTaskToCPU(task.getCpuId(), task.getTaskId());
+        }
+
+        for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
+            Chromosome processorChromosome = new Chromosome(metaInformation.getProcessorCount());
+
+            Collections.shuffle(initialPopulation);
+
+            Iterator<ScheduledTask> it = initialPopulation.iterator();
+            while (it.hasNext()) {
+                processorChromosome.addTaskToCPU(processorId, it.next().getTaskId());
+            }
         }
     }
 
