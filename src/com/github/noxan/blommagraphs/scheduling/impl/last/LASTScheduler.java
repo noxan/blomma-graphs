@@ -76,7 +76,22 @@ public class LASTScheduler implements Scheduler {
      * @return 1 if the edge is defined or 0 if it's not defined.
      */
     private int calcDEdge(LASTNode node1, LASTNode node2) {
-        return 0;
+        // saves if node1 or node2 is scheduled.
+        int node1scheduled = 0;
+        int node2scheduled = 0;
+
+        // Iterate through groups and check if node1 or node2 is included.
+        for (List<LASTNode> group : groups) {
+            if (group.contains(node1)) {
+                node1scheduled = 1;
+            }
+            if (group.contains(node2)) {
+                node2scheduled = 1;
+            }
+        }
+
+        // If either node1 or node2 is scheduled, return 1, else return 0.
+        return node1scheduled ^ node2scheduled;
     }
 
     /**
