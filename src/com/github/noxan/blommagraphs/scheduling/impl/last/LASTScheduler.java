@@ -15,6 +15,7 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 public class LASTScheduler implements Scheduler {
     private float threshold = 0.65f;
     private SystemMetaInformation systemInformation;
+    private TaskGraph taskGraph;
 
     private List<List<LASTNode>> groups;
     private List<List<LASTNode>> frontiers;
@@ -40,6 +41,7 @@ public class LASTScheduler implements Scheduler {
      */
     private void initialize(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         systemInformation = systemMetaInformation;
+        taskGraph = graph;
         int processorCount = systemMetaInformation.getProcessorCount();
 
         groups = new ArrayList<List<LASTNode>>();
