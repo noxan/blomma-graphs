@@ -1,7 +1,9 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -14,12 +16,37 @@ public class LASTScheduler implements Scheduler {
     private float threshold;
     private SystemMetaInformation systemInformation;
 
+    private List<List<LASTNode>> groups;
+    private List<List<LASTNode>> frontiers;
+    private Set<TaskGraphNode> nodeSet;
+
     @Override
     public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
-        systemInformation = systemMetaInformation;
-
+        initialize(graph, systemMetaInformation);
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * Takes a TaskGraph and SystemMetaInformation and initializes the
+     * scheduler.
+     * 
+     * @param graph
+     * @param systemMetaInformation
+     */
+    private void initialize(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
+        systemInformation = systemMetaInformation;
+        int processorCount = systemMetaInformation.getProcessorCount();
+
+        groups = new ArrayList<List<LASTNode>>();
+        frontiers = new ArrayList<List<LASTNode>>();
+
+        for (int i = 0; i < processorCount; ++i) {
+            groups.add(new ArrayList<LASTNode>());
+            frontiers.add(new ArrayList<LASTNode>());
+        }
+
+        nodeSet = graph.getNodeSet();
     }
 
     /**
