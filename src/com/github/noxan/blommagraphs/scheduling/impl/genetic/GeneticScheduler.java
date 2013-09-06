@@ -2,8 +2,10 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic;
 
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -19,6 +21,8 @@ public class GeneticScheduler implements Scheduler {
     private Scheduler initialScheduler;
     private List<ScheduledTask> initialTaskSchedule;
 
+    private Set<Chromosome> population;
+
     public GeneticScheduler(Scheduler initialScheduler) {
         this.initialScheduler = initialScheduler;
     }
@@ -32,12 +36,16 @@ public class GeneticScheduler implements Scheduler {
             initialTaskSchedule = initialScheduler.schedule(metaInformation, taskGraph);
         }
 
+        population = new HashSet<Chromosome>();
+
         Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount());
 
         Collections.sort(initialTaskSchedule);
         for (ScheduledTask task : initialTaskSchedule) {
             scheduledChromosome.addTaskToCPU(task.getCpuId(), task.getTaskId());
         }
+
+        population.add(scheduledChromosome);
 
         for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
             Chromosome processorChromosome = new Chromosome(metaInformation.getProcessorCount());
@@ -48,6 +56,8 @@ public class GeneticScheduler implements Scheduler {
             while (it.hasNext()) {
                 processorChromosome.addTaskToCPU(processorId, it.next().getTaskId());
             }
+
+            population.add(processorChromosome);
         }
     }
 
