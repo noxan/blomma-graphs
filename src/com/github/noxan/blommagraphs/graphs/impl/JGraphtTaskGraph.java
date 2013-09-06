@@ -25,10 +25,6 @@ public class JGraphtTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
-    /**
-     * global auxiliary variable for the layerCake function
-     */
-    private int layer;
     private int cp_time;
     private ArrayList<TaskGraphEdge> cp_edgeList;
 
