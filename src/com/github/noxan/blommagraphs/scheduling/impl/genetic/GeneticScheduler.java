@@ -17,34 +17,34 @@ public class GeneticScheduler implements Scheduler {
     private TaskGraph taskGraph;
 
     private Scheduler initialScheduler;
-    private List<ScheduledTask> initialPopulation;
+    private List<ScheduledTask> initialTaskSchedule;
 
     public GeneticScheduler(Scheduler initialScheduler) {
         this.initialScheduler = initialScheduler;
     }
 
-    public GeneticScheduler(List<ScheduledTask> initialPopulation) {
-        this.initialPopulation = initialPopulation;
+    public GeneticScheduler(List<ScheduledTask> initialTaskSchedule) {
+        this.initialTaskSchedule = initialTaskSchedule;
     }
 
     private void initialize() {
-        if (initialPopulation == null) {
-            initialPopulation = initialScheduler.schedule(metaInformation, taskGraph);
+        if (initialTaskSchedule == null) {
+            initialTaskSchedule = initialScheduler.schedule(metaInformation, taskGraph);
         }
 
         Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount());
 
-        Collections.sort(initialPopulation);
-        for (ScheduledTask task : initialPopulation) {
+        Collections.sort(initialTaskSchedule);
+        for (ScheduledTask task : initialTaskSchedule) {
             scheduledChromosome.addTaskToCPU(task.getCpuId(), task.getTaskId());
         }
 
         for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
             Chromosome processorChromosome = new Chromosome(metaInformation.getProcessorCount());
 
-            Collections.shuffle(initialPopulation);
+            Collections.shuffle(initialTaskSchedule);
 
-            Iterator<ScheduledTask> it = initialPopulation.iterator();
+            Iterator<ScheduledTask> it = initialTaskSchedule.iterator();
             while (it.hasNext()) {
                 processorChromosome.addTaskToCPU(processorId, it.next().getTaskId());
             }
@@ -59,6 +59,6 @@ public class GeneticScheduler implements Scheduler {
         initialize();
 
         // TODO Auto-generated method stub
-        return initialPopulation;
+        return initialTaskSchedule;
     }
 }
