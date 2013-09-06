@@ -6,6 +6,7 @@ import java.util.List;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class GeneticScheduler implements Scheduler {
@@ -17,8 +18,7 @@ public class GeneticScheduler implements Scheduler {
     }
 
     @Override
-    public List<ScheduledTask> schedule(TaskGraph graph) {
-        initialPopulation = initialScheduler.schedule(graph);
+    public List<ScheduledTask> schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
 
         // TODO Auto-generated method stub
         return null;
