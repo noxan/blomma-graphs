@@ -56,7 +56,11 @@ public class LASTNode {
         this.status = status;
     }
 
-    public enum Status {
-        FRONTIER, SCHEDULED
+    public int getCpuId() {
+        return cpuId;
+    }
+
+    public void setCpuId(int cpuId) {
+        this.cpuId = cpuId;
     }
 }
