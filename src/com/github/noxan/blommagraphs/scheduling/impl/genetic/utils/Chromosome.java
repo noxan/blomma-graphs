@@ -67,10 +67,13 @@ public class Chromosome {
 
     private void decode(TaskGraphNode taskNode, TaskGraph taskGraph,
             ScheduledTaskList scheduledTaskList, Set<TaskGraphNode> unscheduledNodes) {
-        // schedule current task node
-        unscheduledNodes.remove(taskNode);
 
-        System.out.println(taskNode.getId());
+        if (!unscheduledNodes.remove(taskNode)) {
+            return;
+        }
+
+        // schedule current task node
+        System.out.print(taskNode.getId() + " - ");
 
         int startTime = 0;
         int processorId = 0;
@@ -82,20 +85,20 @@ public class Chromosome {
         // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
 
-        System.out.println("readyNodes: " + readyList);
+        System.out.print("readyNodes: " + readyList + " - ");
 
         Iterator<TaskGraphNode> it = readyList.iterator();
         while (it.hasNext()) {
             TaskGraphNode nextTaskNode = it.next();
             System.out.println("nextNode: " + nextTaskNode.getId());
-            if (unscheduledNodes.contains(nextTaskNode)) {
-                decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
-            }
+            decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
         }
     }
 
     public ScheduledTaskList decode(TaskGraph taskGraph) {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
+
+        System.out.println("[ Start decoding... ]");
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
