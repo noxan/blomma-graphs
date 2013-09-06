@@ -42,7 +42,7 @@ public class GeneticScheduler implements Scheduler {
 
         Collections.sort(initialTaskSchedule);
         for (ScheduledTask task : initialTaskSchedule) {
-            scheduledChromosome.addTaskToProcessor(task.getCpuId(), task.getTaskId());
+            scheduledChromosome.addTaskToProcessor(task.getCpuId(), task.getTaskGraphNode());
         }
 
         population.add(scheduledChromosome);
@@ -54,7 +54,7 @@ public class GeneticScheduler implements Scheduler {
 
             Iterator<ScheduledTask> it = initialTaskSchedule.iterator();
             while (it.hasNext()) {
-                processorChromosome.addTaskToProcessor(processorId, it.next().getTaskId());
+                processorChromosome.addTaskToProcessor(processorId, it.next().getTaskGraphNode());
             }
 
             population.add(processorChromosome);

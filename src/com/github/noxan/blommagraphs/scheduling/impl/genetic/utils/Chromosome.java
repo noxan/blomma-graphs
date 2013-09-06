@@ -5,26 +5,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 
 
 public class Chromosome {
-    private List<List<Integer>> genes;
+    private List<List<TaskGraphNode>> genes;
 
     public Chromosome(int numberOfCPUs) {
-        genes = new ArrayList<List<Integer>>();
+        genes = new ArrayList<List<TaskGraphNode>>();
         for (int i = 0; i < numberOfCPUs; i++) {
-            genes.add(new ArrayList<Integer>());
+            genes.add(new ArrayList<TaskGraphNode>());
         }
     }
 
-    public void addTaskToProcessor(int cpu, int taskId) {
-        genes.get(cpu).add(taskId);
+    public void addTaskToProcessor(int cpu, TaskGraphNode task) {
+        genes.get(cpu).add(task);
     }
 
-    public int getProcessorForTask(int taskId) {
+    public int getProcessorForTask(TaskGraphNode task) {
         for (int processorId = 0; processorId < genes.size(); processorId++) {
-            if (genes.get(processorId).contains(taskId)) {
+            if (genes.get(processorId).contains(task)) {
                 return processorId;
             }
         }
