@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.scheduling;
 
 
-public interface ScheduledTaskList {
+import java.util.List;
+
+
+public interface ScheduledTaskList extends List<ScheduledTask> {
     public boolean isTaskOnProcessor(int processorId, int taskId);
 }
