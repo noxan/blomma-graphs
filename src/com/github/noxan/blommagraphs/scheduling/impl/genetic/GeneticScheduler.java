@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.scheduling.impl.genetic;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -61,12 +63,23 @@ public class GeneticScheduler implements Scheduler {
         }
     }
 
+    private void chromosomeDecoding() {
+        List<ScheduledTaskList> decodedChromosomeList = new ArrayList<ScheduledTaskList>();
+
+        for (Chromosome chromosome : population) {
+            ScheduledTaskList scheduledTaskList = chromosome.decode(taskGraph);
+            decodedChromosomeList.add(scheduledTaskList);
+        }
+    }
+
     @Override
     public List<ScheduledTask> schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
         this.metaInformation = metaInformation;
         this.taskGraph = taskGraph;
 
         initialize();
+
+        chromosomeDecoding();
 
         // TODO Auto-generated method stub
         return initialTaskSchedule;
