@@ -10,6 +10,9 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class GeneticScheduler implements Scheduler {
+    private SystemMetaInformation metaInformation;
+    private TaskGraph taskGraph;
+
     private Scheduler initialScheduler;
     private List<ScheduledTask> initialPopulation;
 
@@ -19,6 +22,8 @@ public class GeneticScheduler implements Scheduler {
 
     @Override
     public List<ScheduledTask> schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
+        this.metaInformation = metaInformation;
+        this.taskGraph = taskGraph;
 
         // TODO Auto-generated method stub
         return null;
