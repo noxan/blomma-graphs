@@ -24,6 +24,5 @@ public interface ScheduledTask {
 
     public int getTaskId();
 
-    // Not yet necessary.
-    // public TaskGraphNode getTaskGraphNode();
+    public TaskGraphNode getTaskGraphNode();
 }

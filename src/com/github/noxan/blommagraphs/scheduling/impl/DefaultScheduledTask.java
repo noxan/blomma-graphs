@@ -56,4 +56,9 @@ public class DefaultScheduledTask implements ScheduledTask {
         return node.getId();
     }
 
+    @Override
+    public TaskGraphNode getTaskGraphNode() {
+        return this.node;
+    }
+
 }
