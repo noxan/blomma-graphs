@@ -20,6 +20,8 @@ public interface ScheduledTask extends Comparable<ScheduledTask> {
 
     public int getComputationTime();
 
+    public int getFinishTime();
+
     public void setTaskGraphNode(TaskGraphNode node);
 
     public int getTaskId();
