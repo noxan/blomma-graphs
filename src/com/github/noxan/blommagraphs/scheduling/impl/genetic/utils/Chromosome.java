@@ -75,17 +75,20 @@ public class Chromosome {
 
             int processorId = getProcessorForTask(taskNode);
 
-            int startTime = 0;
             // search for a previous scheduled task on this processor
             ScheduledTask lastScheduledTask = scheduledTaskList
                     .getLastScheduledTaskOnProcessor(processorId);
+
+            // calculate communicationTime
+            int communicationTime = 0;
+
+            // calculate startTime
+            int startTime = 0;
             if (lastScheduledTask != null) {
                 startTime = lastScheduledTask.getFinishTime();
             }
 
             System.out.print(startTime + " - ");
-
-            int communicationTime = 0;
 
             scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
                     communicationTime, taskNode));
