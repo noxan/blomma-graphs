@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
+import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +23,17 @@ public class LASTSchedulerTest extends LASTScheduler {
 
     @Test
     public void schedule() {
-        // coming soon
+        Assert.fail("Not implemented yet");
     }
 
     @Test
     public void calcDNode() {
-        // coming soon
+        Assert.fail("Not implemented yet");
     }
 
     @Test
     public void calcDEdge() {
-        // coming soon
+        Assert.fail("Not implemented yet");
     }
 
     @Test
