@@ -20,6 +20,10 @@ public class LASTScheduler implements Scheduler {
     private List<List<LASTNode>> frontiers;
     private Set<TaskGraphNode> nodeSet;
 
+    public void setThreshold(float threshold) {
+        this.threshold = threshold;
+    }
+
     @Override
     public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         initialize(graph, systemMetaInformation);
