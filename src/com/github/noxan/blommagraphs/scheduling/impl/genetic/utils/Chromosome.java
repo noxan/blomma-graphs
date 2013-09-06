@@ -4,6 +4,9 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+
 
 public class Chromosome {
     private List<List<Integer>> genes;
@@ -26,5 +29,11 @@ public class Chromosome {
             }
         }
         return -1; // TODO: should not happen but not nice
+    }
+
+    public List<ScheduledTask> decode(TaskGraph taskGraph) {
+        List<ScheduledTask> scheduledTasks = new ArrayList<ScheduledTask>();
+
+        return scheduledTasks;
     }
 }
