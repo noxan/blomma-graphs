@@ -109,7 +109,7 @@ public class LASTScheduler implements Scheduler {
      */
     private float calcStrength(LASTNode node1, int cpuId) {
         int computationTimeNode1 = node1.getTaskGraphNode().getComputationTime();
-        float strength = 0f;
+        double strength = 0.0;
 
         // Lists of the previous and following nodes of the node1.
         ArrayList<TaskGraphNode> lastNodePrevNodes = new ArrayList<TaskGraphNode>
@@ -146,7 +146,7 @@ public class LASTScheduler implements Scheduler {
                 e.printStackTrace();
             }
         }
-        return strength;
+        return (float) strength;
     }
 
 }
