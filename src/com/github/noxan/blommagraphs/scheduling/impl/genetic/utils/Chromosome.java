@@ -75,6 +75,14 @@ public class Chromosome {
 
         // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
+
+        Iterator<TaskGraphNode> it = readyList.iterator();
+        while (it.hasNext()) {
+            TaskGraphNode nextTaskNode = it.next();
+            if (unscheduledNodes.contains(nextTaskNode)) {
+                decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
+            }
+        }
     }
 
     public ScheduledTaskList decode(TaskGraph taskGraph) {
