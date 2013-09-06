@@ -68,10 +68,19 @@ public class Chromosome {
         return readyList;
     }
 
+    private void decode(TaskGraphNode taskNode, TaskGraph taskGraph,
+            ScheduledTaskList scheduledTaskList, Set<TaskGraphNode> unscheduledNodes) {
+        unscheduledNodes.remove(taskNode);
+
+        Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
+    }
+
     public ScheduledTaskList decode(TaskGraph taskGraph) {
-        ScheduledTaskList scheduledTasks = new DefaultScheduledTaskList(numberOfProcessors);
+        ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
+
+        decode(taskGraph.getFirstNode(), taskGraph, scheduledTaskList, unscheduledNodes);
 
         // TODO: maybe add a readyNode list to select from?!
 
@@ -83,7 +92,7 @@ public class Chromosome {
             int processorId = getProcessorForTask(taskNode);
 
             // search for a previous scheduled task on this processor
-            ScheduledTask lastScheduledTask = scheduledTasks
+            ScheduledTask lastScheduledTask = scheduledTaskList
                     .getLastScheduledTaskOnProcessor(processorId);
 
             try {
@@ -97,7 +106,7 @@ public class Chromosome {
                 int communicationTime = prevEdge.getCommunicationTime();
                 // set communicationTime to zero if previous task is on same processor
                 if (lastScheduledTask != null
-                        && scheduledTasks.isTaskOnProcessor(processorId,
+                        && scheduledTaskList.isTaskOnProcessor(processorId,
                                 lastScheduledTask.getTaskId())) {
                     communicationTime = 0;
                 }
@@ -109,12 +118,12 @@ public class Chromosome {
 
                 ScheduledTask scheduledTask = new DefaultScheduledTask(startTime, processorId,
                         communicationTime, taskNode);
-                scheduledTasks.add(scheduledTask);
+                scheduledTaskList.add(scheduledTask);
             } catch (ContainsNoEdgeException e) {
                 e.printStackTrace();
             }
         }
 
-        return scheduledTasks;
+        return scheduledTaskList;
     }
 }
