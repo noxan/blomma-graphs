@@ -1,15 +1,17 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode;
-import org.junit.Assert
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode;
+
+
 @RunWith(JUnit4.class)
-public class LASTSchedulerTest {
+public class LASTSchedulerTest extends LASTScheduler {
     private LASTScheduler lastScheduler;
 
     @Before
@@ -18,18 +20,18 @@ public class LASTSchedulerTest {
     }
 
     @Test
-    public void schedule(){
-        //coming soon
+    public void schedule() {
+        // coming soon
     }
 
     @Test
-    public void calcNode() {
-        //coming soon
+    public void calcDNode() {
+        // coming soon
     }
 
     @Test
-    public void caldDEdge() {
-        //coming soon
+    public void calcDEdge() {
+        // coming soon
     }
 
     @Test
@@ -42,6 +44,6 @@ public class LASTSchedulerTest {
         TaskGraphNode taskGraphNode = new DefaultTaskGraphNode(id, computationTime);
         LASTNode lastNode = new LASTNode(taskGraphNode);
 
-        //Assert.assertEquals(expected, lastScheduler.(lastNode, cpuId));
+        // Assert.assertEquals(expected, lastScheduler.(lastNode, cpuId));
     }
 }
