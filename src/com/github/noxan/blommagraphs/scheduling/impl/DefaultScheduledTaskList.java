@@ -26,6 +26,22 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
+    public ScheduledTask getLastScheduledTaskOnProcessor(int processorId) {
+        ScheduledTask lastTask = null;
+
+        Iterator<ScheduledTask> it = iterator();
+        while (it.hasNext()) {
+            ScheduledTask task = it.next();
+            if (task.getCpuId() == processorId
+                    && (lastTask == null || task.getStartTime() > lastTask.getStartTime())) {
+                lastTask = task;
+            }
+        }
+
+        return lastTask;
+    }
+
+    @Override
     public void add(int index, ScheduledTask element) {
         super.add(index, element);
         Collections.sort(this);
