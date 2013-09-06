@@ -69,7 +69,7 @@ public class LASTScheduler implements Scheduler {
     /**
      * Calculates the D_EDGE value which says if the edge between node1 and
      * node2 is defined. An edge is defined if either node1 or node2 is already
-     * scheduled on a task.
+     * scheduled on a processor.
      * 
      * @param node1
      * @param node2
