@@ -1,10 +1,9 @@
 package com.github.noxan.blommagraphs.scheduling.impl.genetic;
 
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -32,13 +31,16 @@ public class GeneticScheduler implements Scheduler {
             initialPopulation = initialScheduler.schedule(metaInformation, taskGraph);
         }
 
+        List<List<ScheduledTask>> scheduledTasksGroupedByCPU = new ArrayList<List<ScheduledTask>>();
+        for (int i = 0; i < metaInformation.getProcessorCount(); i++) {
+            scheduledTasksGroupedByCPU.add(new ArrayList<ScheduledTask>());
+        }
         // group scheduled tasks by CPU
-        Map<Integer, List<ScheduledTask>> scheduledTasksGroupedByCPU = new HashMap<Integer, List<ScheduledTask>>();
         for (ScheduledTask task : initialPopulation) {
             scheduledTasksGroupedByCPU.get(task.getCpuId()).add(task);
         }
         // sort lists by startTime
-        for (List<ScheduledTask> scheduledTasks : scheduledTasksGroupedByCPU.values()) {
+        for (List<ScheduledTask> scheduledTasks : scheduledTasksGroupedByCPU) {
             Collections.sort(scheduledTasks);
         }
     }
