@@ -2,11 +2,14 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 
 
 public class Chromosome {
@@ -34,6 +37,16 @@ public class Chromosome {
 
     public List<ScheduledTask> decode(TaskGraph taskGraph) {
         List<ScheduledTask> scheduledTasks = new ArrayList<ScheduledTask>();
+
+        Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
+
+        Iterator<TaskGraphNode> it = unscheduledNodes.iterator();
+        while (it.hasNext()) {
+            TaskGraphNode taskNode = it.next();
+            ScheduledTask scheduledTask = new DefaultScheduledTask(0,
+                    getProcessorForTask(taskNode), 0, taskNode);
+            scheduledTasks.add(scheduledTask);
+        }
 
         return scheduledTasks;
     }
