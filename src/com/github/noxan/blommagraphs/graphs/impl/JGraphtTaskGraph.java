@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javafx.util.Pair;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -25,6 +26,13 @@ public class JGraphtTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
+<<<<<<< Updated upstream
+=======
+    /**
+     * global auxiliary variable for the layerCake function
+     */
+    private int layer;
+>>>>>>> Stashed changes
     private int cp_time;
     private ArrayList<TaskGraphEdge> cp_edgeList;
 
@@ -76,27 +84,48 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-        return criticalPath(this.firstNode, 0);
+            //return criticalPath1(this.firstNode, 0, new ArrayList<TaskGraphEdge>()).getKey();
     }
 
-    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time) {
-        int maxTime = time + node.getComputationTime();
-        ArrayList<TaskGraphEdge> edgeList = new ArrayList<TaskGraphEdge>();
+    private Pair<ArrayList<TaskGraphEdge>,Integer> criticalPath1(TaskGraphNode node, int currentTime, ArrayList<TaskGraphEdge> currentEdgePath) {
 
-        ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
+        //if node is last node return path and time
+        if (node.equals(this.getLastNode())) {
+            return  new Pair<ArrayList<TaskGraphEdge>, Integer>(currentEdgePath, currentTime);
+        }
 
-        taskGraphEdge.addAll(graph.outgoingEdgesOf(node));
-        for (int i = 0; i < taskGraphEdge.size(); i++) {
-            edgeList.add(taskGraphEdge.get(i));
-            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime
-                    + taskGraphEdge.get(i).getCommunicationTime());
+        //List of out going edges of this node
+        ArrayList<TaskGraphEdge> outgoingEdges = new ArrayList<TaskGraphEdge>();
+        outgoingEdges.addAll(graph.outgoingEdgesOf(node));
 
-            if (maxTime > this.cp_time) {
-                this.cp_time = maxTime;
-                this.cp_edgeList = edgeList;
+        //List to compare paths by cost
+        ArrayList<Pair<ArrayList<TaskGraphEdge>,Integer>> currentPathList = new ArrayList<Pair<ArrayList<TaskGraphEdge>,Integer>>();
+
+        //current time till this node
+        currentTime += node.getComputationTime();
+
+        //go through the list of outgoing edges and call this function again for every edge
+        for (int i = 0; i < node.getNextEdgeCount(); i++) {
+                ArrayList<TaskGraphEdge> nextEdgePath = new ArrayList<TaskGraphEdge>();
+                for(TaskGraphEdge edge : currentEdgePath) {
+                    nextEdgePath.add(edge);
+                }
+                nextEdgePath.add(outgoingEdges.get(i));
+                Pair<ArrayList<TaskGraphEdge>,Integer> path = criticalPath1(graph.getEdgeTarget(outgoingEdges.get(i)),
+                        currentTime + outgoingEdges.get(i).getCommunicationTime(), nextEdgePath);
+                currentPathList.add(path);
+        }
+
+        //compare all returned paths and return the one which takes the most time
+        int max = 0;
+        Pair<ArrayList<TaskGraphEdge>,Integer> currentMaxPair = null;
+        for (Pair<ArrayList<TaskGraphEdge>,Integer> pair: currentPathList) {
+            if (pair.getValue()>max) {
+                max = pair.getValue();
+                currentMaxPair = pair;
             }
         }
-        return new ArrayList<TaskGraphEdge>(this.cp_edgeList);
+        return currentMaxPair;
     }
 
     @Override

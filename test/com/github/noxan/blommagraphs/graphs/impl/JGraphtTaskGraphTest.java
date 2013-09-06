@@ -3,6 +3,7 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.ArrayList;
 
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -160,11 +161,16 @@ public class JGraphtTaskGraphTest {
         } catch (DuplicateEdgeException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(2 ,taskGraph.getCriticalPath().size());
+        Assert.assertEquals(3 ,taskGraph.getCriticalPath().size());
 
-        ArrayList<TaskGraphEdge> criticalPath = (ArrayList<TaskGraphEdge>) taskGraph.getCriticalPath();
-        for (TaskGraphEdge edge: criticalPath) {
-            System.out.println(edge.getPrevNode().getId());
+        ArrayList<TaskGraphEdge> expectedCriticalPath = new ArrayList<TaskGraphEdge>();
+        try {
+            expectedCriticalPath.add(taskGraph.findEdge(taskGraph.getFirstNode(), nodeList.get(2)));
+            expectedCriticalPath.add(taskGraph.findEdge(nodeList.get(2), nodeList.get(5)));
+            expectedCriticalPath.add(taskGraph.findEdge(nodeList.get(5), taskGraph.getLastNode()));
+        } catch (ContainsNoEdgeException e) {
+            e.printStackTrace();
         }
+        Assert.assertEquals(expectedCriticalPath, taskGraph.getCriticalPath());
     }
 }
