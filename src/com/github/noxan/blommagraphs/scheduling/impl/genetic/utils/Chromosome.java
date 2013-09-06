@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
@@ -81,12 +82,17 @@ public class Chromosome {
 
             // calculate communicationTime
             int communicationTime = 0;
+            // search for edge connected to the current node
+            TaskGraphEdge prevEdge;
+            // TODO: find prev Edge and ignore communication time for tasks on same processor
 
             // calculate startTime
             int startTime = 0;
             if (lastScheduledTask != null) {
                 startTime = lastScheduledTask.getFinishTime();
             }
+            // TODO: use the maximum of the last finish time of the current processor and the last
+            // finish time of all dependencies of the current task
 
             System.out.print(startTime + " - ");
 
