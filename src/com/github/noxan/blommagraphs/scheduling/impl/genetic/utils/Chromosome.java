@@ -19,7 +19,10 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 public class Chromosome {
     private List<List<TaskGraphNode>> genes;
 
+    private int numberOfProcessors;
+
     public Chromosome(int numberOfCPUs) {
+        this.numberOfProcessors = numberOfProcessors;
         genes = new ArrayList<List<TaskGraphNode>>();
         for (int i = 0; i < numberOfCPUs; i++) {
             genes.add(new ArrayList<TaskGraphNode>());
@@ -40,7 +43,7 @@ public class Chromosome {
     }
 
     public List<ScheduledTask> decode(TaskGraph taskGraph) {
-        ScheduledTaskList scheduledTasks = new DefaultScheduledTaskList();
+        ScheduledTaskList scheduledTasks = new DefaultScheduledTaskList(numberOfProcessors);
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
