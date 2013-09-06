@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
@@ -45,9 +47,35 @@ public class Chromosome {
         Iterator<TaskGraphNode> it = unscheduledNodes.iterator();
         while (it.hasNext()) {
             TaskGraphNode taskNode = it.next();
-            ScheduledTask scheduledTask = new DefaultScheduledTask(0,
-                    getProcessorForTask(taskNode), 0, taskNode);
-            scheduledTasks.add(scheduledTask);
+
+            int processorId = getProcessorForTask(taskNode);
+            int taskId = taskNode.getId();
+
+            ScheduledTask lastScheduledTask = scheduledTasks
+                    .getLastScheduledTaskOnProcessor(processorId);
+
+            try {
+                TaskGraphEdge prevEdge;
+                if (lastScheduledTask == null) {
+                    prevEdge = taskNode.getPrevEdges().iterator().next();
+                } else {
+                    prevEdge = taskGraph.findEdge(lastScheduledTask.getTaskGraphNode(), taskNode);
+                }
+
+                int communicationTime = prevEdge.getCommunicationTime();
+                // set communicationTime to zero if previous task is on same processor
+                if (scheduledTasks.isTaskOnProcessor(processorId, lastScheduledTask.getTaskId())) {
+                    communicationTime = 0;
+                }
+
+                int startTime = lastScheduledTask.getFinishTime() + communicationTime;
+
+                ScheduledTask scheduledTask = new DefaultScheduledTask(startTime, processorId,
+                        communicationTime, taskNode);
+                scheduledTasks.add(scheduledTask);
+            } catch (ContainsNoEdgeException e) {
+                e.printStackTrace();
+            }
         }
 
         return scheduledTasks;
