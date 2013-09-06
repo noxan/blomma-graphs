@@ -4,16 +4,15 @@ package com.github.noxan.blommagraphs.graphs.impl;
 import java.util.ArrayList;
 
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 @RunWith(JUnit4.class)
@@ -163,14 +162,22 @@ public class JGraphtTaskGraphTest {
         }
         Assert.assertEquals(3 ,taskGraph.getCriticalPath().size());
 
-        ArrayList<TaskGraphEdge> expectedCriticalPath = new ArrayList<TaskGraphEdge>();
+        ArrayList<TaskGraphEdge> edgeList = new ArrayList<TaskGraphEdge>();
         try {
-            expectedCriticalPath.add(taskGraph.findEdge(taskGraph.getFirstNode(), nodeList.get(2)));
-            expectedCriticalPath.add(taskGraph.findEdge(nodeList.get(2), nodeList.get(5)));
-            expectedCriticalPath.add(taskGraph.findEdge(nodeList.get(5), taskGraph.getLastNode()));
+            edgeList.add(taskGraph.findEdge(taskGraph.getFirstNode(), nodeList.get(2)));
+            edgeList.add(taskGraph.findEdge(nodeList.get(2), nodeList.get(5)));
+            edgeList.add(taskGraph.findEdge(nodeList.get(5), taskGraph.getLastNode()));
         } catch (ContainsNoEdgeException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(expectedCriticalPath, taskGraph.getCriticalPath());
+
+        Assert.assertEquals(edgeList, taskGraph.getCriticalPath());
+        System.out.println("Edges are equal");
+
+        ArrayList<TaskGraphEdge> criticalPath = (ArrayList) taskGraph.getCriticalPath();
+        for (TaskGraphEdge edge: criticalPath) {
+            System.out.println(edge.getPrevNode().getId());
+            System.out.println(edge.getNextNode().getId());
+        }
     }
 }

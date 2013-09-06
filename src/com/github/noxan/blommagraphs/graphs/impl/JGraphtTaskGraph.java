@@ -16,6 +16,12 @@ import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
+import org.jgrapht.graph.SimpleDirectedWeightedGraph;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class JGraphtTaskGraph implements TaskGraph {
@@ -26,13 +32,6 @@ public class JGraphtTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
-<<<<<<< Updated upstream
-=======
-    /**
-     * global auxiliary variable for the layerCake function
-     */
-    private int layer;
->>>>>>> Stashed changes
     private int cp_time;
     private ArrayList<TaskGraphEdge> cp_edgeList;
 
@@ -84,11 +83,34 @@ public class JGraphtTaskGraph implements TaskGraph {
 
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-            //return criticalPath1(this.firstNode, 0, new ArrayList<TaskGraphEdge>()).getKey();
+        //return criticalPath1(this.firstNode, 0, new ArrayList<TaskGraphEdge>()).getKey();
+        return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>());
+    }
+
+    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time, ArrayList<TaskGraphEdge> currentEdgeList) {
+        int maxTime = time + node.getComputationTime();
+
+        ArrayList<TaskGraphEdge> taskGraphEdge = new ArrayList<TaskGraphEdge>();
+
+        taskGraphEdge.addAll(graph.outgoingEdgesOf(node));
+        for (int i = 0; i < taskGraphEdge.size(); i++) {
+            ArrayList<TaskGraphEdge> currentEdgeListCopy = new ArrayList<TaskGraphEdge>();
+            for(int j = 0; j < currentEdgeList.size(); j++){
+                currentEdgeListCopy.add(currentEdgeList.get(j));
+            }
+            currentEdgeListCopy.add(taskGraphEdge.get(i));
+            criticalPath(graph.getEdgeTarget(taskGraphEdge.get(i)), maxTime +
+                    taskGraphEdge.get(i).getCommunicationTime(), currentEdgeListCopy);
+
+            if (maxTime > this.cp_time) {
+                this.cp_time = maxTime;
+                this.cp_edgeList = currentEdgeListCopy;
+            }
+        }
+        return this.cp_edgeList;
     }
 
     private Pair<ArrayList<TaskGraphEdge>,Integer> criticalPath1(TaskGraphNode node, int currentTime, ArrayList<TaskGraphEdge> currentEdgePath) {
-
         //if node is last node return path and time
         if (node.equals(this.getLastNode())) {
             return  new Pair<ArrayList<TaskGraphEdge>, Integer>(currentEdgePath, currentTime);
@@ -198,7 +220,6 @@ public class JGraphtTaskGraph implements TaskGraph {
         return graph.containsEdge(prevNode, nextNode);
     }
 
-    @Override
     public TaskGraphEdge findEdge(TaskGraphNode prevNode, TaskGraphNode nextNode)
             throws ContainsNoEdgeException {
         if (graph.getEdge(prevNode, nextNode).equals(null)) {
