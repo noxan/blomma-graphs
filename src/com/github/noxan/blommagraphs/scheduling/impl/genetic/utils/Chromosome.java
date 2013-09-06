@@ -49,7 +49,6 @@ public class Chromosome {
             TaskGraphNode taskNode = it.next();
 
             int processorId = getProcessorForTask(taskNode);
-            int taskId = taskNode.getId();
 
             ScheduledTask lastScheduledTask = scheduledTasks
                     .getLastScheduledTaskOnProcessor(processorId);
