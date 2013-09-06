@@ -15,7 +15,7 @@ public class Chromosome {
         }
     }
 
-    public void addTaskToCPU(int cpu, int taskId) {
+    public void addTaskToProcessor(int cpu, int taskId) {
         genes.get(cpu).add(taskId);
     }
 
