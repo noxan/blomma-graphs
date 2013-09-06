@@ -73,12 +73,16 @@ public class Chromosome {
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
+        // TODO: maybe add a readyNode list to select from?!
+
         Iterator<TaskGraphNode> it = unscheduledNodes.iterator();
         while (it.hasNext()) {
             TaskGraphNode taskNode = it.next();
 
+            // processorId for the task
             int processorId = getProcessorForTask(taskNode);
 
+            // search for a previous scheduled task on this processor
             ScheduledTask lastScheduledTask = scheduledTasks
                     .getLastScheduledTaskOnProcessor(processorId);
 
@@ -92,11 +96,16 @@ public class Chromosome {
 
                 int communicationTime = prevEdge.getCommunicationTime();
                 // set communicationTime to zero if previous task is on same processor
-                if (scheduledTasks.isTaskOnProcessor(processorId, lastScheduledTask.getTaskId())) {
+                if (lastScheduledTask != null
+                        && scheduledTasks.isTaskOnProcessor(processorId,
+                                lastScheduledTask.getTaskId())) {
                     communicationTime = 0;
                 }
 
-                int startTime = lastScheduledTask.getFinishTime() + communicationTime;
+                int startTime = communicationTime;
+                if (lastScheduledTask != null) {
+                    startTime += lastScheduledTask.getFinishTime();
+                }
 
                 ScheduledTask scheduledTask = new DefaultScheduledTask(startTime, processorId,
                         communicationTime, taskNode);
