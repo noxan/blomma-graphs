@@ -38,11 +38,11 @@
   <target name="compile">
     <mkdir dir="${production.classes}"/>
     <mkdir dir="${test.classes}"/>
-    <javac srcdir="src" destdir="${build.dir}/production/${ant.project.name}" debug="on">
+    <javac srcdir="src" destdir="${build.dir}/production/${ant.project.name}" debug="on" includeantruntime="false">
       <classpath refid="production.class.path"/>
       <include name="**/*.java"/>
     </javac>
-    <javac srcdir="${test.src}" destdir="${build.dir}/test/${ant.project.name}" debug="on">
+    <javac srcdir="${test.src}" destdir="${build.dir}/test/${ant.project.name}" debug="on" includeantruntime="true">
       <classpath refid="test.class.path"/>
       <include name="**/*Test.java"/>
     </javac>
