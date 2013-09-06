@@ -53,5 +53,5 @@ public class LASTNode {
 
     public enum Status {
         FRONTIER, SCHEDULED
-    };
+    }
 }
