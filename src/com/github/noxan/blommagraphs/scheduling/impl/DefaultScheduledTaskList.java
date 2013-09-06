@@ -4,6 +4,7 @@ package com.github.noxan.blommagraphs.scheduling.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
@@ -14,7 +15,13 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
 
     @Override
     public boolean isTaskOnProcessor(int processorId, int taskId) {
-        // TODO Auto-generated method stub
+        Iterator<ScheduledTask> it = iterator();
+        while (it.hasNext()) {
+            ScheduledTask scheduledTask = it.next();
+            if (scheduledTask.getTaskId() == taskId && scheduledTask.getCpuId() == processorId) {
+                return true;
+            }
+        }
         return false;
     }
 
