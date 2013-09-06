@@ -162,7 +162,7 @@ public class JGraphtTaskGraphTest {
         }
         Assert.assertEquals(2 ,taskGraph.getCriticalPath().size());
 
-        ArrayList<TaskGraphEdge> criticalPath = (ArrayList) taskGraph.getCriticalPath();
+        ArrayList<TaskGraphEdge> criticalPath = (ArrayList<TaskGraphEdge>) taskGraph.getCriticalPath();
         for (TaskGraphEdge edge: criticalPath) {
             System.out.println(edge.getPrevNode().getId());
         }
