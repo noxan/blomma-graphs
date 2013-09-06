@@ -1,44 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="blomma-graphs" default="main" basedir=".">
-    <property name="main-class" value="com.github.noxan.blommagraphs.Main"/>
-    <property name="src.dir" value="src"/>
-	<property name="lib.dir" value="lib"/>
-    <property name="build.dir" value="build"/>
-    <property name="classes.dir" value="${build.dir}/classes"/>
-    <property name="jar.dir" value="${build.dir}/jar"/>
-	
-	<path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
-    </path>
-	
-	<target name="clean">
-		<delete dir="${build.dir}"/>
-	</target>
-	
-	<target name="compile">
-		<mkdir dir="${classes.dir}"/>
-		<javac srcdir="${src.dir}" destdir="${classes.dir}" classpathref="classpath"/>
-	</target>
-	
-	<target name="jar" depends="compile">
-		<mkdir dir="${jar.dir}"/>
-		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
-			<manifest>
-				<attribute name="Main-Class" value="${main-class}"/>
-			</manifest>
-		</jar>
-	</target>
-	
-	<target name="run" depends="jar">
-		<java fork="true" classname="${main-class}">
-			<classpath>
-				<path refid="classpath"/>
-				<path location="${jar.dir}/${ant.project.name}.jar"/>
-			</classpath>
-		</java>
-	</target>
-	
-	<target name="clean-build" depends="clean,jar"/>
-	
-	<target name="main" depends="clean,run"/>
+  <property name="main-class" value="com.github.noxan.blommagraphs.Main"/>
+  <property name="lib.dir" value="lib"/>
+
+  <property name="build.dir" value="build"/>
+
+  <property name="test.src" value="test"/>
+  <property name="test.classes" value="${build.dir}/test/${ant.project.name}"/>
+
+  <property name="production.src" value="src"/>
+  <property name="production.classes" value="${build.dir}/production/${ant.project.name}"/>
+
+  <property name="jar.dir" value="${build.dir}/jar"/>
+  <property name="reports.dir" value="${build.dir}/reports"/>
+  <property name="junit.dir" value="${reports.dir}/junit"/>
+
+
+  <path id="production.class.path">
+    <pathelement location="${production.classes}"/>
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
+
+  <path id="test.class.path">
+    <path refid="production.class.path"/>
+    <pathelement location="${test.classes}"/>
+    <fileset dir="${lib.dir}">
+      <include name="**/*test*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+  </target>
+
+  <target name="compile">
+    <mkdir dir="${production.classes}"/>
+    <mkdir dir="${test.classes}"/>
+    <javac srcdir="src" destdir="${build.dir}/production/${ant.project.name}" debug="on">
+      <classpath refid="production.class.path"/>
+      <include name="**/*.java"/>
+    </javac>
+    <javac srcdir="${test.src}" destdir="${build.dir}/test/${ant.project.name}" debug="on">
+      <classpath refid="test.class.path"/>
+      <include name="**/*Test.java"/>
+    </javac>
+  </target>
+
+
+  <target name="package" depends="compile">
+    <mkdir dir="${jar.dir}"/>
+    <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${production.classes}" includes="**/*.class">
+      <manifest>
+        <attribute name="Main-Class" value="${main-class}"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="junit" depends="compile">
+    <mkdir dir="${junit.dir}"/>
+    <junit printsummary="yes">
+      <classpath refid="test.class.path"/>
+      <formatter type="xml"/>
+      <batchtest fork="yes" todir="${junit.dir}">
+        <fileset dir="${test.src}">
+          <include name="**/*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="clean-build" depends="clean,package"/>
+
+  <target name="main" depends="clean,junit,package"/>
 </project>
