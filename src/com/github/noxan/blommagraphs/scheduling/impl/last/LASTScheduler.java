@@ -97,23 +97,27 @@ public class LASTScheduler implements Scheduler {
 
     /**
      * Calculates how much node1 is connected to a cpu.
+     * strength = sum(communicationTime (node1, lastNodePrevNodes.get(i)) / computiationTime(node1))
+     *            +
+     *            sum(communicationTime (node1, lastNodeNextNodes.get(i)) / computiationTime(node1))
+     *            -
+     *            dif(computiationTime(node1) / communicationTime (node1, lastNodeNextNodes.get(i))
      * 
      * @param node1
      * @param cpuId The id of the cpu.
      * @return STRENGTH of node1 related to cpu.
      */
     private float calcStrength(LASTNode node1, int cpuId) {
-        //
         int computationTimeNode1 = node1.getTaskGraphNode().getComputationTime();
         float strength = 0f;
 
-        //
+        // Lists of the previous and following nodes of the node1.
         ArrayList<TaskGraphNode> lastNodePrevNodes = new ArrayList<TaskGraphNode>
                 (node1.getTaskGraphNode().getPrevNodes());
         ArrayList<TaskGraphNode> lastNodeNextNodes = new ArrayList<TaskGraphNode>
                 (node1.getTaskGraphNode().getNextNodes());
 
-        //
+        // Iterate through the lastNodePrevNodes and calculate the first sum.
         for (int i = 0; i < lastNodePrevNodes.size(); i++) {
             try {
                 strength += ((taskGraph.findEdge(lastNodePrevNodes.get(i),
@@ -123,6 +127,7 @@ public class LASTScheduler implements Scheduler {
             }
         }
 
+        // Iterate through the lastNodeNextNodes and calculate the second sum.
         for (int i = 0; i < lastNodeNextNodes.size(); i++) {
             try{
                 strength += ((taskGraph.findEdge(node1.getTaskGraphNode(),
@@ -132,6 +137,7 @@ public class LASTScheduler implements Scheduler {
             }
         }
 
+        // Iterate through the lastNodeNextNodes and calculate the difference.
         for (int i = 0; i < lastNodeNextNodes.size(); i++) {
             try {
                 strength -= ( computationTimeNode1 / (taskGraph.findEdge(node1.getTaskGraphNode(),
