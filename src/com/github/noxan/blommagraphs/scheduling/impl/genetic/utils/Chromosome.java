@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +41,31 @@ public class Chromosome {
             }
         }
         return -1; // TODO: should not happen but not nice
+    }
+
+    private Set<TaskGraphNode> createReadyTaskList(TaskGraph taskGraph,
+            ScheduledTaskList scheduledTaskList) {
+        Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
+
+        for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
+            // just unscheduled tasks
+            if (!scheduledTaskList.containsTask(taskNode.getId())) {
+                boolean taskReady = true;
+                // check all dependencies
+                for (TaskGraphNode prevTaskNode : taskNode.getPrevNodes()) {
+                    // break if previous task has not been scheduled
+                    if (!scheduledTaskList.containsTask(prevTaskNode.getId())) {
+                        taskReady = false;
+                        break;
+                    }
+                }
+                if (taskReady) {
+                    readyList.add(taskNode);
+                }
+            }
+        }
+
+        return readyList;
     }
 
     public ScheduledTaskList decode(TaskGraph taskGraph) {
