@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
@@ -68,30 +69,39 @@ public class Chromosome {
     private void decode(TaskGraphNode taskNode, TaskGraph taskGraph,
             ScheduledTaskList scheduledTaskList, Set<TaskGraphNode> unscheduledNodes) {
 
-        if (!unscheduledNodes.remove(taskNode)) {
-            return;
+        if (unscheduledNodes.remove(taskNode)) {
+            // schedule current task node
+            System.out.print(taskNode.getId() + " - ");
+
+            int processorId = getProcessorForTask(taskNode);
+
+            int startTime = 0;
+            // search for a previous scheduled task on this processor
+            ScheduledTask lastScheduledTask = scheduledTaskList
+                    .getLastScheduledTaskOnProcessor(processorId);
+            if (lastScheduledTask != null) {
+                startTime = lastScheduledTask.getFinishTime();
+            }
+
+            System.out.print(startTime + " - ");
+
+            int communicationTime = 0;
+
+            scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
+                    communicationTime, taskNode));
+
+            System.out.println("processorId: " + processorId);
         }
-
-        // schedule current task node
-        System.out.print(taskNode.getId() + " - ");
-
-        int startTime = 0;
-        int processorId = 0;
-        int communicationTime = 0;
-
-        scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId, communicationTime,
-                taskNode));
 
         // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
 
-        System.out.print("readyNodes: " + readyList + " - ");
-
         Iterator<TaskGraphNode> it = readyList.iterator();
         while (it.hasNext()) {
             TaskGraphNode nextTaskNode = it.next();
-            System.out.println("nextNode: " + nextTaskNode.getId());
-            decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
+            if (unscheduledNodes.contains(nextTaskNode)) {
+                decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
+            }
         }
     }
 
