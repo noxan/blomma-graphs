@@ -42,7 +42,7 @@ public class Chromosome {
         return -1; // TODO: should not happen but not nice
     }
 
-    public List<ScheduledTask> decode(TaskGraph taskGraph) {
+    public ScheduledTaskList decode(TaskGraph taskGraph) {
         ScheduledTaskList scheduledTasks = new DefaultScheduledTaskList(numberOfProcessors);
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
