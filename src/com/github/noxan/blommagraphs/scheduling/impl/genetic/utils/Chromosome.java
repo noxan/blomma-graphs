@@ -82,8 +82,7 @@ public class Chromosome {
         // select next task node
         Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
 
-        System.out.println("readyNodes: ");
-        System.out.println(readyList);
+        System.out.println("readyNodes: " + readyList);
 
         Iterator<TaskGraphNode> it = readyList.iterator();
         while (it.hasNext()) {
