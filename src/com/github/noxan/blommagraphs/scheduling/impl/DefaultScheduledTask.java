@@ -56,4 +56,8 @@ public class DefaultScheduledTask implements ScheduledTask {
         return node.getId();
     }
 
+    @Override
+    public int compareTo(ScheduledTask other) {
+        return getStartTime() - other.getStartTime();
+    }
 }
