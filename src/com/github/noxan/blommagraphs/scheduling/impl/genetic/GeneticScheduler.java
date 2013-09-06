@@ -9,8 +9,17 @@ import com.github.noxan.blommagraphs.scheduling.Scheduler;
 
 
 public class GeneticScheduler implements Scheduler {
+    private Scheduler initialScheduler;
+    private List<ScheduledTask> initialPopulation;
+
+    public GeneticScheduler(Scheduler initialScheduler) {
+        this.initialScheduler = initialScheduler;
+    }
+
     @Override
     public List<ScheduledTask> schedule(TaskGraph graph) {
+        initialPopulation = initialScheduler.schedule(graph);
+
         // TODO Auto-generated method stub
         return null;
     }
