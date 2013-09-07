@@ -2,7 +2,7 @@ package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -45,9 +45,9 @@ public class Chromosome implements Comparable<Chromosome> {
         return -1; // TODO: should not happen but not nice
     }
 
-    private Set<TaskGraphNode> createReadyTaskList(TaskGraph taskGraph,
+    private List<TaskGraphNode> createReadyTaskList(TaskGraph taskGraph,
             ScheduledTaskList scheduledTaskList) {
-        Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
+        List<TaskGraphNode> readyList = new ArrayList<TaskGraphNode>();
 
         for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
             // just unscheduled tasks
@@ -67,6 +67,7 @@ public class Chromosome implements Comparable<Chromosome> {
             }
         }
 
+        Collections.sort(readyList);
         return readyList;
     }
 
@@ -121,8 +122,7 @@ public class Chromosome implements Comparable<Chromosome> {
         }
 
         // select next task node
-        Set<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
-
+        List<TaskGraphNode> readyList = createReadyTaskList(taskGraph, scheduledTaskList);
         Iterator<TaskGraphNode> it = readyList.iterator();
         while (it.hasNext()) {
             TaskGraphNode nextTaskNode = it.next();
