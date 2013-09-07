@@ -3,16 +3,17 @@ package com.github.noxan.blommagraphs.graphs.impl;
 
 import java.util.ArrayList;
 
-import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 @RunWith(JUnit4.class)
@@ -160,7 +161,7 @@ public class JGraphtTaskGraphTest {
         } catch (DuplicateEdgeException e) {
             e.printStackTrace();
         }
-        Assert.assertEquals(3 ,taskGraph.getCriticalPath().size());
+        Assert.assertEquals(3, taskGraph.getCriticalPath().size());
 
         ArrayList<TaskGraphEdge> edgeList = new ArrayList<TaskGraphEdge>();
         try {
@@ -174,8 +175,9 @@ public class JGraphtTaskGraphTest {
         Assert.assertEquals(edgeList, taskGraph.getCriticalPath());
         System.out.println("Edges are equal");
 
-        ArrayList<TaskGraphEdge> criticalPath = (ArrayList) taskGraph.getCriticalPath();
-        for (TaskGraphEdge edge: criticalPath) {
+        ArrayList<TaskGraphEdge> criticalPath = (ArrayList<TaskGraphEdge>) taskGraph
+                .getCriticalPath();
+        for (TaskGraphEdge edge : criticalPath) {
             System.out.println(edge.getPrevNode().getId());
             System.out.println(edge.getNextNode().getId());
         }
