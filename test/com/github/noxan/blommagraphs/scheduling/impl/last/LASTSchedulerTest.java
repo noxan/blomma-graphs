@@ -19,6 +19,7 @@ public class LASTSchedulerTest {
     private SystemMetaInformation systemInformation;
     private TaskGraph graph;
     private TaskGraphNode graphNodes[];
+    private LASTNode lastNodes[];
 
     @Before
     public void initialize() {
@@ -26,6 +27,7 @@ public class LASTSchedulerTest {
 
         lastScheduler = new LASTScheduler();
         graphNodes = new TaskGraphNode[5];
+        lastNodes = new LASTNode[5];
 
         // Building up an example graph statet in
         // http://www.eng.auburn.edu/files/acad_depts/csse/csse_technical_reports/CSSE91-14.pdf
@@ -40,6 +42,10 @@ public class LASTSchedulerTest {
         graphNodes[1] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 5, 20);
         graphNodes[2] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 50, 30);
         graphNodes[3] = graph.insertNode(graphNodes[2], 10, graph.getLastNode(), 5, 40);
+
+        // Generate last nodes
+        for (int i = 0; i < graphNodes.length; ++i)
+            lastNodes[i] = new LASTNode(graphNodes[i]);
 
         lastScheduler.initialize(graph, systemInformation);
     }
