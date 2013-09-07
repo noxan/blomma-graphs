@@ -105,9 +105,6 @@ public class LASTScheduler implements Scheduler {
         for (TaskGraphEdge edge : node.getTaskGraphNode().getNextEdges())
             nextDenominatorSum += edge.getCommunicationTime();
 
-        System.out.println(String.format("(%d + %d) / (%d + %d)", prevNumeratorSum,
-                nextNumeratorSum, prevDenominatorSum, nextDenominatorSum));
-
         double result = ((double) (prevNumeratorSum + nextNumeratorSum))
                 / ((prevDenominatorSum + nextDenominatorSum));
 

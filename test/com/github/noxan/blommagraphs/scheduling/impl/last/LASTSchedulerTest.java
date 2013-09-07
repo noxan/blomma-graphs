@@ -59,7 +59,6 @@ public class LASTSchedulerTest {
     public void calcDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
 
-        System.out.println(graphNodes[4].getComputationTime());
         Assert.assertEquals(0.5f, lastScheduler.calcDNode(lastNodes[1]));
         Assert.assertEquals(0.3333333333333333f, lastScheduler.calcDNode(lastNodes[2]));
     }
