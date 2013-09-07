@@ -17,7 +17,7 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
-public abstract class AbstractChromosome implements Comparable<AbstractChromosome> {
+public abstract class AbstractChromosome implements Chromosome {
     private List<List<TaskGraphNode>> genes;
 
     private int numberOfProcessors;
@@ -132,6 +132,7 @@ public abstract class AbstractChromosome implements Comparable<AbstractChromosom
         }
     }
 
+    @Override
     public ScheduledTaskList decode() {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
 
@@ -144,6 +145,7 @@ public abstract class AbstractChromosome implements Comparable<AbstractChromosom
         return scheduledTaskList;
     }
 
+    @Override
     public void swapMutate() {
         Random random = new Random(System.nanoTime());
 
@@ -206,7 +208,7 @@ public abstract class AbstractChromosome implements Comparable<AbstractChromosom
     }
 
     @Override
-    public int compareTo(AbstractChromosome other) {
+    public int compareTo(Chromosome other) {
         return decode().getFinishTime() - other.decode().getFinishTime();
     }
 }
