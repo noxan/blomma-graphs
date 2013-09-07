@@ -22,11 +22,11 @@ public class LASTNode {
         return taskGraphNode;
     }
 
-    public float getdNode() {
+    public float getDNode() {
         return dNode;
     }
 
-    public void setdNode(float dNode) {
+    public void setDNode(float dNode) {
         this.dNode = dNode;
     }
 
