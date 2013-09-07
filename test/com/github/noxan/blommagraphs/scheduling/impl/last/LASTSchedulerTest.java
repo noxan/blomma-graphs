@@ -73,6 +73,13 @@ public class LASTSchedulerTest {
     }
 
     @Test
+    public void containsTaskTest() {
+        lastScheduler.frontiers.get(0).add(lastNodes[0]);
+        Assert.assertTrue(lastScheduler.containsTask(lastScheduler.frontiers.get(0), graphNodes[0]));
+        Assert.assertFalse(lastScheduler.containsTask(lastScheduler.frontiers.get(0), graphNodes[1]));
+    }
+
+    @Test
     public void highestLastNodeByDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
         lastScheduler.frontiers.get(1).add(lastNodes[1]);
