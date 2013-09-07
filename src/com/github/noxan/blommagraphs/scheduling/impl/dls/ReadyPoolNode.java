@@ -5,28 +5,22 @@ import com.github.noxan.blommagraphs.utils.Tuple;
 
 import java.util.ArrayList;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Freax
- * Date: 07.09.13
- * Time: 12:07
- * To change this template use File | Settings | File Templates.
- */
-public class readyPoolNode {
+
+public class ReadyPoolNode {
     private TaskGraphNode node;
     private ArrayList<Integer> earliestStarttime = new ArrayList<Integer>();
     private int bLevel;
 
-    public readyPoolNode(TaskGraphNode node, int bLevel) {
+    public ReadyPoolNode(TaskGraphNode node, int bLevel) {
         this.node = node;
         this.bLevel = bLevel;
     }
 
     public Tuple<Integer, Integer> getMaxDynamicLevel() {
-        int max = 0, cpuId = 0, temp;
+        int max = 0, cpuId = 0;
         for (int i = 0; i < earliestStarttime.size(); i++) {
-            if ((temp = earliestStarttime.get(i)) > max){
-                max = temp;
+            if (getDynamicLevel(i) > max){
+                max = getDynamicLevel(i);
                 cpuId = i;
             }
         }
@@ -35,6 +29,10 @@ public class readyPoolNode {
 
     public int getDynamicLevel(int cpuId) {
         return bLevel-earliestStarttime.get(cpuId);
+    }
+
+    public int getEarliestStarttime(int cpuId) {
+        return this.earliestStarttime.get(cpuId);
     }
 
     public void setEarliestStarttime(int cpuId, int earliestStarttime) {
