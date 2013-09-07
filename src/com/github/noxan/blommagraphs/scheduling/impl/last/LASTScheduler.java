@@ -58,6 +58,41 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
+     * Update all frontiers for all cpus.
+     * 
+     * Adds a new LASTNode to a frontier if its task is adjacent to a scheduled
+     * task in the related group. If the task is already scheduled (-> in the
+     * cpu group) it is not added.
+     */
+    protected void updateFrontiers() {
+        for (List<LASTNode> frontier : frontiers) {
+            frontier.clear();
+        }
+
+        LASTNode lastNode = null;
+        List<LASTNode> group = null;
+
+        for (TaskGraphNode graphNode : nodeSet) {
+            for (int cpuId = 0; cpuId < groups.size(); ++cpuId) {
+                group = groups.get(cpuId);
+
+                // If the group does not already contain the scheduled task
+                if (!containsTask(group, graphNode)) {
+                    for (int j = 0; j < group.size(); ++j) {
+                        lastNode = group.get(j);
+
+                        if (taskGraph.containsEdge(lastNode.getTaskGraphNode(), graphNode)
+                                || taskGraph.containsEdge(graphNode, lastNode.getTaskGraphNode())) {
+                            frontiers.get(cpuId).add(new LASTNode(graphNode));
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Checks if a list contains a LASTNode which references given
      * TaskGraphNode.
      * 
