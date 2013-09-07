@@ -24,6 +24,7 @@ public class GeneticScheduler implements Scheduler {
     private List<ScheduledTask> initialTaskSchedule;
 
     private float elitismRatio = 0.1f;
+    private int generationCount = 50;
 
     private List<Chromosome> elitismPopulation;
     private Set<Chromosome> matingPopulation;
@@ -111,7 +112,9 @@ public class GeneticScheduler implements Scheduler {
 
         initialize();
 
-        nextGeneration();
+        for (int generation = 0; generation < generationCount; generation++) {
+            nextGeneration();
+        }
 
         Chromosome solutionChromosome = elitismPopulation.get(0);
 
