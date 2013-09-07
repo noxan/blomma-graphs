@@ -24,6 +24,8 @@ public class GeneticScheduler implements Scheduler {
     private List<ScheduledTask> initialTaskSchedule;
 
     private Set<Chromosome> population;
+    private Set<Chromosome> elitismPopulation;
+    private Set<Chromosome> matingPopulation;
 
     public GeneticScheduler(Scheduler initialScheduler) {
         this.initialScheduler = initialScheduler;
@@ -61,6 +63,9 @@ public class GeneticScheduler implements Scheduler {
 
             population.add(processorChromosome);
         }
+
+        elitismPopulation = new HashSet<Chromosome>();
+        matingPopulation = new HashSet<Chromosome>();
     }
 
     private void chromosomeDecoding() {
