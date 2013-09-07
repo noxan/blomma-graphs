@@ -156,6 +156,10 @@ public class LASTScheduler implements Scheduler {
         ArrayList<TaskGraphNode> lastNodeNextNodes = new ArrayList<TaskGraphNode>
                 (node1.getTaskGraphNode().getNextNodes());
 
+        // Intersection between all previous/next nodes and the group of the cpu.
+        lastNodePrevNodes.retainAll(groups.get(cpuId));
+        lastNodeNextNodes.retainAll(groups.get(cpuId));
+
         // Iterate through the lastNodePrevNodes and calculate the first sum.
         for (int i = 0; i < lastNodePrevNodes.size(); i++) {
             try {

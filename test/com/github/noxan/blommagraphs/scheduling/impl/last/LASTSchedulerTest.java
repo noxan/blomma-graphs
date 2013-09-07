@@ -1,28 +1,29 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RunWith(JUnit4.class)
-public class LASTSchedulerTest extends LASTScheduler {
-    // private LASTScheduler lastScheduler;
+public class LASTSchedulerTest {
+    private LASTScheduler lastScheduler;
     private TaskGraph graph;
     private TaskGraphNode graphNodes[];
 
     @Before
     public void initialize() {
-        // lastScheduler = new LASTScheduler();
+        lastScheduler = new LASTScheduler();
         graphNodes = new TaskGraphNode[5];
 
         // Building up an example graph statet in
@@ -57,6 +58,9 @@ public class LASTSchedulerTest extends LASTScheduler {
 
     @Test
     public void calcStrengthTest() {
+        List<List<LASTNode>> group1 = new ArrayList<List<LASTNode>>();
+        group1.add();
+
         int id = 1;
         int computationTime = 1;
         int cpuId = 1;
