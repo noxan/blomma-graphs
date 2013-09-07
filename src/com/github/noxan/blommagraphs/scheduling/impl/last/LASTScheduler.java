@@ -93,6 +93,19 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
+     * Checks if a given TaskGraphNode was already scheduled.
+     * 
+     * @return
+     */
+    protected boolean alreadyScheduled(TaskGraphNode taskGraphNode) {
+        for (List<LASTNode> group : groups) {
+            if (containsTask(group, taskGraphNode))
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Checks if a list contains a LASTNode which references given
      * TaskGraphNode.
      * 
