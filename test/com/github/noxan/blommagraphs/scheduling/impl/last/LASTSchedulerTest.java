@@ -51,7 +51,15 @@ public class LASTSchedulerTest {
 
     @Test
     public void calcDNodeTest() {
-        Assert.fail("Not implemented yet");
+        LASTNode lastNode0 = new LASTNode(graphNodes[0]);
+        LASTNode lastNode1 = new LASTNode(graphNodes[1]);
+        LASTNode lastNode2 = new LASTNode(graphNodes[2]);
+
+        lastScheduler.groups.get(0).add(lastNode0);
+
+        System.out.println(graphNodes[4].getComputationTime());
+        Assert.assertEquals(0.5f, lastScheduler.calcDNode(lastNode1));
+        Assert.assertEquals(0.3333333333333333f, lastScheduler.calcDNode(lastNode2));
     }
 
     @Test
