@@ -13,6 +13,8 @@ import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
+import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
 
 @RunWith(JUnit4.class)
