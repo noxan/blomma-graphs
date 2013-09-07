@@ -24,7 +24,7 @@ public class GeneticScheduler implements Scheduler {
 
     private float elitismRatio = 0.1f;
 
-    private Set<Chromosome> elitismPopulation;
+    private List<Chromosome> elitismPopulation;
     private Set<Chromosome> matingPopulation;
 
     public GeneticScheduler(Scheduler initialScheduler) {
@@ -66,7 +66,7 @@ public class GeneticScheduler implements Scheduler {
             population.add(processorChromosome);
         }
 
-        elitismPopulation = new HashSet<Chromosome>();
+        elitismPopulation = new ArrayList<Chromosome>();
         matingPopulation = new HashSet<Chromosome>();
 
         splitPopulation(population);
