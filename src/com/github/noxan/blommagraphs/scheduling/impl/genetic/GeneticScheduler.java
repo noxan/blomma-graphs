@@ -6,15 +6,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.Chromosome;
+import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.RandomChromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
@@ -71,15 +70,9 @@ public class GeneticScheduler implements Scheduler {
             population.add(processorChromosome);
         }
 
-        Random random = new Random(System.nanoTime());
         for (int i = 0; i < randomPopulationSize; i++) {
-            Chromosome randomChromosome = new Chromosome(metaInformation.getProcessorCount(),
+            Chromosome randomChromosome = new RandomChromosome(metaInformation.getProcessorCount(),
                     taskGraph);
-
-            for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
-                int processorId = random.nextInt(metaInformation.getProcessorCount());
-                randomChromosome.addTaskToProcessor(processorId, taskNode);
-            }
 
             population.add(randomChromosome);
         }
