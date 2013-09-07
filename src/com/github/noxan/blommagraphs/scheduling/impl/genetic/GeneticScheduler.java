@@ -119,6 +119,10 @@ public class GeneticScheduler implements Scheduler {
         nextPopulation.addAll(elitismPopulation);
         nextPopulation.addAll(matingPopulation);
         splitPopulation(nextPopulation);
+        System.out.println("Chromosome count: " + nextPopulation.size());
+        for (Chromosome chromosome : nextPopulation) {
+            System.out.println(chromosome.toString());
+        }
     }
 
     @Override
