@@ -17,7 +17,7 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
-public class Chromosome implements Comparable<Chromosome> {
+public abstract class Chromosome implements Comparable<Chromosome> {
     private List<List<TaskGraphNode>> genes;
 
     private int numberOfProcessors;
