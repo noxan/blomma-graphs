@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -130,6 +131,22 @@ public class Chromosome implements Comparable<Chromosome> {
         // TODO: maybe add a readyNode list to select from?!
 
         return scheduledTaskList;
+    }
+
+    public void swapMutate() {
+        Random random = new Random(System.nanoTime());
+
+        int x1 = random.nextInt(genes.size());
+        int x2 = random.nextInt(genes.size());
+
+        int y1 = random.nextInt(genes.get(x1).size());
+        int y2 = random.nextInt(genes.get(x2).size());
+
+        TaskGraphNode value1 = genes.get(x1).remove(y1);
+        TaskGraphNode value2 = genes.get(x2).remove(y2);
+
+        genes.get(x1).add(y1, value2);
+        genes.get(x2).add(y2, value1);
     }
 
     @Override
