@@ -11,6 +11,8 @@ import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
 
 
 public class ScheduledChromosomeTest {
@@ -48,5 +50,10 @@ public class ScheduledChromosomeTest {
         Assert.assertEquals(taskList.size(), scheduledTaskList.size());
 
         Assert.assertEquals(taskList.getFinishTime(), 22);
+
+        ScheduledTaskListSerializer serializer = new ExtendedScheduledTaskListSerializer();
+        Assert.assertEquals(
+                serializer.serialize(taskList),
+                "sT\tp\ttask\tcompT\tcommT\n\n0\t0\t0\t1\t0\n1\t0\t1\t2\t0\n3\t0\t3\t3\t0\n6\t0\t2\t5\t0\n7\t1\t5\t8\t1\n11\t0\t4\t10\t0\n21\t0\t6\t1\t0");
     }
 }
