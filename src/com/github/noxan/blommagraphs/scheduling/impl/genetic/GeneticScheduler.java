@@ -24,9 +24,9 @@ public class GeneticScheduler implements Scheduler {
     private Scheduler initialScheduler;
     private List<ScheduledTask> initialTaskSchedule;
 
-    private int randomPopulationSize = 0;
+    private int randomPopulationSize = 10;
     private float elitismRatio = 0.1f;
-    private int generationCount = 50;
+    private int generationCount = 10;
 
     private List<Chromosome> elitismPopulation;
     private Set<Chromosome> matingPopulation;
