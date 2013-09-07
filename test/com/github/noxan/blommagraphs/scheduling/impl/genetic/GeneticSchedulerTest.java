@@ -15,7 +15,7 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
-import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.AbstractSystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
@@ -62,7 +62,7 @@ public class GeneticSchedulerTest {
 
         System.out.println();
 
-        ScheduledTaskListSerializer scheduledSerializer = new DefaultScheduledTaskListSerializer();
+        ScheduledTaskListSerializer scheduledSerializer = new ExtendedScheduledTaskListSerializer();
         System.out.println(scheduledSerializer.serialize(scheduledTasks));
 
         Assert.assertEquals(scheduledTasks.size(), taskGraph.getNodeCount());
