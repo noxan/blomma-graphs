@@ -61,6 +61,18 @@ public class LASTSchedulerTest {
     }
 
     @Test
+    public void updateFrontiersTest() {
+        lastScheduler.groups.get(0).add(lastNodes[0]);
+        lastScheduler.updateFrontiers();
+
+        Assert.assertEquals(0, lastScheduler.frontiers.get(1).size());
+        Assert.assertEquals(2, lastScheduler.frontiers.get(0).size());
+
+        Assert.assertEquals(graphNodes[1], lastScheduler.frontiers.get(0).get(0).getTaskGraphNode());
+        Assert.assertEquals(graphNodes[2], lastScheduler.frontiers.get(0).get(1).getTaskGraphNode());
+    }
+
+    @Test
     public void highestLastNodeByDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
         lastScheduler.frontiers.get(1).add(lastNodes[1]);
