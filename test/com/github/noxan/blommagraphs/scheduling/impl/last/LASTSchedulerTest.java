@@ -42,6 +42,8 @@ public class LASTSchedulerTest {
         graphNodes[1] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 5, 20);
         graphNodes[2] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 50, 30);
         graphNodes[4] = graph.insertNode(graphNodes[2], 10, graph.getLastNode(), 5, 40);
+
+        lastScheduler.initialize(graph, systemInformation);
     }
 
     @Test
