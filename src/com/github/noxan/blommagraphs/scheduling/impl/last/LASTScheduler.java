@@ -58,6 +58,30 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
+     * Find the LASTNode with highest D_NODE value of all frontiers.
+     * 
+     * This method calculates the D_NODE value for every LASTNode in all
+     * frontiers and returns the LASTNode with the highest D_NODE value. If all
+     * frontiers are empty, it will returns null.
+     * 
+     * @return LASTNode with highest D_NODE value or null if no LASTNode can be
+     *         found.
+     */
+    protected LASTNode highestLastNodeByDNode() {
+        LASTNode maxNode = null;
+
+        for (List<LASTNode> frontier : frontiers) {
+            for (LASTNode currNode : frontier) {
+                currNode.setDNode(calcDNode(currNode));
+
+                if (maxNode == null || maxNode.getDNode() < currNode.getDNode())
+                    maxNode = currNode;
+            }
+        }
+        return maxNode;
+    }
+
+    /**
      * Calculates the D_NODE value used to select the next task that is
      * scheduled.
      * 
