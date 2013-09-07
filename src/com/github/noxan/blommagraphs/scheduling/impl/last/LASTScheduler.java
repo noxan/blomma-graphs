@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -77,10 +78,7 @@ public class LASTScheduler implements Scheduler {
                     try {
                         communicationTime = taskGraph.findEdge(prevNode.getTaskGraphNode(),
                                 node.getTaskGraphNode()).getCommunicationTime();
-
                         prevNumeratorSum += communicationTime * calcDEdge(prevNode, node);
-                        prevDenominatorSum += communicationTime;
-
                     } catch (ContainsNoEdgeException e) {
                         e.printStackTrace();
                     }
@@ -94,16 +92,26 @@ public class LASTScheduler implements Scheduler {
                                 nextNode.getTaskGraphNode()).getCommunicationTime();
 
                         nextNumeratorSum += communicationTime * calcDEdge(node, nextNode);
-                        nextDenominatorSum += communicationTime;
                     } catch (ContainsNoEdgeException e) {
                         e.printStackTrace();
                     }
                 }
             }
+        } // for (group : groups)
 
-        }
+        // Calculate denomiator sums
+        for (TaskGraphEdge edge : node.getTaskGraphNode().getPrevEdges())
+            prevDenominatorSum += edge.getCommunicationTime();
+        for (TaskGraphEdge edge : node.getTaskGraphNode().getNextEdges())
+            nextDenominatorSum += edge.getCommunicationTime();
 
-        return (prevNumeratorSum + nextNumeratorSum) / (prevDenominatorSum + nextDenominatorSum);
+        System.out.println(String.format("(%d + %d) / (%d + %d)", prevNumeratorSum,
+                nextNumeratorSum, prevDenominatorSum, nextDenominatorSum));
+
+        double result = ((double) (prevNumeratorSum + nextNumeratorSum))
+                / ((prevDenominatorSum + nextDenominatorSum));
+
+        return (float) result;
     }
 
     /**
