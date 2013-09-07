@@ -3,7 +3,6 @@ package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import junit.framework.Assert;
 import org.junit.Before;
@@ -11,11 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
-
 
 @RunWith(JUnit4.class)
 public class LASTSchedulerTest {
@@ -79,17 +75,16 @@ public class LASTSchedulerTest {
 
     @Test
     public void calcStrengthTest() {
-        List<List<LASTNode>> group1 = new ArrayList<List<LASTNode>>();
-        group1.add();
+        int cpuId = 0;
+        float expected = 0f;
 
-        int id = 1;
-        int computationTime = 1;
-        int cpuId = 1;
-        double expected = 1.0;
+        LASTNode node1 = new LASTNode(graphNodes[0]);
+        LASTNode node2 = new LASTNode(graphNodes[1]);
+        LASTNode testedNode = new LASTNode(graphNodes[3]);
 
-        TaskGraphNode taskGraphNode = new DefaultTaskGraphNode(id, computationTime);
-        LASTNode lastNode = new LASTNode(taskGraphNode);
+        lastScheduler.groups.get(cpuId).add(node1);
+        lastScheduler.groups.get(cpuId).add(node2);
 
-        // Assert.assertEquals(expected, lastScheduler.(lastNode, cpuId));
+        Assert.assertEquals(expected, lastScheduler.calcStrength(testedNode, cpuId));
     }
 }

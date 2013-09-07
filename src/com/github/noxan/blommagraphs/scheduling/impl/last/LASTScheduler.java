@@ -151,14 +151,26 @@ public class LASTScheduler implements Scheduler {
         double strength = 0.0;
 
         // Lists of the previous and following nodes of the node1.
-        ArrayList<TaskGraphNode> lastNodePrevNodes = new ArrayList<TaskGraphNode>
+        ArrayList<TaskGraphNode> lastNodePrevNodesAll = new ArrayList<TaskGraphNode>
                 (node1.getTaskGraphNode().getPrevNodes());
-        ArrayList<TaskGraphNode> lastNodeNextNodes = new ArrayList<TaskGraphNode>
+        ArrayList<TaskGraphNode> lastNodeNextNodesAll = new ArrayList<TaskGraphNode>
                 (node1.getTaskGraphNode().getNextNodes());
 
-        // Intersection between all previous/next nodes and the group of the cpu.
-        lastNodePrevNodes.retainAll(groups.get(cpuId));
-        lastNodeNextNodes.retainAll(groups.get(cpuId));
+        ArrayList<TaskGraphNode> lastNodePrevNodes = new ArrayList<TaskGraphNode>();
+        ArrayList<TaskGraphNode> lastNodeNextNodes = new ArrayList<TaskGraphNode>();
+
+        for (int i = 0; i < lastNodePrevNodesAll.size(); i++) {
+            for (int j = 0; j < groups.get(cpuId).size(); j++) {
+                if (lastNodePrevNodesAll.get(i) == groups.get(cpuId).get(j).getTaskGraphNode())
+                    lastNodePrevNodes.add(lastNodePrevNodesAll.get(i));
+            }
+        }
+        for (int i = 0; i < lastNodeNextNodesAll.size(); i++) {
+            for (int j = 0; j < groups.get(cpuId).size(); j++) {
+                if (lastNodeNextNodesAll.get(i) == groups.get(cpuId).get(j).getTaskGraphNode())
+                    lastNodeNextNodes.add(lastNodeNextNodesAll.get(i));
+            }
+        }
 
         // If there are no nodes in the group then there are no dependencies.
         if (lastNodeNextNodes.size() == 0 && lastNodePrevNodes.size() == 0) {
@@ -168,7 +180,7 @@ public class LASTScheduler implements Scheduler {
         // Iterate through the lastNodePrevNodes and calculate the first sum.
         for (int i = 0; i < lastNodePrevNodes.size(); i++) {
             try {
-                strength += ((taskGraph.findEdge(lastNodePrevNodes.get(i),
+                strength += ((double)(taskGraph.findEdge(lastNodePrevNodes.get(i),
                         node1.getTaskGraphNode()).getCommunicationTime()) / computationTimeNode1);
             } catch (ContainsNoEdgeException e) {
                 e.printStackTrace();
@@ -178,8 +190,8 @@ public class LASTScheduler implements Scheduler {
         // Iterate through the lastNodeNextNodes and calculate the second sum.
         for (int i = 0; i < lastNodeNextNodes.size(); i++) {
             try{
-                strength += ((taskGraph.findEdge(node1.getTaskGraphNode(),
-                        lastNodeNextNodes.get(i)).getCommunicationTime()) / computationTimeNode1);
+                strength += ((double)(taskGraph.findEdge(node1.getTaskGraphNode(),
+                         lastNodeNextNodes.get(i)).getCommunicationTime()) / computationTimeNode1);
             } catch (ContainsNoEdgeException e) {
                 e.printStackTrace();
             }
@@ -191,7 +203,7 @@ public class LASTScheduler implements Scheduler {
                 strength -= 0;
             } else {
                 try {
-                    strength -= ( computationTimeNode1 / (taskGraph.findEdge(node1.getTaskGraphNode(),
+                    strength -= ( computationTimeNode1 / (double)(taskGraph.findEdge(node1.getTaskGraphNode(),
                             lastNodeNextNodes.get(i)).getCommunicationTime()));
                 } catch (ContainsNoEdgeException e) {
                     e.printStackTrace();
