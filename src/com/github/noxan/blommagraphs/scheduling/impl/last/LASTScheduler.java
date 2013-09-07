@@ -18,8 +18,8 @@ public class LASTScheduler implements Scheduler {
     private SystemMetaInformation systemInformation;
     private TaskGraph taskGraph;
 
-    private List<List<LASTNode>> groups;
-    private List<List<LASTNode>> frontiers;
+    protected List<List<LASTNode>> groups;
+    protected List<List<LASTNode>> frontiers;
     private Set<TaskGraphNode> nodeSet;
 
     public void setThreshold(float threshold) {
@@ -63,7 +63,7 @@ public class LASTScheduler implements Scheduler {
      * @param node The node for which the D_NODE value is calculated.
      * @return D_NODE value as float.
      */
-    private float calcDNode(LASTNode node) {
+    protected float calcDNode(LASTNode node) {
         return 0.0f;
     }
 
@@ -76,7 +76,7 @@ public class LASTScheduler implements Scheduler {
      * @param node2
      * @return 1 if the edge is defined or 0 if it's not defined.
      */
-    private int calcDEdge(LASTNode node1, LASTNode node2) {
+    protected int calcDEdge(LASTNode node1, LASTNode node2) {
         // saves if node1 or node2 is scheduled.
         int node1scheduled = 0;
         int node2scheduled = 0;
@@ -107,7 +107,7 @@ public class LASTScheduler implements Scheduler {
      * @param cpuId The id of the cpu.
      * @return STRENGTH of node1 related to cpu.
      */
-    private float calcStrength(LASTNode node1, int cpuId) {
+    protected float calcStrength(LASTNode node1, int cpuId) {
         int computationTimeNode1 = node1.getTaskGraphNode().getComputationTime();
         double strength = 0.0;
 
