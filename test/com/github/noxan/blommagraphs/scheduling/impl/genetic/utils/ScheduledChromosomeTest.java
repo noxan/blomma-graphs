@@ -46,5 +46,7 @@ public class ScheduledChromosomeTest {
         ScheduledTaskList taskList = chromosome.decode();
         Assert.assertEquals(taskList.size(), taskGraph.getNodeCount());
         Assert.assertEquals(taskList.size(), scheduledTaskList.size());
+
+        Assert.assertEquals(taskList.getFinishTime(), 22);
     }
 }
