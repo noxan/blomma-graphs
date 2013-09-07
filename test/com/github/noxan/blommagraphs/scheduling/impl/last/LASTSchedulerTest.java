@@ -41,22 +41,22 @@ public class LASTSchedulerTest extends LASTScheduler {
     }
 
     @Test
-    public void schedule() {
+    public void scheduleTest() {
         Assert.fail("Not implemented yet");
     }
 
     @Test
-    public void calcDNode() {
+    public void calcDNodeTest() {
         Assert.fail("Not implemented yet");
     }
 
     @Test
-    public void calcDEdge() {
-        LASTNode lastNode1 = new LASTNode(graph.getFirstNode());
+    public void calcDEdgeTest() {
+        Assert.fail("Not implemented yet");
     }
 
     @Test
-    public void calcStrength() {
+    public void calcStrengthTest() {
         int id = 1;
         int computationTime = 1;
         int cpuId = 1;
