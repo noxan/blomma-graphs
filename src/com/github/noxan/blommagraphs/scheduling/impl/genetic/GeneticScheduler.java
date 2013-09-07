@@ -46,19 +46,17 @@ public class GeneticScheduler implements Scheduler {
 
         Set<Chromosome> population = new HashSet<Chromosome>();
 
+        // initial schedule based chromosome
         population.add(new ScheduledChromosome(metaInformation.getProcessorCount(), taskGraph,
                 initialTaskSchedule));
-
+        // processor based chromosomes
         for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
             population.add(new ProcessorChromosome(metaInformation.getProcessorCount(), taskGraph,
                     processorId));
         }
-
+        // random chromosomes
         for (int i = 0; i < randomPopulationSize; i++) {
-            Chromosome randomChromosome = new RandomChromosome(metaInformation.getProcessorCount(),
-                    taskGraph);
-
-            population.add(randomChromosome);
+            population.add(new RandomChromosome(metaInformation.getProcessorCount(), taskGraph));
         }
 
         elitismPopulation = new ArrayList<Chromosome>();
