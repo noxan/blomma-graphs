@@ -10,7 +10,6 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
-import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -22,6 +21,8 @@ public class GeneticScheduler implements Scheduler {
 
     private Scheduler initialScheduler;
     private List<ScheduledTask> initialTaskSchedule;
+
+    private float elitismRatio = 0.1f;
 
     private Set<Chromosome> population;
     private Set<Chromosome> elitismPopulation;
@@ -71,13 +72,19 @@ public class GeneticScheduler implements Scheduler {
     }
 
     private void chromosomeDecoding() {
-        List<ScheduledTaskList> decodedChromosomeList = new ArrayList<ScheduledTaskList>();
-        for (Chromosome chromosome : population) {
-            ScheduledTaskList scheduledTaskList = chromosome.decode();
+        List<Chromosome> sortedPopulation = new ArrayList<Chromosome>(population);
+        Collections.sort(sortedPopulation);
 
-            System.out.println(scheduledTaskList.getFinishTime());
+        int populationSize = sortedPopulation.size();
 
-            decodedChromosomeList.add(scheduledTaskList);
+        for (int index = 0; index < populationSize; index++) {
+            Chromosome chromosome = sortedPopulation.get(index);
+
+            if (elitismRatio >= index / populationSize) {
+                elitismPopulation.add(chromosome);
+            } else {
+                matingPopulation.add(chromosome);
+            }
         }
     }
 
