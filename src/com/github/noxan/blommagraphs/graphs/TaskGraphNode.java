@@ -75,6 +75,13 @@ public interface TaskGraphNode extends Comparable<TaskGraphNode> {
     public int getId();
 
     /**
+     * Sets the computation time of the node.
+     * 
+     * @param computationTime The new computation time of the node.
+     */
+    public void setComputationTime(int computationTime);
+
+    /**
      * Returns the computation time of the node.
      * 
      * @return computation time of the node
