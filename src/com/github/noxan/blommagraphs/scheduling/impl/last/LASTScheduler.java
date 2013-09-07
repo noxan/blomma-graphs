@@ -160,6 +160,11 @@ public class LASTScheduler implements Scheduler {
         lastNodePrevNodes.retainAll(groups.get(cpuId));
         lastNodeNextNodes.retainAll(groups.get(cpuId));
 
+        // If there are no nodes in the group then there are no dependencies.
+        if (lastNodeNextNodes.size() == 0 && lastNodePrevNodes.size() == 0) {
+            return 0f;
+        }
+
         // Iterate through the lastNodePrevNodes and calculate the first sum.
         for (int i = 0; i < lastNodePrevNodes.size(); i++) {
             try {
@@ -182,14 +187,17 @@ public class LASTScheduler implements Scheduler {
 
         // Iterate through the lastNodeNextNodes and calculate the difference.
         for (int i = 0; i < lastNodeNextNodes.size(); i++) {
-            try {
-                strength -= ( computationTimeNode1 / (taskGraph.findEdge(node1.getTaskGraphNode(),
-                        lastNodeNextNodes.get(i)).getCommunicationTime()));
-            } catch (ContainsNoEdgeException e) {
-                e.printStackTrace();
+            if (lastNodeNextNodes.size() == 0) {
+                strength -= 0;
+            } else {
+                try {
+                    strength -= ( computationTimeNode1 / (taskGraph.findEdge(node1.getTaskGraphNode(),
+                            lastNodeNextNodes.get(i)).getCommunicationTime()));
+                } catch (ContainsNoEdgeException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return (float) strength;
     }
-
 }
