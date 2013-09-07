@@ -32,7 +32,7 @@ public abstract class Chromosome implements Comparable<Chromosome> {
         }
     }
 
-    public void addTaskToProcessor(int cpu, TaskGraphNode task) {
+    protected void addTaskToProcessor(int cpu, TaskGraphNode task) {
         genes.get(cpu).add(task);
     }
 
