@@ -70,21 +70,17 @@ public class LASTSchedulerTest {
 
     @Test
     public void calcDEdgeTest() {
-        LASTNode lastNode0 = new LASTNode(graphNodes[0]);
-        LASTNode lastNode1 = new LASTNode(graphNodes[1]);
-        LASTNode lastNode4 = new LASTNode(graphNodes[4]);
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[0], lastNodes[1]));
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[1], lastNodes[0]));
 
-        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode0, lastNode1));
-        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode1, lastNode0));
+        lastScheduler.groups.get(0).add(lastNodes[1]);
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNodes[0], lastNodes[1]));
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNodes[1], lastNodes[0]));
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNodes[4], lastNodes[1]));
 
-        lastScheduler.groups.get(0).add(lastNode1);
-        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode0, lastNode1));
-        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode1, lastNode0));
-        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode4, lastNode1));
-
-        lastScheduler.groups.get(0).add(lastNode0);
-        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode0, lastNode0));
-        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode1, lastNode0));
+        lastScheduler.groups.get(0).add(lastNodes[0]);
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[0], lastNodes[0]));
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[1], lastNodes[0]));
     }
 
     @Test
@@ -92,13 +88,9 @@ public class LASTSchedulerTest {
         int cpuId = 0;
         float expected = 0f;
 
-        LASTNode node1 = new LASTNode(graphNodes[0]);
-        LASTNode node2 = new LASTNode(graphNodes[1]);
-        LASTNode testedNode = new LASTNode(graphNodes[3]);
+        lastScheduler.groups.get(cpuId).add(lastNodes[0]);
+        lastScheduler.groups.get(cpuId).add(lastNodes[1]);
 
-        lastScheduler.groups.get(cpuId).add(node1);
-        lastScheduler.groups.get(cpuId).add(node2);
-
-        Assert.assertEquals(expected, lastScheduler.calcStrength(testedNode, cpuId));
+        Assert.assertEquals(expected, lastScheduler.calcStrength(lastNodes[3], cpuId));
     }
 }
