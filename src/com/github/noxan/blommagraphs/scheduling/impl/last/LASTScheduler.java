@@ -103,14 +103,14 @@ public class LASTScheduler implements Scheduler {
         for(int i = 0; i < frontierList.size(); i++) {
             float strengthFrontier = 0f;
             for(int j = 0; j < frontiers.get(i).size(); j++) {
-                if(calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i)) > strength)
-                    strengthFrontier = calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i));
+                float calcStrength = calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i));
+                if(calcStrength > strength)
+                    strengthFrontier = calcStrength;
             }
             if(strengthFrontier > strength ) {
                 strength = strengthFrontier;
                 cpuId = frontierList.get(i);
             }
-
         }
         return cpuId;
     }

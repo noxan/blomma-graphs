@@ -86,33 +86,18 @@ public class LASTSchedulerTest {
     @Test
     public void calcStrengthTest() {
         int cpuId = 0;
-        float expected;
 
         lastScheduler.groups.get(cpuId).add(lastNodes[0]);
         lastScheduler.groups.get(cpuId).add(lastNodes[1]);
 
-        Assert.assertEquals(expected, lastScheduler.calcStrength(lastNodes[3], cpuId));
-        LASTNode node1 = new LASTNode(graphNodes[0]);
-        LASTNode node2 = new LASTNode(graphNodes[1]);
-        LASTNode testedNode;
-
-        lastScheduler.groups.get(cpuId).add(node1);
-        lastScheduler.groups.get(cpuId).add(node2);
-
         // First test.
-        expected =  0.16666667f;
-        testedNode = new LASTNode(graphNodes[2]);
-        Assert.assertEquals(expected, lastScheduler.calcStrength(testedNode, cpuId));
+        Assert.assertEquals(0.16666667f, lastScheduler.calcStrength(lastNodes[2], cpuId));
 
         // Second test.
-        expected = 0f;
-        testedNode = new LASTNode(graphNodes[3]);
-        Assert.assertEquals(expected, lastScheduler.calcStrength(testedNode, cpuId));
+        Assert.assertEquals(0f, lastScheduler.calcStrength(lastNodes[3], cpuId));
 
         // Second test.
-        expected = 0.1f;
-        testedNode = new LASTNode(graphNodes[4]);
-        Assert.assertEquals(expected, lastScheduler.calcStrength(testedNode, cpuId));
+        Assert.assertEquals(0.1f, lastScheduler.calcStrength(lastNodes[4], cpuId));
 
     }
 }
