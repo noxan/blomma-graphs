@@ -118,6 +118,7 @@ public class GeneticScheduler implements Scheduler {
         System.out.println("Chromosome count: " + nextPopulation.size());
         for (Chromosome chromosome : nextPopulation) {
             System.out.println(chromosome.toString());
+            System.out.println(chromosome.decode().getFinishTime());
         }
     }
 
