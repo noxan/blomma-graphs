@@ -87,17 +87,20 @@ public class Chromosome implements Comparable<Chromosome> {
             if (it.hasNext()) {
                 startTime = Integer.MAX_VALUE;
             }
+            // search for best connection to dependencies
             while (it.hasNext()) {
                 int tempCommunicationTime = 0;
                 int tempFinishTime = 0;
+
                 TaskGraphEdge prevEdge = it.next();
                 TaskGraphNode prevNode = prevEdge.getPrevNode();
                 ScheduledTask prevScheduledTask = scheduledTaskList.getTaskById(prevNode.getId());
-                // previous task is another processor, else it stays zero
+                // just if previous task is scheduled on another processor, else it stays zero
                 if (prevScheduledTask.getCpuId() != processorId) {
                     tempCommunicationTime = prevEdge.getCommunicationTime();
                 }
                 tempFinishTime = prevScheduledTask.getFinishTime() + tempCommunicationTime;
+
                 // use minimum startTime for the next task
                 if (tempFinishTime < startTime) {
                     // check if processor is free
