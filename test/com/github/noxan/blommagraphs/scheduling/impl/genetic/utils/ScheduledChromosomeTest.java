@@ -11,6 +11,7 @@ import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.ScheduledChromosome;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
@@ -44,7 +45,7 @@ public class ScheduledChromosomeTest {
 
     @Test
     public void testScheduledChromosomeDecode() {
-        ScheduledChromosome chromosome = new ScheduledChromosome(2, taskGraph, scheduledTaskList);
+        Chromosome chromosome = new ScheduledChromosome(2, taskGraph, scheduledTaskList);
 
         ScheduledTaskList taskList = chromosome.decode();
         Assert.assertEquals(taskList.size(), taskGraph.getNodeCount());

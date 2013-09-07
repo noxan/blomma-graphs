@@ -10,7 +10,7 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.AbstractChromosome;
+import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.ProcessorChromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.RandomChromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.ScheduledChromosome;
@@ -28,8 +28,8 @@ public class GeneticScheduler implements Scheduler {
     private float elitismRatio = 0.1f;
     private int generationCount = 10;
 
-    private List<AbstractChromosome> elitismPopulation;
-    private Set<AbstractChromosome> matingPopulation;
+    private List<Chromosome> elitismPopulation;
+    private Set<Chromosome> matingPopulation;
 
     public GeneticScheduler(Scheduler initialScheduler) {
         this.initialScheduler = initialScheduler;
@@ -44,7 +44,7 @@ public class GeneticScheduler implements Scheduler {
             initialTaskSchedule = initialScheduler.schedule(taskGraph, metaInformation);
         }
 
-        Set<AbstractChromosome> population = new HashSet<AbstractChromosome>();
+        Set<Chromosome> population = new HashSet<Chromosome>();
 
         // initial schedule based chromosome
         population.add(new ScheduledChromosome(metaInformation.getProcessorCount(), taskGraph,
@@ -59,14 +59,14 @@ public class GeneticScheduler implements Scheduler {
             population.add(new RandomChromosome(metaInformation.getProcessorCount(), taskGraph));
         }
 
-        elitismPopulation = new ArrayList<AbstractChromosome>();
-        matingPopulation = new HashSet<AbstractChromosome>();
+        elitismPopulation = new ArrayList<Chromosome>();
+        matingPopulation = new HashSet<Chromosome>();
 
         splitPopulation(population);
     }
 
-    private void splitPopulation(Set<AbstractChromosome> population) {
-        List<AbstractChromosome> sortedPopulation = new ArrayList<AbstractChromosome>(population);
+    private void splitPopulation(Set<Chromosome> population) {
+        List<Chromosome> sortedPopulation = new ArrayList<Chromosome>(population);
         Collections.sort(sortedPopulation);
 
         int populationSize = sortedPopulation.size();
@@ -75,7 +75,7 @@ public class GeneticScheduler implements Scheduler {
         matingPopulation.clear();
 
         for (int index = 0; index < populationSize; index++) {
-            AbstractChromosome chromosome = sortedPopulation.get(index);
+            Chromosome chromosome = sortedPopulation.get(index);
 
             if (elitismRatio >= (float) index / (float) populationSize) {
                 elitismPopulation.add(chromosome);
@@ -87,13 +87,13 @@ public class GeneticScheduler implements Scheduler {
 
     private void nextGeneration() {
         // swap mutation
-        for (AbstractChromosome chromosome : matingPopulation) {
+        for (Chromosome chromosome : matingPopulation) {
             if (Math.random() > 0.5f) {
                 chromosome.swapMutate();
             }
         }
 
-        Set<AbstractChromosome> nextPopulation = new HashSet<AbstractChromosome>();
+        Set<Chromosome> nextPopulation = new HashSet<Chromosome>();
         nextPopulation.addAll(elitismPopulation);
         nextPopulation.addAll(matingPopulation);
         splitPopulation(nextPopulation);
@@ -111,7 +111,7 @@ public class GeneticScheduler implements Scheduler {
         }
 
         Collections.sort(elitismPopulation);
-        AbstractChromosome solutionChromosome = elitismPopulation.get(0);
+        Chromosome solutionChromosome = elitismPopulation.get(0);
 
         ScheduledTaskList solutionScheduledTaskList = solutionChromosome.decode();
 
