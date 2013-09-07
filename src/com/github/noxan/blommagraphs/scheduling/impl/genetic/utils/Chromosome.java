@@ -74,8 +74,6 @@ public class Chromosome implements Comparable<Chromosome> {
 
         if (unscheduledNodes.remove(taskNode)) {
             // schedule current task node
-            System.out.print(taskNode.getId() + " - ");
-
             int processorId = getProcessorForTask(taskNode);
             int communicationTime = 0;
             int startTime = 0;
@@ -106,14 +104,8 @@ public class Chromosome implements Comparable<Chromosome> {
                 }
             }
 
-            System.out.print("startTime: " + startTime + " - ");
-
-            System.out.print("communicationTime: " + communicationTime + " - ");
-
             scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
                     communicationTime, taskNode));
-
-            System.out.println("processorId: " + processorId);
         }
 
         // select next task node
@@ -130,8 +122,6 @@ public class Chromosome implements Comparable<Chromosome> {
 
     public ScheduledTaskList decode() {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
-
-        System.out.println("[ Start decoding... ]");
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
