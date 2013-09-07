@@ -86,6 +86,13 @@ public class GeneticScheduler implements Scheduler {
                 matingPopulation.add(chromosome);
             }
         }
+
+        // swap mutation
+        for (Chromosome chromosome : matingPopulation) {
+            if (Math.random() > 0.5f) {
+                chromosome.swapMutate();
+            }
+        }
     }
 
     @Override
