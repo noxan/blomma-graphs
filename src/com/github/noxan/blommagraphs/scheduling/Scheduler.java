@@ -13,5 +13,5 @@ public interface Scheduler {
      * @param graph TaskGraph that is scheduled
      * @return List which holds all scheduled tasks ordered by starting time.
      */
-    public ScheduledTaskList schedule(SystemMetaInformation metaInformation, TaskGraph graph);
+    public ScheduledTaskList schedule(TaskGraph taskGraph, SystemMetaInformation metaInformation);
 }

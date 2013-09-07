@@ -41,7 +41,7 @@ public class GeneticScheduler implements Scheduler {
 
     private void initialize() {
         if (initialTaskSchedule == null) {
-            initialTaskSchedule = initialScheduler.schedule(metaInformation, taskGraph);
+            initialTaskSchedule = initialScheduler.schedule(taskGraph, metaInformation);
         }
 
         Set<Chromosome> population = new HashSet<Chromosome>();
@@ -100,7 +100,7 @@ public class GeneticScheduler implements Scheduler {
     }
 
     @Override
-    public ScheduledTaskList schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
+    public ScheduledTaskList schedule(TaskGraph taskGraph, SystemMetaInformation metaInformation) {
         this.metaInformation = metaInformation;
         this.taskGraph = taskGraph;
 
