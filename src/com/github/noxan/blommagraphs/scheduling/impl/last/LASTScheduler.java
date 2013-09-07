@@ -73,11 +73,9 @@ public class LASTScheduler implements Scheduler {
         List<LASTNode> group = null;
 
         for (TaskGraphNode graphNode : nodeSet) {
-            for (int cpuId = 0; cpuId < groups.size(); ++cpuId) {
-                group = groups.get(cpuId);
-
-                // If the group does not already contain the scheduled task
-                if (!containsTask(group, graphNode)) {
+            if (!alreadyScheduled(graphNode)) {
+                for (int cpuId = 0; cpuId < groups.size(); ++cpuId) {
+                    group = groups.get(cpuId);
                     for (int j = 0; j < group.size(); ++j) {
                         lastNode = group.get(j);
 
