@@ -18,4 +18,9 @@ public class RandomChromosome extends Chromosome {
             addTaskToProcessor(processorId, taskNode);
         }
     }
+
+    @Override
+    public String toString() {
+        return "Random" + super.toString();
+    }
 }
