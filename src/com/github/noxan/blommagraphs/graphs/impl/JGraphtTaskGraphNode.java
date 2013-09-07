@@ -167,4 +167,30 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
         max = this.layersToBottom;
         return max;
     }
+
+    @Override
+    public int getStaticBLevel(){
+        return getStaticBLevel(0, this);
+    }
+
+    /**
+     * recursive function to calculate the static b-level
+     *
+     * @param currenttime
+     * @param node
+     * @return
+     */
+    private int getStaticBLevel(int currenttime, TaskGraphNode node) {
+        currenttime += node.getComputationTime();
+        int max = currenttime;
+
+        // go through the list of outgoing edges and call this function again for every edge
+        for (TaskGraphEdge currentEdge : graph.outgoingEdgesOf(node)) {
+            int pathTime = getStaticBLevel(currenttime, currentEdge.getNextNode());
+            if (pathTime > max) {
+                max = pathTime;
+            }
+        }
+        return max;
+    }
 }
