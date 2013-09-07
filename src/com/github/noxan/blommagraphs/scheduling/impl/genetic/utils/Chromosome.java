@@ -16,7 +16,7 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
-public class Chromosome {
+public class Chromosome implements Comparable<Chromosome> {
     private List<List<TaskGraphNode>> genes;
 
     private int numberOfProcessors;
@@ -140,5 +140,10 @@ public class Chromosome {
         // TODO: maybe add a readyNode list to select from?!
 
         return scheduledTaskList;
+    }
+
+    @Override
+    public int compareTo(Chromosome other) {
+        return decode().getFinishTime() - other.decode().getFinishTime();
     }
 }
