@@ -106,6 +106,8 @@ public class Chromosome {
 
             System.out.print("startTime: " + startTime + " - ");
 
+            System.out.print("communicationTime: " + communicationTime + " - ");
+
             scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
                     communicationTime, taskNode));
 
