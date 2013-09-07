@@ -81,7 +81,9 @@ public class LASTScheduler implements Scheduler {
         return maxNode;
     }
 
-     /**
+    /**
+     * This method compares the strengths of the delivered node from the frontiers and returns
+     * the destination cpu where the strength is greater.
      *
      * @param node
      * @return
@@ -101,12 +103,8 @@ public class LASTScheduler implements Scheduler {
         }
 
         for(int i = 0; i < frontierList.size(); i++) {
-            float strengthFrontier = 0f;
-            for(int j = 0; j < frontiers.get(i).size(); j++) {
-                float calcStrength = calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i));
-                if(calcStrength > strength)
-                    strengthFrontier = calcStrength;
-            }
+            float strengthFrontier = calcStrength(node, frontierList.get(i));
+
             if(strengthFrontier > strength ) {
                 strength = strengthFrontier;
                 cpuId = frontierList.get(i);

@@ -52,7 +52,10 @@ public class LASTSchedulerTest {
 
     @Test
     public void findCpuForNodeTest() {
+        int cpuIdOne = 0;
+        int cpuIdTwo = 1;
 
+        lastScheduler.frontiers.get(cpuIdOne).add(lastNodes[]);
     }
 
     @Test
