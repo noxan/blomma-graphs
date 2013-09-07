@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
 
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -41,6 +42,9 @@ public class ScheduledChromosomeTest {
     @Test
     public void testScheduledChromosomeDecode() {
         ScheduledChromosome chromosome = new ScheduledChromosome(2, taskGraph, scheduledTaskList);
-        System.out.println(chromosome.decode());
+
+        ScheduledTaskList taskList = chromosome.decode();
+        Assert.assertEquals(taskList.size(), taskGraph.getNodeCount());
+        Assert.assertEquals(taskList.size(), scheduledTaskList.size());
     }
 }
