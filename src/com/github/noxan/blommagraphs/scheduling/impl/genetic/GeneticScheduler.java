@@ -97,11 +97,6 @@ public class GeneticScheduler implements Scheduler {
         nextPopulation.addAll(elitismPopulation);
         nextPopulation.addAll(matingPopulation);
         splitPopulation(nextPopulation);
-        System.out.println("Chromosome count: " + nextPopulation.size());
-        for (Chromosome chromosome : nextPopulation) {
-            System.out.println(chromosome.toString());
-            System.out.println(chromosome.decode().getFinishTime());
-        }
     }
 
     @Override
@@ -119,11 +114,6 @@ public class GeneticScheduler implements Scheduler {
         Chromosome solutionChromosome = elitismPopulation.get(0);
 
         ScheduledTaskList solutionScheduledTaskList = solutionChromosome.decode();
-
-        System.out.println();
-        System.out.println("Solution chromosome: " + solutionChromosome.toString());
-        System.out.println();
-        System.out.println(solutionScheduledTaskList.getFinishTime());
 
         return solutionScheduledTaskList;
     }

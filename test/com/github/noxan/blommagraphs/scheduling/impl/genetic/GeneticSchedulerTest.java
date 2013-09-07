@@ -61,8 +61,6 @@ public class GeneticSchedulerTest {
     public void testGeneticScheduler() {
         List<ScheduledTask> scheduledTasks = scheduler.schedule(metaInformation, taskGraph);
 
-        System.out.println();
-
         ScheduledTaskListSerializer scheduledSerializer = new ExtendedScheduledTaskListSerializer();
         System.out.println(scheduledSerializer.serialize(scheduledTasks));
 
