@@ -81,6 +81,40 @@ public class LASTScheduler implements Scheduler {
         return maxNode;
     }
 
+     /**
+     *
+     * @param node
+     * @return
+     */
+    protected int findCpuForNode(LASTNode node) {
+        int cpuId = 0;
+        float strength = 0f;
+        ArrayList<Integer> frontierList = new ArrayList<Integer>();
+
+        for(int i = 0; i < systemInformation.getProcessorCount(); i++) {
+            for(int j = 0; j < frontiers.get(i).size(); j++) {
+                if(frontiers.get(i).get(j) == node) {
+                    frontierList.add(i);
+                    break;
+                }
+            }
+        }
+
+        for(int i = 0; i < frontierList.size(); i++) {
+            float strengthFrontier = 0f;
+            for(int j = 0; j < frontiers.get(i).size(); j++) {
+                if(calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i)) > strength)
+                    strengthFrontier = calcStrength(frontiers.get(frontierList.get(i)).get(j), frontierList.get(i));
+            }
+            if(strengthFrontier > strength ) {
+                strength = strengthFrontier;
+                cpuId = frontierList.get(i);
+            }
+
+        }
+        return cpuId;
+    }
+
     /**
      * Calculates the D_NODE value used to select the next task that is
      * scheduled.
