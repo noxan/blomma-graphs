@@ -18,11 +18,14 @@ import java.util.List;
 @RunWith(JUnit4.class)
 public class LASTSchedulerTest {
     private LASTScheduler lastScheduler;
+    private SystemMetaInformation systemInformation;
     private TaskGraph graph;
     private TaskGraphNode graphNodes[];
 
     @Before
     public void initialize() {
+        systemInformation = new DefaultSystemMetaInformation(2);
+
         lastScheduler = new LASTScheduler();
         graphNodes = new TaskGraphNode[5];
 
