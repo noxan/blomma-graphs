@@ -6,9 +6,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
@@ -23,6 +25,7 @@ public class GeneticScheduler implements Scheduler {
     private Scheduler initialScheduler;
     private List<ScheduledTask> initialTaskSchedule;
 
+    private int randomPopulationSize = 0;
     private float elitismRatio = 0.1f;
     private int generationCount = 50;
 
@@ -66,6 +69,19 @@ public class GeneticScheduler implements Scheduler {
             }
 
             population.add(processorChromosome);
+        }
+
+        Random random = new Random(System.nanoTime());
+        for (int i = 0; i < randomPopulationSize; i++) {
+            Chromosome randomChromosome = new Chromosome(metaInformation.getProcessorCount(),
+                    taskGraph);
+
+            for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
+                int processorId = random.nextInt(metaInformation.getProcessorCount());
+                scheduledChromosome.addTaskToProcessor(processorId, taskNode);
+            }
+
+            population.add(randomChromosome);
         }
 
         elitismPopulation = new ArrayList<Chromosome>();
