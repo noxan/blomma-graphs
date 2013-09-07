@@ -68,6 +68,9 @@ public class GeneticScheduler implements Scheduler {
 
         for (Chromosome chromosome : population) {
             ScheduledTaskList scheduledTaskList = chromosome.decode(taskGraph);
+
+            System.out.println(scheduledTaskList.getFinishTime());
+
             decodedChromosomeList.add(scheduledTaskList);
         }
     }
