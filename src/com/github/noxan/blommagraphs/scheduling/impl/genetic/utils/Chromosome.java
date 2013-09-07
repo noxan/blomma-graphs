@@ -161,6 +161,27 @@ public class Chromosome implements Comparable<Chromosome> {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Chromosome[");
+        sb.append(genes.size());
+        sb.append("]");
+
+        int p = 0;
+        for (List<TaskGraphNode> taskGraphNodeList : genes) {
+            sb.append("\np");
+            sb.append(p++);
+            sb.append(" (");
+            for (TaskGraphNode taskGraphNode : taskGraphNodeList) {
+                sb.append(taskGraphNode.getId());
+                sb.append(" ");
+            }
+            sb.append(")");
+        }
+
+        return sb.toString();
+    }
+
+    @Override
     public int compareTo(Chromosome other) {
         return decode().getFinishTime() - other.decode().getFinishTime();
     }
