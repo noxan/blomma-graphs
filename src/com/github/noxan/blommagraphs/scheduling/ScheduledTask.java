@@ -4,7 +4,7 @@ package com.github.noxan.blommagraphs.scheduling;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
-public interface ScheduledTask {
+public interface ScheduledTask extends Comparable<ScheduledTask> {
 
     public void setStartTime(int startTime);
 
@@ -19,6 +19,8 @@ public interface ScheduledTask {
     public int getCommunicationTime();
 
     public int getComputationTime();
+
+    public int getFinishTime();
 
     public void setTaskGraphNode(TaskGraphNode node);
 

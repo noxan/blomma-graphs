@@ -9,20 +9,21 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class DynamicLevelSchedulerImpl implements Scheduler {
     private TaskGraph taskGraph;
-    private List<ScheduledTask> scheduledTaskList;
+    private ScheduledTaskList scheduledTaskList;
     private List<ReadyPoolNode> readyNodePool;
 
     @Override
-    public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
-
-        scheduledTaskList =  new ArrayList<ScheduledTask>();
+    public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
+        scheduledTaskList = new DefaultScheduledTaskList(systemInformation.getProcessorCount());
         readyNodePool =  new ArrayList<ReadyPoolNode>();
         int cpuCount = systemInformation.getProcessorCount();
         ArrayList<ArrayList<ScheduledTask>> allCpuScheduleTasks = new ArrayList<ArrayList<ScheduledTask>>();
