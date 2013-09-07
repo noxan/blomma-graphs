@@ -40,7 +40,7 @@ public class LASTScheduler implements Scheduler {
      * @param graph
      * @param systemMetaInformation
      */
-    private void initialize(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
+    protected void initialize(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         systemInformation = systemMetaInformation;
         taskGraph = graph;
         int processorCount = systemMetaInformation.getProcessorCount();
