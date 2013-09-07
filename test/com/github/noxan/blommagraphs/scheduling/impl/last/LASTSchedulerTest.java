@@ -58,7 +58,21 @@ public class LASTSchedulerTest {
 
     @Test
     public void calcDEdgeTest() {
-        Assert.fail("Not implemented yet");
+        LASTNode lastNode0 = new LASTNode(graphNodes[0]);
+        LASTNode lastNode1 = new LASTNode(graphNodes[1]);
+        LASTNode lastNode4 = new LASTNode(graphNodes[4]);
+
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode0, lastNode1));
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode1, lastNode0));
+
+        lastScheduler.groups.get(0).add(lastNode1);
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode0, lastNode1));
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode1, lastNode0));
+        Assert.assertEquals(1, lastScheduler.calcDEdge(lastNode4, lastNode1));
+
+        lastScheduler.groups.get(0).add(lastNode0);
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode0, lastNode0));
+        Assert.assertEquals(0, lastScheduler.calcDEdge(lastNode1, lastNode0));
     }
 
     @Test
