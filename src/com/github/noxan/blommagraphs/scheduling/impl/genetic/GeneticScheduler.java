@@ -132,10 +132,14 @@ public class GeneticScheduler implements Scheduler {
             nextGeneration();
         }
 
+        Collections.sort(elitismPopulation);
         Chromosome solutionChromosome = elitismPopulation.get(0);
 
         ScheduledTaskList solutionScheduledTaskList = solutionChromosome.decode();
 
+        System.out.println();
+        System.out.println("Solution chromosome: " + solutionChromosome.toString());
+        System.out.println();
         System.out.println(solutionScheduledTaskList.getFinishTime());
 
         return solutionScheduledTaskList;
