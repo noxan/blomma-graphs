@@ -78,7 +78,7 @@ public class GeneticScheduler implements Scheduler {
 
             for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
                 int processorId = random.nextInt(metaInformation.getProcessorCount());
-                scheduledChromosome.addTaskToProcessor(processorId, taskNode);
+                randomChromosome.addTaskToProcessor(processorId, taskNode);
             }
 
             population.add(randomChromosome);
