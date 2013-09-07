@@ -70,8 +70,8 @@ public class Chromosome implements Comparable<Chromosome> {
         return readyList;
     }
 
-    private void decode(TaskGraphNode taskNode, TaskGraph taskGraph,
-            ScheduledTaskList scheduledTaskList, Set<TaskGraphNode> unscheduledNodes) {
+    private void decode(TaskGraphNode taskNode, ScheduledTaskList scheduledTaskList,
+            Set<TaskGraphNode> unscheduledNodes) {
 
         if (unscheduledNodes.remove(taskNode)) {
             // schedule current task node
@@ -127,7 +127,7 @@ public class Chromosome implements Comparable<Chromosome> {
         while (it.hasNext()) {
             TaskGraphNode nextTaskNode = it.next();
             if (unscheduledNodes.contains(nextTaskNode)) {
-                decode(nextTaskNode, taskGraph, scheduledTaskList, unscheduledNodes);
+                decode(nextTaskNode, scheduledTaskList, unscheduledNodes);
             }
         }
     }
@@ -137,7 +137,7 @@ public class Chromosome implements Comparable<Chromosome> {
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
-        decode(taskGraph.getFirstNode(), taskGraph, scheduledTaskList, unscheduledNodes);
+        decode(taskGraph.getFirstNode(), scheduledTaskList, unscheduledNodes);
 
         // TODO: maybe add a readyNode list to select from?!
 
