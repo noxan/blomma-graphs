@@ -24,7 +24,6 @@ public class GeneticScheduler implements Scheduler {
 
     private float elitismRatio = 0.1f;
 
-    private Set<Chromosome> population;
     private Set<Chromosome> elitismPopulation;
     private Set<Chromosome> matingPopulation;
 
@@ -41,7 +40,7 @@ public class GeneticScheduler implements Scheduler {
             initialTaskSchedule = initialScheduler.schedule(metaInformation, taskGraph);
         }
 
-        population = new HashSet<Chromosome>();
+        Set<Chromosome> population = new HashSet<Chromosome>();
 
         Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount(),
                 taskGraph);
@@ -69,9 +68,11 @@ public class GeneticScheduler implements Scheduler {
 
         elitismPopulation = new HashSet<Chromosome>();
         matingPopulation = new HashSet<Chromosome>();
+
+        splitPopulation(population);
     }
 
-    private void chromosomeDecoding() {
+    private void splitPopulation(Set<Chromosome> population) {
         List<Chromosome> sortedPopulation = new ArrayList<Chromosome>(population);
         Collections.sort(sortedPopulation);
 
@@ -86,13 +87,20 @@ public class GeneticScheduler implements Scheduler {
                 matingPopulation.add(chromosome);
             }
         }
+    }
 
+    private void nextGeneration() {
         // swap mutation
         for (Chromosome chromosome : matingPopulation) {
             if (Math.random() > 0.5f) {
                 chromosome.swapMutate();
             }
         }
+
+        Set<Chromosome> nextPopulation = new HashSet<Chromosome>();
+        nextPopulation.addAll(elitismPopulation);
+        nextPopulation.addAll(matingPopulation);
+        splitPopulation(nextPopulation);
     }
 
     @Override
@@ -102,7 +110,7 @@ public class GeneticScheduler implements Scheduler {
 
         initialize();
 
-        chromosomeDecoding();
+        nextGeneration();
 
         // TODO Auto-generated method stub
         return initialTaskSchedule;
