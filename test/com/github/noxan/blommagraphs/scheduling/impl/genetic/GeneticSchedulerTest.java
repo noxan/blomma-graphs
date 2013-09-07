@@ -1,7 +1,6 @@
 package com.github.noxan.blommagraphs.scheduling.impl.genetic;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Assert;
@@ -12,8 +11,10 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.AbstractSystemMetaInformation;
@@ -40,7 +41,7 @@ public class GeneticSchedulerTest {
         // STGSerializer serializer = new STGSerializer();
         // System.out.println(serializer.serialize(taskGraph));
 
-        List<ScheduledTask> taskList = new ArrayList<ScheduledTask>();
+        ScheduledTaskList taskList = new DefaultScheduledTaskList(2);
 
         taskList.add(new DefaultScheduledTask(0, 0, 0, taskGraph.getFirstNode())); // t0
         taskList.add(new DefaultScheduledTask(1, 0, 0, nodes[0])); // t1

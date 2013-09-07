@@ -22,7 +22,7 @@ public class GeneticScheduler implements Scheduler {
     private TaskGraph taskGraph;
 
     private Scheduler initialScheduler;
-    private List<ScheduledTask> initialTaskSchedule;
+    private ScheduledTaskList initialTaskSchedule;
 
     private int randomPopulationSize = 10;
     private float elitismRatio = 0.1f;
@@ -35,7 +35,7 @@ public class GeneticScheduler implements Scheduler {
         this.initialScheduler = initialScheduler;
     }
 
-    public GeneticScheduler(List<ScheduledTask> initialTaskSchedule) {
+    public GeneticScheduler(ScheduledTaskList initialTaskSchedule) {
         this.initialTaskSchedule = initialTaskSchedule;
     }
 
@@ -114,7 +114,7 @@ public class GeneticScheduler implements Scheduler {
     }
 
     @Override
-    public List<ScheduledTask> schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
+    public ScheduledTaskList schedule(SystemMetaInformation metaInformation, TaskGraph taskGraph) {
         this.metaInformation = metaInformation;
         this.taskGraph = taskGraph;
 
