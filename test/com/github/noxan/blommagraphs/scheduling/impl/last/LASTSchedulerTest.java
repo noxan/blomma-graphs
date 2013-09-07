@@ -61,6 +61,14 @@ public class LASTSchedulerTest {
     }
 
     @Test
+    public void highestLastNodeByDNodeTest() {
+        lastScheduler.groups.get(0).add(lastNodes[0]);
+        lastScheduler.frontiers.get(1).add(lastNodes[1]);
+        lastScheduler.frontiers.get(0).add(lastNodes[2]);
+        Assert.assertEquals(lastNodes[1], lastScheduler.highestLastNodeByDNode());
+    }
+
+    @Test
     public void calcDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
 
