@@ -10,6 +10,7 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -112,7 +113,12 @@ public class GeneticScheduler implements Scheduler {
 
         nextGeneration();
 
-        // TODO Auto-generated method stub
-        return initialTaskSchedule;
+        Chromosome solutionChromosome = elitismPopulation.get(0);
+
+        ScheduledTaskList solutionScheduledTaskList = solutionChromosome.decode();
+
+        System.out.println(solutionScheduledTaskList.getFinishTime());
+
+        return solutionScheduledTaskList;
     }
 }
