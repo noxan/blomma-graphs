@@ -58,6 +58,22 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
+     * Checks if a list contains a LASTNode which references given
+     * TaskGraphNode.
+     * 
+     * @param lastNodeList The list that is checked.
+     * @param taskGraphNode The TaskGraphNode that's searched for.
+     * @return
+     */
+    protected boolean containsTask(List<LASTNode> lastNodeList, TaskGraphNode taskGraphNode) {
+        for (LASTNode lastNode : lastNodeList) {
+            if (lastNode.getTaskGraphNode() == taskGraphNode)
+                return true;
+        }
+        return false;
+    }
+
+    /**
      * Find the LASTNode with highest D_NODE value of all frontiers.
      * 
      * This method calculates the D_NODE value for every LASTNode in all
