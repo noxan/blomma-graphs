@@ -17,13 +17,13 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
-public abstract class Chromosome implements Comparable<Chromosome> {
+public abstract class AbstractChromosome implements Comparable<AbstractChromosome> {
     private List<List<TaskGraphNode>> genes;
 
     private int numberOfProcessors;
     private TaskGraph taskGraph;
 
-    public Chromosome(int numberOfProcessors, TaskGraph taskGraph) {
+    public AbstractChromosome(int numberOfProcessors, TaskGraph taskGraph) {
         this.numberOfProcessors = numberOfProcessors;
         this.taskGraph = taskGraph;
         genes = new ArrayList<List<TaskGraphNode>>();
@@ -206,7 +206,7 @@ public abstract class Chromosome implements Comparable<Chromosome> {
     }
 
     @Override
-    public int compareTo(Chromosome other) {
+    public int compareTo(AbstractChromosome other) {
         return decode().getFinishTime() - other.decode().getFinishTime();
     }
 }

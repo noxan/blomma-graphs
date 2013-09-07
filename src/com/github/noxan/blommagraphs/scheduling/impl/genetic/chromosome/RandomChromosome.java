@@ -7,7 +7,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
-public class RandomChromosome extends Chromosome {
+public class RandomChromosome extends AbstractChromosome {
     public RandomChromosome(int numberOfProcessors, TaskGraph taskGraph) {
         super(numberOfProcessors, taskGraph);
 
