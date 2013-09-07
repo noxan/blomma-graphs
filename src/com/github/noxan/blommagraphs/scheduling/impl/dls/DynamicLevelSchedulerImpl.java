@@ -16,16 +16,27 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 public class DynamicLevelSchedulerImpl implements Scheduler {
     private TaskGraph taskGraph;
     private List<ScheduledTask> scheduledTaskList;
+    private List<TaskGraphNode> readyNodePool;
+
 
     @Override
     public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
 
         scheduledTaskList =  new ArrayList<ScheduledTask>();
+        readyNodePool =  new ArrayList<TaskGraphNode>();
+
+
         // compute static level of all nodes
+
+
         // initialize ready-pool at first only start node
+        readyNodePool.add(graph.getFirstNode());
 
         // compute the earliest start time for every ready node for each
-        // processor LaPush
+        // processor
+
+
+        // calculate the dl
         // choose the node-processor pair with the biggest dynamic level and
         // comit it to the processor
         // add new ready nodes to the ready node pool
@@ -49,3 +60,5 @@ public class DynamicLevelSchedulerImpl implements Scheduler {
     }
 
 }
+
+
