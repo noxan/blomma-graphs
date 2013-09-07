@@ -18,4 +18,9 @@ public class ScheduledChromosome extends Chromosome {
             addTaskToProcessor(task.getCpuId(), task.getTaskGraphNode());
         }
     }
+
+    @Override
+    public String toString() {
+        return "Scheduled" + super.toString();
+    }
 }

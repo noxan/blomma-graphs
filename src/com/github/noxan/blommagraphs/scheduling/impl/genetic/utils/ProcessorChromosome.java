@@ -16,4 +16,9 @@ public class ProcessorChromosome extends Chromosome {
             addTaskToProcessor(processorId, it.next());
         }
     }
+
+    @Override
+    public String toString() {
+        return "Processor" + super.toString();
+    }
 }
