@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.ProcessorChromosome;
 import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.RandomChromosome;
+import com.github.noxan.blommagraphs.scheduling.impl.genetic.utils.ScheduledChromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
@@ -46,15 +46,8 @@ public class GeneticScheduler implements Scheduler {
 
         Set<Chromosome> population = new HashSet<Chromosome>();
 
-        Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount(),
-                taskGraph);
-
-        Collections.sort(initialTaskSchedule);
-        for (ScheduledTask task : initialTaskSchedule) {
-            scheduledChromosome.addTaskToProcessor(task.getCpuId(), task.getTaskGraphNode());
-        }
-
-        population.add(scheduledChromosome);
+        population.add(new ScheduledChromosome(metaInformation.getProcessorCount(), taskGraph,
+                initialTaskSchedule));
 
         for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
             population.add(new ProcessorChromosome(metaInformation.getProcessorCount(), taskGraph,
