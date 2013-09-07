@@ -55,6 +55,6 @@ public class GeneticSchedulerTest {
     public void testGeneticScheduler() {
         List<ScheduledTask> scheduledTasks = scheduler.schedule(metaInformation, taskGraph);
 
-        Assert.assertEquals(scheduledTasks.size(), taskGraph.getNodeCount() - 2);
+        Assert.assertEquals(scheduledTasks.size(), taskGraph.getNodeCount());
     }
 }
