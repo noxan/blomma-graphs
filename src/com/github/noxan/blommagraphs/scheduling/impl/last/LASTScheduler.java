@@ -64,7 +64,46 @@ public class LASTScheduler implements Scheduler {
      * @return D_NODE value as float.
      */
     protected float calcDNode(LASTNode node) {
-        return 0.0f;
+        int prevNumeratorSum = 0;
+        int prevDenominatorSum = 0;
+        int nextNumeratorSum = 0;
+        int nextDenominatorSum = 0;
+
+        int communicationTime = 0;
+
+        for (List<LASTNode> group : groups) {
+            for (LASTNode prevNode : group) {
+                if (taskGraph.containsEdge(prevNode.getTaskGraphNode(), node.getTaskGraphNode())) {
+                    try {
+                        communicationTime = taskGraph.findEdge(prevNode.getTaskGraphNode(),
+                                node.getTaskGraphNode()).getCommunicationTime();
+
+                        prevNumeratorSum += communicationTime * calcDEdge(prevNode, node);
+                        prevDenominatorSum += communicationTime;
+
+                    } catch (ContainsNoEdgeException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            for (LASTNode nextNode : group) {
+                if (taskGraph.containsEdge(node.getTaskGraphNode(), nextNode.getTaskGraphNode())) {
+                    try {
+                        communicationTime = taskGraph.findEdge(node.getTaskGraphNode(),
+                                nextNode.getTaskGraphNode()).getCommunicationTime();
+
+                        nextNumeratorSum += communicationTime * calcDEdge(node, nextNode);
+                        nextDenominatorSum += communicationTime;
+                    } catch (ContainsNoEdgeException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+
+        return (prevNumeratorSum + nextNumeratorSum) / (prevDenominatorSum + nextDenominatorSum);
     }
 
     /**
