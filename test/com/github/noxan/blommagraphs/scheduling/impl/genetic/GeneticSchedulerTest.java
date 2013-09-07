@@ -39,11 +39,11 @@ public class GeneticSchedulerTest {
 
         taskList.add(new DefaultScheduledTask(0, 0, 0, taskGraph.getFirstNode()));
         taskList.add(new DefaultScheduledTask(1, 0, 0, nodes[0]));
-        taskList.add(new DefaultScheduledTask(2, 0, 0, nodes[1]));
-        taskList.add(new DefaultScheduledTask(6, 0, 0, nodes[2]));
+        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[1]));
+        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[2]));
         taskList.add(new DefaultScheduledTask(7, 0, 0, nodes[3]));
-        taskList.add(new DefaultScheduledTask(8, 1, 0, nodes[4]));
-        taskList.add(new DefaultScheduledTask(9, 0, 0, taskGraph.getLastNode()));
+        taskList.add(new DefaultScheduledTask(8, 1, 1, nodes[4]));
+        taskList.add(new DefaultScheduledTask(16, 0, 0, taskGraph.getLastNode()));
 
         metaInformation = new AbstractSystemMetaInformation(2) {
         };
