@@ -147,17 +147,41 @@ public class Chromosome implements Comparable<Chromosome> {
     public void swapMutate() {
         Random random = new Random(System.nanoTime());
 
-        int x1 = random.nextInt(genes.size());
-        int x2 = random.nextInt(genes.size());
+        // search only in lists with elements
+        List<Integer> validGeneList = new ArrayList<Integer>();
+        for (int index = 0; index < genes.size(); index++) {
+            if (genes.get(index).size() > 0) {
+                validGeneList.add(index);
+            }
+        }
 
+        int x1 = validGeneList.get(random.nextInt(validGeneList.size()));
         int y1 = random.nextInt(genes.get(x1).size());
-        int y2 = random.nextInt(genes.get(x2).size());
-
         TaskGraphNode value1 = genes.get(x1).remove(y1);
+
+        // search only in lists with elements
+        validGeneList.clear();
+        for (int index = 0; index < genes.size(); index++) {
+            if (genes.get(index).size() > 0) {
+                validGeneList.add(index);
+            }
+        }
+
+        int x2 = validGeneList.get(random.nextInt(validGeneList.size()));
+        int y2 = random.nextInt(genes.get(x2).size());
         TaskGraphNode value2 = genes.get(x2).remove(y2);
 
-        genes.get(x1).add(y1, value2);
-        genes.get(x2).add(y2, value1);
+        if (y1 > genes.get(x1).size()) {
+            genes.get(x1).add(value2);
+        } else {
+            genes.get(x1).add(y1, value2);
+        }
+
+        if (y1 > genes.get(x2).size()) {
+            genes.get(x2).add(value1);
+        } else {
+            genes.get(x2).add(y2, value1);
+        }
     }
 
     @Override
