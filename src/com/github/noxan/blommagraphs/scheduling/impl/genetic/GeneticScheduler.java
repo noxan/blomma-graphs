@@ -96,6 +96,9 @@ public class GeneticScheduler implements Scheduler {
 
         int populationSize = sortedPopulation.size();
 
+        elitismPopulation.clear();
+        matingPopulation.clear();
+
         for (int index = 0; index < populationSize; index++) {
             Chromosome chromosome = sortedPopulation.get(index);
 
