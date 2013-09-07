@@ -14,6 +14,8 @@ import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.AbstractSystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
@@ -29,21 +31,24 @@ public class GeneticSchedulerTest {
         taskGraph = new DefaultTaskGraph();
 
         TaskGraphNode[] nodes = new TaskGraphNode[5];
-        nodes[0] = taskGraph.insertNode(taskGraph.getFirstNode(), 0, taskGraph.getLastNode(), 0, 2);
-        nodes[1] = taskGraph.insertNode(nodes[0], 2, taskGraph.getLastNode(), 0, 5);
-        nodes[2] = taskGraph.insertNode(nodes[0], 1, taskGraph.getLastNode(), 0, 3);
-        nodes[3] = taskGraph.insertNode(nodes[1], 3, taskGraph.getLastNode(), 0, 10);
-        nodes[4] = taskGraph.insertNode(nodes[2], 1, taskGraph.getLastNode(), 0, 8);
+        nodes[0] = taskGraph.insertNode(taskGraph.getFirstNode(), 0, taskGraph.getLastNode(), 0, 2); // t1
+        nodes[1] = taskGraph.insertNode(nodes[0], 2, taskGraph.getLastNode(), 0, 5); // t2
+        nodes[2] = taskGraph.insertNode(nodes[0], 1, taskGraph.getLastNode(), 0, 3); // t3
+        nodes[3] = taskGraph.insertNode(nodes[1], 3, taskGraph.getLastNode(), 0, 10); // t4
+        nodes[4] = taskGraph.insertNode(nodes[2], 1, taskGraph.getLastNode(), 0, 8); // t5
+
+        // STGSerializer serializer = new STGSerializer();
+        // System.out.println(serializer.serialize(taskGraph));
 
         List<ScheduledTask> taskList = new ArrayList<ScheduledTask>();
 
-        taskList.add(new DefaultScheduledTask(0, 0, 0, taskGraph.getFirstNode()));
-        taskList.add(new DefaultScheduledTask(1, 0, 0, nodes[0]));
-        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[1]));
-        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[2]));
-        taskList.add(new DefaultScheduledTask(7, 0, 0, nodes[3]));
-        taskList.add(new DefaultScheduledTask(8, 1, 1, nodes[4]));
-        taskList.add(new DefaultScheduledTask(16, 0, 0, taskGraph.getLastNode()));
+        taskList.add(new DefaultScheduledTask(0, 0, 0, taskGraph.getFirstNode())); // t0
+        taskList.add(new DefaultScheduledTask(1, 0, 0, nodes[0])); // t1
+        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[1])); // t2
+        taskList.add(new DefaultScheduledTask(3, 0, 0, nodes[2])); // t3
+        taskList.add(new DefaultScheduledTask(7, 0, 0, nodes[3])); // t4
+        taskList.add(new DefaultScheduledTask(8, 1, 1, nodes[4])); // t5
+        taskList.add(new DefaultScheduledTask(16, 0, 0, taskGraph.getLastNode())); // t6
 
         metaInformation = new AbstractSystemMetaInformation(2) {
         };
@@ -54,6 +59,11 @@ public class GeneticSchedulerTest {
     @Test
     public void testGeneticScheduler() {
         List<ScheduledTask> scheduledTasks = scheduler.schedule(metaInformation, taskGraph);
+
+        System.out.println();
+
+        ScheduledTaskListSerializer scheduledSerializer = new DefaultScheduledTaskListSerializer();
+        System.out.println(scheduledSerializer.serialize(scheduledTasks));
 
         Assert.assertEquals(scheduledTasks.size(), taskGraph.getNodeCount());
     }
