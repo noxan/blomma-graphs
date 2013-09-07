@@ -18,21 +18,26 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 public class LASTSchedulerTest extends LASTScheduler {
     // private LASTScheduler lastScheduler;
     private TaskGraph graph;
+    private TaskGraphNode graphNodes[];
 
     @Before
     public void initialize() {
         // lastScheduler = new LASTScheduler();
+        graphNodes = new TaskGraphNode[5];
 
         // Building up an example graph statet in
         // http://www.eng.auburn.edu/files/acad_depts/csse/csse_technical_reports/CSSE91-14.pdf
         // on page 8.
         graph = new JGraphtTaskGraph();
-        graph.getFirstNode().setComputationTime(10);
-        graph.getLastNode().setComputationTime(50);
-        graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 5, 20);
-        TaskGraphNode node3 = graph
-                .insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 50, 30);
-        graph.insertNode(node3, 10, graph.getLastNode(), 5, 40);
+        graphNodes[0] = graph.getFirstNode();
+        graphNodes[0].setComputationTime(10);
+
+        graphNodes[4] = graph.getLastNode();
+        graphNodes[4].setComputationTime(50);
+
+        graphNodes[1] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 5, 20);
+        graphNodes[2] = graph.insertNode(graph.getFirstNode(), 5, graph.getLastNode(), 50, 30);
+        graphNodes[4] = graph.insertNode(node3, 10, graph.getLastNode(), 5, 40);
     }
 
     @Test
@@ -47,7 +52,7 @@ public class LASTSchedulerTest extends LASTScheduler {
 
     @Test
     public void calcDEdge() {
-        Assert.fail("Not implemented yet");
+        LASTNode lastNode1 = new LASTNode(graph.getFirstNode());
     }
 
     @Test
