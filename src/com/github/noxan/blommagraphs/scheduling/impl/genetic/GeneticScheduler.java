@@ -77,7 +77,7 @@ public class GeneticScheduler implements Scheduler {
         for (int index = 0; index < populationSize; index++) {
             Chromosome chromosome = sortedPopulation.get(index);
 
-            if (elitismRatio >= index / populationSize) {
+            if (elitismRatio >= (float) index / (float) populationSize) {
                 elitismPopulation.add(chromosome);
             } else {
                 matingPopulation.add(chromosome);
