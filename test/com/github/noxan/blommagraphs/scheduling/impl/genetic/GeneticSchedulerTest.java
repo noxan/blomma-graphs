@@ -17,8 +17,8 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
-import com.github.noxan.blommagraphs.scheduling.system.AbstractSystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
+import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
 
 public class GeneticSchedulerTest {
@@ -51,8 +51,7 @@ public class GeneticSchedulerTest {
         taskList.add(new DefaultScheduledTask(8, 1, 1, nodes[4])); // t5
         taskList.add(new DefaultScheduledTask(16, 0, 0, taskGraph.getLastNode())); // t6
 
-        metaInformation = new AbstractSystemMetaInformation(2) {
-        };
+        metaInformation = new DefaultSystemMetaInformation(2);
 
         scheduler = new GeneticScheduler(taskList);
     }
