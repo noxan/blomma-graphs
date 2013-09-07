@@ -75,26 +75,36 @@ public class Chromosome {
             System.out.print(taskNode.getId() + " - ");
 
             int processorId = getProcessorForTask(taskNode);
-
-            // search for a previous scheduled task on this processor
-            ScheduledTask lastScheduledTask = scheduledTaskList
-                    .getLastScheduledTaskOnProcessor(processorId);
-
-            // calculate communicationTime
             int communicationTime = 0;
-            // search for edge connected to the current node
-            TaskGraphEdge prevEdge;
-            // TODO: find prev Edge and ignore communication time for tasks on same processor
-
-            // calculate startTime
             int startTime = 0;
-            if (lastScheduledTask != null) {
-                startTime = lastScheduledTask.getFinishTime();
-            }
-            // TODO: use the maximum of the last finish time of the current processor and the last
-            // finish time of all dependencies of the current task
 
-            System.out.print(startTime + " - ");
+            // iterate over all previous nodes (dependencies) and determine maximum of the sums of
+            // finishTime and communicationTime
+            Set<TaskGraphEdge> prevEdges = taskNode.getPrevEdges();
+            Iterator<TaskGraphEdge> it = prevEdges.iterator();
+            // set startTime to MAX_INT to use the value of the first iteration for sure
+            if (it.hasNext()) {
+                startTime = Integer.MAX_VALUE;
+            }
+            while (it.hasNext()) {
+                int tempCommunicationTime = 0;
+                int tempFinishTime = 0;
+                TaskGraphEdge prevEdge = it.next();
+                TaskGraphNode prevNode = prevEdge.getPrevNode();
+                ScheduledTask prevScheduledTask = scheduledTaskList.getTaskById(prevNode.getId());
+                // previous task is another processor, else it stays zero
+                if (prevScheduledTask.getCpuId() != processorId) {
+                    tempCommunicationTime = prevEdge.getCommunicationTime();
+                }
+                tempFinishTime = prevScheduledTask.getFinishTime() + tempCommunicationTime;
+                // use minimum startTime for the next task
+                if (tempFinishTime < startTime) {
+                    startTime = tempFinishTime;
+                    communicationTime = tempCommunicationTime;
+                }
+            }
+
+            System.out.print("startTime: " + startTime + " - ");
 
             scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
                     communicationTime, taskNode));
