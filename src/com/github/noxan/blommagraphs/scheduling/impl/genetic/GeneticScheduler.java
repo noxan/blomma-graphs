@@ -42,7 +42,8 @@ public class GeneticScheduler implements Scheduler {
 
         population = new HashSet<Chromosome>();
 
-        Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount());
+        Chromosome scheduledChromosome = new Chromosome(metaInformation.getProcessorCount(),
+                taskGraph);
 
         Collections.sort(initialTaskSchedule);
         for (ScheduledTask task : initialTaskSchedule) {
@@ -52,7 +53,8 @@ public class GeneticScheduler implements Scheduler {
         population.add(scheduledChromosome);
 
         for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
-            Chromosome processorChromosome = new Chromosome(metaInformation.getProcessorCount());
+            Chromosome processorChromosome = new Chromosome(metaInformation.getProcessorCount(),
+                    taskGraph);
 
             Collections.shuffle(initialTaskSchedule);
 
@@ -70,9 +72,8 @@ public class GeneticScheduler implements Scheduler {
 
     private void chromosomeDecoding() {
         List<ScheduledTaskList> decodedChromosomeList = new ArrayList<ScheduledTaskList>();
-
         for (Chromosome chromosome : population) {
-            ScheduledTaskList scheduledTaskList = chromosome.decode(taskGraph);
+            ScheduledTaskList scheduledTaskList = chromosome.decode();
 
             System.out.println(scheduledTaskList.getFinishTime());
 

@@ -20,9 +20,11 @@ public class Chromosome {
     private List<List<TaskGraphNode>> genes;
 
     private int numberOfProcessors;
+    private TaskGraph taskGraph;
 
-    public Chromosome(int numberOfProcessors) {
+    public Chromosome(int numberOfProcessors, TaskGraph taskGraph) {
         this.numberOfProcessors = numberOfProcessors;
+        this.taskGraph = taskGraph;
         genes = new ArrayList<List<TaskGraphNode>>();
         for (int i = 0; i < numberOfProcessors; i++) {
             genes.add(new ArrayList<TaskGraphNode>());
@@ -126,7 +128,7 @@ public class Chromosome {
         }
     }
 
-    public ScheduledTaskList decode(TaskGraph taskGraph) {
+    public ScheduledTaskList decode() {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
 
         System.out.println("[ Start decoding... ]");
