@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.genetic.utils;
+package com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome;
 
 
 import java.util.Random;
