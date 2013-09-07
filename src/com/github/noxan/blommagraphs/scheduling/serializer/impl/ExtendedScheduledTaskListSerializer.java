@@ -12,7 +12,6 @@ public class ExtendedScheduledTaskListSerializer implements ScheduledTaskListSer
     public String serialize(List<ScheduledTask> scheduledTaskList) {
         StringBuffer string = new StringBuffer();
 
-        string.append("sT\tp\ttask\tcompT\tcommT\n\n");
         for (ScheduledTask task : scheduledTaskList) {
             string.append(String.format("%d\t%d\t%d\t%d\t%d\n", task.getStartTime(),
                     task.getCpuId(), task.getTaskId(), task.getComputationTime(),
