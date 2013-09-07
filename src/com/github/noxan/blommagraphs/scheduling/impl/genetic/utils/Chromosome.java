@@ -100,7 +100,15 @@ public class Chromosome implements Comparable<Chromosome> {
                 tempFinishTime = prevScheduledTask.getFinishTime() + tempCommunicationTime;
                 // use minimum startTime for the next task
                 if (tempFinishTime < startTime) {
-                    startTime = tempFinishTime;
+                    // check if processor is free
+                    ScheduledTask prevTaskOnProcessor = scheduledTaskList
+                            .getLastScheduledTaskOnProcessor(processorId);
+                    if (prevTaskOnProcessor == null
+                            || prevTaskOnProcessor.getFinishTime() <= tempFinishTime) {
+                        startTime = tempFinishTime;
+                    } else {
+                        startTime = prevTaskOnProcessor.getFinishTime() + communicationTime;
+                    }
                     communicationTime = tempCommunicationTime;
                 }
             }
