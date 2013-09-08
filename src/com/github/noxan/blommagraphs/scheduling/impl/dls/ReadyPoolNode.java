@@ -11,9 +11,13 @@ public class ReadyPoolNode {
     private ArrayList<Integer> earliestStarttime = new ArrayList<Integer>();
     private int bLevel;
 
-    public ReadyPoolNode(TaskGraphNode node, int bLevel) {
+    public ReadyPoolNode(TaskGraphNode node, int bLevel, int numberOfCpus) {
         this.node = node;
         this.bLevel = bLevel;
+        for (int i = 0; i < numberOfCpus; i++) {
+            this.earliestStarttime.add(i, Integer.MAX_VALUE);
+        }
+
     }
 
     public Tuple<Integer, Integer> getMaxDynamicLevel() {
