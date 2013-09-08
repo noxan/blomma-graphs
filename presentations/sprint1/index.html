@@ -1,154 +1,100 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Sprint 1 - blomma-graphs</title>
-    <meta name="description" content="Presentation for blomma-graphs.">
-    <meta name="author" content="LaPush, maoswald, namelessvoid, noxan, ruction">
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="../../assets/reveal.js/css/reveal.min.css">
-    <link rel="stylesheet" href="../../assets/reveal.js/css/theme/sky.css" id="theme">
-    <link rel="stylesheet" href="../../assets/reveal.js/lib/css/zenburn.css">
-    <script>
-      document.write( '<link rel="stylesheet" href="../../assets/reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
-    </script>
-    <!--[if lt IE 9]>
-    <script src="../assets/reveal.js/lib/js/html5shiv.js"></script>
-    <![endif]-->
-    <style type="text/css">
-      .reveal ol,
-      .reveal ul {
-        line-height: 1.5em;
-      }
-      .reveal section img {
-        border: none;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        border-radius: 5px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="reveal">
-      <!-- Any section element inside of this container is displayed as a slide -->
-      <div class="slides">
-        <section>
-          <section>
-            <p><img style="box-shadow: none;" src="media/BlommaGraphs_Logo.png" alt="BlommaGraphs_Logo.png"/></p>
-            <h1>Sprint 1</h1>
-            <h3>27/08 - 2/09</h3>
-          </section>
-          <section>
-            <h2>Agenda</h2>
-            <ol>
-              <li>Team</li>
-              <li>Architecture</li>
-              <li>Graph samples</li>
-            </ol>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>Team</h1>
-          </section>
-          <section>
-            <h2>Team background</h2>
-            <ul>
-              <li>Students at University of Applied Sciences, Augsburg</li>
-              <li>Computer sciences, 4th semester</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Team members</h2>
-            <ul>
-              <li>Simon Kerler</li>
-              <li>Benjamin Wöhrl</li>
-              <li>Richard Stromer</li>
-              <li>Manuel Oswald</li>
-              <li>Ziad Nörpel</li>
-            </ul>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>Architecture</h1>
-          </section>
-          <section>
-            <p><img src="media/architecture.svg" alt="architecture.svg"/></p>
-          </section>
-          <section>
-            <h2>Data structure</h2>
-            <p><img src="media/class-diagramm-graphs.png" alt="class-diagramm-graphs.png"/></p>
-          </section>
-          <section>
-            <h2>Generator</h2>
-            <p><img src="media/class-diagramm-generator.png" alt="class-diagramm-generator.png" /></p>
-          </section>
-          <section>
-            <h2>Serializer</h2>
-            <p><img src="media/class-diagramm-serializer.png" alt="class-diagramm-serializer.png" /></p>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>Features</h1>
-          </section>
-          <section>
-            <h2>Data structure</h2>
-            <ul>
-              <li>Simple directed weighted graph</li>
-              <li>contains a valid task graph</li>
-              <li>based on JGraphT</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Generator</h2>
-            <ul>
-              <li>Generates a random task graph</li>
-              <li>Features multiple parameters</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Serializer</h2>
-            <ul>
-              <li>Serializer and deserializer</li>
-              <li>Called by TaskGraphFileUtils</li>
-              <li>Currently supported: STG</li>
-              <li>Easy integration of new formats</li>
-              <li>Future feature: use of generics</li>
-            </ul>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h1>Graph samples</h1>
-          </section>
-          <section>
-            <p><img src="media/graph1.svg" alt="graph1.svg">
-          </section>
-        </section>
-      </div>
-    </div>
-    <script src="../../assets/reveal.js/lib/js/head.min.js"></script>
-    <script src="../../assets/reveal.js/js/reveal.min.js"></script>
-    <script>
-      Reveal.initialize({
-        controls: true,
-        progress: true,
-        history: true,
-        center: true,
-        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-        transition: 'linear', // default/cube/page/concave/zoom/linear/fade/none
-        dependencies: [
-          { src: '../../assets/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: '../../assets/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: '../../assets/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: '../../assets/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-          { src: '../../assets/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-          { src: '../../assets/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-        ]
-      });
-    </script>
-  </body>
-</html>
+---
+layout: presentation
+title: Sprint1
+---
+
+<section>
+  <section>
+    <p><img style="box-shadow: none;" src="media/BlommaGraphs_Logo.png" alt="BlommaGraphs_Logo.png"/></p>
+    <h1>Sprint 1</h1>
+    <h3>27/08 - 2/09</h3>
+  </section>
+  <section>
+    <h2>Agenda</h2>
+    <ol>
+      <li>Team</li>
+      <li>Architecture</li>
+      <li>Graph samples</li>
+    </ol>
+  </section>
+</section>
+<section>
+  <section>
+    <h1>Team</h1>
+  </section>
+  <section>
+    <h2>Team background</h2>
+    <ul>
+      <li>Students at University of Applied Sciences, Augsburg</li>
+      <li>Computer sciences, 4th semester</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Team members</h2>
+    <ul>
+      <li>Simon Kerler</li>
+      <li>Benjamin Wöhrl</li>
+      <li>Richard Stromer</li>
+      <li>Manuel Oswald</li>
+      <li>Ziad Nörpel</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h1>Architecture</h1>
+  </section>
+  <section>
+    <p><img src="media/architecture.svg" alt="architecture.svg"/></p>
+  </section>
+  <section>
+    <h2>Data structure</h2>
+    <p><img src="media/class-diagramm-graphs.png" alt="class-diagramm-graphs.png"/></p>
+  </section>
+  <section>
+    <h2>Generator</h2>
+    <p><img src="media/class-diagramm-generator.png" alt="class-diagramm-generator.png" /></p>
+  </section>
+  <section>
+    <h2>Serializer</h2>
+    <p><img src="media/class-diagramm-serializer.png" alt="class-diagramm-serializer.png" /></p>
+  </section>
+</section>
+<section>
+  <section>
+    <h1>Features</h1>
+  </section>
+  <section>
+    <h2>Data structure</h2>
+    <ul>
+      <li>Simple directed weighted graph</li>
+      <li>contains a valid task graph</li>
+      <li>based on JGraphT</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Generator</h2>
+    <ul>
+      <li>Generates a random task graph</li>
+      <li>Features multiple parameters</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Serializer</h2>
+    <ul>
+      <li>Serializer and deserializer</li>
+      <li>Called by TaskGraphFileUtils</li>
+      <li>Currently supported: STG</li>
+      <li>Easy integration of new formats</li>
+      <li>Future feature: use of generics</li>
+    </ul>
+  </section>
+</section>
+<section>
+  <section>
+    <h1>Graph samples</h1>
+  </section>
+  <section>
+    <p><img src="media/graph1.svg" alt="graph1.svg">
+  </section>
+</section>
