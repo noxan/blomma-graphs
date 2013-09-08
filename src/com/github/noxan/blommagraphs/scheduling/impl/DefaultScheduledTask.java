@@ -16,7 +16,14 @@ public class DefaultScheduledTask implements ScheduledTask {
     }
 
     public DefaultScheduledTask(TaskGraphNode graphNode) {
-        this.node = graphNode;
+        this(0, 0, 0, graphNode);
+    }
+
+    public DefaultScheduledTask(int startTime, int cpuId, int communicationTime, TaskGraphNode node) {
+        setStartTime(startTime);
+        setCpuId(cpuId);
+        setCommunicationTime(communicationTime);
+        setTaskGraphNode(node);
     }
 
     @Override
@@ -27,6 +34,11 @@ public class DefaultScheduledTask implements ScheduledTask {
     @Override
     public void setStartTime(int startTime) {
         this.startTime = startTime;
+    }
+
+    @Override
+    public int getFinishTime() {
+        return this.startTime + this.communicationTime + this.node.getComputationTime();
     }
 
     @Override
@@ -54,10 +66,6 @@ public class DefaultScheduledTask implements ScheduledTask {
         this.node = node;
     }
 
-    public TaskGraphNode getTaskGraphNode() {
-        return node;
-    }
-
     @Override
     public int getComputationTime() {
         return node.getComputationTime();
@@ -68,4 +76,13 @@ public class DefaultScheduledTask implements ScheduledTask {
         return node.getId();
     }
 
+    @Override
+    public int compareTo(ScheduledTask other) {
+        return getStartTime() - other.getStartTime();
+    }
+
+    @Override
+    public TaskGraphNode getTaskGraphNode() {
+        return node;
+    }
 }
