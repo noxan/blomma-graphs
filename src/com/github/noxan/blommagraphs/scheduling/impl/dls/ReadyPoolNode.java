@@ -17,12 +17,11 @@ public class ReadyPoolNode {
         for (int i = 0; i < numberOfCpus; i++) {
             this.earliestStarttime.add(i, Integer.MAX_VALUE);
         }
-
     }
 
     public Tuple<Integer, Integer> getMaxDynamicLevel() {
-        int max = 0, cpuId = 0;
-        for (int i = 0; i < earliestStarttime.size(); i++) {
+        int max = getDynamicLevel(0), cpuId = 0;
+        for (int i = 1; i < earliestStarttime.size(); i++) {
             if (getDynamicLevel(i) > max){
                 max = getDynamicLevel(i);
                 cpuId = i;
