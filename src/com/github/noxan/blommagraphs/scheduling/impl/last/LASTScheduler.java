@@ -43,11 +43,11 @@ public class LASTScheduler implements Scheduler {
         ScheduledTaskList list = new DefaultScheduledTaskList(
                 systemMetaInformation.getProcessorCount());
         for (List<LASTNode> group : groups) {
-            for (LASTNode node : group) {
-                list.add(node);
+            for (LASTNode listNode : group) {
+                list.add(listNode);
             }
         }
-        return null;
+        return list;
     }
 
     /**
