@@ -63,6 +63,26 @@ title: Sprint2
   <section>
     <h2>DLS</h2>
     <h3>Dynamic Level Scheduling</h3>
+    <ul>
+      <li>ReadyPool: pool of ready tasks to be scheduled</li>
+      <li>B Level: path to end task which takes the most time</li>
+      <li>EST per CPU: earliest start time of a task on every cpu</li>
+      <li>Dynamic Level: B Level - EST per CPU</li>
+    </ul>
+  </section>
+  <section>
+    <h2>DLS</h2>
+    <h3>Dynamic Level Scheduling</h3>
+    Initial ready pool with first task and its B-Level
+    <ol>
+      <li>Calculate EST per CPU for every task</li>
+      <li>Choose the task CPU pair with the highest DL</li>
+      <li>Allocate the task to the CPU </li>
+      <li>Delete the task from the ready pool</li>
+      <li>Check dependency of new tasks</li>
+      <li>Calculate B Level of new ready tasks</li>
+      <li>Add ready tasks to raedy pool</li>
+    </ol>
   </section>
   <section>
     <h2>Genetic</h2>
