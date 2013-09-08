@@ -5,8 +5,9 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
-import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class LASTScheduler implements Scheduler {
     }
 
     @Override
-    public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
+    public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         initialize(graph, systemMetaInformation);
 
         while (groupsSize() != nodeSet.size()) {
