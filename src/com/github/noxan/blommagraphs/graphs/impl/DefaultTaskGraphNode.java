@@ -115,6 +115,13 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
+    public void setComputationTime(int computationTime) {
+        if (computationTime <= 0)
+            throw new IllegalArgumentException("Computation time must be > 0!");
+        this.computationTime = computationTime;
+    }
+
+    @Override
     public int getComputationTime() {
         return computationTime;
     }

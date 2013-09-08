@@ -12,6 +12,11 @@ public class DefaultScheduledTask implements ScheduledTask {
     private TaskGraphNode node;
 
     public DefaultScheduledTask() {
+        this(null);
+    }
+
+    public DefaultScheduledTask(TaskGraphNode graphNode) {
+        this(0, 0, 0, graphNode);
     }
 
     public DefaultScheduledTask(int startTime, int cpuId, int communicationTime, TaskGraphNode node) {
