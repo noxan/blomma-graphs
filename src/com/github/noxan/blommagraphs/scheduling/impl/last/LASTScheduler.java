@@ -93,15 +93,17 @@ public class LASTScheduler implements Scheduler {
                     // check all dependent tasks
                     for (LASTNode task : otherGroup) {
                         int currentDependencyTimePerTask = 0;
-                        try {
-                            // get dependency time for current task
-                            currentDependencyTimePerTask = task.getStartTime()
-                                    + task.getComputationTime()
-                                    + taskGraph.findEdge(task.getTaskGraphNode(),
-                                            node.getTaskGraphNode()).getCommunicationTime();
-                        } catch (ContainsNoEdgeException e) {
-                            e.printStackTrace();
-                        }
+                        if (taskGraph
+                                .containsEdge(task.getTaskGraphNode(), node.getTaskGraphNode()))
+                            try {
+                                // get dependency time for current task
+                                currentDependencyTimePerTask = task.getStartTime()
+                                        + task.getComputationTime()
+                                        + taskGraph.findEdge(task.getTaskGraphNode(),
+                                                node.getTaskGraphNode()).getCommunicationTime();
+                            } catch (ContainsNoEdgeException e) {
+                                e.printStackTrace();
+                            }
                         // get the latest dependency time per cpu
                         if (currentDependencyTimePerTask > latestDependencyTimePerCpu) {
                             latestDependencyTimePerCpu = currentDependencyTimePerTask;
