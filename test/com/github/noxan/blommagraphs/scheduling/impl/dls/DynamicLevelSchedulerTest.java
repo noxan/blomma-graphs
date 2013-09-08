@@ -5,6 +5,8 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import junit.framework.Assert;
@@ -41,16 +43,10 @@ public class DynamicLevelSchedulerTest {
 
     @Test
     public void testSchedule() {
-        ScheduledTaskList scheduledTaskList = dynamicLevelScheduler.schedule(taskGraph, systemMetaInformation);
+        ScheduledTaskListSerializer scheduledTaskListSerializer = new DefaultScheduledTaskListSerializer();
+        String expected = "0 0 0\n1 0 1\n3 1 4\n4 0 3\n6 1 5\n7 0 2\n11 0 6\n";
 
-        System.out.println();
-        System.out.println("============OUTPUT===============");
-        for (ScheduledTask scheduledTask : scheduledTaskList) {
-            System.out.println("ST: " + scheduledTask.getStartTime() + " CPU_ID: " + scheduledTask.getCpuId() + " NODE_ID: " + scheduledTask.getTaskId());
-        }
-
-        //ASSERT!
-
+        Assert.assertEquals(expected, scheduledTaskListSerializer.serialize(dynamicLevelScheduler.schedule(taskGraph, systemMetaInformation)));
     }
 
     @Test
