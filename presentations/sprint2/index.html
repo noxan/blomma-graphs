@@ -89,8 +89,8 @@ title: Sprint2
     <ul>
       <li>Initial population based on heuristic algorithm</li>
       <li>Search around this approximate area</li>
-      <li>Mutate and select generations by shortest finish time</li>
       <li>Try to find a optimal schedule</li>
+      <li>By searching shortest finishing time</li>
       <li>Limited by the number of generations</li>
     </ul>
   </section>
@@ -156,6 +156,29 @@ p1  t3  t6
       </li>
       <li>Chromosome with assigment of tasks to processors</li>
       <li>Iterate through graph and assign first task from ready list to processor as defined by the chromosome</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Genetic Scheduling</h2>
+    <h3>Mutation</h3>
+    <ul>
+      <li>
+        (Swap Crossover)<br>
+        Create mask chromosomes based on two parents, flip on crossover points based on masking
+      </li>
+      <li>
+        Swap mutation<br>
+        propability of 0.5, swap two tasks in a chromsome
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h2>Genetic Scheduling</h2>
+    <h3>Selection</h3>
+    <ul>
+      <li>Mating (90%) and elitism (10%) pool</li>
+      <li>Mutate only mating pool</li>
+      <li>Selection based on shortest finishing time</li>
     </ul>
   </section>
 </section>
