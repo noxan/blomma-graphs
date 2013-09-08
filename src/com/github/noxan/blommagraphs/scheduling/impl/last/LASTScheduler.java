@@ -40,7 +40,13 @@ public class LASTScheduler implements Scheduler {
             updateFrontiers();
         }
 
-        // liste returnen!!
+        ScheduledTaskList list = new DefaultScheduledTaskList(
+                systemMetaInformation.getProcessorCount());
+        for (List<LASTNode> group : groups) {
+            for (LASTNode node : group) {
+                list.add(node);
+            }
+        }
         return null;
     }
 
