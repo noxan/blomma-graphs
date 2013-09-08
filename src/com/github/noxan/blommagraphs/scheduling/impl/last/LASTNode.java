@@ -2,24 +2,19 @@ package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 
 
-public class LASTNode {
+public class LASTNode extends DefaultScheduledTask {
     public enum Status {
         FRONTIER, SCHEDULED
     }
 
-    private TaskGraphNode taskGraphNode;
     private float dNode;
     private Status status;
-    private int cpuId;
 
     public LASTNode(TaskGraphNode taskGraphNode) {
-        this.taskGraphNode = taskGraphNode;
-    }
-
-    public TaskGraphNode getTaskGraphNode() {
-        return taskGraphNode;
+        super(taskGraphNode);
     }
 
     public float getDNode() {
@@ -36,13 +31,5 @@ public class LASTNode {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public int getCpuId() {
-        return cpuId;
-    }
-
-    public void setCpuId(int cpuId) {
-        this.cpuId = cpuId;
     }
 }
