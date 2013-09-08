@@ -63,12 +63,18 @@ public class LASTScheduler implements Scheduler {
      * @return The id of the cpu.
      */
     public int findEarliestStartTimeCpu(LASTNode node) {
+        node.setStartTime(0);
+        node.setCpuId(0);
+
         List<LASTNode> group = null;
         // check first starttime for every cpu
         for (int currentCpuId = 0; currentCpuId < groups.size(); ++currentCpuId) {
             group = groups.get(currentCpuId);
 
             // get last task
+            if (group.size() == 0)
+                continue;
+
             LASTNode lastTask = group.get(group.size() - 1);
             int firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
 
