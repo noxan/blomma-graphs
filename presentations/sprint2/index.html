@@ -18,7 +18,7 @@ title: Sprint2
         <ol>
           <li>LAST</li>
           <li>DLS</li>
-          <li>Genetic</li>
+          <li>Genetic Scheduling</li>
         </ol>
       </li>
       <li>Scheduled task format</li>
@@ -86,7 +86,47 @@ title: Sprint2
     </ol>
   </section>
   <section>
-    <h2>Genetic</h2>
+    <h2>Genetic Scheduling</h2>
+    <ul>
+      <li>Initial population based on heuristic algorithm</li>
+      <li>Search around this approximate area</li>
+      <li>Try to find a optimal schedule</li>
+      <li>Limited by the number of generations</li>
+    </ul>
+  </section>
+  <section>
+    <h2>Genetic Scheduling</h2>
+    <h3>Schedule Encoding</h3>
+    <ul>
+      <li>Encode task to processor allocation as chromosomes</li>
+      <li>
+        2 dimensional chromosomes
+        <ul>
+          <li>List of processors</li>
+          <li>List of tasks for this processor</li>
+        </ul>
+      </li>
+      <li>Example</li>
+    </ul>
+    <pre style="box-shadow: none; font-size: 1.25em; margin-left: 60px;">
+p0  t1  t2  t4  t5  t7
+p1  t3  t6
+</pre>
+  </section>
+  <section>
+    <h2>Genetic Scheduling</h2>
+    <h3>Procedure</h3>
+    <ol>
+      <li>
+        Create initial population
+        <ul>
+          <li>Processor based chromosomes</li>
+          <li>Schedule based chromosome</li>
+          <li>(Random chromosomes)</li>
+        </ul>
+      </li>
+      <li></li>
+    </ol>
   </section>
 </section>
 <section>
