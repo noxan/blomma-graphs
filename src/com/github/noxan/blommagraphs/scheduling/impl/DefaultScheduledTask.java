@@ -54,6 +54,10 @@ public class DefaultScheduledTask implements ScheduledTask {
         this.node = node;
     }
 
+    public TaskGraphNode getTaskGraphNode() {
+        return node;
+    }
+
     @Override
     public int getComputationTime() {
         return node.getComputationTime();
