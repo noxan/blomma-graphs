@@ -11,10 +11,10 @@ public class ReadyPoolNode {
     private ArrayList<Integer> earliestStarttime = new ArrayList<Integer>();
     private int bLevel;
 
-    public ReadyPoolNode(TaskGraphNode node, int bLevel, int numberOfCpus) {
+    public ReadyPoolNode(TaskGraphNode node, int bLevel, int numberOfCpu) {
         this.node = node;
         this.bLevel = bLevel;
-        for (int i = 0; i < numberOfCpus; i++) {
+        for (int i = 0; i < numberOfCpu; i++) {
             this.earliestStarttime.add(i, Integer.MAX_VALUE);
         }
     }
