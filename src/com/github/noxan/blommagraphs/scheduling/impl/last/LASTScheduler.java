@@ -78,11 +78,11 @@ public class LASTScheduler implements Scheduler {
             group = groups.get(currentCpuId);
 
             // get last task
-            if (group.size() == 0)
-                continue;
-
-            LASTNode lastTask = group.get(group.size() - 1);
-            int firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
+            int firstStarttime = 0;
+            if (group.size() > 0) {
+                LASTNode lastTask = group.get(group.size() - 1);
+                firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
+            }
 
             // check with the dependencies to other cpus
             int latestDependencyTime = 0;
