@@ -96,6 +96,21 @@ title: Sprint2
   </section>
   <section>
     <h2>Genetic Scheduling</h2>
+    <h3>Procedure</h3>
+    <ol>
+      <li>
+        Create initial population
+        <ul>
+          <li>Processor based chromosomes</li>
+          <li>Schedule based chromosome</li>
+          <li>(Random chromosomes)</li>
+        </ul>
+      </li>
+      <li></li>
+    </ol>
+  </section>
+  <section>
+    <h2>Genetic Scheduling</h2>
     <h3>Schedule Encoding</h3>
     <ul>
       <li>Encode task to processor allocation as chromosomes</li>
@@ -115,18 +130,15 @@ p1  t3  t6
   </section>
   <section>
     <h2>Genetic Scheduling</h2>
-    <h3>Procedure</h3>
-    <ol>
+    <h3>Chromosome Decoding</h3>
+    <ul>
       <li>
-        Create initial population
-        <ul>
-          <li>Processor based chromosomes</li>
-          <li>Schedule based chromosome</li>
-          <li>(Random chromosomes)</li>
-        </ul>
+        List of all ready tasks for scheduling<br>
+        (All dependencies fullfilled, sorted by task id)
       </li>
-      <li></li>
-    </ol>
+      <li>Chromosome with assigment of tasks to processors</li>
+      <li>Iterate through graph and assign first task from ready list to processor as defined by the chromosome</li>
+    </ul>
   </section>
 </section>
 <section>
