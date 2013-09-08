@@ -11,6 +11,14 @@ public class DefaultScheduledTask implements ScheduledTask {
     private int communicationTime;
     private TaskGraphNode node;
 
+    public DefaultScheduledTask() {
+        this(null);
+    }
+
+    public DefaultScheduledTask(TaskGraphNode graphNode) {
+        this.node = graphNode;
+    }
+
     @Override
     public int getStartTime() {
         return startTime;
