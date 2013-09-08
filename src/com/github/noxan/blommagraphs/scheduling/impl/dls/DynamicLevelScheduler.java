@@ -18,47 +18,37 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 public class DynamicLevelScheduler implements Scheduler {
     private ScheduledTaskList scheduledTaskList;
-    private List<ReadyPoolNode> readyNodePool;
 
     @Override
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
         int cpuCount = systemInformation.getProcessorCount();
         scheduledTaskList = new DefaultScheduledTaskList(cpuCount);
-        readyNodePool =  new ArrayList<ReadyPoolNode>();
+        List<ReadyPoolNode> readyNodePool = new ArrayList<ReadyPoolNode>();
         ArrayList<ArrayList<ScheduledTask>> allCpuScheduleTasks = new ArrayList<ArrayList<ScheduledTask>>();
+        // add array lists for each cpu
         for (int i = 0; i < cpuCount; i++) {
             allCpuScheduleTasks.add(new ArrayList<ScheduledTask>());
         }
-        System.out.println("Size allCpuScheduleTasks: " + allCpuScheduleTasks.size());
 
         // initialize ready-pool at first only start node
         readyNodePool.add(new ReadyPoolNode(graph.getFirstNode(),
                 graph.getFirstNode().getStaticBLevel(), cpuCount));
-        System.out.println("Size readyNodePool after initialize: " + readyNodePool.size());
 
         // main loop
         while (!readyNodePool.isEmpty()) {
-
-            // compute the earliest start time for every ready node for each processor
-            // write first starttime for every ready pool node for every cpu
+            // write first start time for every ready pool node for every cpu
             for (ReadyPoolNode poolNode : readyNodePool) {
-
-                System.out.println("-------------calculate firststarttime for node " + poolNode.getNode().getId() + " --------------");
-                // check first starttime for every cpu
+                // check first start time for every cpu
                 for (int i = 0; i < allCpuScheduleTasks.size(); i++) {
-
-                    System.out.print("CPU_ID: " + i);
                     ArrayList<ScheduledTask> cpuScheduleTaskList = allCpuScheduleTasks.get(i);
                     int firstStarttime;
                     // get last task and set first start time for current cpu
                     if (!cpuScheduleTaskList.isEmpty()) {
                         ScheduledTask lastTask = cpuScheduleTaskList.get(cpuScheduleTaskList.size() - 1);
                         firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
-                        System.out.print("'" + lastTask.getTaskGraphNode().getId() + " " + lastTask.getStartTime() + " " + lastTask.getComputationTime() + "'");
                     } else {
                         firstStarttime = 0;
                     }
-                    System.out.print(" starttime: " + firstStarttime);
                     // check with the dependencies to other cpus
                     int latestDependencyTime = 0;
                     for (ArrayList<ScheduledTask> otherCpuSchedulerTaskList : allCpuScheduleTasks) {
@@ -87,21 +77,13 @@ public class DynamicLevelScheduler implements Scheduler {
                             }
                         }
                     }
-                    System.out.print(" dependencytime: " + latestDependencyTime);
                     // compare first start time with latest dependency time
                     if (latestDependencyTime > firstStarttime) {
                         firstStarttime = latestDependencyTime;
                     }
-                    System.out.println(" > " + firstStarttime);
                     // set first start time per cpu in pool node
                     poolNode.setEarliestStarttime(i, firstStarttime);
                 }
-            }
-
-            System.out.println("---------------Current DLs-------------");
-            System.out.println("Node    MaxDL   CpuID");
-            for (ReadyPoolNode currentNode : readyNodePool) {
-                System.out.println(currentNode.getNode().getId() + "       " + currentNode.getMaxDynamicLevel().getFirst() + "      " + currentNode.getMaxDynamicLevel().getSecond());
             }
 
             // choose the node-processor pair with the biggest dynamic level and
@@ -116,8 +98,6 @@ public class DynamicLevelScheduler implements Scheduler {
                 }
             }
 
-            System.out.println("ChosenNode ID: " + chosenScheduledTask.getNode().getId() + " DL: " + chosenScheduledTask.getMaxDynamicLevel().getFirst() + " CpuID: " + chosenScheduledTask.getMaxDynamicLevel().getSecond());
-
             // commit it to the processor
             // setup new ScheduledTask
             ScheduledTask newScheduledTask = new DefaultScheduledTask();
@@ -128,7 +108,7 @@ public class DynamicLevelScheduler implements Scheduler {
             allCpuScheduleTasks.get(nextCpu).add(newScheduledTask);
             // remove readyPoolNode from pool
             readyNodePool.remove(chosenScheduledTask);
-            // add scheduled task to scheduledTaskList!!
+            // add scheduled task to scheduledTaskList
             scheduledTaskList.add(newScheduledTask);
 
             // add new ready nodes to the ready node pool and compute static b level of the new nodes
@@ -136,17 +116,10 @@ public class DynamicLevelScheduler implements Scheduler {
             if (nextNodes.size() != 0) {
                 for (TaskGraphNode node : nextNodes) {
                     if (isReadyNode(node)) {
-                        readyNodePool.add(new ReadyPoolNode(node, node.getStaticBLevel(),cpuCount));
+                        readyNodePool.add(new ReadyPoolNode(node, node.getStaticBLevel(), cpuCount));
                     }
                 }
             }
-
-            System.out.print("NewReadyPool: ");
-            for (ReadyPoolNode currentNode : readyNodePool) {
-                System.out.print(currentNode.getNode().getId() + " ");
-            }
-            System.out.println();
-            System.out.println("-----------------NEXT LOOP-------------------");
         }
         return scheduledTaskList;
     }
