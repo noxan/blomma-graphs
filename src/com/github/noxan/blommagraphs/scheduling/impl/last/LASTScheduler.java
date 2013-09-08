@@ -32,12 +32,18 @@ public class LASTScheduler implements Scheduler {
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         initialize(graph, systemMetaInformation);
 
+        // Add the first node to cpu 0:
+        LASTNode node = new LASTNode(taskGraph.getFirstNode());
+        node.setCpuId(0);
+        node.setStartTime(0);
+        groups.get(0).add(node);
+
         while (groupsSize() != nodeSet.size()) {
+            updateFrontiers();
             LASTNode highestNode = highestLastNodeByDNode();
             // add scheduled node to the calculated group
             findEarliestStartTimeCpu(highestNode);
             groups.get(highestNode.getCpuId()).add(highestNode);
-            updateFrontiers();
         }
 
         ScheduledTaskList list = new DefaultScheduledTaskList(
