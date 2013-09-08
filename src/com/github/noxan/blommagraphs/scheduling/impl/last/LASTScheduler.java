@@ -31,10 +31,11 @@ public class LASTScheduler implements Scheduler {
     public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         initialize(graph, systemMetaInformation);
 
-        while(groupsSize() != nodeSet.size()) {
+        while (groupsSize() != nodeSet.size()) {
             LASTNode highestNode = highestLastNodeByDNode();
             // add scheduled node to the calculated group
-            groups.get(costCalculation(highestNode)).add(highestNode);
+            findEarliestStartTimeCpu(highestNode);
+            groups.get(highestNode.getCpuId()).add(highestNode);
             updateFrontiers();
         }
 
@@ -43,13 +44,66 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     *
-     * @return
+     * Find the cpu which allows the earliest start time for node.
+     * 
+     * Hint: The cpu id as well as the earliest start time are saved in the
+     * node. This method iterates over all cpus and searches the cpu which
+     * allowes the earliest start time for the node. It also considers all
+     * dependencies so the task cannot start until all its dependencies have
+     * finished.
+     * 
+     * @param node The LASTNode for which the optimal cpu is searched.
+     * @return The id of the cpu.
      */
-    public int costCalculation(LASTNode node){
-        int cpuId = 0;
+    public int findEarliestStartTimeCpu(LASTNode node) {
+        List<LASTNode> group = null;
+        // check first starttime for every cpu
+        for (int currentCpuId = 0; currentCpuId < groups.size(); ++currentCpuId) {
+            group = groups.get(currentCpuId);
 
-        return cpuId;
+            // get last task
+            LASTNode lastTask = group.get(group.size() - 1);
+            int firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
+
+            // check with the dependencies to other cpus
+            int latestDependencyTime = 0;
+            for (List<LASTNode> otherGroup : groups) {
+                // just if its not the actual cpu
+                if (otherGroup != group) {
+                    int latestDependencyTimePerCpu = 0;
+                    // check all dependent tasks
+                    for (LASTNode task : otherGroup) {
+                        int currentDependencyTimePerTask = 0;
+                        try {
+                            // get dependency time for current task
+                            currentDependencyTimePerTask = task.getStartTime()
+                                    + task.getComputationTime()
+                                    + taskGraph.findEdge(task.getTaskGraphNode(),
+                                            node.getTaskGraphNode()).getCommunicationTime();
+                        } catch (ContainsNoEdgeException e) {
+                            e.printStackTrace();
+                        }
+                        // get the latest dependency time per cpu
+                        if (currentDependencyTimePerTask > latestDependencyTimePerCpu) {
+                            latestDependencyTimePerCpu = currentDependencyTimePerTask;
+                        }
+                    }
+                    // get the latest dependency time in total
+                    if (latestDependencyTimePerCpu < latestDependencyTime) {
+                        latestDependencyTime = latestDependencyTimePerCpu;
+                    }
+                }
+            }
+            // compare first start time with latest dependency time
+            if (latestDependencyTime > firstStarttime) {
+                firstStarttime = latestDependencyTime;
+            }
+            if (currentCpuId == 0 || node.getStartTime() > firstStarttime) {
+                node.setCpuId(currentCpuId);
+                node.setStartTime(firstStarttime);
+            }
+        }
+        return node.getCpuId();
     }
 
     /**
