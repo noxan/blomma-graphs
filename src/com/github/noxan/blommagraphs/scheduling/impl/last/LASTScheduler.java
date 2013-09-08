@@ -30,9 +30,41 @@ public class LASTScheduler implements Scheduler {
     @Override
     public List<ScheduledTask> schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         initialize(graph, systemMetaInformation);
-        // TODO Auto-generated method stub
+
+        while(groupsSize() != nodeSet.size()) {
+            LASTNode highestNode = highestLastNodeByDNode();
+            // add scheduled node to the calculated group
+            groups.get(costCalculation(highestNode)).add(highestNode);
+            updateFrontiers();
+        }
+
+        // liste returnen!!
         return null;
     }
+
+    /**
+     *
+     * @return
+     */
+    public int costCalculation(LASTNode node){
+        int cpuId = 0;
+
+        return cpuId;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public int groupsSize() {
+        int size = 0;
+
+        for(int cpuId = 0; cpuId < groups.size(); ++cpuId) {
+            size += groups.get(cpuId).size();
+        }
+        return size;
+    }
+
 
     /**
      * Takes a TaskGraph and SystemMetaInformation and initializes the
