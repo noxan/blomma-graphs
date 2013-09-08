@@ -110,7 +110,7 @@ public class LASTScheduler implements Scheduler {
                         }
                     }
                     // get the latest dependency time in total
-                    if (latestDependencyTimePerCpu < latestDependencyTime) {
+                    if (latestDependencyTimePerCpu > latestDependencyTime) {
                         latestDependencyTime = latestDependencyTimePerCpu;
                     }
                 }
