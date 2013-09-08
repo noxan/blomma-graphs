@@ -24,7 +24,7 @@ import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 public class GraphSetGenerator {
     public static void main(String[] args) {
         // settings
-        String rootFolder = "export/";
+        String rootFolder = "export/graphs/";
         String graphsFolder = "";
         int numberOfGraphs = 100;
         // graph generator settings
@@ -41,7 +41,7 @@ public class GraphSetGenerator {
 
         // logging
         System.out.println(String.format("Writing exports to folder: %s", rootFolder));
-        new File(rootFolder).mkdir();
+        new File(rootFolder).mkdirs();
 
         TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
         try {
