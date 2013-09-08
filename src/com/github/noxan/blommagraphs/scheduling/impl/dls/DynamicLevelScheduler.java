@@ -36,7 +36,6 @@ public class DynamicLevelScheduler implements Scheduler {
                 graph.getFirstNode().getStaticBLevel(), cpuCount));
         System.out.println("Size readyNodePool after initialize: " + readyNodePool.size());
 
-        //TODO: check/implement special case of first task
         // main loop
         while (!readyNodePool.isEmpty()) {
 
@@ -53,15 +52,13 @@ public class DynamicLevelScheduler implements Scheduler {
                     int firstStarttime;
                     // get last task and set first start time for current cpu
                     if (!cpuScheduleTaskList.isEmpty()) {
-
-                        System.out.println();
                         ScheduledTask lastTask = cpuScheduleTaskList.get(cpuScheduleTaskList.size() - 1);
                         firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
+                        System.out.print("'" + lastTask.getTaskGraphNode().getId() + " " + lastTask.getStartTime() + " " + lastTask.getComputationTime() + "'");
                     } else {
-
-                        System.out.println(" EMPTY");
                         firstStarttime = 0;
                     }
+                    System.out.print(" starttime: " + firstStarttime);
                     // check with the dependencies to other cpus
                     int latestDependencyTime = 0;
                     for (ArrayList<ScheduledTask> otherCpuSchedulerTaskList : allCpuScheduleTasks) {
@@ -90,10 +87,12 @@ public class DynamicLevelScheduler implements Scheduler {
                             }
                         }
                     }
+                    System.out.print(" dependencytime: " + latestDependencyTime);
                     // compare first start time with latest dependency time
                     if (latestDependencyTime > firstStarttime) {
                         firstStarttime = latestDependencyTime;
                     }
+                    System.out.println(" > " + firstStarttime);
                     // set first start time per cpu in pool node
                     poolNode.setEarliestStarttime(i, firstStarttime);
                 }
@@ -107,7 +106,7 @@ public class DynamicLevelScheduler implements Scheduler {
 
             // choose the node-processor pair with the biggest dynamic level and
             ReadyPoolNode chosenScheduledTask = null;
-            int maxDynamicLevel = 0;
+            int maxDynamicLevel = Integer.MIN_VALUE;
             int nextCpu = 0;
             for (ReadyPoolNode poolNode : readyNodePool) {
                 if (poolNode.getMaxDynamicLevel().getFirst() >= maxDynamicLevel) {
@@ -134,7 +133,6 @@ public class DynamicLevelScheduler implements Scheduler {
 
             // add new ready nodes to the ready node pool and compute static b level of the new nodes
             Set<TaskGraphNode> nextNodes = chosenScheduledTask.getNode().getNextNodes();
-            //TODO: check case if no more nodes left to schedule
             if (nextNodes.size() != 0) {
                 for (TaskGraphNode node : nextNodes) {
                     if (isReadyNode(node)) {
@@ -153,7 +151,7 @@ public class DynamicLevelScheduler implements Scheduler {
         return scheduledTaskList;
     }
 
-    private boolean isReadyNode(TaskGraphNode taskGraphNode) {
+    protected boolean isReadyNode(TaskGraphNode taskGraphNode) {
         Set<TaskGraphNode> prevNodes = taskGraphNode.getPrevNodes();
         Set<TaskGraphNode> scheduledTasks = new HashSet<TaskGraphNode>();
 
