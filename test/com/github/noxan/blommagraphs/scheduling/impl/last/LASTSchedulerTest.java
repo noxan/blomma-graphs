@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
@@ -57,6 +59,12 @@ public class LASTSchedulerTest {
 
     @Test
     public void scheduleTest() {
+        ScheduledTaskList list = lastScheduler.schedule(graph, systemInformation);
+        System.out.println("start\ttask\tcpu");
+        for (ScheduledTask task : list) {
+            System.out.println(String.format("%d\t%d\t%d", task.getStartTime(), task.getTaskId(),
+                    task.getCpuId()));
+        }
         Assert.fail("Not implemented yet");
     }
 
