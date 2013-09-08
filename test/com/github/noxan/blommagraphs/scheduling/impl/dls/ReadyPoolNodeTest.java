@@ -26,30 +26,30 @@ public class ReadyPoolNodeTest {
     }
 
     @Test
-    public void testGetMaxDynamicLevel() throws Exception {
+    public void testGetMaxDynamicLevel() {
         Assert.assertEquals(-2, (Object) poolNode.getMaxDynamicLevel().getFirst());
         Assert.assertEquals(0, (Object) poolNode.getMaxDynamicLevel().getSecond());
     }
 
     @Test
-    public void testGetDynamicLevel() throws Exception {
+    public void testGetDynamicLevel() {
         Assert.assertEquals(-2, poolNode.getDynamicLevel(0));
     }
 
     @Test
-    public void testGetEarliestStarttime() throws Exception {
+    public void testGetEarliestStarttime() {
         Assert.assertEquals(5, poolNode.getEarliestStarttime(0));
     }
 
     @Test
-    public void testSetEarliestStarttime() throws Exception {
+    public void testSetEarliestStarttime() {
         poolNode.setEarliestStarttime(0, 11);
 
         Assert.assertEquals(11, poolNode.getEarliestStarttime(0));
     }
 
     @Test
-    public void testGetNode() throws Exception {
+    public void testGetNode() {
         Assert.assertEquals(node, poolNode.getNode());
     }
 }
