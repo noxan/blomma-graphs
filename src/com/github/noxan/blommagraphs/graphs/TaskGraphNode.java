@@ -103,11 +103,15 @@ public interface TaskGraphNode extends Comparable<TaskGraphNode> {
     public int getBottomLayerCount();
 
     /**
-     * returns the static b-level included the computationtime of the startnode and last node
-     * b-level: The b-level of a node ni is the length of a longest path from ni to an exit node
-     * without the communication costs.
-     *
+     * returns the static b-level included the computationtime of the startnode
+     * and last node b-level: The b-level of a node ni is the length of a
+     * longest path from ni to an exit node without the communication costs.
+     * 
      * @return
      */
     public int getStaticBLevel();
+
+    public void setDeadLine(int deadLine);
+
+    public int getDeadLine();
 }

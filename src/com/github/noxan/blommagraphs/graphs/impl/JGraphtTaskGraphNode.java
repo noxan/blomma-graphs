@@ -18,6 +18,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     private int id;
     private int layersToTop;
     private int layersToBottom;
+    private int deadLine;
 
     public JGraphtTaskGraphNode(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph,
             JGraphtTaskGraph jGraphtTaskGraph, int id, int computationTime) {
@@ -176,13 +177,13 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
-    public int getStaticBLevel(){
+    public int getStaticBLevel() {
         return getStaticBLevel(0, this);
     }
 
     /**
      * recursive function to calculate the static b-level
-     *
+     * 
      * @param currenttime
      * @param node
      * @return
@@ -191,7 +192,8 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
         currenttime += node.getComputationTime();
         int max = currenttime;
 
-        // go through the list of outgoing edges and call this function again for every edge
+        // go through the list of outgoing edges and call this function again
+        // for every edge
         for (TaskGraphEdge currentEdge : graph.outgoingEdgesOf(node)) {
             int pathTime = getStaticBLevel(currenttime, currentEdge.getNextNode());
             if (pathTime > max) {
@@ -199,5 +201,16 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
             }
         }
         return max;
+    }
+
+    @Override
+    public void setDeadLine(int deadLine) {
+        this.deadLine = deadLine;
+
+    }
+
+    @Override
+    public int getDeadLine() {
+        return deadLine;
     }
 }
