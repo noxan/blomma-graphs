@@ -255,9 +255,39 @@ public class JGraphtTaskGraph implements TaskGraph {
         }
     }
 
+    /**
+     * Takes a TaskGraph and merges it. Attention: Both graphs are modified and
+     * should be copied before if still you need the unmodified versions
+     * afterwards!
+     * 
+     * The srcGraph is merged to this graph between prevNode and nextNode. Two
+     * additional edges are added: prevNode -> srcGraph.firstNode and
+     * srcGraph.lastNode -> nextNode.
+     * 
+     */
     @Override
-    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+    public void mergeGraph(TaskGraph srcGraph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime) {
-        // TODO implement :D
+        if (!(srcGraph instanceof JGraphtTaskGraph)) {
+            throw new IllegalArgumentException("Cannot merge class " + graph.getClass()
+                    + " with class JGraphtTaskgraph!");
+        }
+
+        // Re-ID nodes of graph 2 and set it's graph reference to this.
+        for (TaskGraphNode node : srcGraph.getNodeSet()) {
+            ((JGraphtTaskGraphNode) node).setId(this.getLastNode().getId());
+            ((JGraphtTaskGraphNode) getLastNode()).setId(this.getLastNode().getId() + 1);
+            ((JGraphtTaskGraphNode) node).setGraph(graph);
+        }
+
+        Graphs.addGraph(graph, ((JGraphtTaskGraph) srcGraph).getGraph());
+
+        // Connect copied nodes with rest of graph
+        try {
+            this.insertEdge(prevNode, srcGraph.getFirstNode(), prevCommunicationTime);
+            this.insertEdge(srcGraph.getLastNode(), nextNode, nextCommunicationTime);
+        } catch (DuplicateEdgeException e) {
+            e.printStackTrace();
+        }
     }
 }
