@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jgrapht.Graphs;
 import org.jgrapht.graph.SimpleDirectedWeightedGraph;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -48,6 +49,10 @@ public class JGraphtTaskGraph implements TaskGraph {
         TaskGraphEdge edge = graph.addEdge(firstNode, lastNode);
         graph.setEdgeWeight(edge, 1);
 
+    }
+
+    protected SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> getGraph() {
+        return graph;
     }
 
     @Override
