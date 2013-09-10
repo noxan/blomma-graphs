@@ -347,7 +347,7 @@ public class LASTScheduler implements Scheduler {
         double result = ((double) (prevNumeratorSum + nextNumeratorSum))
                 / ((prevDenominatorSum + nextDenominatorSum));
 
-        return (float) result;
+        return (float) result - node.getTaskGraphNode().getDeadLine();
     }
 
     /**
