@@ -180,7 +180,7 @@ public class LASTScheduler implements Scheduler {
         List<LASTNode> group = null;
 
         for (TaskGraphNode graphNode : nodeSet) {
-            if (!alreadyScheduled(graphNode)) {
+            if (!alreadyScheduled(graphNode) && hasDepenciesSatisfied(graphNode)) {
                 for (int cpuId = 0; cpuId < groups.size(); ++cpuId) {
                     group = groups.get(cpuId);
                     for (int j = 0; j < group.size(); ++j) {
