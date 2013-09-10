@@ -1,6 +1,10 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -9,10 +13,6 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
 
 public class LASTScheduler implements Scheduler {
@@ -128,18 +128,17 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     *
+     * 
      * @return
      */
     public int groupsSize() {
         int size = 0;
 
-        for(int cpuId = 0; cpuId < groups.size(); ++cpuId) {
+        for (int cpuId = 0; cpuId < groups.size(); ++cpuId) {
             size += groups.get(cpuId).size();
         }
         return size;
     }
-
 
     /**
      * Takes a TaskGraph and SystemMetaInformation and initializes the
@@ -266,9 +265,9 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * This method compares the strengths of the delivered node from the frontiers and returns
-     * the destination cpu where the strength is greater.
-     *
+     * This method compares the strengths of the delivered node from the
+     * frontiers and returns the destination cpu where the strength is greater.
+     * 
      * @param node
      * @return
      */
@@ -277,19 +276,19 @@ public class LASTScheduler implements Scheduler {
         float strength = 0f;
         ArrayList<Integer> frontierList = new ArrayList<Integer>();
 
-        for(int i = 0; i < systemInformation.getProcessorCount(); i++) {
-            for(int j = 0; j < frontiers.get(i).size(); j++) {
-                if(frontiers.get(i).get(j) == node) {
+        for (int i = 0; i < systemInformation.getProcessorCount(); i++) {
+            for (int j = 0; j < frontiers.get(i).size(); j++) {
+                if (frontiers.get(i).get(j) == node) {
                     frontierList.add(i);
                     break;
                 }
             }
         }
 
-        for(int i = 0; i < frontierList.size(); i++) {
+        for (int i = 0; i < frontierList.size(); i++) {
             float strengthFrontier = calcStrength(node, frontierList.get(i));
 
-            if(strengthFrontier > strength ) {
+            if (strengthFrontier > strength) {
                 strength = strengthFrontier;
                 cpuId = frontierList.get(i);
             }
@@ -380,12 +379,12 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Calculates how much node1 is connected to a cpu.
-     * strength = sum(communicationTime (node1, lastNodePrevNodes.get(i)) / computiationTime(node1))
-     *            +
-     *            sum(communicationTime (node1, lastNodeNextNodes.get(i)) / computiationTime(node1))
-     *            -
-     *            dif(computiationTime(node1) / communicationTime (node1, lastNodeNextNodes.get(i))
+     * Calculates how much node1 is connected to a cpu. strength =
+     * sum(communicationTime (node1, lastNodePrevNodes.get(i)) /
+     * computiationTime(node1)) + sum(communicationTime (node1,
+     * lastNodeNextNodes.get(i)) / computiationTime(node1)) -
+     * dif(computiationTime(node1) / communicationTime (node1,
+     * lastNodeNextNodes.get(i))
      * 
      * @param node1
      * @param cpuId The id of the cpu.
@@ -396,10 +395,10 @@ public class LASTScheduler implements Scheduler {
         double strength = 0.0;
 
         // Lists of the previous and following nodes of the node1.
-        ArrayList<TaskGraphNode> lastNodePrevNodesAll = new ArrayList<TaskGraphNode>
-                (node1.getTaskGraphNode().getPrevNodes());
-        ArrayList<TaskGraphNode> lastNodeNextNodesAll = new ArrayList<TaskGraphNode>
-                (node1.getTaskGraphNode().getNextNodes());
+        ArrayList<TaskGraphNode> lastNodePrevNodesAll = new ArrayList<TaskGraphNode>(node1
+                .getTaskGraphNode().getPrevNodes());
+        ArrayList<TaskGraphNode> lastNodeNextNodesAll = new ArrayList<TaskGraphNode>(node1
+                .getTaskGraphNode().getNextNodes());
 
         ArrayList<TaskGraphNode> lastNodePrevNodes = new ArrayList<TaskGraphNode>();
         ArrayList<TaskGraphNode> lastNodeNextNodes = new ArrayList<TaskGraphNode>();
@@ -425,7 +424,7 @@ public class LASTScheduler implements Scheduler {
         // Iterate through the lastNodePrevNodes and calculate the first sum.
         for (int i = 0; i < lastNodePrevNodes.size(); i++) {
             try {
-                strength += ((double)(taskGraph.findEdge(lastNodePrevNodes.get(i),
+                strength += ((double) (taskGraph.findEdge(lastNodePrevNodes.get(i),
                         node1.getTaskGraphNode()).getCommunicationTime()) / computationTimeNode1);
             } catch (ContainsNoEdgeException e) {
                 e.printStackTrace();
@@ -434,9 +433,9 @@ public class LASTScheduler implements Scheduler {
 
         // Iterate through the lastNodeNextNodes and calculate the second sum.
         for (int i = 0; i < lastNodeNextNodes.size(); i++) {
-            try{
-                strength += ((double)(taskGraph.findEdge(node1.getTaskGraphNode(),
-                         lastNodeNextNodes.get(i)).getCommunicationTime()) / computationTimeNode1);
+            try {
+                strength += ((double) (taskGraph.findEdge(node1.getTaskGraphNode(),
+                        lastNodeNextNodes.get(i)).getCommunicationTime()) / computationTimeNode1);
             } catch (ContainsNoEdgeException e) {
                 e.printStackTrace();
             }
@@ -448,8 +447,9 @@ public class LASTScheduler implements Scheduler {
                 strength -= 0;
             } else {
                 try {
-                    strength -= ( computationTimeNode1 / (double)(taskGraph.findEdge(node1.getTaskGraphNode(),
-                            lastNodeNextNodes.get(i)).getCommunicationTime()));
+                    strength -= (computationTimeNode1 / (double) (taskGraph.findEdge(
+                            node1.getTaskGraphNode(), lastNodeNextNodes.get(i))
+                            .getCommunicationTime()));
                 } catch (ContainsNoEdgeException e) {
                     e.printStackTrace();
                 }
