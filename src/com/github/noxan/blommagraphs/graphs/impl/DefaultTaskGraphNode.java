@@ -162,4 +162,23 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         }
         return maxLayer;
     }
+
+    @Override
+    public int getStaticBLevel() {
+        return getStaticBLevel(0, this);
+    }
+
+    private int getStaticBLevel(int currenttime, TaskGraphNode node) {
+        currenttime += node.getComputationTime();
+        int max = currenttime;
+        if (!this.getNextEdges().isEmpty()) {
+            for (TaskGraphNode currentNode : node.getNextNodes()) {
+                int pathTime = getStaticBLevel(currenttime, currentNode);
+                if (pathTime > max) {
+                    max = pathTime;
+                }
+            }
+        }
+        return max;
+    }
 }

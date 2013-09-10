@@ -77,12 +77,11 @@ public class DefaultScheduledTask implements ScheduledTask {
     }
 
     @Override
-    public int compareTo(ScheduledTask other) {
-        return getStartTime() - other.getStartTime();
+    public TaskGraphNode getTaskGraphNode() {
+        return this.node;
     }
 
-    @Override
-    public TaskGraphNode getTaskGraphNode() {
-        return node;
+    public int compareTo(ScheduledTask other) {
+        return getStartTime() - other.getStartTime();
     }
 }
