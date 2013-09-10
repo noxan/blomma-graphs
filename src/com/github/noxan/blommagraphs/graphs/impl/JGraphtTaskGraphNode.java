@@ -213,4 +213,8 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     public int getDeadLine() {
         return deadLine;
     }
+
+    protected void setGraph(SimpleDirectedWeightedGraph<TaskGraphNode, TaskGraphEdge> graph) {
+        this.graph = graph;
+    }
 }
