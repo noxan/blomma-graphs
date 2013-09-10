@@ -3,6 +3,7 @@
 /export/
 # from gh-pages branch
 /assets/
+/_site/
 
 # Files
 *.swp
