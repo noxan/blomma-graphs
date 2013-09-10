@@ -211,6 +211,21 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
+     * This method checks if all dependencies of a TaskGraphNode are satisfied
+     * (parent tasks have already been scheduled to cpus).
+     * 
+     * @param taskGraphNode
+     * @return True if dependencies satisfied otherwise false
+     */
+    protected boolean hasDepenciesSatisfied(TaskGraphNode taskGraphNode) {
+        for (TaskGraphNode dependency : taskGraphNode.getPrevNodes()) {
+            if (!alreadyScheduled(dependency))
+                return false;
+        }
+        return true;
+    }
+
+    /**
      * Checks if a list contains a LASTNode which references given
      * TaskGraphNode.
      * 
