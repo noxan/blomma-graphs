@@ -172,4 +172,7 @@ public interface TaskGraph {
     public Map<String, Object> getMetaInformation();
 
     public void resetDeadLine(int deadLine);
+
+    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+            TaskGraphNode nextNode, int nextCommunicationTime);
 }

@@ -216,4 +216,11 @@ public class DefaultTaskGraph implements TaskGraph {
             node.setDeadLine(deadLine);
         }
     }
+
+    @Override
+    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+            TaskGraphNode nextNode, int nextCommunicationTime) {
+        // TODO Auto-generated method stub
+
+    }
 }
