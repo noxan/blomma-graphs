@@ -242,4 +242,11 @@ public class JGraphtTaskGraph implements TaskGraph {
 
         return metaInformation.getMetaInformation();
     }
+
+    @Override
+    public void resetDeadLine(int deadLine) {
+        for (TaskGraphNode node : getNodeSet()) {
+            node.setDeadLine(deadLine);
+        }
+    }
 }

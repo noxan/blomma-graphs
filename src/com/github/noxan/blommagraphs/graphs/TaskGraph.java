@@ -170,4 +170,6 @@ public interface TaskGraph {
      * @return meta information related to this graph
      */
     public Map<String, Object> getMetaInformation();
+
+    public void resetDeadLine(int deadLine);
 }
