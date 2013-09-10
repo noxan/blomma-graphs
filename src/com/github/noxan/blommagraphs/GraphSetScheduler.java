@@ -43,8 +43,8 @@ public class GraphSetScheduler {
         File graphFolders[] = rootFile.listFiles();
         File graphFiles[] = null;
 
-        String lastSchedulFolder = "export/scheduled/last/";
-        String geneticSchedulFolder = "export/scheduled/genetic/";
+        String lastSchedulFolder = "export/scheduled/last";
+        String geneticSchedulFolder = "export/scheduled/genetic";
         new File(lastSchedulFolder).mkdirs();
         new File(geneticSchedulFolder).mkdirs();
 
@@ -65,7 +65,7 @@ public class GraphSetScheduler {
 
             for (int j = 0; j < graphFiles.length; ++j) {
                 // Create folder
-                new File(lastSchedulFolder + Integer.toString(i)).mkdirs();
+                new File(lastSchedulFolder + "/" + Integer.toString(i)).mkdirs();
 
                 // Deserialize
                 taskGraph = TaskGraphFileUtils
@@ -75,7 +75,7 @@ public class GraphSetScheduler {
                 scheduledGraphString = scheduledSerializer.serialize(lastScheduler.schedule(
                         taskGraph, systemInfo));
                 FileUtils.writeFile(
-                        lastSchedulFolder + Integer.toString(i) + "/" + Integer.toString(j)
+                        lastSchedulFolder + "/" + Integer.toString(i) + "/" + Integer.toString(j)
                                 + ".sgf", scheduledGraphString);
 
                 // Schedule & write back for genetic scheduler
