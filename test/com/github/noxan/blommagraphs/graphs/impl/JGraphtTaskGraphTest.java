@@ -175,4 +175,45 @@ public class JGraphtTaskGraphTest {
         Assert.assertEquals(edgeList, taskGraph.getCriticalPath());
     }
 
+    @Test
+    public void testMergeGraph() throws ContainsNoEdgeException {
+        TaskGraph srcGraph1 = new JGraphtTaskGraph();
+        TaskGraphNode src1Node = srcGraph1.insertNode(srcGraph1.getFirstNode(), 11,
+                srcGraph1.getLastNode(), 12, 20);
+
+        TaskGraph srcGraph2 = new JGraphtTaskGraph();
+        TaskGraphNode src2Node = srcGraph2.insertNode(srcGraph2.getFirstNode(), 900,
+                srcGraph2.getLastNode(), 910, 40);
+
+        taskGraph
+                .mergeGraph(srcGraph1, taskGraph.getFirstNode(), 111, taskGraph.getLastNode(), 222);
+        taskGraph
+                .mergeGraph(srcGraph2, taskGraph.getFirstNode(), 333, taskGraph.getLastNode(), 444);
+
+        // Check edges and nodes
+        Assert.assertEquals(8, taskGraph.getNodeCount());
+        Assert.assertEquals(9, taskGraph.getEdgeCount());
+
+        Assert.assertTrue(taskGraph.containsEdge(taskGraph.getFirstNode(), taskGraph.getLastNode()));
+        Assert.assertTrue(taskGraph.containsEdge(taskGraph.getFirstNode(), taskGraph.getLastNode()));
+        Assert.assertEquals(111,
+                taskGraph.findEdge(taskGraph.getFirstNode(), srcGraph1.getFirstNode())
+                        .getCommunicationTime());
+        Assert.assertEquals(444,
+                taskGraph.findEdge(srcGraph2.getLastNode(), taskGraph.getLastNode())
+                        .getCommunicationTime());
+
+        // Check node ids
+        Assert.assertEquals(0, taskGraph.getFirstNode().getId());
+        Assert.assertEquals(7, taskGraph.getLastNode().getId());
+
+        Assert.assertEquals(1, srcGraph1.getFirstNode().getId());
+        Assert.assertEquals(3, srcGraph1.getLastNode().getId());
+        Assert.assertEquals(2, src1Node.getId());
+
+        Assert.assertEquals(4, srcGraph2.getFirstNode().getId());
+        Assert.assertEquals(6, srcGraph2.getLastNode().getId());
+        Assert.assertEquals(5, src2Node.getId());
+
+    }
 }
