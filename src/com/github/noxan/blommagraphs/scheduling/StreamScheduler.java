@@ -6,6 +6,6 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public interface StreamScheduler {
-    public ScheduledTaskList schedule(TaskGraph taskGraph, int graphCount,
+    public ScheduledTaskList schedule(TaskGraph taskGraph, int graphCount, int[] deadlines,
             SystemMetaInformation systemInfo, Scheduler scheduler);
 }
