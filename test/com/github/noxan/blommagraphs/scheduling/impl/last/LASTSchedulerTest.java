@@ -11,8 +11,9 @@ import org.junit.runners.JUnit4;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
-import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
@@ -56,13 +57,11 @@ public class LASTSchedulerTest {
 
     @Test
     public void scheduleTest() {
+        String expectedString = "0 0 0\n10 0 1\n15 1 2\n45 1 3\n85 1 4\n";
+        ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
+
         ScheduledTaskList list = lastScheduler.schedule(graph, systemInformation);
-        System.out.println("start\ttask\tcpu");
-        for (ScheduledTask task : list) {
-            System.out.println(String.format("%d\t%d\t%d", task.getStartTime(), task.getTaskId(),
-                    task.getCpuId()));
-        }
-        Assert.fail("Not implemented yet");
+        Assert.assertEquals(expectedString, serializer.serialize(list));
     }
 
     @Test
