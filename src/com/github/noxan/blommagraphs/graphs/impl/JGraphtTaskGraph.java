@@ -274,14 +274,16 @@ public class JGraphtTaskGraph implements TaskGraph {
         }
 
         // Re-ID nodes of graph 2 and set it's graph reference to this.
+        int idOffset = getLastNode().getId();
+
         for (TaskGraphNode node : srcGraph.getNodeSet()) {
-            ((JGraphtTaskGraphNode) node).setId(this.getLastNode().getId());
-            ((JGraphtTaskGraphNode) getLastNode()).setId(this.getLastNode().getId() + 1);
+            ((JGraphtTaskGraphNode) node).setId(node.getId() + idOffset);
             ((JGraphtTaskGraphNode) node).setGraph(graph);
         }
 
         Graphs.addGraph(graph, ((JGraphtTaskGraph) srcGraph).getGraph());
 
+        ((JGraphtTaskGraphNode) getLastNode()).setId(getNodeCount() - 1);
         // Connect copied nodes with rest of graph
         try {
             this.insertEdge(prevNode, srcGraph.getFirstNode(), prevCommunicationTime);
