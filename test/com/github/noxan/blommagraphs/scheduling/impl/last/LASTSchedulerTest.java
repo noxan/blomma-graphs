@@ -1,19 +1,21 @@
 package com.github.noxan.blommagraphs.scheduling.impl.last;
 
 
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import junit.framework.Assert;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
+
 
 @RunWith(JUnit4.class)
 public class LASTSchedulerTest {
@@ -50,11 +52,6 @@ public class LASTSchedulerTest {
             lastNodes[i] = new LASTNode(graphNodes[i]);
 
         lastScheduler.initialize(graph, systemInformation);
-    }
-
-    @Test
-    public void findCpuForNodeTest() {
-        Assert.fail("Not implemented yet");
     }
 
     @Test
