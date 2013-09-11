@@ -173,13 +173,6 @@ public class JGraphtTaskGraphTest {
         }
 
         Assert.assertEquals(edgeList, taskGraph.getCriticalPath());
-        System.out.println("Edges are equal");
-
-        ArrayList<TaskGraphEdge> criticalPath = (ArrayList<TaskGraphEdge>) taskGraph
-                .getCriticalPath();
-        for (TaskGraphEdge edge : criticalPath) {
-            System.out.println(edge.getPrevNode().getId());
-            System.out.println(edge.getNextNode().getId());
-        }
     }
+
 }
