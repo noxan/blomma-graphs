@@ -2,7 +2,7 @@ package com.github.noxan.blommagraphs.scheduling.impl;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.StreamScheduler;
@@ -15,7 +15,7 @@ public class DefaultStreamScheduler implements StreamScheduler {
     public ScheduledTaskList schedule(TaskGraph taskGraph, int[] deadLines,
             SystemMetaInformation systemInfo, Scheduler scheduler) {
 
-        TaskGraph graph = new DefaultTaskGraph();
+        TaskGraph graph = new JGraphtTaskGraph();
         for (int i = 0; i < deadLines.length; ++i) {
             graph.mergeGraph(taskGraph, graph.getFirstNode(), 1, graph.getLastNode(), 1);
         }
