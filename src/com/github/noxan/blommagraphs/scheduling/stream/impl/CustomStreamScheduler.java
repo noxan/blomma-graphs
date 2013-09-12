@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
@@ -25,12 +26,7 @@ public class CustomStreamScheduler implements StreamScheduler {
 
         TaskGraphNode nextTask = searchNextTask(readySet);
 
-        int processorId = searchProcessorForNextTask(nextTask);
-        int startTime = 0;
-        int communicationTime = 0;
-
-        ScheduledTask scheduledTask = new DefaultScheduledTask(startTime, processorId,
-                communicationTime, nextTask);
+        ScheduledTask scheduledTask = scheduleNextTask(nextTask, scheduledTaskList);
         scheduledTaskList.add(scheduledTask);
 
         updateReadySet(readySet, scheduledTaskList, nextTask);
@@ -38,8 +34,56 @@ public class CustomStreamScheduler implements StreamScheduler {
         return scheduledTaskList;
     }
 
-    private int searchProcessorForNextTask(TaskGraphNode next) {
-        return 0;
+    private ScheduledTask scheduleNextTask(TaskGraphNode nextTask,
+            ScheduledTaskList scheduledTaskList) {
+        int processorCount = scheduledTaskList.getProcessorCount();
+
+        Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
+        for (TaskGraphNode dependencyNode : nextTask.getPrevNodes()) {
+            dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
+        }
+
+        int processorId = 0;
+        int minStartTimeOnProcessor = Integer.MAX_VALUE;
+        int communicationTime = 0;
+        for (int currentProcessorId = 0; currentProcessorId < processorCount; currentProcessorId++) {
+            ScheduledTask lastScheduledTask = scheduledTaskList
+                    .getLastScheduledTaskOnProcessor(currentProcessorId);
+
+            int startTimeOnProcessor;
+            int communicationTimeOnProcessor = 0;
+
+            if (lastScheduledTask == null) {
+                startTimeOnProcessor = 0;
+            } else {
+                startTimeOnProcessor = lastScheduledTask.getFinishTime();
+            }
+
+            int maxDependencyTime = Integer.MIN_VALUE;
+            for (ScheduledTask dependencyTask : dependencySet) {
+                if (dependencyTask.getCpuId() != currentProcessorId) {
+                    int currentDependencyTime = dependencyTask.getFinishTime();
+                    TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(nextTask);
+                    currentDependencyTime += edge.getCommunicationTime();
+                    if (currentDependencyTime > maxDependencyTime) {
+                        maxDependencyTime = currentDependencyTime;
+                        communicationTimeOnProcessor = edge.getCommunicationTime();
+                    }
+                }
+            }
+
+            if (startTimeOnProcessor < maxDependencyTime) {
+                startTimeOnProcessor = maxDependencyTime;
+            }
+            if (startTimeOnProcessor <= minStartTimeOnProcessor) {
+                minStartTimeOnProcessor = startTimeOnProcessor;
+                communicationTime = communicationTimeOnProcessor;
+                processorId = currentProcessorId;
+            }
+        }
+
+        return new DefaultScheduledTask(minStartTimeOnProcessor, processorId, communicationTime,
+                nextTask);
     }
 
     private TaskGraphNode searchNextTask(Set<TaskGraphNode> readySet) {
