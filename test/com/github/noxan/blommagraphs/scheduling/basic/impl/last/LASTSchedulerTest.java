@@ -90,6 +90,7 @@ public class LASTSchedulerTest {
         Assert.assertEquals(lastNodes[1], lastScheduler.highestLastNodeByDNode());
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void calcDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
@@ -113,6 +114,7 @@ public class LASTSchedulerTest {
         Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[1], lastNodes[0]));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void calcStrengthTest() {
         int cpuId = 0;
