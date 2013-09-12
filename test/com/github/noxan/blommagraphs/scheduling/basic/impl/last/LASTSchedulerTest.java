@@ -90,13 +90,12 @@ public class LASTSchedulerTest {
         Assert.assertEquals(lastNodes[1], lastScheduler.highestLastNodeByDNode());
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void calcDNodeTest() {
         lastScheduler.groups.get(0).add(lastNodes[0]);
 
-        Assert.assertEquals(0.5f, lastScheduler.calcDNode(lastNodes[1]));
-        Assert.assertEquals(0.3333333333333333f, lastScheduler.calcDNode(lastNodes[2]));
+        Assert.assertEquals(0.5f, lastScheduler.calcDNode(lastNodes[1]), 0.001f);
+        Assert.assertEquals(0.3333333333333333f, lastScheduler.calcDNode(lastNodes[2]), 0.001f);
     }
 
     @Test
@@ -114,7 +113,6 @@ public class LASTSchedulerTest {
         Assert.assertEquals(0, lastScheduler.calcDEdge(lastNodes[1], lastNodes[0]));
     }
 
-    @SuppressWarnings("deprecation")
     @Test
     public void calcStrengthTest() {
         int cpuId = 0;
@@ -123,13 +121,13 @@ public class LASTSchedulerTest {
         lastScheduler.groups.get(cpuId).add(lastNodes[1]);
 
         // First test.
-        Assert.assertEquals(0.16666667f, lastScheduler.calcStrength(lastNodes[2], cpuId));
+        Assert.assertEquals(0.16666667f, lastScheduler.calcStrength(lastNodes[2], cpuId), 0.001f);
 
         // Second test.
-        Assert.assertEquals(0f, lastScheduler.calcStrength(lastNodes[3], cpuId));
+        Assert.assertEquals(0f, lastScheduler.calcStrength(lastNodes[3], cpuId), 0.001f);
 
         // Second test.
-        Assert.assertEquals(0.1f, lastScheduler.calcStrength(lastNodes[4], cpuId));
+        Assert.assertEquals(0.1f, lastScheduler.calcStrength(lastNodes[4], cpuId), 0.001f);
 
     }
 }
