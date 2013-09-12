@@ -1,7 +1,8 @@
-package com.github.noxan.blommagraphs.scheduling;
+package com.github.noxan.blommagraphs.scheduling.basic;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 

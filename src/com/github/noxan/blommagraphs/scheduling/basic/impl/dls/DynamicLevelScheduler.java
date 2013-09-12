@@ -10,7 +10,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
-import com.github.noxan.blommagraphs.scheduling.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;

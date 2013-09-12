@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs.scheduling;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 

@@ -9,7 +9,7 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
-import com.github.noxan.blommagraphs.scheduling.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.ProcessorChromosome;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.RandomChromosome;
