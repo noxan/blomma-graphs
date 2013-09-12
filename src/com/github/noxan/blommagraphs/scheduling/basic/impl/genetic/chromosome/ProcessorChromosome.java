@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome;
 
 
 import java.util.Iterator;

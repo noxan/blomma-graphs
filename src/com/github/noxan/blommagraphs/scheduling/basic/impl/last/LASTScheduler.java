@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.last;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.last;
 
 
 import java.util.ArrayList;

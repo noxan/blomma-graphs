@@ -1,13 +1,16 @@
-package com.github.noxan.blommagraphs.scheduling.impl.dls;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
-import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+
 
 @RunWith(JUnit4.class)
 public class ReadyPoolNodeTest {

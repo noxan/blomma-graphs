@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.genetic;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.genetic;
 
 
 import java.util.List;

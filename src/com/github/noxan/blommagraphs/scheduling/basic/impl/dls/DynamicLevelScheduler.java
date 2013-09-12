@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.dls;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
 import java.util.ArrayList;
 import java.util.HashSet;

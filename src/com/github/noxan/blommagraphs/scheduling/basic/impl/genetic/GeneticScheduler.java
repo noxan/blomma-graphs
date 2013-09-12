@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.genetic;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.genetic;
 
 
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.Scheduler;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.Chromosome;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.ProcessorChromosome;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.RandomChromosome;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.chromosome.ScheduledChromosome;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.Chromosome;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.ProcessorChromosome;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.RandomChromosome;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.ScheduledChromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 

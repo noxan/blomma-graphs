@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl.dls;
+package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.utils.Tuple;

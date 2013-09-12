@@ -5,8 +5,8 @@ import java.io.File;
 import java.io.IOException;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.scheduling.impl.genetic.GeneticScheduler;
-import com.github.noxan.blommagraphs.scheduling.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
