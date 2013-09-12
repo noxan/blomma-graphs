@@ -3,9 +3,13 @@ package com.github.noxan.blommagraphs.scheduling;
 
 import java.util.List;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+
 
 public interface ScheduledTaskList extends List<ScheduledTask> {
     public int getProcessorCount();
+
+    public ScheduledTask getScheduledTask(TaskGraphNode taskGraphNode);
 
     public ScheduledTask getTaskById(int taskId);
 
