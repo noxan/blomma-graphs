@@ -16,17 +16,12 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class LASTScheduler implements Scheduler {
-    private float threshold = 0.65f;
     private SystemMetaInformation systemInformation;
     private TaskGraph taskGraph;
 
     protected List<List<LASTNode>> groups;
     protected List<List<LASTNode>> frontiers;
     private Set<TaskGraphNode> nodeSet;
-
-    public void setThreshold(float threshold) {
-        this.threshold = threshold;
-    }
 
     @Override
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
