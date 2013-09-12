@@ -24,6 +24,20 @@ public class CustomStreamScheduler implements StreamScheduler {
         return null;
     }
 
+    private TaskGraphNode searchNextTask(Set<TaskGraphNode> readySet) {
+        int nextDeadline = Integer.MAX_VALUE;
+        TaskGraphNode nextTask = null;
+
+        for (TaskGraphNode currentTask : readySet) {
+            if (nextDeadline >= currentTask.getDeadLine()) {
+                nextDeadline = currentTask.getDeadLine();
+                nextTask = currentTask;
+            }
+        }
+
+        return nextTask;
+    }
+
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
         Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
 
