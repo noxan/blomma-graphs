@@ -4,8 +4,8 @@ package com.github.noxan.blommagraphs.scheduling.impl;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
-import com.github.noxan.blommagraphs.scheduling.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
