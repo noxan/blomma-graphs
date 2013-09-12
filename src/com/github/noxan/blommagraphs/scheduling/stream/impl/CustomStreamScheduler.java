@@ -1,8 +1,8 @@
 package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
@@ -17,15 +17,15 @@ public class CustomStreamScheduler implements StreamScheduler {
     @Override
     public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo,
             Scheduler scheduler) {
-        List<TaskGraphNode> readyList = initializeReadyList(taskGraphs);
+        Set<TaskGraphNode> readySet = initializeReadySet(taskGraphs);
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(
                 systemInfo.getProcessorCount());
 
         return null;
     }
 
-    private List<TaskGraphNode> initializeReadyList(TaskGraph[] taskGraphs) {
-        List<TaskGraphNode> readyList = new ArrayList<TaskGraphNode>();
+    private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
+        Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
 
         for (TaskGraph taskGraph : taskGraphs) {
             readyList.add(taskGraph.getFirstNode());
@@ -34,8 +34,8 @@ public class CustomStreamScheduler implements StreamScheduler {
         return readyList;
     }
 
-    private void updateReadyList(List<TaskGraphNode> readyList,
-            ScheduledTaskList scheduledTaskList, TaskGraphNode lastScheduledNode) {
+    private void updateReadySet(Set<TaskGraphNode> readyList, ScheduledTaskList scheduledTaskList,
+            TaskGraphNode lastScheduledNode) {
         for (TaskGraphNode nextNode : lastScheduledNode.getNextNodes()) {
             boolean isReady = true;
             for (TaskGraphNode dependency : nextNode.getPrevNodes()) {
