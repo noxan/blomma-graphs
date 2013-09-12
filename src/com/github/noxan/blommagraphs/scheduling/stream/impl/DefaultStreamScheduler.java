@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.scheduling.impl;
+package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
