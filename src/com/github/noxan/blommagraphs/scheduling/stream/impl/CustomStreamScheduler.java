@@ -34,8 +34,11 @@ public class CustomStreamScheduler implements StreamScheduler {
         return readyList;
     }
 
-    private void updateReadySet(Set<TaskGraphNode> readyList, ScheduledTaskList scheduledTaskList,
+    private void updateReadySet(Set<TaskGraphNode> readySet, ScheduledTaskList scheduledTaskList,
             TaskGraphNode lastScheduledNode) {
+        // remove last scheduled task from ready list
+        readySet.remove(lastScheduledNode);
+        // find new ready tasks based on the last scheduled one
         for (TaskGraphNode nextNode : lastScheduledNode.getNextNodes()) {
             boolean isReady = true;
             for (TaskGraphNode dependency : nextNode.getPrevNodes()) {
@@ -45,7 +48,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
             }
             if (isReady) {
-                readyList.add(nextNode);
+                readySet.add(nextNode);
             }
         }
     }
