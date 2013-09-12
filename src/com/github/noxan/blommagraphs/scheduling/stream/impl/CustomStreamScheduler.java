@@ -6,8 +6,10 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -21,7 +23,23 @@ public class CustomStreamScheduler implements StreamScheduler {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(
                 systemInfo.getProcessorCount());
 
-        return null;
+        TaskGraphNode nextTask = searchNextTask(readySet);
+
+        int processorId = searchProcessorForNextTask(nextTask);
+        int startTime = 0;
+        int communicationTime = 0;
+
+        ScheduledTask scheduledTask = new DefaultScheduledTask(startTime, processorId,
+                communicationTime, nextTask);
+        scheduledTaskList.add(scheduledTask);
+
+        updateReadySet(readySet, scheduledTaskList, nextTask);
+
+        return scheduledTaskList;
+    }
+
+    private int searchProcessorForNextTask(TaskGraphNode next) {
+        return 0;
     }
 
     private TaskGraphNode searchNextTask(Set<TaskGraphNode> readySet) {
