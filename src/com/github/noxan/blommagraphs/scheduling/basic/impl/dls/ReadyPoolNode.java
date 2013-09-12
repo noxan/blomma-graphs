@@ -1,5 +1,6 @@
 package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
+
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.utils.Tuple;
 
@@ -22,7 +23,7 @@ public class ReadyPoolNode {
     public Tuple<Integer, Integer> getMaxDynamicLevel() {
         int max = getDynamicLevel(0), cpuId = 0;
         for (int i = 1; i < earliestStarttime.size(); i++) {
-            if (getDynamicLevel(i) > max){
+            if (getDynamicLevel(i) > max) {
                 max = getDynamicLevel(i);
                 cpuId = i;
             }
@@ -31,7 +32,7 @@ public class ReadyPoolNode {
     }
 
     public int getDynamicLevel(int cpuId) {
-        return bLevel-earliestStarttime.get(cpuId);
+        return bLevel - earliestStarttime.get(cpuId);
     }
 
     public int getEarliestStarttime(int cpuId) {

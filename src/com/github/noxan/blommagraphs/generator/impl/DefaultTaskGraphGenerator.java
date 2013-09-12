@@ -17,9 +17,8 @@ import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInform
 
 
 /**
- * TaskgraphGenerator implementation with a random seed and parameters to
- * restrict the randomly generated Graph. Following parameters could be set
- * through setter.
+ * TaskgraphGenerator implementation with a random seed and parameters to restrict the randomly
+ * generated Graph. Following parameters could be set through setter.
  * 
  * <ul>
  * <li>long seed - seed to generate randomly</li>

@@ -58,8 +58,7 @@ public class STGSerializer implements TaskGraphSerializer {
     /**
      * Deserializes a string in STG format and generates a Taskgraph.
      * 
-     * @param graphString String that contains a graph representation in STG
-     *            format.
+     * @param graphString String that contains a graph representation in STG format.
      * @return Deserialized TaskGraph representation of the given graphString.
      */
     @Override
@@ -170,12 +169,12 @@ public class STGSerializer implements TaskGraphSerializer {
     }
 
     /**
-     * Takes a whitespace separated String containing integers only and splits
-     * it into integer values.
+     * Takes a whitespace separated String containing integers only and splits it into integer
+     * values.
      * 
      * @param line A String that only consists of integers and white spaces.
-     * @return Int array which contains the separated values in the line. Null
-     *         if the line is not valid.
+     * @return Int array which contains the separated values in the line. Null if the line is not
+     *         valid.
      */
     private int[] getLineValues(String line) {
         if (line.length() == 0)
@@ -197,8 +196,7 @@ public class STGSerializer implements TaskGraphSerializer {
     }
 
     /**
-     * Generates some meta information that is saved when serializing a
-     * TaskGraph in STG format.
+     * Generates some meta information that is saved when serializing a TaskGraph in STG format.
      * 
      * @param graph The graph for which the meta information is created.
      * @return String containing the meta information.

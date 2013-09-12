@@ -81,8 +81,10 @@ public class DefaultTaskGraphNodeTest {
         TaskGraphNode node1 = taskGraph.getLastNode();
 
         for (int i = 0; i < 2; i++) {
-            TaskGraphNode tempNode1 = taskGraph.insertNode(taskGraph.getFirstNode(), 0, taskGraph.getLastNode(), 0, 3);
-            TaskGraphNode tempNode2 = taskGraph.insertNode(tempNode1, 0, taskGraph.getLastNode(), 0, 3);
+            TaskGraphNode tempNode1 = taskGraph.insertNode(taskGraph.getFirstNode(), 0,
+                    taskGraph.getLastNode(), 0, 3);
+            TaskGraphNode tempNode2 = taskGraph.insertNode(tempNode1, 0, taskGraph.getLastNode(),
+                    0, 3);
             if (i == 0) {
                 node1 = taskGraph.insertNode(tempNode1, 0, tempNode2, 0, 3);
             }

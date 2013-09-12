@@ -2,8 +2,8 @@ package com.github.noxan.blommagraphs.scheduling.system;
 
 
 /**
- * Interface for all methods to define the system meta information which are
- * later used for the scheduling algorithm.
+ * Interface for all methods to define the system meta information which are later used for the
+ * scheduling algorithm.
  * 
  * @author noxan
  */

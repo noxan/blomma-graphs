@@ -54,11 +54,10 @@ public class LASTScheduler implements Scheduler {
     /**
      * Find the cpu which allows the earliest start time for node.
      * 
-     * Hint: The cpu id as well as the earliest start time are saved in the
-     * node. This method iterates over all cpus and searches the cpu which
-     * allowes the earliest start time for the node. It also considers all
-     * dependencies so the task cannot start until all its dependencies have
-     * finished.
+     * Hint: The cpu id as well as the earliest start time are saved in the node. This method
+     * iterates over all cpus and searches the cpu which allowes the earliest start time for the
+     * node. It also considers all dependencies so the task cannot start until all its dependencies
+     * have finished.
      * 
      * @param node The LASTNode for which the optimal cpu is searched.
      * @return The id of the cpu.
@@ -136,8 +135,7 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Takes a TaskGraph and SystemMetaInformation and initializes the
-     * scheduler.
+     * Takes a TaskGraph and SystemMetaInformation and initializes the scheduler.
      * 
      * @param graph
      * @param systemMetaInformation
@@ -161,9 +159,8 @@ public class LASTScheduler implements Scheduler {
     /**
      * Update all frontiers for all cpus.
      * 
-     * Adds a new LASTNode to a frontier if its task is adjacent to a scheduled
-     * task in the related group. If the task is already scheduled (-> in the
-     * cpu group) it is not added.
+     * Adds a new LASTNode to a frontier if its task is adjacent to a scheduled task in the related
+     * group. If the task is already scheduled (-> in the cpu group) it is not added.
      */
     protected void updateFrontiers() {
         for (List<LASTNode> frontier : frontiers) {
@@ -205,8 +202,8 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * This method checks if all dependencies of a TaskGraphNode are satisfied
-     * (parent tasks have already been scheduled to cpus).
+     * This method checks if all dependencies of a TaskGraphNode are satisfied (parent tasks have
+     * already been scheduled to cpus).
      * 
      * @param taskGraphNode
      * @return True if dependencies satisfied otherwise false
@@ -220,8 +217,7 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Checks if a list contains a LASTNode which references given
-     * TaskGraphNode.
+     * Checks if a list contains a LASTNode which references given TaskGraphNode.
      * 
      * @param lastNodeList The list that is checked.
      * @param taskGraphNode The TaskGraphNode that's searched for.
@@ -238,12 +234,10 @@ public class LASTScheduler implements Scheduler {
     /**
      * Find the LASTNode with highest D_NODE value of all frontiers.
      * 
-     * This method calculates the D_NODE value for every LASTNode in all
-     * frontiers and returns the LASTNode with the highest D_NODE value. If all
-     * frontiers are empty, it will returns null.
+     * This method calculates the D_NODE value for every LASTNode in all frontiers and returns the
+     * LASTNode with the highest D_NODE value. If all frontiers are empty, it will returns null.
      * 
-     * @return LASTNode with highest D_NODE value or null if no LASTNode can be
-     *         found.
+     * @return LASTNode with highest D_NODE value or null if no LASTNode can be found.
      */
     protected LASTNode highestLastNodeByDNode() {
         LASTNode maxNode = null;
@@ -260,8 +254,8 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * This method compares the strengths of the delivered node from the
-     * frontiers and returns the destination cpu where the strength is greater.
+     * This method compares the strengths of the delivered node from the frontiers and returns the
+     * destination cpu where the strength is greater.
      * 
      * @param node
      * @return
@@ -292,8 +286,7 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Calculates the D_NODE value used to select the next task that is
-     * scheduled.
+     * Calculates the D_NODE value used to select the next task that is scheduled.
      * 
      * @param node The node for which the D_NODE value is calculated.
      * @return D_NODE value as float.
@@ -346,9 +339,8 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Calculates the D_EDGE value which says if the edge between node1 and
-     * node2 is defined. An edge is defined if either node1 or node2 is already
-     * scheduled on a processor.
+     * Calculates the D_EDGE value which says if the edge between node1 and node2 is defined. An
+     * edge is defined if either node1 or node2 is already scheduled on a processor.
      * 
      * @param node1
      * @param node2
@@ -374,12 +366,10 @@ public class LASTScheduler implements Scheduler {
     }
 
     /**
-     * Calculates how much node1 is connected to a cpu. strength =
-     * sum(communicationTime (node1, lastNodePrevNodes.get(i)) /
-     * computiationTime(node1)) + sum(communicationTime (node1,
-     * lastNodeNextNodes.get(i)) / computiationTime(node1)) -
-     * dif(computiationTime(node1) / communicationTime (node1,
-     * lastNodeNextNodes.get(i))
+     * Calculates how much node1 is connected to a cpu. strength = sum(communicationTime (node1,
+     * lastNodePrevNodes.get(i)) / computiationTime(node1)) + sum(communicationTime (node1,
+     * lastNodeNextNodes.get(i)) / computiationTime(node1)) - dif(computiationTime(node1) /
+     * communicationTime (node1, lastNodeNextNodes.get(i))
      * 
      * @param node1
      * @param cpuId The id of the cpu.

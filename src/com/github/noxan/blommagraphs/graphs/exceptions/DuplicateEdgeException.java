@@ -2,8 +2,8 @@ package com.github.noxan.blommagraphs.graphs.exceptions;
 
 
 /**
- * An exception to be used when an edge should be inserted but there is already
- * an existing one between the two nodes.
+ * An exception to be used when an edge should be inserted but there is already an existing one
+ * between the two nodes.
  * 
  * @author noxan
  */

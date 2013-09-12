@@ -33,8 +33,10 @@ public class DynamicLevelSchedulerTest {
         systemMetaInformation = new DefaultSystemMetaInformation(numberOfCpu);
 
         for (int i = 0; i < 2; i++) {
-            TaskGraphNode tempNode1 = taskGraph.insertNode(taskGraph.getFirstNode(), communicationCost, taskGraph.getLastNode(), communicationCost, 3);
-            TaskGraphNode tempNode2 = taskGraph.insertNode(tempNode1, communicationCost, taskGraph.getLastNode(), communicationCost, 3);
+            TaskGraphNode tempNode1 = taskGraph.insertNode(taskGraph.getFirstNode(),
+                    communicationCost, taskGraph.getLastNode(), communicationCost, 3);
+            TaskGraphNode tempNode2 = taskGraph.insertNode(tempNode1, communicationCost,
+                    taskGraph.getLastNode(), communicationCost, 3);
             if (i == 0) {
                 taskGraph.insertNode(tempNode1, communicationCost, tempNode2, communicationCost, 3);
             }
@@ -46,13 +48,16 @@ public class DynamicLevelSchedulerTest {
         ScheduledTaskListSerializer scheduledTaskListSerializer = new DefaultScheduledTaskListSerializer();
         String expected = "0 0 0\n1 0 1\n3 1 4\n4 0 3\n6 1 5\n7 0 2\n11 0 6\n";
 
-        Assert.assertEquals(expected, scheduledTaskListSerializer.serialize(dynamicLevelScheduler.schedule(taskGraph, systemMetaInformation)));
+        Assert.assertEquals(expected, scheduledTaskListSerializer.serialize(dynamicLevelScheduler
+                .schedule(taskGraph, systemMetaInformation)));
     }
 
     @Test
     public void testIsReadyNode() {
-        ScheduledTaskList scheduledTaskList = dynamicLevelScheduler.schedule(taskGraph, systemMetaInformation);
-        TaskGraphNode node = scheduledTaskList.getLastScheduledTaskOnProcessor(0).getTaskGraphNode();
+        ScheduledTaskList scheduledTaskList = dynamicLevelScheduler.schedule(taskGraph,
+                systemMetaInformation);
+        TaskGraphNode node = scheduledTaskList.getLastScheduledTaskOnProcessor(0)
+                .getTaskGraphNode();
 
         Assert.assertTrue(dynamicLevelScheduler.isReadyNode(node));
     }

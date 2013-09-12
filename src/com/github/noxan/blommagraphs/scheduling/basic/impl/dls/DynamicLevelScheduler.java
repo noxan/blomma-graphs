@@ -1,5 +1,6 @@
 package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +32,8 @@ public class DynamicLevelScheduler implements Scheduler {
         }
 
         // initialize ready-pool at first only start node
-        readyNodePool.add(new ReadyPoolNode(graph.getFirstNode(),
-                graph.getFirstNode().getStaticBLevel(), cpuCount));
+        readyNodePool.add(new ReadyPoolNode(graph.getFirstNode(), graph.getFirstNode()
+                .getStaticBLevel(), cpuCount));
 
         // main loop
         while (!readyNodePool.isEmpty()) {
@@ -44,7 +45,8 @@ public class DynamicLevelScheduler implements Scheduler {
                     int firstStarttime;
                     // get last task and set first start time for current cpu
                     if (!cpuScheduleTaskList.isEmpty()) {
-                        ScheduledTask lastTask = cpuScheduleTaskList.get(cpuScheduleTaskList.size() - 1);
+                        ScheduledTask lastTask = cpuScheduleTaskList
+                                .get(cpuScheduleTaskList.size() - 1);
                         firstStarttime = lastTask.getStartTime() + lastTask.getComputationTime();
                     } else {
                         firstStarttime = 0;
@@ -61,7 +63,10 @@ public class DynamicLevelScheduler implements Scheduler {
                                 if (graph.containsEdge(task.getTaskGraphNode(), poolNode.getNode())) {
                                     try {
                                         // get latest dependency time per task
-                                        currentDependencyTimePerTask = task.getStartTime() + task.getComputationTime() + graph.findEdge(task.getTaskGraphNode(), poolNode.getNode()).getCommunicationTime();
+                                        currentDependencyTimePerTask = task.getStartTime()
+                                                + task.getComputationTime()
+                                                + graph.findEdge(task.getTaskGraphNode(),
+                                                        poolNode.getNode()).getCommunicationTime();
                                     } catch (ContainsNoEdgeException e) {
                                         e.printStackTrace();
                                     }
@@ -111,12 +116,14 @@ public class DynamicLevelScheduler implements Scheduler {
             // add scheduled task to scheduledTaskList
             scheduledTaskList.add(newScheduledTask);
 
-            // add new ready nodes to the ready node pool and compute static b level of the new nodes
+            // add new ready nodes to the ready node pool and compute static b level of the new
+            // nodes
             Set<TaskGraphNode> nextNodes = chosenScheduledTask.getNode().getNextNodes();
             if (nextNodes.size() != 0) {
                 for (TaskGraphNode node : nextNodes) {
                     if (isReadyNode(node)) {
-                        readyNodePool.add(new ReadyPoolNode(node, node.getStaticBLevel(), cpuCount));
+                        readyNodePool
+                                .add(new ReadyPoolNode(node, node.getStaticBLevel(), cpuCount));
                     }
                 }
             }
@@ -141,5 +148,3 @@ public class DynamicLevelScheduler implements Scheduler {
     }
 
 }
-
-

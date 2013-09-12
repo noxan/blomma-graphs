@@ -15,10 +15,9 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 /**
  * This is a class that holds information about one node (task) in STG format.
  * 
- * In STG format, a node (task) consists of it's ID, computation count, number
- * of dependencies and the dependencies itself. A dependencie saves the
- * predecessor and communication costs. These information are represented in one
- * STGNode.
+ * In STG format, a node (task) consists of it's ID, computation count, number of dependencies and
+ * the dependencies itself. A dependencie saves the predecessor and communication costs. These
+ * information are represented in one STGNode.
  * 
  * @author namelessvoid
  * @since 2013-09-01
@@ -43,8 +42,7 @@ public class STGNode {
     /**
      * Constructor that uses a node to initialize the STGNode.
      * 
-     * @param node A TaskGraphNode which shall be represented by the new
-     *            STGNode.
+     * @param node A TaskGraphNode which shall be represented by the new STGNode.
      */
     public STGNode(TaskGraphNode node) {
         this(node.getId(), node.getComputationTime());
@@ -103,8 +101,7 @@ public class STGNode {
     }
 
     /**
-     * Adds dependency on node with id. The dependency has given communication
-     * costs.
+     * Adds dependency on node with id. The dependency has given communication costs.
      * 
      * @param id The id of the predecessor.
      * @param computationcosts

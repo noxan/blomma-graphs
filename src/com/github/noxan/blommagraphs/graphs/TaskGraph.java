@@ -51,17 +51,16 @@ public interface TaskGraph {
     public int getNodeCount();
 
     /**
-     * Returns the critical path (the path with takes the longest time to execute
-     * from first node to last node) of the graph as list of edges
-     *
+     * Returns the critical path (the path with takes the longest time to execute from first node to
+     * last node) of the graph as list of edges
+     * 
      * @return list of edges
      */
     public List<TaskGraphEdge> getCriticalPath();
 
     /**
-     * Adds a new node into the task graph and connecting it to a previous and
-     * next node. Makes sure the task graph itself stays valid and returns the
-     * created node.
+     * Adds a new node into the task graph and connecting it to a previous and next node. Makes sure
+     * the task graph itself stays valid and returns the created node.
      * 
      * @param prevNode previous node
      * @param prevCommunicationTime communication time to the previous node
@@ -74,12 +73,11 @@ public interface TaskGraph {
             TaskGraphNode nextNode, int nextCommunicationTime, int computationTime);
 
     /**
-     * Adds a new node into the task graph and connecting it to a previous and
-     * next node. Makes sure the task graph itself stays valid and returns the
-     * created node.
+     * Adds a new node into the task graph and connecting it to a previous and next node. Makes sure
+     * the task graph itself stays valid and returns the created node.
      * 
-     * This methods allows to keep an existing edge or connection between the
-     * previous and next node.
+     * This methods allows to keep an existing edge or connection between the previous and next
+     * node.
      * 
      * @see insertNode
      * 
@@ -88,8 +86,8 @@ public interface TaskGraph {
      * @param nextNode next node
      * @param nextCommunicationTime communication time to the next node
      * @param computationTime computation time of the new node
-     * @param keepExistingEdge if true the graph keeps and existing edge between
-     *            next and previous node
+     * @param keepExistingEdge if true the graph keeps and existing edge between next and previous
+     *            node
      * @return the created node
      */
     public TaskGraphNode insertNode(TaskGraphNode prevNode, int prevCommunicationTime,
@@ -97,15 +95,14 @@ public interface TaskGraph {
             boolean keepExistingEdge);
 
     /**
-     * Adds a new edge between the previous and next node with a given
-     * communication time. Does not allow duplicate edges and loops.
+     * Adds a new edge between the previous and next node with a given communication time. Does not
+     * allow duplicate edges and loops.
      * 
      * @param prevNode previous node
      * @param nextNode next node
      * @param communicationTime communication time for the new edge
      * @return the created edge
-     * @throws DuplicateEdgeException thrown if an edge between those two nodes
-     *             already exists
+     * @throws DuplicateEdgeException thrown if an edge between those two nodes already exists
      */
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
             int communicationTime) throws DuplicateEdgeException;
@@ -152,8 +149,8 @@ public interface TaskGraph {
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode);
 
     /**
-     * returns an edge between two given nodes throws exception in case there is
-     * no edge between those nodes
+     * returns an edge between two given nodes throws exception in case there is no edge between
+     * those nodes
      * 
      * @param prevNode previous node
      * @param nextNode next node
@@ -163,9 +160,8 @@ public interface TaskGraph {
             throws ContainsNoEdgeException;
 
     /**
-     * Returns all the meta information related to this graph. Also contains the
-     * generator meta information if available. The returned map should be
-     * considered as immutable.
+     * Returns all the meta information related to this graph. Also contains the generator meta
+     * information if available. The returned map should be considered as immutable.
      * 
      * @return meta information related to this graph
      */

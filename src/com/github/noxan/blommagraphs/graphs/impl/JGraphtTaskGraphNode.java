@@ -118,8 +118,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     /**
-     * recursive function which counts the layers to the first node from the
-     * given node
+     * recursive function which counts the layers to the first node from the given node
      * 
      * @param layer
      * @param vertex
@@ -150,8 +149,7 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     /**
-     * recursive function which counts the layers to the last node from the
-     * given node
+     * recursive function which counts the layers to the last node from the given node
      * 
      * @param layer
      * @param vertex

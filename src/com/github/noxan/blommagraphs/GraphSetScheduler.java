@@ -19,8 +19,7 @@ import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 /**
  * Schedules all graphs created by GraphSetGenerator.
  * 
- * This class schedules all graphs created by GraphSetGenerator. Schedulers
- * used:
+ * This class schedules all graphs created by GraphSetGenerator. Schedulers used:
  * <ul>
  * <li>DLS</li>
  * <li>LAST</li>

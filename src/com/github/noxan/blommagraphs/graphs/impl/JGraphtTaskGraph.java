@@ -256,13 +256,11 @@ public class JGraphtTaskGraph implements TaskGraph {
     }
 
     /**
-     * Takes a TaskGraph and merges it. Attention: Both graphs are modified and
-     * should be copied before if still you need the unmodified versions
-     * afterwards!
+     * Takes a TaskGraph and merges it. Attention: Both graphs are modified and should be copied
+     * before if still you need the unmodified versions afterwards!
      * 
-     * The srcGraph is merged to this graph between prevNode and nextNode. Two
-     * additional edges are added: prevNode -> srcGraph.firstNode and
-     * srcGraph.lastNode -> nextNode.
+     * The srcGraph is merged to this graph between prevNode and nextNode. Two additional edges are
+     * added: prevNode -> srcGraph.firstNode and srcGraph.lastNode -> nextNode.
      * 
      */
     @Override
