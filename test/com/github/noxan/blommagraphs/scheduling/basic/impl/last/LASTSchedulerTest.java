@@ -1,8 +1,7 @@
 package com.github.noxan.blommagraphs.scheduling.basic.impl.last;
 
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
