@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.github.noxan.blommagraphs.serializer.impl;
+package com.github.noxan.blommagraphs.graphs.serializer.impl;
 
 
 import java.security.InvalidParameterException;

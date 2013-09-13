@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.serializer.impl;
+package com.github.noxan.blommagraphs.graphs.serializer.impl;
 
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
-import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 
 
 /**

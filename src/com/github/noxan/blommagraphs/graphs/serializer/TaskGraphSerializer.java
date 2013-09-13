@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.serializer;
+package com.github.noxan.blommagraphs.graphs.serializer;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;

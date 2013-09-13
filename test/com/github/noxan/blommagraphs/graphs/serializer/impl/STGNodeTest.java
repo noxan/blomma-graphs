@@ -1,4 +1,4 @@
-package com.github.noxan.blommagraphs.serializer.impl;
+package com.github.noxan.blommagraphs.graphs.serializer.impl;
 
 
 import java.util.HashMap;
@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGNode;
 
 
 public class STGNodeTest {
