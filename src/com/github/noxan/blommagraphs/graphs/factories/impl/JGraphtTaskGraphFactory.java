@@ -28,6 +28,7 @@ public class JGraphtTaskGraphFactory {
         try {
             taskGraph.insertEdge(nodes[0], nodes[2], 7);
             taskGraph.insertEdge(nodes[2], nodes[8], 6);
+            taskGraph.insertEdge(nodes[4], nodes[5], 5);
         } catch (DuplicateEdgeException e) {
             e.printStackTrace();
         }
