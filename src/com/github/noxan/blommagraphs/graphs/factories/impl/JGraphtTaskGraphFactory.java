@@ -4,13 +4,12 @@ package com.github.noxan.blommagraphs.graphs.factories.impl;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-import com.github.noxan.blommagraphs.graphs.factories.GraphFactory;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 
 
-public class JGraphtTaskGraphFactory implements GraphFactory {
-    @Override
-    public TaskGraph makeGraph() {
+public class JGraphtTaskGraphFactory {
+
+    public static TaskGraph makeGraph() {
         TaskGraph taskGraph = new JGraphtTaskGraph();
         TaskGraphNode nodes[] = new TaskGraphNode[10];
 
