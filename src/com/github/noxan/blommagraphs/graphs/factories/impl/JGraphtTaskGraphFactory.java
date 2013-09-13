@@ -7,6 +7,12 @@ import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 
 
+/**
+ * This Factory always creates exactly the same graph.
+ * 
+ * @author namelessvoid
+ * 
+ */
 public class JGraphtTaskGraphFactory {
 
     public static TaskGraph makeGraph() {
