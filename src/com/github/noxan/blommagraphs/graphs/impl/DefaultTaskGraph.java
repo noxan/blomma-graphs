@@ -72,8 +72,34 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-        // TODO Auto-generated method stub
-        return new ArrayList<TaskGraphEdge>();
+        int cpTime = 0;
+        List<TaskGraphEdge> cpEdgeList = new ArrayList<TaskGraphEdge>();
+        return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>(), cpTime, cpEdgeList);
+    }
+
+    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time,
+            List<TaskGraphEdge> currentEdgeList, int cpTime, List<TaskGraphEdge> cpEdgeList) {
+        int maxTime = time + node.getComputationTime();
+
+        ArrayList<TaskGraphEdge> taskGraphEdgeList = new ArrayList<TaskGraphEdge>();
+
+        taskGraphEdgeList.addAll(node.getNextEdges());
+        for (int i = 0; i < taskGraphEdgeList.size(); i++) {
+            ArrayList<TaskGraphEdge> currentEdgeListCopy = new ArrayList<TaskGraphEdge>();
+            for (int j = 0; j < currentEdgeList.size(); j++) {
+                currentEdgeListCopy.add(currentEdgeList.get(j));
+            }
+            currentEdgeListCopy.add(taskGraphEdgeList.get(i));
+            criticalPath(taskGraphEdgeList.get(i).getNextNode(), maxTime
+                    + taskGraphEdgeList.get(i).getCommunicationTime(), currentEdgeListCopy, cpTime,
+                    cpEdgeList);
+
+            if (maxTime > cpTime) {
+                cpTime = maxTime;
+                cpEdgeList = currentEdgeListCopy;
+            }
+        }
+        return cpEdgeList;
     }
 
     @Override
