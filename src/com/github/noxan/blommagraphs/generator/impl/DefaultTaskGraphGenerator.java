@@ -11,7 +11,6 @@ import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
