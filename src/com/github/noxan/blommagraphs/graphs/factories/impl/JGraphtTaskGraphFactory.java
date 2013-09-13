@@ -23,7 +23,7 @@ public class JGraphtTaskGraphFactory {
         nodes[5] = taskGraph.insertNode(nodes[3], 6, nodes[9], 3, 15);
         nodes[6] = taskGraph.insertNode(nodes[2], 4, nodes[9], 1, 10);
         nodes[7] = taskGraph.insertNode(nodes[1], 3, nodes[6], 4, 20);
-        nodes[8] = taskGraph.insertNode(nodes[5], 3, nodes[9], 1, 7);
+        nodes[8] = taskGraph.insertNode(nodes[5], 3, nodes[9], 1, 10);
 
         try {
             taskGraph.insertEdge(nodes[0], nodes[2], 7);
