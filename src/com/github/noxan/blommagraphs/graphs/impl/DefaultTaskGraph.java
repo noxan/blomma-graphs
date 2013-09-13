@@ -1,10 +1,11 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
-import java.util.HashSet;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -218,9 +219,24 @@ public class DefaultTaskGraph implements TaskGraph {
     }
 
     @Override
-    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+    public void mergeGraph(TaskGraph taskGraph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime) {
-        // TODO Auto-generated method stub
-
+        // copy nodes with new ids
+        Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            nodeList.put(node.getId(),
+                    new DefaultTaskGraphNode(getLastNode().getId(), node.getComputationTime()));
+        }
+        // update last node id
+        ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId()
+                + taskGraph.getNodeCount());
+        // add edges
+        for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+            insertEdge(nodeList.get(edge.getPrevNode().getId()),
+                    nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+        }
+        // connect new graph to this one
+        insertEdge(prevNode, nodeList.get(0), prevCommunicationTime);
+        insertEdge(nodeList.get(nodeList.size() - 1), nextNode, nextCommunicationTime);
     }
 }
