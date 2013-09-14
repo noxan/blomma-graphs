@@ -38,6 +38,9 @@ public class CustomStreamSchedulerTest {
 
     @Test
     public void testCustomStreamScheduler() {
-        System.out.println(taskGraphs);
+        StreamScheduler customStreamScheduler = new CustomStreamScheduler();
+        SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(2);
+
+        System.out.println(customStreamScheduler.schedule(taskGraphs, systemMetaInformation, null));
     }
 }
