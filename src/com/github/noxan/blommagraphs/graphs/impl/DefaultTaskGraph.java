@@ -253,10 +253,9 @@ public class DefaultTaskGraph implements TaskGraph {
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
             nodeList.put(node.getId(),
                     new DefaultTaskGraphNode(getLastNode().getId(), node.getComputationTime()));
+            // update last node id
+            ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId() + 1);
         }
-        // update last node id
-        ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId()
-                + taskGraph.getNodeCount());
         // add edges
         for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
             insertEdge(nodeList.get(edge.getPrevNode().getId()),
