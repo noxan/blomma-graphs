@@ -290,4 +290,8 @@ public class JGraphtTaskGraph implements TaskGraph {
             e.printStackTrace();
         }
     }
+
+    public TaskGraph clone() {
+        return null;
+    }
 }
