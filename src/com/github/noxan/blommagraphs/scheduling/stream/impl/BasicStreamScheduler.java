@@ -9,7 +9,7 @@ import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
-public class DefaultStreamScheduler implements StreamScheduler {
+public class BasicStreamScheduler implements StreamScheduler {
 
     @Override
     public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo,
