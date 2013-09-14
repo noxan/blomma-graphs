@@ -15,6 +15,11 @@ import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
  */
 public class JGraphtTaskGraphFactory {
 
+    /**
+     * Get the serialization of the graph in STG format.
+     * 
+     * @return String with STG representation of the graph.
+     */
     public static String getSTGSerializedGraph() {
         return "10\n0 1 0\n1 10 1\n\t0 1\n2 5 3\n\t0 7\n\t1 5\n"
                 + "\t3 5\n3 10 1\n\t0 1\n4 15 1\n\t0 1\n5 15 2\n\t3 6\n\t4 5\n"
@@ -22,6 +27,11 @@ public class JGraphtTaskGraphFactory {
                 + "9 1 3\n\t4 8\n\t6 1\n\t8 1\n";
     }
 
+    /**
+     * This method returns always the same graph which e.g. can be used for testing.
+     * 
+     * @return The TaskGraph.
+     */
     public static TaskGraph makeGraph() {
         TaskGraph taskGraph = new JGraphtTaskGraph();
         TaskGraphNode nodes[] = new TaskGraphNode[10];
