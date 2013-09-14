@@ -14,7 +14,7 @@ import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
  * 
  * @author noxan
  */
-public interface TaskGraph {
+public interface TaskGraph extends Cloneable {
     /**
      * Returns the first node of the task graph.
      * 
