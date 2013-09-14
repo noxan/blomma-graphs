@@ -9,6 +9,9 @@ import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
+import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
 
 public class CustomStreamSchedulerTest {
@@ -20,6 +23,9 @@ public class CustomStreamSchedulerTest {
         taskGraph.insertNode(taskGraph.getFirstNode(), 3, taskGraph.getLastNode(), 2, 5);
 
         List<Integer> deadlines = new ArrayList<Integer>();
+        deadlines.add(5);
+        deadlines.add(10);
+        deadlines.add(15);
 
         taskGraphs = new TaskGraph[deadlines.size()];
 
