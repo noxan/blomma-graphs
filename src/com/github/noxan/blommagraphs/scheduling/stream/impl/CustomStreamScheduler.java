@@ -26,10 +26,8 @@ public class CustomStreamScheduler implements StreamScheduler {
 
         int numberOfTasks = 0;
         for (TaskGraph taskGraph : taskGraphs) {
-            System.out.println(taskGraph.getNodeCount());
             numberOfTasks += taskGraph.getNodeCount();
         }
-        System.out.println(numberOfTasks);
 
         for (int i = 0; i < numberOfTasks; i++) {
             TaskGraphNode nextTask = searchNextTask(readySet);
