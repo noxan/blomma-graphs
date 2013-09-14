@@ -27,7 +27,7 @@ public class StreamSchedulableArrayGenerator {
      * 
      * @return An array that holds newly generated TaskGraphs.
      */
-    public TaskGraph[] generateArray(TaskGraph graph, int[] deadLines) {
+    public static TaskGraph[] generateArray(TaskGraph graph, int[] deadLines) {
         TaskGraph graphs[] = new TaskGraph[deadLines.length];
 
         // Ugly workaround: TODO use serialize -> deserialize to get new graph instance. That's
