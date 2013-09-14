@@ -118,7 +118,7 @@ public class CustomStreamScheduler implements StreamScheduler {
         for (TaskGraphNode nextNode : lastScheduledNode.getNextNodes()) {
             boolean isReady = true;
             for (TaskGraphNode dependency : nextNode.getPrevNodes()) {
-                if (!scheduledTaskList.contains(dependency)) {
+                if (!scheduledTaskList.containsTask(dependency.getId())) {
                     isReady = false;
                     break;
                 }
