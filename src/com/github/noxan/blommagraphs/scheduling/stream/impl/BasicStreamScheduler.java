@@ -17,8 +17,7 @@ public class BasicStreamScheduler implements StreamScheduler {
     }
 
     @Override
-    public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo,
-            Scheduler scheduler) {
+    public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo) {
 
         TaskGraph graph = new JGraphtTaskGraph();
         for (int i = 0; i < taskGraphs.length; ++i) {
