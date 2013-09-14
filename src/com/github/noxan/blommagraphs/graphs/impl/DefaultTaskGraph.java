@@ -267,7 +267,7 @@ public class DefaultTaskGraph implements TaskGraph {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public TaskGraph clone() {
         TaskGraph clonedTaskGraph = new DefaultTaskGraph();
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : getNodeSet()) {

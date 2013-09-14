@@ -171,4 +171,6 @@ public interface TaskGraph extends Cloneable {
 
     public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime);
+
+    public TaskGraph clone();
 }
