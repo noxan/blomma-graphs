@@ -24,12 +24,21 @@ public class CustomStreamScheduler implements StreamScheduler {
         ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(
                 systemInfo.getProcessorCount());
 
-        TaskGraphNode nextTask = searchNextTask(readySet);
+        int numberOfTasks = 0;
+        for (TaskGraph taskGraph : taskGraphs) {
+            System.out.println(taskGraph.getNodeCount());
+            numberOfTasks += taskGraph.getNodeCount();
+        }
+        System.out.println(numberOfTasks);
 
-        ScheduledTask scheduledTask = scheduleNextTask(nextTask, scheduledTaskList);
-        scheduledTaskList.add(scheduledTask);
+        for (int i = 0; i < numberOfTasks; i++) {
+            TaskGraphNode nextTask = searchNextTask(readySet);
 
-        updateReadySet(readySet, scheduledTaskList, nextTask);
+            ScheduledTask scheduledTask = scheduleNextTask(nextTask, scheduledTaskList);
+            scheduledTaskList.add(scheduledTask);
+
+            updateReadySet(readySet, scheduledTaskList, nextTask);
+        }
 
         return scheduledTaskList;
     }
