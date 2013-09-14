@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
-import com.github.noxan.blommagraphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 
 
 public class JGraphtTaskGraphFactoryTest {
