@@ -12,6 +12,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
@@ -264,5 +265,24 @@ public class DefaultTaskGraph implements TaskGraph {
         // connect new graph to this one
         insertEdge(prevNode, nodeList.get(0), prevCommunicationTime);
         insertEdge(nodeList.get(nodeList.size() - 1), nextNode, nextCommunicationTime);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        TaskGraph clonedTaskGraph = new DefaultTaskGraph();
+        Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
+        for (TaskGraphNode node : getNodeSet()) {
+            nodeList.put(node.getId(),
+                    new DefaultTaskGraphNode(node.getId(), node.getComputationTime()));
+        }
+        for (TaskGraphEdge edge : getEdgeSet()) {
+            try {
+                clonedTaskGraph.insertEdge(nodeList.get(edge.getPrevNode().getId()),
+                        nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+            } catch (DuplicateEdgeException e) {
+                e.printStackTrace();
+            }
+        }
+        return clonedTaskGraph;
     }
 }
