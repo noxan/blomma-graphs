@@ -35,9 +35,17 @@ public class DefaultTaskGraph implements TaskGraph {
         ((DefaultTaskGraphNode) lastNode).addPrevNode(firstNode, 1);
     }
 
+    protected void setFirstNode(TaskGraphNode firstNode) {
+        this.firstNode = firstNode;
+    }
+
     @Override
     public TaskGraphNode getFirstNode() {
         return firstNode;
+    }
+
+    protected void setLastNode(TaskGraphNode lastNode) {
+        this.lastNode = lastNode;
     }
 
     @Override
@@ -274,6 +282,8 @@ public class DefaultTaskGraph implements TaskGraph {
             nodeList.put(node.getId(),
                     new DefaultTaskGraphNode(node.getId(), node.getComputationTime()));
         }
+        ((DefaultTaskGraph) clonedTaskGraph).setFirstNode(nodeList.get(0));
+        ((DefaultTaskGraph) clonedTaskGraph).setLastNode(nodeList.get(nodeList.size() - 1));
         for (TaskGraphEdge edge : getEdgeSet()) {
             try {
                 clonedTaskGraph.insertEdge(nodeList.get(edge.getPrevNode().getId()),

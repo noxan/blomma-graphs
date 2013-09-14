@@ -213,4 +213,9 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     public int getDeadLine() {
         return deadLine;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + "[" + getId() + "]";
+    }
 }
