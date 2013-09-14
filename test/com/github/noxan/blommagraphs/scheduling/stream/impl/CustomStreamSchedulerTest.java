@@ -9,6 +9,9 @@ import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
@@ -41,6 +44,10 @@ public class CustomStreamSchedulerTest {
         StreamScheduler customStreamScheduler = new CustomStreamScheduler();
         SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(2);
 
-        System.out.println(customStreamScheduler.schedule(taskGraphs, systemMetaInformation, null));
+        ScheduledTaskList scheduledTaskList = customStreamScheduler.schedule(taskGraphs,
+                systemMetaInformation, null);
+
+        ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
+        System.out.println(serializer.serialize(scheduledTaskList));
     }
 }
