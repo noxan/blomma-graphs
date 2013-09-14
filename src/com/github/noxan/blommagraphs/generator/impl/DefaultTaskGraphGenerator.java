@@ -260,7 +260,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
         // insert nodes in the first level
         int numberOfNodesFirstLevel = maxIncomingEdges
-                + Math.round(random.nextFloat() * (numberOfNodes - maxIncomingEdges));
+                + Math.round(random.nextFloat() * random.nextFloat() * (numberOfNodes - maxIncomingEdges));
+        // minus 1 because of the root note
+        if (maxIncomingEdges != 1) {
+            numberOfNodesFirstLevel -= 1;
+        }
         for (int i = 0; i < numberOfNodesFirstLevel; i++) {
             int computationTime = Math.round(random.nextFloat()
                     * (maxComputationTime - minComputationTime) + minComputationTime);
@@ -288,8 +292,9 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
         }
 
         // added edges to keep incomming edge count
+        nodes.add(0, firstNode);
         int nodesSize = nodes.size();
-        for (int i = numberOfNodesFirstLevel; i < nodesSize; i++) {
+        for (int i = numberOfNodesFirstLevel+1; i < nodesSize; i++) {
             TaskGraphNode currentNode = nodes.get(i);
             if (currentNode.getPrevEdgeCount() <= minIncomingEdges) {
                 int newEdges = Math.round(random.nextFloat()

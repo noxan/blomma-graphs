@@ -9,8 +9,8 @@ import com.github.noxan.blommagraphs.generator.exceptions.GeneratorException;
 import com.github.noxan.blommagraphs.generator.exceptions.OutOfRangeException;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
-import com.github.noxan.blommagraphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
 

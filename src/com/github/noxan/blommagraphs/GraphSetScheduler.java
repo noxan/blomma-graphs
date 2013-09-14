@@ -5,13 +5,13 @@ import java.io.File;
 import java.io.IOException;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
-import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
-import com.github.noxan.blommagraphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.utils.FileUtils;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 

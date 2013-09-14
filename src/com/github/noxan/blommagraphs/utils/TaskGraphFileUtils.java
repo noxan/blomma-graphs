@@ -4,7 +4,7 @@ package com.github.noxan.blommagraphs.utils;
 import java.io.IOException;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 
 
 /**

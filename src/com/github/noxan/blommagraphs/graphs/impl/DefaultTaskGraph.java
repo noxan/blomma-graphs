@@ -1,16 +1,18 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
-import java.util.HashSet;
-import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 import com.github.noxan.blommagraphs.graphs.meta.TaskGraphMetaInformation;
 import com.github.noxan.blommagraphs.graphs.meta.impl.DefaultTaskGraphMetaInformation;
 
@@ -71,8 +73,34 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-        // TODO Auto-generated method stub
-        return new ArrayList<TaskGraphEdge>();
+        int cpTime = 0;
+        List<TaskGraphEdge> cpEdgeList = new ArrayList<TaskGraphEdge>();
+        return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>(), cpTime, cpEdgeList);
+    }
+
+    private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time,
+            List<TaskGraphEdge> currentEdgeList, int cpTime, List<TaskGraphEdge> cpEdgeList) {
+        int maxTime = time + node.getComputationTime();
+
+        ArrayList<TaskGraphEdge> taskGraphEdgeList = new ArrayList<TaskGraphEdge>();
+
+        taskGraphEdgeList.addAll(node.getNextEdges());
+        for (int i = 0; i < taskGraphEdgeList.size(); i++) {
+            ArrayList<TaskGraphEdge> currentEdgeListCopy = new ArrayList<TaskGraphEdge>();
+            for (int j = 0; j < currentEdgeList.size(); j++) {
+                currentEdgeListCopy.add(currentEdgeList.get(j));
+            }
+            currentEdgeListCopy.add(taskGraphEdgeList.get(i));
+            criticalPath(taskGraphEdgeList.get(i).getNextNode(), maxTime
+                    + taskGraphEdgeList.get(i).getCommunicationTime(), currentEdgeListCopy, cpTime,
+                    cpEdgeList);
+
+            if (maxTime > cpTime) {
+                cpTime = maxTime;
+                cpEdgeList = currentEdgeListCopy;
+            }
+        }
+        return cpEdgeList;
     }
 
     @Override
@@ -218,9 +246,42 @@ public class DefaultTaskGraph implements TaskGraph {
     }
 
     @Override
-    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+    public void mergeGraph(TaskGraph taskGraph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime) {
-        // TODO Auto-generated method stub
+        // copy nodes with new ids
+        Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            nodeList.put(node.getId(),
+                    new DefaultTaskGraphNode(getLastNode().getId(), node.getComputationTime()));
+            // update last node id
+            ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId() + 1);
+        }
+        // add edges
+        for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+            insertEdge(nodeList.get(edge.getPrevNode().getId()),
+                    nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+        }
+        // connect new graph to this one
+        insertEdge(prevNode, nodeList.get(0), prevCommunicationTime);
+        insertEdge(nodeList.get(nodeList.size() - 1), nextNode, nextCommunicationTime);
+    }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        TaskGraph clonedTaskGraph = new DefaultTaskGraph();
+        Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
+        for (TaskGraphNode node : getNodeSet()) {
+            nodeList.put(node.getId(),
+                    new DefaultTaskGraphNode(node.getId(), node.getComputationTime()));
+        }
+        for (TaskGraphEdge edge : getEdgeSet()) {
+            try {
+                clonedTaskGraph.insertEdge(nodeList.get(edge.getPrevNode().getId()),
+                        nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+            } catch (DuplicateEdgeException e) {
+                e.printStackTrace();
+            }
+        }
+        return clonedTaskGraph;
     }
 }
