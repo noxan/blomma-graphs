@@ -167,9 +167,29 @@ public interface TaskGraph extends Cloneable {
      */
     public Map<String, Object> getMetaInformation();
 
+    /**
+     * Resets the deadline of a graph to deadLine. That means that for all nodes in this graph
+     * TaskGraphNode.setDeadline(deadLine) is called.
+     * 
+     * @param deadLine The new deadline of the graph.
+     */
     public void resetDeadLine(int deadLine);
 
-    public void mergeGraph(TaskGraph graph, TaskGraphNode prevNode, int prevCommunicationTime,
+    /**
+     * This method merges TaskGraph srcGraph into this instance of TaskGraph. All nodes and edges of
+     * srcGraph are inserted. Afterwards, additional edges are inserted to connect inserted nodes
+     * with the rest of the graph: one from this.prevNode -> srcGraph.firstNode and one from
+     * srcGraph.lastNode -> this.nextNode.
+     * 
+     * @param srcGraph TaskGraph instance that is merged into this graph.
+     * @param prevNode srcGraph is merged into this graph after prevNode.
+     * @param prevCommunicationTime The communication time between this.prevNode ->
+     *            srcGraph.firstNode.
+     * @param nextNode The srcGraph is merged into this graph before nextNode.
+     * @param nextCommunicationTime The communication time between srcGraph.lastNode ->
+     *            this.nextNode.
+     */
+    public void mergeGraph(TaskGraph srcGraph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime);
 
     public TaskGraph clone();
