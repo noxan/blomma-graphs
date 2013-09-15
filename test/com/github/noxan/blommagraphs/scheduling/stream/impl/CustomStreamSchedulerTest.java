@@ -46,7 +46,7 @@ public class CustomStreamSchedulerTest {
         SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(2);
 
         ScheduledTaskList scheduledTaskList = customStreamScheduler.schedule(taskGraphs,
-                systemMetaInformation, null);
+                systemMetaInformation);
 
         ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
         System.out.println(serializer.serialize(scheduledTaskList));
