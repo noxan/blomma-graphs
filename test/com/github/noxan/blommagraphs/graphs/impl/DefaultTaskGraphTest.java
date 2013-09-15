@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
@@ -157,6 +158,15 @@ public class DefaultTaskGraphTest {
     @Test
     public void testContainsEdgeFails() {
         Assert.assertFalse(taskGraph.containsEdge(taskGraph.getLastNode(), taskGraph.getFirstNode()));
+    }
+
+    @Test
+    public void testModifyEdge() throws ContainsNoEdgeException {
+        TaskGraphEdge edge = taskGraph.findEdge(taskGraph.getFirstNode(), taskGraph.getLastNode());
+
+        Assert.assertEquals(1, edge.getCommunicationTime());
+        taskGraph.modifyEdge(taskGraph.getFirstNode(), taskGraph.getLastNode(), 50);
+        Assert.assertEquals(50, edge.getCommunicationTime());
     }
 
     @Test
