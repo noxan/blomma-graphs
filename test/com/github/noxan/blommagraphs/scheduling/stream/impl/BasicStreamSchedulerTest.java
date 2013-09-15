@@ -1,9 +1,10 @@
 package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
-import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 
 public class BasicStreamSchedulerTest {
 
@@ -13,7 +14,7 @@ public class BasicStreamSchedulerTest {
 
     @Test
     public void testSchedule() {
-        fail("Not yet implemented");
+        Assert.fail("Not yet implemented");
     }
 
 }
