@@ -160,9 +160,10 @@ public class DefaultTaskGraphNodeTest {
         TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 24,
                 taskGraph.getLastNode(), 64, 31);
 
-        Assert.assertTrue(node
-                .toString()
-                .matches(
-                        "com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode@[a-z0-9]{8}\\[1\\]"));
+        String result = node.toString();
+        Assert.assertTrue(result
+                .startsWith("com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode@"));
+
+        Assert.assertTrue(result.endsWith("[1]"));
     }
 }
