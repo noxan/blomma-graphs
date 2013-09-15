@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
@@ -90,5 +91,79 @@ public class DefaultTaskGraphNodeTest {
             }
         }
         Assert.assertEquals(7, node1.getStaticBLevel());
+    }
+
+    @Test
+    public void testFindPrevEdge() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findPrevEdge(taskGraph.getFirstNode());
+        Assert.assertNotNull(edge);
+        Assert.assertEquals(taskGraph.getFirstNode(), edge.getPrevNode());
+        Assert.assertEquals(node, edge.getNextNode());
+    }
+
+    @Test
+    public void testFindPrevEdgeNull() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findPrevEdge(taskGraph.getLastNode());
+        Assert.assertNull(edge);
+    }
+
+    @Test
+    public void testFindNextEdge() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findNextEdge(taskGraph.getLastNode());
+        Assert.assertNotNull(edge);
+        Assert.assertEquals(node, edge.getPrevNode());
+        Assert.assertEquals(taskGraph.getLastNode(), edge.getNextNode());
+    }
+
+    @Test
+    public void testFindNextEdgeNull() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findNextEdge(taskGraph.getFirstNode());
+        Assert.assertNull(edge);
+    }
+
+    @Test
+    public void testSetComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 64);
+        Assert.assertEquals(64, node.getComputationTime());
+        node.setComputationTime(489);
+        Assert.assertEquals(489, node.getComputationTime());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetIllegalComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 15);
+        node.setComputationTime(-12);
+        Assert.assertEquals(15, node.getComputationTime());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetZeroComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 13);
+        node.setComputationTime(0);
+        Assert.assertEquals(13, node.getComputationTime());
+    }
+
+    @Test
+    public void testToString() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 24,
+                taskGraph.getLastNode(), 64, 31);
+
+        String result = node.toString();
+        Assert.assertTrue(result
+                .startsWith("com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode@"));
+
+        Assert.assertTrue(result.endsWith("[1]"));
     }
 }

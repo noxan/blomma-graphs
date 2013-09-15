@@ -79,15 +79,16 @@ public class DefaultTaskGraph implements TaskGraph {
         return getNodeSet().size();
     }
 
+    private int cpTime = 0;
+    private List<TaskGraphEdge> cpEdgeList = new ArrayList<TaskGraphEdge>();
+
     @Override
     public List<TaskGraphEdge> getCriticalPath() {
-        int cpTime = 0;
-        List<TaskGraphEdge> cpEdgeList = new ArrayList<TaskGraphEdge>();
-        return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>(), cpTime, cpEdgeList);
+        return criticalPath(this.firstNode, 0, new ArrayList<TaskGraphEdge>());
     }
 
     private List<TaskGraphEdge> criticalPath(TaskGraphNode node, int time,
-            List<TaskGraphEdge> currentEdgeList, int cpTime, List<TaskGraphEdge> cpEdgeList) {
+            List<TaskGraphEdge> currentEdgeList) {
         int maxTime = time + node.getComputationTime();
 
         ArrayList<TaskGraphEdge> taskGraphEdgeList = new ArrayList<TaskGraphEdge>();
@@ -100,8 +101,7 @@ public class DefaultTaskGraph implements TaskGraph {
             }
             currentEdgeListCopy.add(taskGraphEdgeList.get(i));
             criticalPath(taskGraphEdgeList.get(i).getNextNode(), maxTime
-                    + taskGraphEdgeList.get(i).getCommunicationTime(), currentEdgeListCopy, cpTime,
-                    cpEdgeList);
+                    + taskGraphEdgeList.get(i).getCommunicationTime(), currentEdgeListCopy);
 
             if (maxTime > cpTime) {
                 cpTime = maxTime;
@@ -180,7 +180,7 @@ public class DefaultTaskGraph implements TaskGraph {
         try {
             TaskGraphEdge edge = findEdge(prevNode, nextNode);
             ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
-        } catch (ContainsNoEdgeException e) {
+        } catch (ContainsNoEdgeException ignored) {
         }
     }
 
@@ -288,8 +288,7 @@ public class DefaultTaskGraph implements TaskGraph {
             try {
                 clonedTaskGraph.insertEdge(nodeList.get(edge.getPrevNode().getId()),
                         nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
-            } catch (DuplicateEdgeException e) {
-                e.printStackTrace();
+            } catch (DuplicateEdgeException ignored) {
             }
         }
         return clonedTaskGraph;
