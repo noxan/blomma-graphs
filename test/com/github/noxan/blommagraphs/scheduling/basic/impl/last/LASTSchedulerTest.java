@@ -71,8 +71,18 @@ public class LASTSchedulerTest {
         Assert.assertEquals(0, lastScheduler.frontiers.get(1).size());
         Assert.assertEquals(2, lastScheduler.frontiers.get(0).size());
 
-        Assert.assertEquals(graphNodes[1], lastScheduler.frontiers.get(0).get(0).getTaskGraphNode());
-        Assert.assertEquals(graphNodes[2], lastScheduler.frontiers.get(0).get(1).getTaskGraphNode());
+        if (graphNodes[1] == lastScheduler.frontiers.get(0).get(0).getTaskGraphNode()) {
+            Assert.assertEquals(graphNodes[1], lastScheduler.frontiers.get(0).get(0)
+                    .getTaskGraphNode());
+            Assert.assertEquals(graphNodes[2], lastScheduler.frontiers.get(0).get(1)
+                    .getTaskGraphNode());
+        } else {
+            Assert.assertEquals(graphNodes[1], lastScheduler.frontiers.get(0).get(1)
+                    .getTaskGraphNode());
+            Assert.assertEquals(graphNodes[2], lastScheduler.frontiers.get(0).get(0)
+                    .getTaskGraphNode());
+        }
+
     }
 
     @Test
