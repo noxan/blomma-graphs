@@ -206,6 +206,11 @@ public class DefaultTaskGraphTest {
     }
 
     @Test
+    public void testGetMetaInformation() {
+        Assert.assertEquals(6, taskGraph.getMetaInformation().size());
+    }
+
+    @Test
     public void testMergeGraph() throws ContainsNoEdgeException {
         TaskGraph srcGraph1 = new JGraphtTaskGraph();
         srcGraph1.insertNode(srcGraph1.getFirstNode(), 11, srcGraph1.getLastNode(), 12, 20);
