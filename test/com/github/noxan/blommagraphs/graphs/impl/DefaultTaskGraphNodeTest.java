@@ -132,4 +132,26 @@ public class DefaultTaskGraphNodeTest {
         TaskGraphEdge edge = node.findNextEdge(taskGraph.getFirstNode());
         Assert.assertNull(edge);
     }
+
+    @Test
+    public void testSetComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 64);
+        Assert.assertEquals(64, node.getComputationTime());
+        node.setComputationTime(489);
+        Assert.assertEquals(489, node.getComputationTime());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetIllegalComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 15);
+        node.setComputationTime(-12);
+        Assert.assertEquals(15, node.getComputationTime());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetZeroComputationTime() {
+        TaskGraphNode node = new DefaultTaskGraphNode(0, 13);
+        node.setComputationTime(0);
+        Assert.assertEquals(13, node.getComputationTime());
+    }
 }
