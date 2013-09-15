@@ -77,6 +77,16 @@ public class JGraphtTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
+    public TaskGraphEdge findPrevEdge(TaskGraphNode prevNode) {
+        return graph.getEdge(prevNode, this);
+    }
+
+    @Override
+    public TaskGraphEdge findNextEdge(TaskGraphNode nextNode) {
+        return graph.getEdge(this, nextNode);
+    }
+
+    @Override
     public int getPrevEdgeCount() {
         return getPrevEdges().size();
     }

@@ -52,6 +52,10 @@ public interface TaskGraphNode extends Comparable<TaskGraphNode> {
      */
     public Set<TaskGraphEdge> getNextEdges();
 
+    public TaskGraphEdge findPrevEdge(TaskGraphNode nextNode);
+
+    public TaskGraphEdge findNextEdge(TaskGraphNode nextNode);
+
     /**
      * Returns the number of previous (incoming) edges.
      * 

@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 
@@ -17,6 +18,18 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
 
     public DefaultScheduledTaskList(int processorCount) {
         this.processorCount = processorCount;
+    }
+
+    @Override
+    public ScheduledTask getScheduledTask(TaskGraphNode taskGraphNode) {
+        Iterator<ScheduledTask> it = iterator();
+        while (it.hasNext()) {
+            ScheduledTask scheduledTask = it.next();
+            if (scheduledTask.getTaskGraphNode().equals(taskGraphNode)) {
+                return scheduledTask;
+            }
+        }
+        return null;
     }
 
     @Override

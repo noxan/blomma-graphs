@@ -97,6 +97,26 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     }
 
     @Override
+    public TaskGraphEdge findPrevEdge(TaskGraphNode prevNode) {
+        for (TaskGraphEdge edge : prevEdges) {
+            if (edge.getPrevNode().equals(prevNode)) {
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public TaskGraphEdge findNextEdge(TaskGraphNode nextNode) {
+        for (TaskGraphEdge edge : nextEdges) {
+            if (edge.getNextNode().equals(nextNode)) {
+                return edge;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public int getPrevEdgeCount() {
         return prevEdges.size();
     }
