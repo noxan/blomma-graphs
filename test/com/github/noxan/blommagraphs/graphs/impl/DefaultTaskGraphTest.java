@@ -150,6 +150,16 @@ public class DefaultTaskGraphTest {
     }
 
     @Test
+    public void testContainsEdge() {
+        Assert.assertTrue(taskGraph.containsEdge(taskGraph.getFirstNode(), taskGraph.getLastNode()));
+    }
+
+    @Test
+    public void testContainsEdgeFails() {
+        Assert.assertFalse(taskGraph.containsEdge(taskGraph.getLastNode(), taskGraph.getFirstNode()));
+    }
+
+    @Test
     public void testMergeGraph() throws ContainsNoEdgeException {
         TaskGraph srcGraph1 = new JGraphtTaskGraph();
         srcGraph1.insertNode(srcGraph1.getFirstNode(), 11, srcGraph1.getLastNode(), 12, 20);
