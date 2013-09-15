@@ -211,6 +211,27 @@ public class DefaultTaskGraphTest {
     }
 
     @Test
+    public void testResetDeadLine() {
+        TaskGraphNode insertedNode = taskGraph.insertNode(taskGraph.getFirstNode(), 11,
+                taskGraph.getLastNode(), 12, 20);
+        taskGraph.getFirstNode().setDeadLine(19);
+        insertedNode.setDeadLine(10);
+        taskGraph.getLastNode().setDeadLine(12);
+
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            Assert.assertTrue(node.getDeadLine() != 0);
+        }
+        taskGraph.resetDeadLine(5);
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            Assert.assertEquals(5, node.getDeadLine());
+        }
+        taskGraph.resetDeadLine(0);
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            Assert.assertEquals(0, node.getDeadLine());
+        }
+    }
+
+    @Test
     public void testMergeGraph() throws ContainsNoEdgeException {
         TaskGraph srcGraph1 = new JGraphtTaskGraph();
         srcGraph1.insertNode(srcGraph1.getFirstNode(), 11, srcGraph1.getLastNode(), 12, 20);
