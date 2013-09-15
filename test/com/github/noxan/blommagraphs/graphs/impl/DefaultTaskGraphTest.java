@@ -247,10 +247,10 @@ public class DefaultTaskGraphTest {
 
     @Test
     public void testMergeGraph() throws ContainsNoEdgeException {
-        TaskGraph srcGraph1 = new JGraphtTaskGraph();
+        TaskGraph srcGraph1 = new DefaultTaskGraph();
         srcGraph1.insertNode(srcGraph1.getFirstNode(), 11, srcGraph1.getLastNode(), 12, 20);
 
-        TaskGraph srcGraph2 = new JGraphtTaskGraph();
+        TaskGraph srcGraph2 = new DefaultTaskGraph();
         srcGraph2.insertNode(srcGraph2.getFirstNode(), 900, srcGraph2.getLastNode(), 910, 40);
 
         taskGraph

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
@@ -27,7 +27,7 @@ public class DefaultScheduledTaskListSerializerTest {
     public void setUp() throws Exception {
         scheduledTaskList = new ArrayList<ScheduledTask>();
         serializer = new DefaultScheduledTaskListSerializer();
-        graph = new JGraphtTaskGraph();
+        graph = new DefaultTaskGraph();
         TaskGraphNode node1 = graph.insertNode(graph.getFirstNode(), 1, graph.getLastNode(), 1, 11);
         TaskGraphNode node2 = graph.insertNode(node1, 2, graph.getLastNode(), 2, 22);
         TaskGraphNode node3 = graph.insertNode(node2, 3, graph.getLastNode(), 3, 33);

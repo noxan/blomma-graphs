@@ -9,7 +9,7 @@ import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 
 @RunWith(JUnit4.class)
@@ -21,7 +21,7 @@ public class ReadyPoolNodeTest {
     @Before
     public void initialize() {
         int numberOfCpu = 2;
-        graph = new JGraphtTaskGraph();
+        graph = new DefaultTaskGraph();
         node = graph.insertNode(graph.getFirstNode(), 1, graph.getLastNode(), 1, 2);
         poolNode = new ReadyPoolNode(node, node.getStaticBLevel(), numberOfCpu);
         poolNode.setEarliestStarttime(0, 5);

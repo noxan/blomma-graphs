@@ -9,7 +9,7 @@ import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
@@ -29,7 +29,7 @@ public class DynamicLevelSchedulerTest {
         int communicationCost = 2;
 
         dynamicLevelScheduler = new DynamicLevelScheduler();
-        taskGraph = new JGraphtTaskGraph();
+        taskGraph = new DefaultTaskGraph();
         systemMetaInformation = new DefaultSystemMetaInformation(numberOfCpu);
 
         for (int i = 0; i < 2; i++) {

@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
-import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 
 public class STGSerializerTest {
@@ -21,7 +20,7 @@ public class STGSerializerTest {
     public void setUp() throws Exception {
         stgSerializer = new STGSerializer();
 
-        testGraph1 = new JGraphtTaskGraph();
+        testGraph1 = new DefaultTaskGraph();
         TaskGraphNode node1 = testGraph1.insertNode(testGraph1.getFirstNode(), 1,
                 testGraph1.getLastNode(), 11, 1);
         TaskGraphNode node2 = testGraph1.insertNode(testGraph1.getFirstNode(), 2,

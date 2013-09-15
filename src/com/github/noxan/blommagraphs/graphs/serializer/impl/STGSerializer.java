@@ -10,7 +10,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 
 
@@ -63,7 +63,7 @@ public class STGSerializer implements TaskGraphSerializer {
      */
     @Override
     public TaskGraph deserialize(String graphString) {
-        TaskGraph graph = new JGraphtTaskGraph();
+        TaskGraph graph = new DefaultTaskGraph();
         List<STGNode> nodeList = getSTGNodeList(graphString);
         int nodeCount = nodeList.size() - 1;
 
