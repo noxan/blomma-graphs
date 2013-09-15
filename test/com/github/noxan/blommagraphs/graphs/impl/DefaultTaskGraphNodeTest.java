@@ -154,4 +154,15 @@ public class DefaultTaskGraphNodeTest {
         node.setComputationTime(0);
         Assert.assertEquals(13, node.getComputationTime());
     }
+
+    @Test
+    public void testToString() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 24,
+                taskGraph.getLastNode(), 64, 31);
+
+        Assert.assertTrue(node
+                .toString()
+                .matches(
+                        "com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraphNode@[a-z0-9]{8}\\[1\\]"));
+    }
 }
