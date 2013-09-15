@@ -4,7 +4,7 @@ package com.github.noxan.blommagraphs.graphs.factories.impl;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 
 /**
@@ -33,7 +33,7 @@ public class JGraphtTaskGraphFactory {
      * @return The TaskGraph.
      */
     public static TaskGraph makeGraph() {
-        TaskGraph taskGraph = new JGraphtTaskGraph();
+        TaskGraph taskGraph = new DefaultTaskGraph();
         TaskGraphNode nodes[] = new TaskGraphNode[10];
 
         nodes[0] = taskGraph.getFirstNode();

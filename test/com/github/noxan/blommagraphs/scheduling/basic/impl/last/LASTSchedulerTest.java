@@ -9,7 +9,7 @@ import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
@@ -36,7 +36,7 @@ public class LASTSchedulerTest {
         // Building up an example graph statet in
         // http://www.eng.auburn.edu/files/acad_depts/csse/csse_technical_reports/CSSE91-14.pdf
         // on page 8.
-        graph = new JGraphtTaskGraph();
+        graph = new DefaultTaskGraph();
         graphNodes[0] = graph.getFirstNode();
         graphNodes[0].setComputationTime(10);
 

@@ -31,8 +31,9 @@ public class DefaultTaskGraph implements TaskGraph {
         this.metaInformation = metaInformation;
         firstNode = new DefaultTaskGraphNode(0, 1);
         lastNode = new DefaultTaskGraphNode(1, 1);
-        ((DefaultTaskGraphNode) firstNode).addNextNode(lastNode, 1);
-        ((DefaultTaskGraphNode) lastNode).addPrevNode(firstNode, 1);
+        TaskGraphEdge edge = new DefaultTaskGraphEdge(firstNode, lastNode, 1);
+        ((DefaultTaskGraphNode) firstNode).addNextNode(edge);
+        ((DefaultTaskGraphNode) lastNode).addPrevNode(edge);
     }
 
     protected void setFirstNode(TaskGraphNode firstNode) {
@@ -130,9 +131,6 @@ public class DefaultTaskGraph implements TaskGraph {
         TaskGraphNode node = new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime,
                 nextNode, nextCommunicationTime, computationTime);
 
-        ((DefaultTaskGraphNode) prevNode).addNextNode(node, prevCommunicationTime);
-        ((DefaultTaskGraphNode) nextNode).addPrevNode(node, nextCommunicationTime);
-
         if (!keepExistingEdge) {
             ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
             ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
@@ -143,11 +141,16 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public TaskGraphEdge insertEdge(TaskGraphNode prevNode, TaskGraphNode nextNode,
-            int communicationTime) {
-        ((DefaultTaskGraphNode) prevNode).addNextNode(nextNode, communicationTime);
-        ((DefaultTaskGraphNode) nextNode).addPrevNode(prevNode, communicationTime);
-
-        return new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
+            int communicationTime) throws DuplicateEdgeException {
+        try {
+            findEdge(prevNode, nextNode);
+            throw new DuplicateEdgeException();
+        } catch (ContainsNoEdgeException e) {
+            TaskGraphEdge newEdge = new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
+            ((DefaultTaskGraphNode) prevNode).addNextNode(newEdge);
+            ((DefaultTaskGraphNode) nextNode).addPrevNode(newEdge);
+            return newEdge;
+        }
     }
 
     @Override
@@ -265,13 +268,16 @@ public class DefaultTaskGraph implements TaskGraph {
             ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId() + 1);
         }
         // add edges
-        for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
-            insertEdge(nodeList.get(edge.getPrevNode().getId()),
-                    nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+        try {
+            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+                insertEdge(nodeList.get(edge.getPrevNode().getId()),
+                        nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
+            }
+            // connect new graph to this one
+            insertEdge(prevNode, nodeList.get(0), prevCommunicationTime);
+            insertEdge(nodeList.get(nodeList.size() - 1), nextNode, nextCommunicationTime);
+        } catch (DuplicateEdgeException ignored) {
         }
-        // connect new graph to this one
-        insertEdge(prevNode, nodeList.get(0), prevCommunicationTime);
-        insertEdge(nodeList.get(nodeList.size() - 1), nextNode, nextCommunicationTime);
     }
 
     @Override

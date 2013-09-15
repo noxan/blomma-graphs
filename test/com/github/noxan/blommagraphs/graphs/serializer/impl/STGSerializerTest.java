@@ -8,8 +8,7 @@ import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
-import com.github.noxan.blommagraphs.graphs.impl.JGraphtTaskGraph;
-import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 
 
 public class STGSerializerTest {
@@ -21,7 +20,7 @@ public class STGSerializerTest {
     public void setUp() throws Exception {
         stgSerializer = new STGSerializer();
 
-        testGraph1 = new JGraphtTaskGraph();
+        testGraph1 = new DefaultTaskGraph();
         TaskGraphNode node1 = testGraph1.insertNode(testGraph1.getFirstNode(), 1,
                 testGraph1.getLastNode(), 11, 1);
         TaskGraphNode node2 = testGraph1.insertNode(testGraph1.getFirstNode(), 2,
@@ -34,7 +33,7 @@ public class STGSerializerTest {
                 + "\t5 23\n" + "3 3 1\n" + "\t0 3\n" + "4 4 1\n" + "\t1 15\n" + "5 5 1\n"
                 + "\t1 21\n" + "6 1 2\n" + "\t2 3\n" + "\t4 16\n"
                 + "\n# BlommaGraphs:\tthis is a Standard Task Graph project file\n"
-                + "# edgesPerNodeRatio:\t1\n" + "# layerCount:\t4\n" + "# edgeCount:\t8\n"
+                + "# edgesPerNodeRatio:\t1\n" + "# layerCount:\t5\n" + "# edgeCount:\t8\n"
                 + "# nodeCount:\t7\n" + "# dummyEdgeCount:\t4\n" + "# dummyNodeCount:\t2\n";
     }
 
