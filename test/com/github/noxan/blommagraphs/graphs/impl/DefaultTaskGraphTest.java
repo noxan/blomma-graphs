@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +12,7 @@ import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.ContainsNoEdgeException;
 import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
@@ -143,5 +147,37 @@ public class DefaultTaskGraphTest {
     public void testGetNodeSetWithSimpleGraph() {
         taskGraph.insertNode(taskGraph.getFirstNode(), 1, taskGraph.getLastNode(), 1, 1);
         Assert.assertEquals(taskGraph.getNodeSet().size(), 3);
+    }
+
+    @Test
+    public void testMergeGraph() throws ContainsNoEdgeException {
+        TaskGraph srcGraph1 = new JGraphtTaskGraph();
+        srcGraph1.insertNode(srcGraph1.getFirstNode(), 11, srcGraph1.getLastNode(), 12, 20);
+
+        TaskGraph srcGraph2 = new JGraphtTaskGraph();
+        srcGraph2.insertNode(srcGraph2.getFirstNode(), 900, srcGraph2.getLastNode(), 910, 40);
+
+        taskGraph
+                .mergeGraph(srcGraph1, taskGraph.getFirstNode(), 111, taskGraph.getLastNode(), 222);
+        taskGraph
+                .mergeGraph(srcGraph2, taskGraph.getFirstNode(), 333, taskGraph.getLastNode(), 444);
+
+        // Check edges and nodes
+        Assert.assertEquals(8, taskGraph.getNodeCount());
+        Assert.assertEquals(9, taskGraph.getEdgeCount());
+
+        Assert.assertEquals(taskGraph.getFirstNode().getNextEdgeCount(), 3);
+        Assert.assertEquals(taskGraph.getLastNode().getPrevEdgeCount(), 3);
+
+        // Check ids
+        Assert.assertEquals(0, taskGraph.getFirstNode().getId());
+        Assert.assertEquals(7, taskGraph.getLastNode().getId());
+
+        // Check for unique ids
+        Set<Integer> nodeIdSet = new HashSet<Integer>();
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            nodeIdSet.add(node.getId());
+        }
+        Assert.assertEquals(nodeIdSet.size(), taskGraph.getNodeCount());
     }
 }
