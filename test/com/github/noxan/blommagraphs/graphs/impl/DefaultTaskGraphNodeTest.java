@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
@@ -90,5 +91,25 @@ public class DefaultTaskGraphNodeTest {
             }
         }
         Assert.assertEquals(7, node1.getStaticBLevel());
+    }
+
+    @Test
+    public void testFindPrevEdge() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findPrevEdge(taskGraph.getFirstNode());
+        Assert.assertNotNull(edge);
+        Assert.assertEquals(taskGraph.getFirstNode(), edge.getPrevNode());
+        Assert.assertEquals(node, edge.getNextNode());
+    }
+
+    @Test
+    public void testFindPrevEdgeNull() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findPrevEdge(taskGraph.getLastNode());
+        Assert.assertNull(edge);
     }
 }
