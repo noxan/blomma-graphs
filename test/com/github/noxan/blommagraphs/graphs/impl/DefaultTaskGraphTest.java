@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.graphs.impl;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -177,6 +178,31 @@ public class DefaultTaskGraphTest {
     @Test
     public void testDeleteEdgeFails() {
         Assert.assertNull(taskGraph.deleteEdge(taskGraph.getLastNode(), taskGraph.getFirstNode()));
+    }
+
+    @Test
+    public void testGetCriticalPath() throws DuplicateEdgeException, ContainsNoEdgeException {
+        ArrayList<TaskGraphNode> nodeList = new ArrayList<TaskGraphNode>();
+        for (int i = 0; i < 3; i++) {
+            TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 0,
+                    taskGraph.getLastNode(), 0, 1);
+
+            nodeList.add(node);
+            nodeList.add(taskGraph.insertNode(node, 1 + i, taskGraph.getLastNode(), 0, 1));
+        }
+        taskGraph.insertEdge(nodeList.get(0), nodeList.get(3), 4);
+        taskGraph.insertEdge(nodeList.get(2), nodeList.get(5), 5);
+
+        System.out.println(taskGraph.getCriticalPath());
+
+        Assert.assertEquals(3, taskGraph.getCriticalPath().size());
+
+        ArrayList<TaskGraphEdge> edgeList = new ArrayList<TaskGraphEdge>();
+        edgeList.add(taskGraph.findEdge(taskGraph.getFirstNode(), nodeList.get(2)));
+        edgeList.add(taskGraph.findEdge(nodeList.get(2), nodeList.get(5)));
+        edgeList.add(taskGraph.findEdge(nodeList.get(5), taskGraph.getLastNode()));
+
+        Assert.assertEquals(edgeList, taskGraph.getCriticalPath());
     }
 
     @Test
