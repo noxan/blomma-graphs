@@ -23,6 +23,7 @@ public class BasicStreamScheduler implements StreamScheduler {
         for (int i = 0; i < taskGraphs.length; ++i) {
             graph.mergeGraph(taskGraphs[i], graph.getFirstNode(), 1, graph.getLastNode(), 1);
         }
+        graph.deleteEdge(graph.getFirstNode(), graph.getLastNode());
         return scheduler.schedule(graph, systemInfo);
     }
 }
