@@ -180,7 +180,7 @@ public class DefaultTaskGraph implements TaskGraph {
         try {
             TaskGraphEdge edge = findEdge(prevNode, nextNode);
             ((DefaultTaskGraphEdge) edge).setCommunicationTime(newCommunicationTime);
-        } catch (ContainsNoEdgeException e) {
+        } catch (ContainsNoEdgeException ignored) {
         }
     }
 
@@ -288,8 +288,7 @@ public class DefaultTaskGraph implements TaskGraph {
             try {
                 clonedTaskGraph.insertEdge(nodeList.get(edge.getPrevNode().getId()),
                         nodeList.get(edge.getNextNode().getId()), edge.getCommunicationTime());
-            } catch (DuplicateEdgeException e) {
-                e.printStackTrace();
+            } catch (DuplicateEdgeException ignored) {
             }
         }
         return clonedTaskGraph;
