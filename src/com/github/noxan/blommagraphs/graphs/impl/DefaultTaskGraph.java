@@ -262,11 +262,13 @@ public class DefaultTaskGraph implements TaskGraph {
         // copy nodes with new ids
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
-            nodeList.put(node.getId(),
-                    new DefaultTaskGraphNode(getLastNode().getId(), node.getComputationTime()));
-            // update last node id
-            ((DefaultTaskGraphNode) getLastNode()).setId(getLastNode().getId() + 1);
+            TaskGraphNode duplicatedNode = new DefaultTaskGraphNode(
+                    lastNode.getId() + node.getId(), node.getComputationTime());
+            duplicatedNode.setDeadLine(node.getDeadLine());
+            nodeList.put(node.getId(), duplicatedNode);
         }
+        // update last node id
+        ((DefaultTaskGraphNode) getLastNode()).setId(lastNode.getId() + nodeList.size());
         // add edges
         try {
             for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
