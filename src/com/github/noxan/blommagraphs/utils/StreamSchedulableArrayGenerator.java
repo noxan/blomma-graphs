@@ -2,8 +2,6 @@ package com.github.noxan.blommagraphs.utils;
 
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
-import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 
 
 /**
@@ -32,11 +30,9 @@ public class StreamSchedulableArrayGenerator {
 
         // Ugly workaround: TODO use serialize -> deserialize to get new graph instance. That's
         // supposed to be replaced when a deep-copy method for TaskGraph is implemented.
-        TaskGraphSerializer serializer = new STGSerializer();
-        String serializedGraph = serializer.serialize(graph);
 
         for (int i = 0; i < deadLines.length; ++i) {
-            graphs[i] = serializer.deserialize(serializedGraph);
+            graphs[i] = graph.clone();
             graphs[i].resetDeadLine(deadLines[i]);
         }
 
