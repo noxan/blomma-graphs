@@ -112,4 +112,24 @@ public class DefaultTaskGraphNodeTest {
         TaskGraphEdge edge = node.findPrevEdge(taskGraph.getLastNode());
         Assert.assertNull(edge);
     }
+
+    @Test
+    public void testFindNextEdge() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findNextEdge(taskGraph.getLastNode());
+        Assert.assertNotNull(edge);
+        Assert.assertEquals(node, edge.getPrevNode());
+        Assert.assertEquals(taskGraph.getLastNode(), edge.getNextNode());
+    }
+
+    @Test
+    public void testFindNextEdgeNull() {
+        TaskGraphNode node = taskGraph.insertNode(taskGraph.getFirstNode(), 2,
+                taskGraph.getLastNode(), 4, 3);
+
+        TaskGraphEdge edge = node.findNextEdge(taskGraph.getFirstNode());
+        Assert.assertNull(edge);
+    }
 }
