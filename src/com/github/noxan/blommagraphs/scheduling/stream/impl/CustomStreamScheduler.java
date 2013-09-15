@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +30,7 @@ public class CustomStreamScheduler implements StreamScheduler {
         }
 
         for (int i = 0; i < numberOfTasks; i++) {
-            TaskGraphNode nextTask = searchNextTask(readySet);
+            TaskGraphNode nextTask = searchNextTask(readySet, scheduledTaskList);
 
             ScheduledTask scheduledTask = scheduleNextTask(nextTask, scheduledTaskList);
             scheduledTaskList.add(scheduledTask);
@@ -91,9 +93,59 @@ public class CustomStreamScheduler implements StreamScheduler {
                 nextTask);
     }
 
-    private TaskGraphNode searchNextTask(Set<TaskGraphNode> readySet) {
+    private TaskGraphNode searchNextTask(Set<TaskGraphNode> readySet, ScheduledTaskList scheduledTaskList) {
         int nextDeadline = Integer.MAX_VALUE;
         TaskGraphNode nextTask = null;
+        ArrayList<PhantomTask> phantomTasksList = new ArrayList<PhantomTask>();
+
+        for (TaskGraphNode currentTask : readySet) {
+
+            Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
+            for (TaskGraphNode dependencyNode : currentTask.getPrevNodes()) {
+                dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
+            }
+
+            for (int cpuId = 0; cpuId < scheduledTaskList.getProcessorCount(); cpuId++) {
+                ScheduledTask lastScheduledTask = scheduledTaskList
+                        .getLastScheduledTaskOnProcessor(cpuId);
+
+                int startTimeOnProcessor;
+
+                if (lastScheduledTask == null) {
+                    startTimeOnProcessor = 0;
+                } else {
+                    startTimeOnProcessor = lastScheduledTask.getFinishTime();
+                }
+
+                int maxDependencyTime = Integer.MIN_VALUE;
+                for (ScheduledTask dependencyTask : dependencySet) {
+                    if (dependencyTask.getCpuId() != cpuId) {
+                        int currentDependencyTime = dependencyTask.getFinishTime();
+                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(nextTask);
+                        currentDependencyTime += edge.getCommunicationTime();
+                        if (currentDependencyTime > maxDependencyTime) {
+                            maxDependencyTime = currentDependencyTime;
+                        }
+                    }
+                }
+
+                if (startTimeOnProcessor < maxDependencyTime) {
+                    startTimeOnProcessor = maxDependencyTime;
+                }
+
+                int gap = startTimeOnProcessor - (lastScheduledTask.getStartTime() + lastScheduledTask.getComputationTime());
+                if (phantomTasksList.isEmpty()) {
+                    phantomTasksList.add(new PhantomTask(cpuId, currentTask, gap));
+                }
+                else {
+                    for (PhantomTask phantomTask : phantomTasksList) {
+                        if (phantomTask.getGap() > gap) {
+                            phantomTasksList.add(phantomTasksList.indexOf(phantomTask), new PhantomTask(cpuId, currentTask, gap));
+                        }
+                    }
+                }
+            }
+        }
 
         for (TaskGraphNode currentTask : readySet) {
             if (nextDeadline >= currentTask.getDeadLine()) {
@@ -134,3 +186,5 @@ public class CustomStreamScheduler implements StreamScheduler {
         }
     }
 }
+
+public class
