@@ -45,4 +45,25 @@ title: Sprint3
   <section>
     <h1>Custom Stream Scheduler</h1>
   </section>
+  <section>
+      <h2>Basic idea</h2>
+      <ul>
+          <li>Minimize the gaps.</li>
+          <li>Stick to the deadlines.</li>
+          <li>readySet: set of ready tasks to be scheduled.</li>
+          <li>scheduledTaskList: holds scheduled tasks.</li>
+          <li>gap: EST - endOfLastTask</li>
+      </ul>
+  </section>
+  <section>
+      <h2>Procedure</h2>
+      <ul>
+          <li>Initialize the readySet.</li>
+          <li>Loop (task and CPUs):</li>
+          <li>Compute the gap for every task per CPU.</li>
+          <li>Choose task due to the deadlines and gap.</li>
+          <li>Add task to scheduledTaskList</li>
+          <li>Fill readySet with new tasks.</li>
+      </ul>
+  </section>
 </section>
