@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.factories.impl.JGraphtTaskGraphFactory;
+import com.github.noxan.blommagraphs.graphs.factories.impl.DefaultTaskGraphFactory;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
@@ -36,7 +36,7 @@ public class BasicStreamSchedulerTest {
         deadLines[1] = 20;
 
         taskGraphs = StreamSchedulableArrayGenerator.generateArray(
-                JGraphtTaskGraphFactory.makeGraph(), deadLines);
+                DefaultTaskGraphFactory.makeGraph(), deadLines);
     }
 
     @Test

@@ -10,7 +10,7 @@ import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 
 
-public class JGraphtTaskGraphFactoryTest {
+public class DefaultTaskGraphFactoryTest {
     TaskGraphSerializer serializer;
 
     @Before
@@ -20,7 +20,7 @@ public class JGraphtTaskGraphFactoryTest {
 
     @Test
     public void test() {
-        TaskGraph graph = JGraphtTaskGraphFactory.makeGraph();
+        TaskGraph graph = DefaultTaskGraphFactory.makeGraph();
         String expectedString = "10\n0 1 0\n1 10 1\n\t0 1\n2 5 3\n\t0 7\n\t1 5\n"
                 + "\t3 5\n3 10 1\n\t0 1\n4 15 1\n\t0 1\n5 15 2\n\t3 6\n\t4 5\n"
                 + "6 10 2\n\t2 4\n\t7 4\n7 20 1\n\t1 3\n8 10 2\n\t2 6\n\t5 3\n"
