@@ -118,4 +118,6 @@ public interface TaskGraphNode extends Comparable<TaskGraphNode> {
     public void setDeadLine(int deadLine);
 
     public int getDeadLine();
+
+    public TaskGraph getTaskGraph();
 }
