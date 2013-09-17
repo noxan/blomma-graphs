@@ -2,7 +2,6 @@ package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -121,7 +120,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                 for (ScheduledTask dependencyTask : dependencySet) {
                     if (dependencyTask.getCpuId() != cpuId) {
                         int currentDependencyTime = dependencyTask.getFinishTime();
-                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(nextTask);
+                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(currentTask);
                         currentDependencyTime += edge.getCommunicationTime();
                         if (currentDependencyTime > maxDependencyTime) {
                             maxDependencyTime = currentDependencyTime;
@@ -133,7 +132,13 @@ public class CustomStreamScheduler implements StreamScheduler {
                     startTimeOnProcessor = maxDependencyTime;
                 }
 
-                int gap = startTimeOnProcessor - (lastScheduledTask.getStartTime() + lastScheduledTask.getComputationTime());
+                int gap;
+                if (lastScheduledTask != null) {
+                    gap = startTimeOnProcessor - (lastScheduledTask.getStartTime() + lastScheduledTask.getComputationTime());
+                } else {
+                    gap = 0; //correct?????
+                }
+
                 if (phantomTasksList.isEmpty()) {
                     phantomTasksList.add(new PhantomTask(cpuId, currentTask, gap));
                 }
@@ -141,6 +146,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                     for (PhantomTask phantomTask : phantomTasksList) {
                         if (phantomTask.getGap() > gap) {
                             phantomTasksList.add(phantomTasksList.indexOf(phantomTask), new PhantomTask(cpuId, currentTask, gap));
+                            break;
                         }
                     }
                 }
@@ -175,7 +181,7 @@ public class CustomStreamScheduler implements StreamScheduler {
         for (TaskGraphNode nextNode : lastScheduledNode.getNextNodes()) {
             boolean isReady = true;
             for (TaskGraphNode dependency : nextNode.getPrevNodes()) {
-                if (!scheduledTaskList.containsTask(dependency.getId())) {
+                if (!scheduledTaskList.containsTask(dependency)) {
                     isReady = false;
                     break;
                 }
@@ -186,5 +192,3 @@ public class CustomStreamScheduler implements StreamScheduler {
         }
     }
 }
-
-public class

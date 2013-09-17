@@ -20,4 +20,6 @@ public interface ScheduledTaskList extends List<ScheduledTask> {
     public int getFinishTime();
 
     public boolean containsTask(int taskId);
+
+    public boolean containsTask(TaskGraphNode node);
 }
