@@ -1,9 +1,12 @@
 package com.github.noxan.blommagraphs;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
@@ -12,6 +15,7 @@ import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
+import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
 
 public class StatisticsBuilder {
@@ -70,5 +74,19 @@ public class StatisticsBuilder {
         schedulers[3] = new CustomStreamScheduler();
 
         taskGraphSerializer = new STGSerializer();
+    }
+
+    private void buildStatistics() throws IOException {
+        File graphGroupsDirectory = new File("export/graphs");
+        File[] graphDirectories = graphGroupsDirectory.listFiles();
+
+        TaskGraph graph;
+
+        for (File graphDirectory : graphDirectories) {
+            for (File graphFile : graphDirectory.listFiles()) {
+                graph = TaskGraphFileUtils.readFile(graphFile.getAbsolutePath(),
+                        taskGraphSerializer);
+            }
+        }
     }
 }
