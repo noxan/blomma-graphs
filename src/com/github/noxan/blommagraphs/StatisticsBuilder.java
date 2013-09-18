@@ -44,6 +44,8 @@ public class StatisticsBuilder {
      */
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
+        StatisticsBuilder statBuilder = new StatisticsBuilder();
+        statBuilder.buildStatistics();
 
     }
 
