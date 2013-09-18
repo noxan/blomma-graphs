@@ -4,6 +4,8 @@ package com.github.noxan.blommagraphs;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
@@ -25,6 +27,8 @@ public class StatisticsBuilder {
     private List<List<Float>> schedulerStatistics;
 
     private StreamScheduler schedulers[];
+
+    private TaskGraphSerializer taskGraphSerializer;
 
     public enum Properties {
         ALGORITHM_DURATION, SCHEDULE_DURATION, NODE_COUNT, FILE_PATH, EDGE_COUNT, CP_LENGTH,
@@ -65,5 +69,6 @@ public class StatisticsBuilder {
         schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
         schedulers[3] = new CustomStreamScheduler();
 
+        taskGraphSerializer = new STGSerializer();
     }
 }
