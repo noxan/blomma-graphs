@@ -1,0 +1,13 @@
+package com.github.noxan.blommagraphs;
+
+public class StatisticsBuilder {
+
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+
+    }
+
+}
