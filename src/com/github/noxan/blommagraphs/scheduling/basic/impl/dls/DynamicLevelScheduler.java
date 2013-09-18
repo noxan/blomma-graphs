@@ -22,7 +22,7 @@ public class DynamicLevelScheduler implements Scheduler {
 
     @Override
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
-        int cpuCount = systemInformation.getProcessorCount();
+        int cpuCount = systemInformation.getCpuCount();
         scheduledTaskList = new DefaultScheduledTaskList(cpuCount);
         List<ReadyPoolNode> readyNodePool = new ArrayList<ReadyPoolNode>();
         ArrayList<ArrayList<ScheduledTask>> allCpuScheduleTasks = new ArrayList<ArrayList<ScheduledTask>>();
@@ -91,7 +91,7 @@ public class DynamicLevelScheduler implements Scheduler {
                 }
             }
 
-            // choose the node-processor pair with the biggest dynamic level and
+            // choose the node-CPU pair with the biggest dynamic level and
             ReadyPoolNode chosenScheduledTask = null;
             int maxDynamicLevel = Integer.MIN_VALUE;
             int nextCpu = 0;
@@ -103,7 +103,7 @@ public class DynamicLevelScheduler implements Scheduler {
                 }
             }
 
-            // commit it to the processor
+            // commit it to the CPU
             // setup new ScheduledTask
             ScheduledTask newScheduledTask = new DefaultScheduledTask();
             newScheduledTask.setCpuId(nextCpu);

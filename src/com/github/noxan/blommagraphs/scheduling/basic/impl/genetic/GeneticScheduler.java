@@ -11,7 +11,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.Chromosome;
-import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.ProcessorChromosome;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.CpuChromosome;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.RandomChromosome;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.ScheduledChromosome;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -47,16 +47,15 @@ public class GeneticScheduler implements Scheduler {
         Set<Chromosome> population = new HashSet<Chromosome>();
 
         // initial schedule based chromosome
-        population.add(new ScheduledChromosome(metaInformation.getProcessorCount(), taskGraph,
+        population.add(new ScheduledChromosome(metaInformation.getCpuCount(), taskGraph,
                 initialTaskSchedule));
-        // processor based chromosomes
-        for (int processorId = 0; processorId < metaInformation.getProcessorCount(); processorId++) {
-            population.add(new ProcessorChromosome(metaInformation.getProcessorCount(), taskGraph,
-                    processorId));
+        // CPU based chromosomes
+        for (int cpuId = 0; cpuId < metaInformation.getCpuCount(); cpuId++) {
+            population.add(new CpuChromosome(metaInformation.getCpuCount(), taskGraph, cpuId));
         }
         // random chromosomes
         for (int i = 0; i < randomPopulationSize; i++) {
-            population.add(new RandomChromosome(metaInformation.getProcessorCount(), taskGraph));
+            population.add(new RandomChromosome(metaInformation.getCpuCount(), taskGraph));
         }
 
         elitismPopulation = new ArrayList<Chromosome>();

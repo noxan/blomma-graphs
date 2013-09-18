@@ -9,13 +9,13 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 
 
 public class ScheduledChromosome extends AbstractChromosome {
-    public ScheduledChromosome(int numberOfProcessors, TaskGraph taskGraph,
+    public ScheduledChromosome(int cpuCount, TaskGraph taskGraph,
             ScheduledTaskList initialTaskSchedule) {
-        super(numberOfProcessors, taskGraph);
+        super(cpuCount, taskGraph);
 
         Collections.sort(initialTaskSchedule);
         for (ScheduledTask task : initialTaskSchedule) {
-            addTaskToProcessor(task.getCpuId(), task.getTaskGraphNode());
+            addTaskToCpu(task.getCpuId(), task.getTaskGraphNode());
         }
     }
 

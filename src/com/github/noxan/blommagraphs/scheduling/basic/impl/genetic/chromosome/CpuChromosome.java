@@ -7,18 +7,18 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
-public class ProcessorChromosome extends AbstractChromosome {
-    public ProcessorChromosome(int numberOfProcessors, TaskGraph taskGraph, int processorId) {
-        super(numberOfProcessors, taskGraph);
+public class CpuChromosome extends AbstractChromosome {
+    public CpuChromosome(int cpuCount, TaskGraph taskGraph, int cpuId) {
+        super(cpuCount, taskGraph);
 
         Iterator<TaskGraphNode> it = taskGraph.getNodeSet().iterator();
         while (it.hasNext()) {
-            addTaskToProcessor(processorId, it.next());
+            addTaskToCpu(cpuId, it.next());
         }
     }
 
     @Override
     public String toString() {
-        return "Processor" + super.toString();
+        return "Cpu" + super.toString();
     }
 }

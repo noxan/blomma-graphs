@@ -14,10 +14,10 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implements ScheduledTaskList {
     private static final long serialVersionUID = -3333940630170033338L;
 
-    private int processorCount;
+    private int cpuCount;
 
-    public DefaultScheduledTaskList(int processorCount) {
-        this.processorCount = processorCount;
+    public DefaultScheduledTaskList(int cpuCount) {
+        this.cpuCount = cpuCount;
     }
 
     @Override
@@ -46,15 +46,15 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
 
     @Override
     public int getCpuCount() {
-        return processorCount;
+        return cpuCount;
     }
 
     @Override
-    public boolean isTaskOnCpu(int processorId, int taskId) {
+    public boolean isTaskOnCpu(int cpuId, int taskId) {
         Iterator<ScheduledTask> it = iterator();
         while (it.hasNext()) {
             ScheduledTask scheduledTask = it.next();
-            if (scheduledTask.getTaskId() == taskId && scheduledTask.getCpuId() == processorId) {
+            if (scheduledTask.getTaskId() == taskId && scheduledTask.getCpuId() == cpuId) {
                 return true;
             }
         }
@@ -84,13 +84,13 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
-    public ScheduledTask getLastScheduledTaskOnCpu(int processorId) {
+    public ScheduledTask getLastScheduledTaskOnCpu(int cpuId) {
         ScheduledTask lastTask = null;
 
         Iterator<ScheduledTask> it = iterator();
         while (it.hasNext()) {
             ScheduledTask task = it.next();
-            if (task.getCpuId() == processorId
+            if (task.getCpuId() == cpuId
                     && (lastTask == null || task.getStartTime() > lastTask.getStartTime())) {
                 lastTask = task;
             }
@@ -103,8 +103,8 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     public int getFinishTime() {
         int maxFinishTime = -1;
 
-        for (int processorId = 0; processorId < processorCount; processorId++) {
-            ScheduledTask scheduledTask = getLastScheduledTaskOnCpu(processorId);
+        for (int cpuId = 0; cpuId < cpuCount; cpuId++) {
+            ScheduledTask scheduledTask = getLastScheduledTaskOnCpu(cpuId);
             if (scheduledTask != null) {
                 int finishTime = scheduledTask.getFinishTime();
                 if (finishTime > maxFinishTime) {

@@ -20,7 +20,7 @@ public class CustomStreamScheduler implements StreamScheduler {
     @Override
     public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo) {
         ScheduledTaskList scheduledTaskList = getScheduledTaskList(initializeReadySet(taskGraphs),
-                new DefaultScheduledTaskList(systemInfo.getProcessorCount()));
+                new DefaultScheduledTaskList(systemInfo.getCpuCount()));
 
         return scheduledTaskList;
     }
@@ -40,13 +40,13 @@ public class CustomStreamScheduler implements StreamScheduler {
                 ScheduledTask lastScheduledTask = scheduledTaskList
                         .getLastScheduledTaskOnCpu(cpuId);
 
-                int startTimeOnProcessor;
-                int communicationTimeOnProcessor = 0;
+                int startTimeOnCpu;
+                int communicationTimeOnCpu = 0;
 
                 if (lastScheduledTask == null) {
-                    startTimeOnProcessor = 0;
+                    startTimeOnCpu = 0;
                 } else {
-                    startTimeOnProcessor = lastScheduledTask.getFinishTime();
+                    startTimeOnCpu = lastScheduledTask.getFinishTime();
                 }
 
                 int maxDependencyTime = Integer.MIN_VALUE;
@@ -58,19 +58,19 @@ public class CustomStreamScheduler implements StreamScheduler {
                         currentDependencyTime += edge.getCommunicationTime();
                         if (currentDependencyTime > maxDependencyTime) {
                             maxDependencyTime = currentDependencyTime;
-                            communicationTimeOnProcessor = edge.getCommunicationTime();
+                            communicationTimeOnCpu = edge.getCommunicationTime();
 
                         }
                     }
                 }
 
-                if (startTimeOnProcessor < maxDependencyTime) {
-                    startTimeOnProcessor = maxDependencyTime;
+                if (startTimeOnCpu < maxDependencyTime) {
+                    startTimeOnCpu = maxDependencyTime;
                 }
 
                 int gap;
                 if (lastScheduledTask != null) {
-                    gap = startTimeOnProcessor
+                    gap = startTimeOnCpu
                             - (lastScheduledTask.getStartTime() + lastScheduledTask
                                     .getComputationTime());
                 } else {
@@ -78,18 +78,18 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
 
                 if (phantomTaskList.isEmpty()) {
-                    phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
-                            startTimeOnProcessor, communicationTimeOnProcessor));
+                    phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
+                            communicationTimeOnCpu));
                 } else {
                     for (PhantomTask phantomTask : phantomTaskList) {
                         if (phantomTask.getGap() > gap) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
-                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor,
-                                            communicationTimeOnProcessor));
+                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
+                                            communicationTimeOnCpu));
                             break;
                         } else {
                             phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
-                                    startTimeOnProcessor, communicationTimeOnProcessor));
+                                    startTimeOnCpu, communicationTimeOnCpu));
                             break;
                         }
                     }
