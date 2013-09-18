@@ -100,12 +100,14 @@ public class CustomStreamScheduler implements StreamScheduler {
                         if (phantomTask.getGap() > gap) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask), new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor, communicationTimeOnProcessor));
                             break;
+                        } else {
+                            phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor, communicationTimeOnProcessor));
+                            break;
                         }
                     }
                 }
             }
         }
-
         if(phantomTaskList.size() == scheduledTaskList.getProcessorCount() && phantomTaskList.get(0).getTaskGraphNode().getNextNodes().isEmpty()) {
             ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
             ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
@@ -142,7 +144,6 @@ public class CustomStreamScheduler implements StreamScheduler {
             for(TaskGraphNode currentNode : readySet) {
                 newReadySet.add(currentNode);
             }
-            updateReadySet(newReadySet, scheduledTaskList, nextPhantomTask.getTaskGraphNode());
 
             ScheduledTaskList nextScheduledTaskList = new DefaultScheduledTaskList(scheduledTaskList.getProcessorCount());
             for(ScheduledTask scheduledTask : scheduledTaskList) {
@@ -150,10 +151,11 @@ public class CustomStreamScheduler implements StreamScheduler {
             }
 
             nextScheduledTaskList.add(new DefaultScheduledTask(nextPhantomTask.getEarliestStarttime(), nextPhantomTask.getCpuId(), nextPhantomTask.getCommunicationTime(), nextPhantomTask.getTaskGraphNode()));
+            updateReadySet(newReadySet, nextScheduledTaskList, nextPhantomTask.getTaskGraphNode());
             currentTaskList = getScheduledTaskList(newReadySet, nextScheduledTaskList);
             i++;
         } while(currentTaskList == scheduledTaskList);
-        return scheduledTaskList;
+        return currentTaskList;
 
     }
 
