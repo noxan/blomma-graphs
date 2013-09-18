@@ -14,6 +14,8 @@ import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamSchedule
 
 public class StatisticsBuilder {
 
+    private final String statisticsFilePath = "export/statistics.html";
+
     private final int schedulerCount = 4;
     private final int taskGraphCount = 500;
     private final int taskGroupCount = 5;
