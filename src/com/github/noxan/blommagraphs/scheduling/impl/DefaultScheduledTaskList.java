@@ -45,12 +45,12 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
-    public int getProcessorCount() {
+    public int getCpuCount() {
         return processorCount;
     }
 
     @Override
-    public boolean isTaskOnProcessor(int processorId, int taskId) {
+    public boolean isTaskOnCpu(int processorId, int taskId) {
         Iterator<ScheduledTask> it = iterator();
         while (it.hasNext()) {
             ScheduledTask scheduledTask = it.next();
@@ -84,7 +84,7 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
-    public ScheduledTask getLastScheduledTaskOnProcessor(int processorId) {
+    public ScheduledTask getLastScheduledTaskOnCpu(int processorId) {
         ScheduledTask lastTask = null;
 
         Iterator<ScheduledTask> it = iterator();
@@ -104,7 +104,7 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         int maxFinishTime = -1;
 
         for (int processorId = 0; processorId < processorCount; processorId++) {
-            ScheduledTask scheduledTask = getLastScheduledTaskOnProcessor(processorId);
+            ScheduledTask scheduledTask = getLastScheduledTaskOnCpu(processorId);
             if (scheduledTask != null) {
                 int finishTime = scheduledTask.getFinishTime();
                 if (finishTime > maxFinishTime) {

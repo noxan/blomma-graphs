@@ -106,7 +106,7 @@ public abstract class AbstractChromosome implements Chromosome {
                 if (tempFinishTime < startTime) {
                     // check if processor is free
                     ScheduledTask prevTaskOnProcessor = scheduledTaskList
-                            .getLastScheduledTaskOnProcessor(processorId);
+                            .getLastScheduledTaskOnCpu(processorId);
                     if (prevTaskOnProcessor == null
                             || prevTaskOnProcessor.getFinishTime() <= tempFinishTime) {
                         startTime = tempFinishTime;

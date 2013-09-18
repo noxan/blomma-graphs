@@ -7,15 +7,15 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public interface ScheduledTaskList extends List<ScheduledTask> {
-    public int getProcessorCount();
+    public int getCpuCount();
 
     public ScheduledTask getScheduledTask(TaskGraphNode taskGraphNode);
 
     public ScheduledTask getTaskById(int taskId);
 
-    public boolean isTaskOnProcessor(int processorId, int taskId);
+    public boolean isTaskOnCpu(int cpuId, int taskId);
 
-    public ScheduledTask getLastScheduledTaskOnProcessor(int processorId);
+    public ScheduledTask getLastScheduledTaskOnCpu(int cpuId);
 
     public int getFinishTime();
 

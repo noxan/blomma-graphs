@@ -56,7 +56,7 @@ public class DynamicLevelSchedulerTest {
     public void testIsReadyNode() {
         ScheduledTaskList scheduledTaskList = dynamicLevelScheduler.schedule(taskGraph,
                 systemMetaInformation);
-        TaskGraphNode node = scheduledTaskList.getLastScheduledTaskOnProcessor(0)
+        TaskGraphNode node = scheduledTaskList.getLastScheduledTaskOnCpu(0)
                 .getTaskGraphNode();
 
         Assert.assertTrue(dynamicLevelScheduler.isReadyNode(node));
