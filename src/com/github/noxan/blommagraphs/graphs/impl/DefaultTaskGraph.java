@@ -29,8 +29,8 @@ public class DefaultTaskGraph implements TaskGraph {
 
     public DefaultTaskGraph(TaskGraphMetaInformation metaInformation) {
         this.metaInformation = metaInformation;
-        firstNode = new DefaultTaskGraphNode(0, 1);
-        lastNode = new DefaultTaskGraphNode(1, 1);
+        firstNode = new DefaultTaskGraphNode(this, 0, 1);
+        lastNode = new DefaultTaskGraphNode(this, 1, 1);
         TaskGraphEdge edge = new DefaultTaskGraphEdge(firstNode, lastNode, 1);
         ((DefaultTaskGraphNode) firstNode).addNextNode(edge);
         ((DefaultTaskGraphNode) lastNode).addPrevNode(edge);
@@ -128,8 +128,8 @@ public class DefaultTaskGraph implements TaskGraph {
 
         ((DefaultTaskGraphNode) lastNode).setId(lastId + 1);
 
-        TaskGraphNode node = new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime,
-                nextNode, nextCommunicationTime, computationTime);
+        TaskGraphNode node = new DefaultTaskGraphNode(this, lastId, prevNode,
+                prevCommunicationTime, nextNode, nextCommunicationTime, computationTime);
 
         if (!keepExistingEdge) {
             ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
@@ -262,8 +262,8 @@ public class DefaultTaskGraph implements TaskGraph {
         // copy nodes with new ids
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
-            TaskGraphNode duplicatedNode = new DefaultTaskGraphNode(
-                    lastNode.getId() + node.getId(), node.getComputationTime());
+            TaskGraphNode duplicatedNode = new DefaultTaskGraphNode(this, lastNode.getId()
+                    + node.getId(), node.getComputationTime());
             duplicatedNode.setDeadLine(node.getDeadLine());
             nodeList.put(node.getId(), duplicatedNode);
         }
@@ -288,7 +288,7 @@ public class DefaultTaskGraph implements TaskGraph {
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : getNodeSet()) {
             nodeList.put(node.getId(),
-                    new DefaultTaskGraphNode(node.getId(), node.getComputationTime()));
+                    new DefaultTaskGraphNode(this, node.getId(), node.getComputationTime()));
         }
         ((DefaultTaskGraph) clonedTaskGraph).setFirstNode(nodeList.get(0));
         ((DefaultTaskGraph) clonedTaskGraph).setLastNode(nodeList.get(nodeList.size() - 1));

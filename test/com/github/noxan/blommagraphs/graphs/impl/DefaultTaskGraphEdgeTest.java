@@ -16,8 +16,8 @@ public class DefaultTaskGraphEdgeTest {
 
     @Before
     public void initialize() {
-        node0 = new DefaultTaskGraphNode(0, 0);
-        node1 = new DefaultTaskGraphNode(1, 0);
+        node0 = new DefaultTaskGraphNode(null, 0, 0);
+        node1 = new DefaultTaskGraphNode(null, 1, 0);
         edge = new DefaultTaskGraphEdge(node0, node1, 5);
     }
 
