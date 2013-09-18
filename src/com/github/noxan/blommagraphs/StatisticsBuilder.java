@@ -9,6 +9,7 @@ import java.util.List;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
@@ -28,6 +29,8 @@ public class StatisticsBuilder {
     private final int taskGraphCount = 500;
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
+    // Number of TaskGraph copies that are scheduled.
+    private final int blockSize = 5;
 
     private List<List<List<Float>>> taskGraphStatistics;
     private List<List<List<Float>>> taskGroupStatistics;
@@ -89,11 +92,24 @@ public class StatisticsBuilder {
         File[] graphDirectories = graphGroupsDirectory.listFiles();
 
         TaskGraph graph;
+        // Following task graphs are used for scheduling.
+        TaskGraph[] taskGraphs;
+        ScheduledTaskList scheduledTaskList;
 
         for (File graphDirectory : graphDirectories) {
             for (File graphFile : graphDirectory.listFiles()) {
+
+                // Get the current graph
                 graph = TaskGraphFileUtils.readFile(graphFile.getAbsolutePath(),
                         taskGraphSerializer);
+                // Create copies of this graph which are passed to the stream schedulers.
+                taskGraphs = new TaskGraph[blockSize];
+                for (int i = 0; i < blockSize; ++i)
+                    taskGraphs[i] = graph.clone();
+
+                for (StreamScheduler scheduler : schedulers) {
+                    scheduledTaskList = scheduler.schedule(taskGraphs, systemMetaInformation);
+                }
             }
         }
     }
