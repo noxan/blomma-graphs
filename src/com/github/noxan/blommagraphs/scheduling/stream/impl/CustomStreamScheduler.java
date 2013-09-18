@@ -19,27 +19,8 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 public class CustomStreamScheduler implements StreamScheduler {
     @Override
     public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo) {
-        /*
-        Set<TaskGraphNode> readySet = initializeReadySet(taskGraphs);
-        int[] startTime = new int[taskGraphs.length];
-        ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(
-                systemInfo.getProcessorCount());
-
-        int numberOfTasks = 0;
-        for (TaskGraph taskGraph : taskGraphs) {
-            numberOfTasks += taskGraph.getNodeCount();
-        }
-
-        for (int i = 0; i < numberOfTasks; i++) {
-            TaskGraphNode nextTask = searchNextTask(readySet, scheduledTaskList, taskGraphs, startTime);
-
-            ScheduledTask scheduledTask = scheduleNextTask(nextTask, scheduledTaskList);
-            scheduledTaskList.add(scheduledTask);
-
-            updateReadySet(readySet, scheduledTaskList, nextTask);
-        }
-        */
-        ScheduledTaskList scheduledTaskList = getScheduledTaskList(initializeReadySet(taskGraphs), new DefaultScheduledTaskList(systemInfo.getProcessorCount()));
+        ScheduledTaskList scheduledTaskList = getScheduledTaskList(initializeReadySet(taskGraphs),
+                new DefaultScheduledTaskList(systemInfo.getProcessorCount()));
 
         return scheduledTaskList;
     }
@@ -72,7 +53,8 @@ public class CustomStreamScheduler implements StreamScheduler {
                 for (ScheduledTask dependencyTask : dependencySet) {
                     if (dependencyTask.getCpuId() != cpuId) {
                         int currentDependencyTime = dependencyTask.getFinishTime();
-                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(currentTask);
+                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(
+                                currentTask);
                         currentDependencyTime += edge.getCommunicationTime();
                         if (currentDependencyTime > maxDependencyTime) {
                             maxDependencyTime = currentDependencyTime;
@@ -88,43 +70,51 @@ public class CustomStreamScheduler implements StreamScheduler {
 
                 int gap;
                 if (lastScheduledTask != null) {
-                    gap = startTimeOnProcessor - (lastScheduledTask.getStartTime() + lastScheduledTask.getComputationTime());
+                    gap = startTimeOnProcessor
+                            - (lastScheduledTask.getStartTime() + lastScheduledTask
+                                    .getComputationTime());
                 } else {
-                    gap = 0; //correct?????
+                    gap = 0; // correct?????
                 }
 
                 if (phantomTaskList.isEmpty()) {
-                    phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor, communicationTimeOnProcessor));
-                }
-                else {
+                    phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
+                            startTimeOnProcessor, communicationTimeOnProcessor));
+                } else {
                     for (PhantomTask phantomTask : phantomTaskList) {
                         if (phantomTask.getGap() > gap) {
-                            phantomTaskList.add(phantomTaskList.indexOf(phantomTask), new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor, communicationTimeOnProcessor));
+                            phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
+                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor,
+                                            communicationTimeOnProcessor));
                             break;
                         } else {
-                            phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnProcessor, communicationTimeOnProcessor));
+                            phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
+                                    startTimeOnProcessor, communicationTimeOnProcessor));
                             break;
                         }
                     }
                 }
             }
         }
-        if(phantomTaskList.size() == scheduledTaskList.getProcessorCount() && phantomTaskList.get(0).getTaskGraphNode().getNextNodes().isEmpty()) {
+        if (phantomTaskList.size() == scheduledTaskList.getCpuCount()
+                && phantomTaskList.get(0).getTaskGraphNode().getNextNodes().isEmpty()) {
             ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
             ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
 
-            for(ScheduledTask scheduledTask : scheduledTaskList) {
-                if(scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
+            for (ScheduledTask scheduledTask : scheduledTaskList) {
+                if (scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
                     startTasks.add(scheduledTask);
                 } else if (scheduledTask.getTaskGraphNode().getNextNodes().isEmpty()) {
                     endTasks.add(scheduledTask);
                 }
             }
 
-            for(ScheduledTask startTask : startTasks) {
-                for(ScheduledTask endTask : endTasks) {
-                    if(startTask.getTaskGraphNode().getTaskGraph() == endTask.getTaskGraphNode().getTaskGraph()) {
-                        if((endTask.getFinishTime()-startTask.getStartTime()) > endTask.getTaskGraphNode().getDeadLine()) {
+            for (ScheduledTask startTask : startTasks) {
+                for (ScheduledTask endTask : endTasks) {
+                    if (startTask.getTaskGraphNode().getTaskGraph() == endTask.getTaskGraphNode()
+                            .getTaskGraph()) {
+                        if ((endTask.getFinishTime() - startTask.getStartTime()) > endTask
+                                .getTaskGraphNode().getDeadLine()) {
                             return scheduledTaskList;
                         }
                     }
@@ -144,20 +134,23 @@ public class CustomStreamScheduler implements StreamScheduler {
         do {
             nextPhantomTask = phantomTaskList.get(i);
             Set<TaskGraphNode> newReadySet = new HashSet<TaskGraphNode>();
-            for(TaskGraphNode currentNode : readySet) {
+            for (TaskGraphNode currentNode : readySet) {
                 newReadySet.add(currentNode);
             }
 
-            ScheduledTaskList nextScheduledTaskList = new DefaultScheduledTaskList(scheduledTaskList.getProcessorCount());
-            for(ScheduledTask scheduledTask : scheduledTaskList) {
+            ScheduledTaskList nextScheduledTaskList = new DefaultScheduledTaskList(
+                    scheduledTaskList.getCpuCount());
+            for (ScheduledTask scheduledTask : scheduledTaskList) {
                 nextScheduledTaskList.add(scheduledTask);
             }
 
-            nextScheduledTaskList.add(new DefaultScheduledTask(nextPhantomTask.getEarliestStarttime(), nextPhantomTask.getCpuId(), nextPhantomTask.getCommunicationTime(), nextPhantomTask.getTaskGraphNode()));
+            nextScheduledTaskList.add(new DefaultScheduledTask(nextPhantomTask
+                    .getEarliestStarttime(), nextPhantomTask.getCpuId(), nextPhantomTask
+                    .getCommunicationTime(), nextPhantomTask.getTaskGraphNode()));
             updateReadySet(newReadySet, nextScheduledTaskList, nextPhantomTask.getTaskGraphNode());
             currentTaskList = getScheduledTaskList(newReadySet, nextScheduledTaskList);
             i++;
-        } while(currentTaskList == scheduledTaskList);
+        } while (currentTaskList == scheduledTaskList);
         return currentTaskList;
 
     }
