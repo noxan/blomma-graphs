@@ -15,6 +15,11 @@ public class StatisticsBuilder {
     private List<List<List<Float>>> taskGroupStatistics;
     private List<List<Float>> schedulerStatistics;
 
+    public enum Properties {
+        ALGORITHM_DURATION, SCHEDULE_DURATION, NODE_COUNT, FILE_PATH, EDGE_COUNT, CP_LENGTH,
+        SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME
+    }
+
     /**
      * @param args
      */
