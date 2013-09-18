@@ -15,6 +15,8 @@ import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
+import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
 
@@ -25,12 +27,14 @@ public class StatisticsBuilder {
     private final int schedulerCount = 4;
     private final int taskGraphCount = 500;
     private final int taskGroupCount = 5;
+    private final int cpuCount = 3;
 
     private List<List<List<Float>>> taskGraphStatistics;
     private List<List<List<Float>>> taskGroupStatistics;
     private List<List<Float>> schedulerStatistics;
 
     private StreamScheduler schedulers[];
+    private SystemMetaInformation systemMetaInformation;
 
     private TaskGraphSerializer taskGraphSerializer;
 
@@ -74,6 +78,8 @@ public class StatisticsBuilder {
         schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
         schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
         schedulers[3] = new CustomStreamScheduler();
+
+        systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
 
         taskGraphSerializer = new STGSerializer();
     }
