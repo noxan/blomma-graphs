@@ -4,6 +4,13 @@ package com.github.noxan.blommagraphs;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
+
 
 public class StatisticsBuilder {
 
@@ -14,6 +21,8 @@ public class StatisticsBuilder {
     private List<List<List<Float>>> taskGraphStatistics;
     private List<List<List<Float>>> taskGroupStatistics;
     private List<List<Float>> schedulerStatistics;
+
+    private StreamScheduler schedulers[];
 
     public enum Properties {
         ALGORITHM_DURATION, SCHEDULE_DURATION, NODE_COUNT, FILE_PATH, EDGE_COUNT, CP_LENGTH,
@@ -46,6 +55,13 @@ public class StatisticsBuilder {
                 taskGroupStatistics.get(scheduler).add(new ArrayList<Float>());
             }
         }
+
+        // Create Schedulers
+        schedulers = new StreamScheduler[schedulerCount];
+        schedulers[0] = new BasicStreamScheduler(new LASTScheduler());
+        schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
+        schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
+        schedulers[3] = new CustomStreamScheduler();
 
     }
 }
