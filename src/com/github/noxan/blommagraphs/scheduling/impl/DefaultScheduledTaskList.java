@@ -158,7 +158,7 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         }
 
         for (ScheduledTask task : this) {
-            if (task.getTaskGraphNode().getDeadLine() > task.getFinishTime()) {
+            if (task.getTaskGraphNode().getDeadLine() < task.getFinishTime()) {
                 return ScheduledTaskListStatus.INVALID_DEADLINE;
             }
         }

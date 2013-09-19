@@ -23,6 +23,7 @@ public class DefaultScheduledTaskListTest {
         TaskGraphNode task3 = taskGraph.getLastNode();
         TaskGraphNode task1 = taskGraph.insertNode(task0, 3, task3, 5, 4);
         TaskGraphNode task2 = taskGraph.insertNode(task0, 5, task3, 2, 8);
+        taskGraph.resetDeadLine(20);
         scheduledTaskList = new DefaultScheduledTaskList(2);
         scheduledTaskList.add(new DefaultScheduledTask(0, 0, 0, task0));
         scheduledTaskList.add(new DefaultScheduledTask(1, 0, 0, task1));
