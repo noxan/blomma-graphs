@@ -27,6 +27,7 @@ public class StatisticsBuilder {
 
     private final int schedulerCount = 4;
     private final int taskGraphCount = 500;
+    private final int taskGraphGroupSize = 100;
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
@@ -42,7 +43,7 @@ public class StatisticsBuilder {
     private TaskGraphSerializer taskGraphSerializer;
 
     public enum Properties {
-        ALGORITHM_DURATION, SCHEDULE_DURATION, NODE_COUNT, FILE_PATH, EDGE_COUNT, CP_LENGTH,
+        FILE_PATH, NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_DURATION,
         SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME
     }
 
@@ -96,21 +97,40 @@ public class StatisticsBuilder {
         TaskGraph[] taskGraphs;
         ScheduledTaskList scheduledTaskList;
 
+        int taskGroupCounter = 0;
+
         for (File graphDirectory : graphDirectories) {
-            for (File graphFile : graphDirectory.listFiles()) {
+            File[] graphFiles = graphDirectory.listFiles();
+
+            for (int graphId = 0; graphId < taskGraphGroupSize; ++graphId) {
 
                 // Get the current graph
-                graph = TaskGraphFileUtils.readFile(graphFile.getAbsolutePath(),
+                System.out.println("Deserailizing ...");
+
+                graph = TaskGraphFileUtils.readFile(graphFiles[graphId].getAbsolutePath(),
                         taskGraphSerializer);
+                System.out.println("Done.\nGenerating task graph array...");
+
                 // Create copies of this graph which are passed to the stream schedulers.
                 taskGraphs = new TaskGraph[blockSize];
                 for (int i = 0; i < blockSize; ++i)
                     taskGraphs[i] = graph.clone();
 
-                for (StreamScheduler scheduler : schedulers) {
-                    scheduledTaskList = scheduler.schedule(taskGraphs, systemMetaInformation);
+                System.out.println("Done.\nscheduling graph with " + graph.getNodeCount()
+                        + " nodes...\n");
+
+                for (int schedulerId = 0; schedulerId < schedulerCount; ++schedulerId) {
+                    System.out.println("Calculate taskGraphStatistics here!");
+                    List<Float> propertyList = taskGraphStatistics.get(schedulerId).get(
+                            taskGroupCounter * taskGraphGroupSize + graphId);
+                    // scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
+                    // systemMetaInformation);
+
+                    // Calculate taskGraphStatistics here.
                 }
             }
+
+            taskGroupCounter++;
         }
     }
 }
