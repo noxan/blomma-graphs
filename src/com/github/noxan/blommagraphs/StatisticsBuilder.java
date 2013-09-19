@@ -15,7 +15,6 @@ import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticSchedu
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
-import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
@@ -25,7 +24,8 @@ public class StatisticsBuilder {
 
     private final String statisticsFilePath = "export/statistics.html";
 
-    private final int schedulerCount = 4;
+    // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
+    private final int schedulerCount = 3;
     private final int taskGraphCount = 500;
     private final int taskGraphGroupSize = 100;
     private final int taskGroupCount = 5;
@@ -81,7 +81,7 @@ public class StatisticsBuilder {
         schedulers[0] = new BasicStreamScheduler(new LASTScheduler());
         schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
         schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
-        schedulers[3] = new CustomStreamScheduler();
+        // schedulers[3] = new CustomStreamScheduler();
 
         systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
 
