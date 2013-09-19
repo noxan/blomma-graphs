@@ -1,9 +1,8 @@
 package com.github.noxan.blommagraphs.scheduling.serializer.impl;
 
 
-import java.util.List;
-
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 
 
@@ -13,7 +12,7 @@ public class DefaultScheduledTaskListSerializer implements ScheduledTaskListSeri
      * @return String format: startTime cpuId nodeId
      */
     @Override
-    public String serialize(List<ScheduledTask> scheduledTaskList) {
+    public String serialize(ScheduledTaskList scheduledTaskList) {
         StringBuffer string = new StringBuffer();
 
         for (ScheduledTask task : scheduledTaskList) {
