@@ -134,7 +134,7 @@ public class CustomStreamScheduler implements StreamScheduler {
             scheduledTaskList.add(new DefaultScheduledTask(
                     lastPhantomTask.getEarliestStarttime(), lastPhantomTask.getCpuId(),
                     lastPhantomTask.getCommunicationTime(), lastPhantomTask.getTaskGraphNode()));
-            System.out.println("RIGHT!!! " + scheduledTaskList.size());
+            System.out.println("RIGHT!!! " + scheduledTaskList.size() + " " + lastPhantomTask.getCpuId());
             return scheduledTaskList;
         }
 
@@ -142,6 +142,7 @@ public class CustomStreamScheduler implements StreamScheduler {
         ScheduledTaskList currentTaskList;
         ScheduledTaskList nextScheduledTaskList;
         int i = 0;
+        int nextScheduledTaskListSize;
         do {
             if(i >= phantomTaskList.size()) {
                 return scheduledTaskList;
@@ -161,12 +162,21 @@ public class CustomStreamScheduler implements StreamScheduler {
                     .getEarliestStarttime(), nextPhantomTask.getCpuId(), nextPhantomTask
                     .getCommunicationTime(), nextPhantomTask.getTaskGraphNode()));
             updateReadySet(newReadySet, nextScheduledTaskList, nextPhantomTask.getTaskGraphNode());
+            nextScheduledTaskListSize = nextScheduledTaskList.size();
             currentTaskList = getScheduledTaskList(newReadySet, nextScheduledTaskList);
             System.out.println("Back: " + currentTaskList.size() + " old: " + nextScheduledTaskList.size());
             i++;
-        } while(currentTaskList.size() == nextScheduledTaskList.size());
-        return currentTaskList; //correct?
+        } while(currentTaskList.size() == nextScheduledTaskListSize);
+        return currentTaskList;
     }
+
+    /*
+        geht noch nicht:
+        zu kurze deadlines
+        kritische deadline: alle taskgraphen haben min deadline (root nicht ganz oben)
+        zu lange deadlines: throughput is schrott da nur auf einem cpus
+        geht noch nicht kommentar in der falschen sprache und an der falschen stelle
+     */
 
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
         Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
