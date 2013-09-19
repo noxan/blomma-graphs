@@ -1,6 +1,11 @@
 package com.github.noxan.blommagraphs;
 
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
@@ -14,11 +19,6 @@ import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamSchedule
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class StatisticsBuilder {
@@ -128,9 +128,10 @@ public class StatisticsBuilder {
                     // Starttime measurement
                     long currentAlgorithmDuration = System.currentTimeMillis();
                     scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
-                        systemMetaInformation);
+                            systemMetaInformation);
                     currentAlgorithmDuration = (System.currentTimeMillis() - currentAlgorithmDuration);
-                    System.out.println("Algorithm duration: " + (float)currentAlgorithmDuration/1000);
+                    System.out.println("Algorithm duration: " + (float) currentAlgorithmDuration
+                            / 1000);
 
                     // Calculate taskGraphStatistics here.
                     propertiesList.clear();
@@ -141,7 +142,8 @@ public class StatisticsBuilder {
                     propertiesList.set(Properties.NODE_COUNT.ordinal(), 0.0f);
                     propertiesList.set(Properties.EDGE_COUNT.ordinal(), 0.0f);
                     propertiesList.set(Properties.CP_LENGTH.ordinal(), 0.0f);
-                    propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(), (float) currentAlgorithmDuration/1000);
+                    propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(),
+                            (float) currentAlgorithmDuration / 1000);
                     propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(), 0.0f);
                     propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(), 0.0f);
                     propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(), 0.0f);
