@@ -146,7 +146,17 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
 
     @Override
     public ScheduledTaskListStatus validate() {
-        // TODO Auto-generated method stub
+        for (ScheduledTask task : this) {
+            for (TaskGraphNode dependencyTask : task.getTaskGraphNode().getPrevNodes()) {
+                ScheduledTask dependencyScheduledTask = getScheduledTask(dependencyTask);
+                int dependencyFinishTime = dependencyScheduledTask.getStartTime()
+                        + dependencyScheduledTask.getComputationTime();
+                if (task.getStartTime() < dependencyFinishTime) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
+            }
+        }
+
         return null;
     }
 }
