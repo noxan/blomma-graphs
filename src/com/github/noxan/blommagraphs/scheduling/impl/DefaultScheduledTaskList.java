@@ -152,9 +152,7 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
                     return ScheduledTaskListStatus.INVALID_DEPENDENCY;
                 }
                 ScheduledTask dependencyScheduledTask = getScheduledTask(dependencyTask);
-                int dependencyFinishTime = dependencyScheduledTask.getStartTime()
-                        + dependencyScheduledTask.getComputationTime();
-                if (task.getStartTime() < dependencyFinishTime) {
+                if (task.getStartTime() < dependencyScheduledTask.getFinishTime()) {
                     return ScheduledTaskListStatus.INVALID_DEPENDENCY;
                 }
             }
