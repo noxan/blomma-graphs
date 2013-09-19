@@ -121,12 +121,22 @@ public class StatisticsBuilder {
 
                 for (int schedulerId = 0; schedulerId < schedulerCount; ++schedulerId) {
                     System.out.println("Calculate taskGraphStatistics here!");
-                    List<Float> propertyList = taskGraphStatistics.get(schedulerId).get(
+                    List<Float> propertiesList = taskGraphStatistics.get(schedulerId).get(
                             taskGroupCounter * taskGraphGroupSize + graphId);
                     // scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
                     // systemMetaInformation);
 
                     // Calculate taskGraphStatistics here.
+                    propertiesList.set(Properties.FILE_PATH.ordinal(), 0.0f);
+                    propertiesList.set(Properties.NODE_COUNT.ordinal(), 0.0f);
+                    propertiesList.set(Properties.EDGE_COUNT.ordinal(), 0.0f);
+                    propertiesList.set(Properties.CP_LENGTH.ordinal(), 0.0f);
+                    propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(), 0.0f);
+                    propertiesList.set(Properties.THROUGHPUT.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(), 0.0f);
                 }
             }
 
