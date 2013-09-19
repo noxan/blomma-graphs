@@ -1,9 +1,7 @@
 package com.github.noxan.blommagraphs.scheduling.serializer;
 
 
-import java.util.List;
-
-import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 
 
 public interface ScheduledTaskListSerializer {
@@ -13,5 +11,5 @@ public interface ScheduledTaskListSerializer {
      * @param scheduledTaskList List of ScheduledTasks ordered by their starting time.
      * @return String representation of the ScheduledTask List.
      */
-    public String serialize(List<ScheduledTask> scheduledTaskList);
+    public String serialize(ScheduledTaskList scheduledTaskList);
 }

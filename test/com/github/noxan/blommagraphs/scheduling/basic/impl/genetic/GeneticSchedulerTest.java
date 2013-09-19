@@ -1,8 +1,6 @@
 package com.github.noxan.blommagraphs.scheduling.basic.impl.genetic;
 
 
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,7 +8,6 @@ import org.junit.Test;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
-import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
@@ -58,7 +55,7 @@ public class GeneticSchedulerTest {
 
     @Test
     public void testGeneticScheduler() {
-        List<ScheduledTask> scheduledTasks = scheduler.schedule(taskGraph, metaInformation);
+        ScheduledTaskList scheduledTasks = scheduler.schedule(taskGraph, metaInformation);
 
         ScheduledTaskListSerializer scheduledSerializer = new ExtendedScheduledTaskListSerializer();
         System.out.println(scheduledSerializer.serialize(scheduledTasks));

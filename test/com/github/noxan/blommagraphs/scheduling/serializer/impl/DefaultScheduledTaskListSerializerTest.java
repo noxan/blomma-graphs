@@ -1,9 +1,6 @@
 package com.github.noxan.blommagraphs.scheduling.serializer.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,19 +10,21 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 
 
 public class DefaultScheduledTaskListSerializerTest {
-    List<ScheduledTask> scheduledTaskList;
+    ScheduledTaskList scheduledTaskList;
     TaskGraph graph;
     String expectedSerialization;
     ScheduledTaskListSerializer serializer;
 
     @Before
     public void setUp() throws Exception {
-        scheduledTaskList = new ArrayList<ScheduledTask>();
+        scheduledTaskList = new DefaultScheduledTaskList(22);
         serializer = new DefaultScheduledTaskListSerializer();
         graph = new DefaultTaskGraph();
         TaskGraphNode node1 = graph.insertNode(graph.getFirstNode(), 1, graph.getLastNode(), 1, 11);
