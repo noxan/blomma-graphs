@@ -44,7 +44,8 @@ public class StatisticsBuilder {
 
     public enum Properties {
         FILE_PATH, NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_DURATION,
-        SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME
+        SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME,
+        AVERAGE_COMMUNICATION_TIME
     }
 
     /**
@@ -147,6 +148,7 @@ public class StatisticsBuilder {
                     propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(), 0.0f);
                     propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(), 0.0f);
                     propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(), 0.0f);
+                    propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(), 0.0f);
                     propertiesList.set(Properties.THROUGHPUT.ordinal(), 0.0f);
                     propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(), 0.0f);
                 }
