@@ -43,7 +43,7 @@ public class StatisticsBuilder {
     private TaskGraphSerializer taskGraphSerializer;
 
     public enum Properties {
-        FILE_PATH, NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_DURATION,
+        NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_DURATION,
         SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME,
         AVERAGE_COMMUNICATION_TIME
     }
@@ -139,7 +139,6 @@ public class StatisticsBuilder {
                     for (int propertyCounter = 0; propertyCounter < Properties.values().length; ++propertyCounter)
                         propertiesList.add(0.0f);
 
-                    propertiesList.set(Properties.FILE_PATH.ordinal(), 0.0f);
                     propertiesList.set(Properties.NODE_COUNT.ordinal(), 0.0f);
                     propertiesList.set(Properties.EDGE_COUNT.ordinal(), 0.0f);
                     propertiesList.set(Properties.CP_LENGTH.ordinal(), 0.0f);
