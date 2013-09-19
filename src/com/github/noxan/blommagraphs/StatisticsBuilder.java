@@ -140,17 +140,29 @@ public class StatisticsBuilder {
                     for (int propertyCounter = 0; propertyCounter < Properties.values().length; ++propertyCounter)
                         propertiesList.add(0.0f);
 
-                    propertiesList.set(Properties.NODE_COUNT.ordinal(), 0.0f);
-                    propertiesList.set(Properties.EDGE_COUNT.ordinal(), 0.0f);
-                    propertiesList.set(Properties.CP_LENGTH.ordinal(), 0.0f);
+                    int criticalPathDuration = calcCriticalPathDuration(graph);
+
+                    propertiesList.set(Properties.NODE_COUNT.ordinal(),
+                            (float) graph.getNodeCount());
+                    propertiesList.set(Properties.EDGE_COUNT.ordinal(),
+                            (float) graph.getEdgeCount());
+                    propertiesList.set(Properties.CP_LENGTH.ordinal(), (float) graph
+                            .getCriticalPath().size());
                     propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(),
                             (float) currentAlgorithmDuration / 1000);
-                    propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(), 0.0f);
-                    propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(), 0.0f);
-                    propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(),
+                            (float) scheduledTaskList.getFinishTime());
+                    propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(),
+                            (float) scheduledTaskList.getFinishTime()
+                                    / (float) criticalPathDuration);
+                    propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(),
+                            criticalPathDuration - (float) scheduledTaskList.getFinishTime());
+                    // TODO
                     propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(), 0.0f);
+                    // TODO
                     propertiesList.set(Properties.THROUGHPUT.ordinal(), 0.0f);
-                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(),
+                            (float) blockSize / scheduledTaskList.getFinishTime());
                 }
             }
 
