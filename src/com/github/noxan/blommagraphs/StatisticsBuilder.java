@@ -127,6 +127,10 @@ public class StatisticsBuilder {
                     // systemMetaInformation);
 
                     // Calculate taskGraphStatistics here.
+                    propertiesList.clear();
+                    for (int propertyCounter = 0; propertyCounter < Properties.values().length; ++propertyCounter)
+                        propertiesList.add(0.0f);
+
                     propertiesList.set(Properties.FILE_PATH.ordinal(), 0.0f);
                     propertiesList.set(Properties.NODE_COUNT.ordinal(), 0.0f);
                     propertiesList.set(Properties.EDGE_COUNT.ordinal(), 0.0f);
