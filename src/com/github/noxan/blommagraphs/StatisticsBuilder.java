@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
@@ -155,5 +156,15 @@ public class StatisticsBuilder {
 
             taskGroupCounter++;
         }
+    }
+
+    private int calcCriticalPathDuration(TaskGraph taskGraph) {
+        List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
+        int duration = 0;
+        for (TaskGraphEdge edge : cpEdges) {
+            duration += edge.getNextNode().getComputationTime();
+        }
+        duration += cpEdges.get(0).getPrevNode().getComputationTime();
+        return duration;
     }
 }
