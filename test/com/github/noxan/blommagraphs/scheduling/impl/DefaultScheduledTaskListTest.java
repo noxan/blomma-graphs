@@ -1,6 +1,7 @@
 package com.github.noxan.blommagraphs.scheduling.impl;
 
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 
 
 public class DefaultScheduledTaskListTest {
@@ -30,6 +32,6 @@ public class DefaultScheduledTaskListTest {
 
     @Test
     public void testValidate() {
-        scheduledTaskList.validate();
+        Assert.assertEquals(ScheduledTaskListStatus.VALID, scheduledTaskList.validate());
     }
 }
