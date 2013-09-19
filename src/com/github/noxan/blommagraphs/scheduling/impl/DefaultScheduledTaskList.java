@@ -148,6 +148,9 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     public ScheduledTaskListStatus validate() {
         for (ScheduledTask task : this) {
             for (TaskGraphNode dependencyTask : task.getTaskGraphNode().getPrevNodes()) {
+                if (!containsTask(dependencyTask)) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
                 ScheduledTask dependencyScheduledTask = getScheduledTask(dependencyTask);
                 int dependencyFinishTime = dependencyScheduledTask.getStartTime()
                         + dependencyScheduledTask.getComputationTime();
