@@ -35,4 +35,10 @@ public class DefaultScheduledTaskListTest {
     public void testValidate() {
         Assert.assertEquals(ScheduledTaskListStatus.VALID, scheduledTaskList.validate());
     }
+
+    @Test
+    public void testValidateFails() {
+        taskGraph.resetDeadLine(5);
+        Assert.assertEquals(ScheduledTaskListStatus.INVALID_DEADLINE, scheduledTaskList.validate());
+    }
 }
