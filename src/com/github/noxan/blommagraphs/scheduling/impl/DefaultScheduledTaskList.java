@@ -9,6 +9,7 @@ import java.util.Iterator;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 
 
 public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implements ScheduledTaskList {
@@ -141,5 +142,11 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         boolean result = super.addAll(index, c);
         Collections.sort(this);
         return result;
+    }
+
+    @Override
+    public ScheduledTaskListStatus validate() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
