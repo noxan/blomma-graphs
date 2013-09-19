@@ -27,9 +27,9 @@ public class CustomStreamSchedulerTest {
         taskGraph.insertNode(taskGraph.getFirstNode(), 5, taskGraph.getLastNode(), 3, 4);
 
         List<Integer> deadlines = new ArrayList<Integer>();
-        deadlines.add(5);
-        deadlines.add(10);
-        deadlines.add(15);
+        deadlines.add(100);
+        deadlines.add(100);
+        deadlines.add(100);
 
         taskGraphs = new TaskGraph[deadlines.size()];
 

@@ -80,8 +80,9 @@ public class CustomStreamScheduler implements StreamScheduler {
                 if (phantomTaskList.isEmpty()) {
                     phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
                             communicationTimeOnCpu));
-                } else {
-                    for (PhantomTask phantomTask : phantomTaskList) {
+                }
+                else {
+                    for(PhantomTask phantomTask : phantomTaskList) {
                         if (phantomTask.getGap() > gap) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
@@ -96,7 +97,14 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
             }
         }
-        if (phantomTaskList.size() == scheduledTaskList.getCpuCount()
+
+        System.out.print("PhantomTaskList: ");
+        for(PhantomTask phantomTask : phantomTaskList) {
+            System.out.print(phantomTask.getTaskGraphNode().getId() + "|" + phantomTask.getCpuId() +  "|>" + phantomTask.getGap() + " ");
+        }
+        System.out.println();
+
+        if(phantomTaskList.size() == scheduledTaskList.getCpuCount()
                 && phantomTaskList.get(0).getTaskGraphNode().getNextNodes().isEmpty()) {
             ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
             ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
@@ -109,12 +117,13 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
             }
 
-            for (ScheduledTask startTask : startTasks) {
-                for (ScheduledTask endTask : endTasks) {
-                    if (startTask.getTaskGraphNode().getTaskGraph() == endTask.getTaskGraphNode()
-                            .getTaskGraph()) {
-                        if ((endTask.getFinishTime() - startTask.getStartTime()) > endTask
-                                .getTaskGraphNode().getDeadLine()) {
+            for(ScheduledTask startTask : startTasks) {
+                for(ScheduledTask endTask : endTasks) {
+                    if(startTask.getTaskGraphNode().getTaskGraph()
+                            == endTask.getTaskGraphNode().getTaskGraph()) {
+                        if((endTask.getFinishTime()-startTask.getStartTime())
+                                > endTask.getTaskGraphNode().getDeadLine()) {
+                            System.out.println("FALSE: ! " + endTask.getFinishTime() + " - " + startTask.getStartTime() + " > " + endTask.getTaskGraphNode().getDeadLine());
                             return scheduledTaskList;
                         }
                     }
@@ -122,25 +131,29 @@ public class CustomStreamScheduler implements StreamScheduler {
 
             }
             PhantomTask lastPhantomTask = phantomTaskList.get(0);
-            scheduledTaskList.add(new DefaultScheduledTask(lastPhantomTask.getEarliestStarttime(),
-                    lastPhantomTask.getCpuId(), lastPhantomTask.getCommunicationTime(),
-                    lastPhantomTask.getTaskGraphNode()));
+            scheduledTaskList.add(new DefaultScheduledTask(
+                    lastPhantomTask.getEarliestStarttime(), lastPhantomTask.getCpuId(),
+                    lastPhantomTask.getCommunicationTime(), lastPhantomTask.getTaskGraphNode()));
+            System.out.println("RIGHT!!! " + scheduledTaskList.size());
             return scheduledTaskList;
         }
 
         PhantomTask nextPhantomTask;
         ScheduledTaskList currentTaskList;
+        ScheduledTaskList nextScheduledTaskList;
         int i = 0;
         do {
+            if(i >= phantomTaskList.size()) {
+                return scheduledTaskList;
+            }
+            System.out.println("Take: " + i);
             nextPhantomTask = phantomTaskList.get(i);
             Set<TaskGraphNode> newReadySet = new HashSet<TaskGraphNode>();
             for (TaskGraphNode currentNode : readySet) {
                 newReadySet.add(currentNode);
             }
-
-            ScheduledTaskList nextScheduledTaskList = new DefaultScheduledTaskList(
-                    scheduledTaskList.getCpuCount());
-            for (ScheduledTask scheduledTask : scheduledTaskList) {
+            nextScheduledTaskList = new DefaultScheduledTaskList(scheduledTaskList.getCpuCount());
+            for(ScheduledTask scheduledTask : scheduledTaskList) {
                 nextScheduledTaskList.add(scheduledTask);
             }
 
@@ -149,10 +162,10 @@ public class CustomStreamScheduler implements StreamScheduler {
                     .getCommunicationTime(), nextPhantomTask.getTaskGraphNode()));
             updateReadySet(newReadySet, nextScheduledTaskList, nextPhantomTask.getTaskGraphNode());
             currentTaskList = getScheduledTaskList(newReadySet, nextScheduledTaskList);
+            System.out.println("Back: " + currentTaskList.size() + " old: " + nextScheduledTaskList.size());
             i++;
-        } while (currentTaskList == scheduledTaskList);
-        return currentTaskList;
-
+        } while(currentTaskList.size() == nextScheduledTaskList.size());
+        return currentTaskList; //correct?
     }
 
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
