@@ -163,6 +163,6 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
             }
         }
 
-        return null;
+        return ScheduledTaskListStatus.VALID;
     }
 }
