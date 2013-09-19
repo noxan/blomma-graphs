@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class ReadyPoolNode {
     private TaskGraphNode node;
     private ArrayList<Integer> earliestStarttime = new ArrayList<Integer>();
+    private ArrayList<Integer> communicationTimes = new ArrayList<Integer>();
     private int bLevel;
 
     public ReadyPoolNode(TaskGraphNode node, int bLevel, int numberOfCpu) {
@@ -17,6 +18,7 @@ public class ReadyPoolNode {
         this.bLevel = bLevel;
         for (int i = 0; i < numberOfCpu; i++) {
             this.earliestStarttime.add(i, Integer.MAX_VALUE);
+            this.communicationTimes.add(i, 0);
         }
     }
 
@@ -45,5 +47,13 @@ public class ReadyPoolNode {
 
     public TaskGraphNode getNode() {
         return node;
+    }
+
+    public int getCommunicationTimes(int cpuId) {
+        return communicationTimes.get(cpuId);
+    }
+
+    public void setCommunicationTimes(int cpuId, int communicationTime) {
+        this.communicationTimes.set(cpuId, communicationTime);
     }
 }
