@@ -170,6 +170,20 @@ public class StatisticsBuilder {
         }
     }
 
+    /**
+     * Generates statistics for the taskGroupStatistics list by using taskGraphStatistics.
+     */
+    private void buildTaskGroupStatistics() {
+
+    }
+
+    /**
+     * Generates statistics for the schedulerStatistics list by using taskGroupStatistics.
+     */
+    private void buildSchedulerStatistics() {
+
+    }
+
     private int calcCriticalPathDuration(TaskGraph taskGraph) {
         List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
         int duration = 0;
