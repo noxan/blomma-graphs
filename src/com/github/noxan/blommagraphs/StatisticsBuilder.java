@@ -159,10 +159,11 @@ public class StatisticsBuilder {
                             criticalPathDuration - (float) scheduledTaskList.getFinishTime());
                     // TODO
                     propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(), 0.0f);
+                    propertiesList.set(Properties.THROUGHPUT.ordinal(), (float) blockSize
+                            / scheduledTaskList.getFinishTime());
                     // TODO
-                    propertiesList.set(Properties.THROUGHPUT.ordinal(), 0.0f);
-                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(),
-                            (float) blockSize / scheduledTaskList.getFinishTime());
+                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(), 0.0f);
+
                 }
             }
 
