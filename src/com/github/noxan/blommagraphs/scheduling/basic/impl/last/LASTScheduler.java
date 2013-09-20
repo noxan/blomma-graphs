@@ -79,40 +79,55 @@ public class LASTScheduler implements Scheduler {
 
             // check with the dependencies to other cpus
             int latestDependencyTime = 0;
+            int actualCommunicationTime = 0;
+
             for (List<LASTNode> otherGroup : groups) {
                 // just if its not the actual cpu
                 if (otherGroup != group) {
                     int latestDependencyTimePerCpu = 0;
+                    int currentCommunicationTimePerCpu = 0;
+
                     // check all dependent tasks
                     for (LASTNode task : otherGroup) {
                         int currentDependencyTimePerTask = 0;
+                        int currentCommunicationTime = 0;
+
                         if (taskGraph
                                 .containsEdge(task.getTaskGraphNode(), node.getTaskGraphNode()))
                             try {
                                 // get dependency time for current task
+                                currentCommunicationTime = taskGraph.findEdge(
+                                        task.getTaskGraphNode(), node.getTaskGraphNode())
+                                        .getCommunicationTime();
+
                                 currentDependencyTimePerTask = task.getStartTime()
-                                        + task.getComputationTime()
-                                        + taskGraph.findEdge(task.getTaskGraphNode(),
-                                                node.getTaskGraphNode()).getCommunicationTime();
+                                        + task.getComputationTime() + currentCommunicationTime;
+
                             } catch (ContainsNoEdgeException e) {
                                 e.printStackTrace();
                             }
+
                         // get the latest dependency time per cpu
                         if (currentDependencyTimePerTask > latestDependencyTimePerCpu) {
                             latestDependencyTimePerCpu = currentDependencyTimePerTask;
+                            currentCommunicationTimePerCpu = currentCommunicationTime;
                         }
                     }
                     // get the latest dependency time in total
                     if (latestDependencyTimePerCpu > latestDependencyTime) {
                         latestDependencyTime = latestDependencyTimePerCpu;
+                        actualCommunicationTime = currentCommunicationTimePerCpu;
                     }
                 }
             }
             // compare first start time with latest dependency time
             if (latestDependencyTime > firstStarttime) {
                 firstStarttime = latestDependencyTime;
+            } else if (latestDependencyTime < firstStarttime) {
+                actualCommunicationTime = 0;
             }
             if (currentCpuId == 0 || node.getStartTime() > firstStarttime) {
+                node.setCommunicationTime(actualCommunicationTime);
                 node.setCpuId(currentCpuId);
                 node.setStartTime(firstStarttime);
             }
