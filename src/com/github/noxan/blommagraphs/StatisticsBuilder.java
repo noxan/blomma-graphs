@@ -231,17 +231,15 @@ public class StatisticsBuilder {
         // Now devide all by taskGraphGroupSize to get
         for (List<Statistic> groupStatisticList : taskGroupStatistics) {
             for (Statistic statistic : groupStatisticList) {
-                groupStatistic.cpDuration = groupStatistic.cpDuration / taskGraphGroupSize;
-                groupStatistic.algorithmDuration = groupStatistic.algorithmDuration
+                statistic.edgeCount = statistic.edgeCount / taskGraphGroupSize;
+                statistic.cpDuration = statistic.cpDuration / taskGraphGroupSize;
+                statistic.algorithmDuration = statistic.algorithmDuration / taskGraphGroupSize;
+                statistic.singleBlockExecutionTime = statistic.singleBlockExecutionTime
                         / taskGraphGroupSize;
-                groupStatistic.singleBlockExecutionTime = groupStatistic.singleBlockExecutionTime
-                        / taskGraphGroupSize;
-                groupStatistic.scheduleCpRatio = groupStatistic.scheduleCpRatio
-                        / taskGraphGroupSize;
-                groupStatistic.scheduleCpVariance = groupStatistic.scheduleCpVariance
-                        / taskGraphGroupSize;
-                groupStatistic.throughput = groupStatistic.throughput / taskGraphGroupSize;
-                groupStatistic.averageCommunicationTime = groupStatistic.averageCommunicationTime
+                statistic.scheduleCpRatio = statistic.scheduleCpRatio / taskGraphGroupSize;
+                statistic.scheduleCpVariance = statistic.scheduleCpVariance / taskGraphGroupSize;
+                statistic.throughput = statistic.throughput / taskGraphGroupSize;
+                statistic.averageCommunicationTime = statistic.averageCommunicationTime
                         / taskGraphGroupSize;
             }
         }
