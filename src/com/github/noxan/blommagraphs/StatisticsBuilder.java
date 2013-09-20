@@ -193,7 +193,61 @@ public class StatisticsBuilder {
      * Generates statistics for the taskGroupStatistics list by using taskGraphStatistics.
      */
     private void buildTaskGroupStatistics() {
+        List<Statistic> schedulerTaskList = null;
+        List<Statistic> schedulerGroupList = null;
 
+        Statistic groupStatistic = null;
+
+        // Sum up all values
+        for (int i = 0; i < schedulerCount; ++i) {
+            schedulerTaskList = taskGraphStatistics.get(i);
+            schedulerGroupList = taskGroupStatistics.get(i);
+
+            for (Statistic taskStatistic : schedulerTaskList) {
+                // Get the correct task group list
+                switch (taskStatistic.nodeCount) {
+                case 10:
+                    groupStatistic = schedulerGroupList.get(0);
+                    break;
+                case 50:
+                    groupStatistic = schedulerGroupList.get(1);
+                    break;
+                case 100:
+                    groupStatistic = schedulerGroupList.get(2);
+                    break;
+                case 300:
+                    groupStatistic = schedulerGroupList.get(3);
+                    break;
+                case 500:
+                    groupStatistic = schedulerGroupList.get(4);
+                    break;
+                }
+                groupStatistic.cpDuration += taskStatistic.cpDuration;
+                groupStatistic.algorithmDuration += taskStatistic.algorithmDuration;
+                groupStatistic.singleBlockExecutionTime += taskStatistic.singleBlockExecutionTime;
+                groupStatistic.scheduleCpRatio += taskStatistic.scheduleCpRatio;
+                groupStatistic.scheduleCpVariance += taskStatistic.scheduleCpVariance;
+                groupStatistic.throughput += taskStatistic.throughput;
+                groupStatistic.averageCommunicationTime += taskStatistic.averageCommunicationTime;
+            }
+        }
+        // Now devide all by taskGraphGroupSize to get
+        for (List<Statistic> groupStatisticList : taskGroupStatistics) {
+            for (Statistic statistic : groupStatisticList) {
+                groupStatistic.cpDuration = groupStatistic.cpDuration / taskGraphGroupSize;
+                groupStatistic.algorithmDuration = groupStatistic.algorithmDuration
+                        / taskGraphGroupSize;
+                groupStatistic.singleBlockExecutionTime = groupStatistic.singleBlockExecutionTime
+                        / taskGraphGroupSize;
+                groupStatistic.scheduleCpRatio = groupStatistic.scheduleCpRatio
+                        / taskGraphGroupSize;
+                groupStatistic.scheduleCpVariance = groupStatistic.scheduleCpVariance
+                        / taskGraphGroupSize;
+                groupStatistic.throughput = groupStatistic.throughput / taskGraphGroupSize;
+                groupStatistic.averageCommunicationTime = groupStatistic.averageCommunicationTime
+                        / taskGraphGroupSize;
+            }
+        }
     }
 
     /**
