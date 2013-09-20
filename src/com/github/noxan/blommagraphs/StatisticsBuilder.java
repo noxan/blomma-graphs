@@ -217,6 +217,8 @@ public class StatisticsBuilder {
                     groupStatistic = schedulerGroupList.get(4);
                     break;
                 }
+
+                groupStatistic.edgeCount += taskStatistic.edgeCount;
                 groupStatistic.cpDuration += taskStatistic.cpDuration;
                 groupStatistic.algorithmDuration += taskStatistic.algorithmDuration;
                 groupStatistic.singleBlockExecutionTime += taskStatistic.singleBlockExecutionTime;
