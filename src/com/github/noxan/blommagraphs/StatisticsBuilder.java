@@ -249,7 +249,35 @@ public class StatisticsBuilder {
      * Generates statistics for the schedulerStatistics list by using taskGroupStatistics.
      */
     private void buildSchedulerStatistics() {
+        Statistic schedulerStatistic = null;
 
+        // Sum up all statistic values
+        for (int i = 0; i < schedulerCount; ++i) {
+            schedulerStatistic = schedulerStatistics.get(i);
+            for (Statistic groupStatistic : taskGroupStatistics.get(i)) {
+
+                schedulerStatistic.edgeCount += groupStatistic.edgeCount;
+                schedulerStatistic.cpDuration += groupStatistic.cpDuration;
+                schedulerStatistic.algorithmDuration += groupStatistic.algorithmDuration;
+                schedulerStatistic.singleBlockExecutionTime += groupStatistic.singleBlockExecutionTime;
+                schedulerStatistic.scheduleCpRatio += groupStatistic.scheduleCpRatio;
+                schedulerStatistic.scheduleCpVariance += groupStatistic.scheduleCpVariance;
+                schedulerStatistic.throughput += groupStatistic.throughput;
+                schedulerStatistic.averageCommunicationTime += groupStatistic.averageCommunicationTime;
+            }
+        }
+
+        // Now calculate the average by dividing by taskGroupCount
+        for (Statistic stat : schedulerStatistics) {
+            stat.edgeCount = stat.edgeCount / taskGroupCount;
+            stat.cpDuration = stat.cpDuration / taskGroupCount;
+            stat.algorithmDuration = stat.algorithmDuration / taskGroupCount;
+            stat.singleBlockExecutionTime = stat.singleBlockExecutionTime / taskGroupCount;
+            stat.scheduleCpRatio = stat.scheduleCpRatio / taskGroupCount;
+            stat.scheduleCpVariance = stat.scheduleCpVariance / taskGroupCount;
+            stat.throughput = stat.throughput / taskGroupCount;
+            stat.averageCommunicationTime = stat.averageCommunicationTime / taskGroupCount;
+        }
     }
 
     /**
