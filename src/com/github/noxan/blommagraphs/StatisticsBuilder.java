@@ -24,6 +24,19 @@ import java.util.List;
 
 public class StatisticsBuilder {
 
+    private class Statistic {
+        private String filePath;
+        private int nodeCount;
+        private float edgeCount;
+        private float cpDuration;
+        private float alrogithmDuration;
+        private float singleBlockExecutionTime;
+        private float scheduleCpRatio;
+        private float scheduleCpVariance;
+        private float throughput;
+        private float averageCommunicationTime;
+    };
+
     private final String statisticsFilePath = "export/statistics.html";
 
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
