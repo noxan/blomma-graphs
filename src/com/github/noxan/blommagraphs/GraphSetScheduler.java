@@ -46,6 +46,8 @@ public class GraphSetScheduler {
         new File(lastSchedulFolder).mkdirs();
         new File(geneticSchedulFolder).mkdirs();
 
+        System.out.println(String.format("Writing exports to folder: %s", rootGraphFolder));
+
         // Create schedulers
         LASTScheduler lastScheduler = new LASTScheduler();
         String scheduledGraphString = null;
