@@ -48,9 +48,9 @@ public class StatisticsBuilder {
     // Number of TaskGraph copies that are scheduled.
     private final int blockSize = 5;
 
-    private List<List<List<Float>>> taskGraphStatistics;
-    private List<List<List<Float>>> taskGroupStatistics;
-    private List<List<Float>> schedulerStatistics;
+    private List<List<Statistic>> taskGraphStatistics;
+    private List<List<Statistic>> taskGroupStatistics;
+    private List<Statistic> schedulerStatistics;
 
     private StreamScheduler schedulers[];
     private SystemMetaInformation systemMetaInformation;
@@ -77,20 +77,20 @@ public class StatisticsBuilder {
 
     private StatisticsBuilder() {
         // Build lists
-        taskGraphStatistics = new ArrayList<List<List<Float>>>();
-        taskGroupStatistics = new ArrayList<List<List<Float>>>();
-        schedulerStatistics = new ArrayList<List<Float>>();
+        taskGraphStatistics = new ArrayList<List<Statistic>>();
+        taskGroupStatistics = new ArrayList<List<Statistic>>();
+        schedulerStatistics = new ArrayList<Statistic>();
 
         for (int scheduler = 0; scheduler < schedulerCount; ++scheduler) {
-            taskGraphStatistics.add(new ArrayList<List<Float>>());
-            taskGroupStatistics.add(new ArrayList<List<Float>>());
-            schedulerStatistics.add(new ArrayList<Float>());
+            taskGraphStatistics.add(new ArrayList<Statistic>());
+            taskGroupStatistics.add(new ArrayList<Statistic>());
+            schedulerStatistics.add(new Statistic());
 
             for (int taskGraph = 0; taskGraph < taskGraphCount; ++taskGraph) {
-                taskGraphStatistics.get(scheduler).add(new ArrayList<Float>());
+                taskGraphStatistics.get(scheduler).add(new Statistic());
             }
             for (int taskGroup = 0; taskGroup < taskGroupCount; ++taskGroup) {
-                taskGroupStatistics.get(scheduler).add(new ArrayList<Float>());
+                taskGroupStatistics.get(scheduler).add(new Statistic());
             }
         }
 
@@ -156,7 +156,7 @@ public class StatisticsBuilder {
                 for (int schedulerId = 0; schedulerId < schedulerCount; ++schedulerId) {
                     System.out.println("Calculate taskGraphStatistics here!");
 
-                    List<Float> propertiesList = taskGraphStatistics.get(schedulerId).get(
+                    Statistic currentStatistic = taskGraphStatistics.get(schedulerId).get(
                             taskGroupCounter * taskGraphGroupSize + graphId);
 
                     // Starttime measurement
@@ -168,32 +168,20 @@ public class StatisticsBuilder {
                             / 1000);
 
                     // Calculate taskGraphStatistics here.
-                    propertiesList.clear();
-                    for (int propertyCounter = 0; propertyCounter < Properties.values().length; ++propertyCounter)
-                        propertiesList.add(0.0f);
-
                     int criticalPathDuration = calcCriticalPathDuration(graph);
 
-                    propertiesList.set(Properties.NODE_COUNT.ordinal(),
-                            (float) graph.getNodeCount());
-                    propertiesList.set(Properties.EDGE_COUNT.ordinal(),
-                            (float) graph.getEdgeCount());
-                    propertiesList.set(Properties.CP_LENGTH.ordinal(), (float) graph
-                            .getCriticalPath().size());
-                    propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(),
-                            (float) currentAlgorithmDuration / 1000);
-                    propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(),
-                            (float) scheduledTaskList.getFinishTime()
-                                    / (float) criticalPathDuration);
-                    propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(),
-                            criticalPathDuration - (float) scheduledTaskList.getFinishTime());
-                    propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(),
-                            calcAverageCommunicationTime(scheduledTaskList));
-                    propertiesList.set(Properties.THROUGHPUT.ordinal(), (float) blockSize
-                            / scheduledTaskList.getFinishTime());
-                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(),
-                            (float) scheduledTaskList.getFinishTime());
-
+                    currentStatistic.nodeCount = graph.getNodeCount();
+                    currentStatistic.edgeCount = graph.getEdgeCount();
+                    currentStatistic.cpDuration = criticalPathDuration;
+                    currentStatistic.algorithmDuration = currentAlgorithmDuration / 1000;
+                    currentStatistic.scheduleCpRatio = (float) scheduledTaskList.getFinishTime()
+                            / criticalPathDuration;
+                    currentStatistic.scheduleCpVariance = criticalPathDuration
+                            - (float) scheduledTaskList.getFinishTime();
+                    currentStatistic.averageCommunicationTime = calcAverageCommunicationTime(scheduledTaskList);
+                    currentStatistic.throughput = (float) blockSize
+                            / scheduledTaskList.getFinishTime();
+                    currentStatistic.singleBlockExecutionTime = scheduledTaskList.getFinishTime();
                 }
             }
 
