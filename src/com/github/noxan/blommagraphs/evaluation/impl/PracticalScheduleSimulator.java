@@ -4,6 +4,7 @@ package com.github.noxan.blommagraphs.evaluation.impl;
 import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
 import com.github.noxan.blommagraphs.evaluation.ScheduleSimulator;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
 public class PracticalScheduleSimulator implements ScheduleSimulator {
@@ -20,7 +21,8 @@ public class PracticalScheduleSimulator implements ScheduleSimulator {
             workers[cpuId] = new TimebasedScheduleSimulationWorker();
         }
 
-        // TODO Auto-generated method stub
-        return null;
+        ScheduledTaskList simulatedScheduledTaskList = new DefaultScheduledTaskList(workers.length);
+
+        return simulatedScheduledTaskList;
     }
 }
