@@ -14,10 +14,10 @@ import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
+import com.github.noxan.blommagraphs.utils.FileUtils;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +56,10 @@ public class StatisticsBuilder {
     public static void main(String[] args) throws IOException {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
-        statBuilder.buildStatistics();
 
+        statBuilder.generateHTML();
+        statBuilder.buildStatistics();
+        statBuilder.generateHTML();
     }
 
     private StatisticsBuilder() {
@@ -206,6 +208,47 @@ public class StatisticsBuilder {
      * @param taskGraph
      * @return Duration of the critical path.
      */
+
+    private String generateTaskGraphStatisticsHTML() {
+        return "HTML";
+    }
+
+    private String generateTaskGroupStatisticsHTML() {
+        return "HTML";
+    }
+
+    private String generateSchedulerStatisticsHTML() {
+        return "HTML";
+    }
+
+    private void generateHTML() throws IOException {
+        String taskGraphStatisticsHTML = generateTaskGraphStatisticsHTML();
+        String taskGroupStatisticsHTML = generateTaskGroupStatisticsHTML();
+        String schedulerStatisticsHTML = generateSchedulerStatisticsHTML();
+        String html = "<!DOCTYPE HTML>" +
+                      "<html>" +
+                      "     <head>" +
+                      "         <title>BlommaGraphs - statistics.html</title>" +
+                      "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
+                      "         <meta charset=\"utf-8, initial-scale=1.0\">" +
+
+                      "         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->" +
+                      "         <script src=\"//code.jquery.com/jquery.js\"></script>" +
+
+                      "         <!-- Include all compiled plugins (below), or include individual files as needed -->" +
+                      "         <script src=\"js/bootstrap.min.js\"></script>" +
+                      "     </head>" +
+                      "     <body>" +
+                      "         <h1>BlommaGraphs - Statistics</h1>" +
+                      "     </body>" +
+                      "</html>";
+
+        System.out.println("Generate statistics.html.");
+
+        new File("export/statistics").mkdirs();
+        FileUtils.writeFile("export/statistics/statistics.html", html);
+    }
+
     private int calcCriticalPathDuration(TaskGraph taskGraph) {
         List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
         int duration = 0;
@@ -229,5 +272,5 @@ public class StatisticsBuilder {
         }
         return (float) totalCommunicationTime / scheduledTaskList.size();
     }
-
 }
+
