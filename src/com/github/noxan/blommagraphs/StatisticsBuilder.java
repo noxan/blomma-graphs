@@ -10,6 +10,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
@@ -157,8 +158,8 @@ public class StatisticsBuilder {
                                     / (float) criticalPathDuration);
                     propertiesList.set(Properties.SCHEDULE_CP_VARIANCE.ordinal(),
                             criticalPathDuration - (float) scheduledTaskList.getFinishTime());
-                    // TODO
-                    propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(), 0.0f);
+                    propertiesList.set(Properties.AVERAGE_COMMUNICATION_TIME.ordinal(),
+                            calcAverageCommunicationTime(scheduledTaskList));
                     propertiesList.set(Properties.THROUGHPUT.ordinal(), (float) blockSize
                             / scheduledTaskList.getFinishTime());
                     // TODO
@@ -179,5 +180,13 @@ public class StatisticsBuilder {
         }
         duration += cpEdges.get(0).getPrevNode().getComputationTime();
         return duration;
+    }
+
+    private float calcAverageCommunicationTime(ScheduledTaskList scheduledTaskList) {
+        int totalCommunicationTime = 0;
+        for (ScheduledTask task : scheduledTaskList) {
+            totalCommunicationTime += task.getCommunicationTime();
+        }
+        return (float) totalCommunicationTime / scheduledTaskList.size();
     }
 }
