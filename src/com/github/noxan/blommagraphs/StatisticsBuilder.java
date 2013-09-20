@@ -42,11 +42,11 @@ public class StatisticsBuilder {
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
     private final int schedulerCount = 3;
     private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 100;
+    private final int taskGraphGroupSize = 1;      // !! default: 100
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
-    private final int blockSize = 5;
+    private final int blockSize = 2;
 
     private List<List<Statistic>> taskGraphStatistics;
     private List<List<Statistic>> taskGroupStatistics;
@@ -64,7 +64,6 @@ public class StatisticsBuilder {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
 
-        statBuilder.generateHTML();
         statBuilder.buildStatistics();
         statBuilder.generateHTML();
     }
@@ -308,18 +307,91 @@ public class StatisticsBuilder {
                       "     <head>" +
                       "         <title>BlommaGraphs - statistics.html</title>" +
                       "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
-                      "         <meta charset=\"utf-8, initial-scale=1.0\">" +
+                      "         <style rel=\"stylesheet\">" +
+                      "             " +
+                      "         </style>" +
+
+                      "         <meta charset=\"utf-8\">" +
 
                       "         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->" +
-                      "         <script src=\"//code.jquery.com/jquery.js\"></script>" +
+                      "         <script src=\"http://code.jquery.com/jquery.js\"></script>" +
 
                       "         <!-- Include all compiled plugins (below), or include individual files as needed -->" +
-                      "         <script src=\"js/bootstrap.min.js\"></script>" +
+                      "         <script src=\"../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>" +
+
+                      "         <script>" +
+                      "             $(function() {" +
+                      "                 $('.tooltips').tooltip();" +
+                      "             });" +
+                      "         </script>" +
+
                       "     </head>" +
                       "     <body>" +
-                      "         <h1>BlommaGraphs - Statistics</h1>" +
+                      "         <div class=\"container\">" +
+                      "             <div class=\"page-header\">\n" +
+                      "                 <h1>BlommaGraphs <small>Statistics</small></h1>" +
+                      "             </div>" +
+
+                      "             <div class=\"panel-group\" id=\"accordion\">";
+
+
+                      int currentScheduler = 0;
+                      for(List<Statistic> scheduler : taskGraphStatistics) {
+                          html += "     <div class=\"panel panel-default\">" +
+                                  "         <div class=\"panel-heading\">" +
+                                  "             <h4 class=\"panel-title\">" +
+                                  "                 <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
+                                  "             </h4>" +
+                                  "         </div><!-- panel-heading -->" +
+                                  "         <div id=\"" + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
+                                  "              <div class=\"panel-body\">" +
+                                  "                  <table class=\"table\">" +
+                                  "                      <thead>" +
+                                  "                          <tr>" +
+                                  "                              <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                                  "                              <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                                  "                          </tr>" +
+                                  "                      </thead>";
+
+                            int currentGraph = 0;
+                            for(Statistic statistics : scheduler) {
+                            html += "                    <tbody>" +
+                            "                                <tr>" +
+                            "                                    <td>" + currentGraph + "</td>" +
+                            "                                    <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
+                            "                                    <td>" + statistics.edgeCount +"</td>" +
+                            "                                    <td>" + statistics.cpDuration + "</td>" +
+                            "                                    <td>" + statistics.throughput + "</td>" +
+                            "                                    <td>" + statistics.algorithmDuration + "</td>" +
+                            "                                    <td>" + statistics.singleBlockExecutionTime + "</td>" +
+                            "                                    <td>" + statistics.scheduleCpRatio + "</td>" +
+                            "                                    <td>" + statistics.scheduleCpVariance + "</td>" +
+                            "                                    <td>" + statistics.averageCommunicationTime + "</td>" +
+                            "                                </tr>" +
+                            "                            </tbody>";
+                            currentGraph++;
+                            }
+
+                          html += "                  </table>" +
+                                  "              </div><!-- panel-body -->" +
+                                  "         </div><!-- schedulerCount -->" +
+                                  "     </div><!-- panel panel-default -->";
+                          currentScheduler++;
+                      }
+
+                      html += "     </div><!-- accordion -->" +
+                      "         </div><!-- container -->" +
                       "     </body>" +
                       "</html>";
+
 
         System.out.println("Generate statistics.html.");
 
