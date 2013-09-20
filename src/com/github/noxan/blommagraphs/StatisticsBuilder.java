@@ -170,6 +170,7 @@ public class StatisticsBuilder {
                     // Calculate taskGraphStatistics here.
                     int criticalPathDuration = calcCriticalPathDuration(graph);
 
+                    currentStatistic.filePath = graphFiles[graphId].getAbsolutePath();
                     currentStatistic.nodeCount = graph.getNodeCount();
                     currentStatistic.edgeCount = graph.getEdgeCount();
                     currentStatistic.cpDuration = criticalPathDuration;
