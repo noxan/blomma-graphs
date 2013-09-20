@@ -8,20 +8,26 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 
 
 public class PracticalScheduleSimulator implements ScheduleSimulator {
-    private ScheduleSimulationWorker[] workers;
+    private ScheduleSimulationWorker worker;
+    private ScheduleSimulationRunnable[] runnable;
 
-    public PracticalScheduleSimulator() {
+    public PracticalScheduleSimulator(ScheduleSimulationWorker worker) {
+        this.worker = worker;
     }
 
     @Override
     public ScheduledTaskList simulateExecution(ScheduledTaskList scheduledTaskList) {
-        workers = new ScheduleSimulationWorker[scheduledTaskList.getCpuCount()];
+        this.runnable = new ScheduleSimulationRunnable[scheduledTaskList.getCpuCount()];
 
-        for (int cpuId = 0; cpuId < workers.length; cpuId++) {
-            workers[cpuId] = new TimebasedScheduleSimulationWorker();
+        for (int cpuId = 0; cpuId < scheduledTaskList.getCpuCount(); cpuId++) {
+            this.runnable[cpuId] = new ScheduleSimulationRunnable(worker);
+            Thread thread = new Thread(this.runnable[cpuId]);
+            thread.start();
         }
 
-        ScheduledTaskList simulatedScheduledTaskList = new DefaultScheduledTaskList(workers.length);
+        ScheduledTaskList simulatedScheduledTaskList = new DefaultScheduledTaskList(scheduledTaskList.getCpuCount());
+
+
 
         return simulatedScheduledTaskList;
     }
