@@ -57,12 +57,6 @@ public class StatisticsBuilder {
 
     private TaskGraphSerializer taskGraphSerializer;
 
-    public enum Properties {
-        NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_CP_RATIO,
-        SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME,
-        AVERAGE_COMMUNICATION_TIME
-    }
-
     /**
      * @param args
      */
