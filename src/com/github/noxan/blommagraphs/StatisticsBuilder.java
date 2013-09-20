@@ -1,6 +1,5 @@
 package com.github.noxan.blommagraphs;
 
-
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
@@ -285,6 +284,29 @@ public class StatisticsBuilder {
      * @param taskGraph
      * @return Duration of the critical path.
      */
+    private int calcCriticalPathDuration(TaskGraph taskGraph) {
+        List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
+        int duration = 0;
+        for (TaskGraphEdge edge : cpEdges) {
+            duration += edge.getNextNode().getComputationTime();
+        }
+        duration += cpEdges.get(0).getPrevNode().getComputationTime();
+        return duration;
+    }
+
+    /**
+     * Calculates the average communication time of a scheduled task list.
+     * 
+     * @param scheduledTaskList
+     * @return The average communication time
+     */
+    private float calcAverageCommunicationTime(ScheduledTaskList scheduledTaskList) {
+        int totalCommunicationTime = 0;
+        for (ScheduledTask task : scheduledTaskList) {
+            totalCommunicationTime += task.getCommunicationTime();
+        }
+        return (float) totalCommunicationTime / scheduledTaskList.size();
+    }
 
     private String generateTaskGraphStatisticsHTML() {
         return "HTML";
@@ -397,30 +419,6 @@ public class StatisticsBuilder {
 
         new File("export/statistics").mkdirs();
         FileUtils.writeFile("export/statistics/statistics.html", html);
-    }
-
-    private int calcCriticalPathDuration(TaskGraph taskGraph) {
-        List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
-        int duration = 0;
-        for (TaskGraphEdge edge : cpEdges) {
-            duration += edge.getNextNode().getComputationTime();
-        }
-        duration += cpEdges.get(0).getPrevNode().getComputationTime();
-        return duration;
-    }
-
-    /**
-     * Calculates the average communication time of a scheduled task list.
-     * 
-     * @param scheduledTaskList
-     * @return The average communication time
-     */
-    private float calcAverageCommunicationTime(ScheduledTaskList scheduledTaskList) {
-        int totalCommunicationTime = 0;
-        for (ScheduledTask task : scheduledTaskList) {
-            totalCommunicationTime += task.getCommunicationTime();
-        }
-        return (float) totalCommunicationTime / scheduledTaskList.size();
     }
 }
 
