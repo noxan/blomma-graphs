@@ -97,6 +97,17 @@ public class StatisticsBuilder {
      * @throws IOException
      */
     private void buildStatistics() throws IOException {
+        buildTaskGraphStatistics();
+        buildTaskGroupStatistics();
+        buildSchedulerStatistics();
+
+    }
+
+    /**
+     * Generates statistics for the taskGraphStatistics list by deserializing graphs from disk and
+     * scheduling it with all schedulers.
+     */
+    private void buildTaskGraphStatistics() throws IOException {
         File graphGroupsDirectory = new File("export/graphs");
         File[] graphDirectories = graphGroupsDirectory.listFiles();
 
