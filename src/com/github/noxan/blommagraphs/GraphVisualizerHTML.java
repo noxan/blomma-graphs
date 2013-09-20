@@ -21,11 +21,13 @@ public class GraphVisualizerHTML {
     public static void main(String[] args) throws IOException {
         TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
         TaskGraph taskGraph = taskGraphGenerator.generator();
-        SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(4);
+        SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(3);
         Scheduler scheduler = new LASTScheduler();
         ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
         ScheduledTaskListSerializer scheduledTaskListSerializer = new HTMLSerializer();
-        FileUtils.writeFile(".", scheduledTaskListSerializer.serialize(scheduledTaskList));
+        FileUtils.writeFile("./serialized.html",
+                scheduledTaskListSerializer.serialize(scheduledTaskList));
+        System.out.println("Done.");
 
     }
 }
