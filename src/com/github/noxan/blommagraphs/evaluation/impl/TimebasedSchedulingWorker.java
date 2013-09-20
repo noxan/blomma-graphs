@@ -1,6 +1,9 @@
 package com.github.noxan.blommagraphs.evaluation.impl;
 
 
-public class TimebasedSchedulingWorker {
+import com.github.noxan.blommagraphs.evaluation.PracticalSchedulingWorker;
+
+
+public class TimebasedSchedulingWorker implements PracticalSchedulingWorker {
 
 }
