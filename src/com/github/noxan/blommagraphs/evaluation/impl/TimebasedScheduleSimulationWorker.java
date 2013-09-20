@@ -7,10 +7,9 @@ import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
 public class TimebasedScheduleSimulationWorker implements ScheduleSimulationWorker {
     @Override
     public void work(int workTime) {
-        try {
-            Thread.sleep(workTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        double startTime = System.nanoTime();
+        while (System.nanoTime() - startTime < 200000000 * workTime) {
+            Thread.yield();
         }
     }
 }
