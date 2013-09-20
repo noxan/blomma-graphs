@@ -1,11 +1,6 @@
 package com.github.noxan.blommagraphs;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
@@ -20,6 +15,11 @@ import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class StatisticsBuilder {
@@ -45,8 +45,8 @@ public class StatisticsBuilder {
     private TaskGraphSerializer taskGraphSerializer;
 
     public enum Properties {
-        NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_DURATION,
-        SCHEDULE_CP_RATIO, SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME,
+        NODE_COUNT, EDGE_COUNT, CP_LENGTH, ALGORITHM_DURATION, SCHEDULE_CP_RATIO,
+        SCHEDULE_CP_VARIANCE, THROUGHPUT, SINGLE_BLOCK_EXECUTION_TIME,
         AVERAGE_COMMUNICATION_TIME
     }
 
@@ -151,8 +151,6 @@ public class StatisticsBuilder {
                             .getCriticalPath().size());
                     propertiesList.set(Properties.ALGORITHM_DURATION.ordinal(),
                             (float) currentAlgorithmDuration / 1000);
-                    propertiesList.set(Properties.SCHEDULE_DURATION.ordinal(),
-                            (float) scheduledTaskList.getFinishTime());
                     propertiesList.set(Properties.SCHEDULE_CP_RATIO.ordinal(),
                             (float) scheduledTaskList.getFinishTime()
                                     / (float) criticalPathDuration);
@@ -162,8 +160,8 @@ public class StatisticsBuilder {
                             calcAverageCommunicationTime(scheduledTaskList));
                     propertiesList.set(Properties.THROUGHPUT.ordinal(), (float) blockSize
                             / scheduledTaskList.getFinishTime());
-                    // TODO
-                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(), 0.0f);
+                    propertiesList.set(Properties.SINGLE_BLOCK_EXECUTION_TIME.ordinal(),
+                            (float) scheduledTaskList.getFinishTime());
 
                 }
             }
