@@ -91,6 +91,11 @@ public class StatisticsBuilder {
         taskGraphSerializer = new STGSerializer();
     }
 
+    /**
+     * Calculate all statistics and build an html document.
+     * 
+     * @throws IOException
+     */
     private void buildStatistics() throws IOException {
         File graphGroupsDirectory = new File("export/graphs");
         File[] graphDirectories = graphGroupsDirectory.listFiles();
@@ -184,6 +189,12 @@ public class StatisticsBuilder {
 
     }
 
+    /**
+     * Calculates the critical path duration of a task graph.
+     * 
+     * @param taskGraph
+     * @return Duration of the critical path.
+     */
     private int calcCriticalPathDuration(TaskGraph taskGraph) {
         List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
         int duration = 0;
@@ -194,6 +205,12 @@ public class StatisticsBuilder {
         return duration;
     }
 
+    /**
+     * Calculates the average communication time of a scheduled task list.
+     * 
+     * @param scheduledTaskList
+     * @return The average communication time
+     */
     private float calcAverageCommunicationTime(ScheduledTaskList scheduledTaskList) {
         int totalCommunicationTime = 0;
         for (ScheduledTask task : scheduledTaskList) {
@@ -201,4 +218,5 @@ public class StatisticsBuilder {
         }
         return (float) totalCommunicationTime / scheduledTaskList.size();
     }
+
 }
