@@ -29,7 +29,7 @@ public class StatisticsBuilder {
         private int nodeCount;
         private float edgeCount;
         private float cpDuration;
-        private float alrogithmDuration;
+        private float algorithmDuration;
         private float singleBlockExecutionTime;
         private float scheduleCpRatio;
         private float scheduleCpVariance;
