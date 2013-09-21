@@ -472,7 +472,7 @@ public class StatisticsBuilder {
 
             html +=
                     "                               <tr>" +
-                    "                                   <td>1</td>" +
+                    "                                   <td><strong>" + schedulers[schedulerCounter].getName() + "</strong></td>" +
                     "                                   <td>" + scheduler.edgeCount +"</td>" +
                     "                                   <td>" + scheduler.throughput + "</td>" +
                     "                                   <td>" + scheduler.cpDuration + "</td>" +
