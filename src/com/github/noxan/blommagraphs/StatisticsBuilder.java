@@ -503,7 +503,8 @@ public class StatisticsBuilder {
 
                       "         <!-- Include all compiled plugins (below), or include individual files as needed -->" +
                       "         <script src=\"../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>" +
-
+                      "         <script src=\"../../ressources/Chart.js\"></script>" +
+                      
                       "         <script>" +
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
