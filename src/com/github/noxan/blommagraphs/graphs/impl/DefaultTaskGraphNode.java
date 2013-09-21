@@ -8,6 +8,7 @@ import java.util.Set;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {
@@ -31,13 +32,14 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
             int computationTime) {
         this(taskGraph, id, computationTime);
 
-        TaskGraphEdge prevEdge = new DefaultTaskGraphEdge(prevNode, this, prevCommunicationTime);
-        addPrevNode(prevEdge);
-        ((DefaultTaskGraphNode) prevNode).addNextNode(prevEdge);
-
-        TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
-        addNextNode(nextEdge);
-        ((DefaultTaskGraphNode) nextNode).addPrevNode(nextEdge);
+        try {
+            taskGraph.insertEdge(prevNode, this, prevCommunicationTime);
+        } catch (DuplicateEdgeException e) {
+        }
+        try {
+            taskGraph.insertEdge(this, nextNode, nextCommunicationTime);
+        } catch (DuplicateEdgeException e) {
+        }
     }
 
     @Override

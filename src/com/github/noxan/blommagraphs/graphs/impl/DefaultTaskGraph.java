@@ -23,6 +23,8 @@ public class DefaultTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
+    private Set<TaskGraphEdge> edgeSet;
+
     public DefaultTaskGraph() {
         this(new DefaultTaskGraphMetaInformation());
     }
@@ -31,9 +33,13 @@ public class DefaultTaskGraph implements TaskGraph {
         this.metaInformation = metaInformation;
         firstNode = new DefaultTaskGraphNode(this, 0, 1);
         lastNode = new DefaultTaskGraphNode(this, 1, 1);
+
         TaskGraphEdge edge = new DefaultTaskGraphEdge(firstNode, lastNode, 1);
         ((DefaultTaskGraphNode) firstNode).addNextNode(edge);
         ((DefaultTaskGraphNode) lastNode).addPrevNode(edge);
+
+        edgeSet = new HashSet<TaskGraphEdge>();
+        edgeSet.add(edge);
     }
 
     protected void setFirstNode(TaskGraphNode firstNode) {
@@ -132,8 +138,7 @@ public class DefaultTaskGraph implements TaskGraph {
                 prevCommunicationTime, nextNode, nextCommunicationTime, computationTime);
 
         if (!keepExistingEdge) {
-            ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
-            ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
+            deleteEdge(prevNode, nextNode);
         }
 
         return node;
@@ -149,6 +154,7 @@ public class DefaultTaskGraph implements TaskGraph {
             TaskGraphEdge newEdge = new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
             ((DefaultTaskGraphNode) prevNode).addNextNode(newEdge);
             ((DefaultTaskGraphNode) nextNode).addPrevNode(newEdge);
+            edgeSet.add(newEdge);
             return newEdge;
         }
     }
@@ -172,6 +178,8 @@ public class DefaultTaskGraph implements TaskGraph {
             ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
             ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
 
+            edgeSet.remove(edge);
+
             return edge;
         } catch (ContainsNoEdgeException e) {
             return null;
@@ -189,7 +197,7 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
-        return getEdgeSet(firstNode);
+        return edgeSet;
     }
 
     private Set<TaskGraphEdge> getEdgeSet(TaskGraphNode node) {
