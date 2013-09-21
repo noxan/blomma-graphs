@@ -13,13 +13,13 @@ public class DefaultScheduledTaskListSerializer implements ScheduledTaskListSeri
      */
     @Override
     public String serialize(ScheduledTaskList scheduledTaskList) {
-        StringBuffer string = new StringBuffer();
+        StringBuffer stringBuilder = new StringBuffer();
 
         for (ScheduledTask task : scheduledTaskList) {
-            string.append(String.format("%d %d %d\n", task.getStartTime(), task.getCpuId(),
+            stringBuilder.append(String.format("%d %d %d\n", task.getStartTime(), task.getCpuId(),
                     task.getTaskId()));
         }
         // Add meta info here, if necessary.
-        return string.toString();
+        return stringBuilder.toString();
     }
 }

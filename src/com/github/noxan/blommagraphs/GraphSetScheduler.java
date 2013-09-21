@@ -61,6 +61,8 @@ public class GraphSetScheduler {
                 graphSetExportFolder.mkdir();
                 System.out.println("Performing schedules for folder " + graphSetExportFolder);
 
+                long startTime = System.currentTimeMillis();
+
                 File graphFiles[] = graphFolder.listFiles();
                 for (int i = 0; i < graphFiles.length; i++) {
                     File graphFile = graphFiles[i];
@@ -76,6 +78,8 @@ public class GraphSetScheduler {
 
                     FileUtils.writeFile(exportPathname, scheduledGraphString);
                 }
+
+                System.out.println("Done in " + (System.currentTimeMillis() - startTime) + ".");
             }
         }
     }
