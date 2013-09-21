@@ -9,6 +9,7 @@ import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
@@ -48,7 +49,7 @@ public class GraphSetScheduler {
         TaskGraphSerializer serializer = new STGSerializer();
         ScheduledTaskListSerializer scheduledSerializer = new DefaultScheduledTaskListSerializer();
 
-        Scheduler[] schedulers = { new LASTScheduler() };
+        Scheduler[] schedulers = { new GeneticScheduler(new LASTScheduler()) };
 
         for (Scheduler scheduler : schedulers) {
             System.out.println("Performing schedules for " + scheduler.getName() + " scheduler...");
