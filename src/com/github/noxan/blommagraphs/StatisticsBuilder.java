@@ -36,7 +36,7 @@ public class StatisticsBuilder {
         private float averageCommunicationTime;
     };
 
-    private final String statisticsFilePath = "export/statistics.html";
+    private final String statisticsFilePath = "export/statistics/statistics.html";
 
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
     private final int schedulerCount = 3;
@@ -63,8 +63,8 @@ public class StatisticsBuilder {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
 
-        statBuilder.buildStatistics();
         statBuilder.generateHTML();
+        statBuilder.buildStatistics();
     }
 
     private StatisticsBuilder() {
@@ -330,7 +330,13 @@ public class StatisticsBuilder {
                       "         <title>BlommaGraphs - statistics.html</title>" +
                       "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
                       "         <style rel=\"stylesheet\">" +
-                      "             " +
+                      "             footer {" +
+                      "                 margin: 10px 0 0 0;" +
+                      "             }" +
+
+                      "             .panel {" +
+                      "                 margin: 10px 0 0 0;" +
+                      "             }" +
                       "         </style>" +
 
                       "         <meta charset=\"utf-8\">" +
@@ -345,6 +351,19 @@ public class StatisticsBuilder {
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
                       "             });" +
+                      "             $('#accordion a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+                      "             $('#diagramm a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+                      "             $('#comparison a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+
                       "         </script>" +
 
                       "     </head>" +
@@ -354,63 +373,88 @@ public class StatisticsBuilder {
                       "                 <h1>BlommaGraphs <small>Statistics</small></h1>" +
                       "             </div>" +
 
-                      "             <div class=\"panel-group\" id=\"accordion\">";
-
+                      "             <div class=\"tabbable\">" +
+                      "                 <ul class=\"nav nav-tabs\">" +
+                      "                     <li class=\"active\"><a href=\"#accordion\" data-toggle=\"tab\">Scheduler</a></li>" +
+                      "                     <li><a href=\"#diagramms\" data-toggle=\"tab\">Diagramms</a></li>" +
+                      "                     <li><a href=\"#comparison\" data-toggle=\"tab\">Comparison</a></li>" +
+                      "                 </ul>" +
+                      "                 <div class=\"tab-content\">" +
+                      "                 <div class=\"tab-pane active\" class=\"panel-group\" id=\"accordion\">";
 
                       int currentScheduler = 0;
                       for(List<Statistic> scheduler : taskGraphStatistics) {
-                          html += "     <div class=\"panel panel-default\">" +
-                                  "         <div class=\"panel-heading\">" +
-                                  "             <h4 class=\"panel-title\">" +
-                                  "                 <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
-                                  "             </h4>" +
-                                  "         </div><!-- panel-heading -->" +
-                                  "         <div id=\"" + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
-                                  "              <div class=\"panel-body\">" +
-                                  "                  <table class=\"table\">" +
-                                  "                      <thead>" +
-                                  "                          <tr>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
-                                  "                          </tr>" +
-                                  "                      </thead>";
+                          html += "         <div class=\"panel panel-default\">" +
+                                  "             <div class=\"panel-heading\">" +
+                                  "                 <h4 class=\"panel-title\">" +
+                                  "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
+                                  "                 </h4>" +
+                                  "             </div><!-- panel-heading -->" +
+                                  "             <div id=\"" + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
+                                  "                  <div class=\"panel-body\">" +
+                                  "                      <table class=\"table\">" +
+                                  "                          <thead>" +
+                                  "                              <tr>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                                  "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                                  "                              </tr>" +
+                                  "                          </thead>";
 
                             int currentGraph = 0;
                             for(Statistic statistics : scheduler) {
-                            html += "                    <tbody>" +
-                            "                                <tr>" +
-                            "                                    <td>" + currentGraph + "</td>" +
-                            "                                    <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
-                            "                                    <td>" + statistics.edgeCount +"</td>" +
-                            "                                    <td>" + statistics.cpDuration + "</td>" +
-                            "                                    <td>" + statistics.throughput + "</td>" +
-                            "                                    <td>" + statistics.algorithmDuration + "</td>" +
-                            "                                    <td>" + statistics.singleBlockExecutionTime + "</td>" +
-                            "                                    <td>" + statistics.scheduleCpRatio + "</td>" +
-                            "                                    <td>" + statistics.scheduleCpVariance + "</td>" +
-                            "                                    <td>" + statistics.averageCommunicationTime + "</td>" +
-                            "                                </tr>" +
-                            "                            </tbody>";
+                            html += "                       <tbody>" +
+                            "                                   <tr>" +
+                            "                                       <td>" + currentGraph + "</td>" +
+                            "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
+                            "                                       <td>" + statistics.edgeCount +"</td>" +
+                            "                                       <td>" + statistics.throughput + "</td>" +
+                            "                                       <td>" + statistics.cpDuration + "</td>" +
+                            "                                       <td>" + statistics.algorithmDuration + "</td>" +
+                            "                                       <td>" + statistics.singleBlockExecutionTime + "</td>" +
+                            "                                       <td>" + statistics.scheduleCpRatio + "</td>" +
+                            "                                       <td>" + statistics.scheduleCpVariance + "</td>" +
+                            "                                       <td>" + statistics.averageCommunicationTime + "</td>" +
+                            "                                   </tr>" +
+                            "                               </tbody>";
                             currentGraph++;
                             }
 
-                          html += "                  </table>" +
-                                  "              </div><!-- panel-body -->" +
-                                  "         </div><!-- schedulerCount -->" +
-                                  "     </div><!-- panel panel-default -->";
+                          html += "                     </table>" +
+                                  "                 </div><!-- panel-body -->" +
+                                  "            </div><!-- schedulerCount -->" +
+                                  "        </div><!-- panel panel-default -->";
                           currentScheduler++;
                       }
 
-                      html += "     </div><!-- accordion -->" +
+                      html += "         </div><!-- tab-pane -->" +
+
+                                        // Next content
+                      "                 <div class=\"tab-pane\" id=\"diagramms\">" +
+                      "                         coming soon..." +
+                      "                 </div><!-- tab-pane -->" +
+
+                                        // Next content
+                      "                 <div class=\"tab-pane\" id=\"comparison\">" +
+                      "                         coming soon..." +
+                      "                 </div><!-- tab-pane -->" +
+
+                      "                 </div><!-- tab-content -->" +
+                      "             </div><!-- tabable -->" +
                       "         </div><!-- container -->" +
+
+                      "         <footer>" +
+                      "             <div class=\"container\">" +
+                      "                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>" +
+                      "             </div>" +
+                      "         </footer>" +
                       "     </body>" +
                       "</html>";
 
@@ -418,7 +462,7 @@ public class StatisticsBuilder {
         System.out.println("Generate statistics.html.");
 
         new File("export/statistics").mkdirs();
-        FileUtils.writeFile("export/statistics/statistics.html", html);
+        FileUtils.writeFile(statisticsFilePath, html);
     }
 }
 
