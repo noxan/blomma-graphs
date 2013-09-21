@@ -199,19 +199,19 @@ public class StatisticsBuilder {
             for (Statistic taskStatistic : schedulerTaskList) {
                 // Get the correct task group list
                 switch (taskStatistic.nodeCount) {
-                case 10:
+                case 12:
                     groupStatistic = schedulerGroupList.get(0);
                     break;
-                case 50:
+                case 52:
                     groupStatistic = schedulerGroupList.get(1);
                     break;
-                case 100:
+                case 102:
                     groupStatistic = schedulerGroupList.get(2);
                     break;
-                case 300:
+                case 302:
                     groupStatistic = schedulerGroupList.get(3);
                     break;
-                case 500:
+                case 502:
                     groupStatistic = schedulerGroupList.get(4);
                     break;
                 }
