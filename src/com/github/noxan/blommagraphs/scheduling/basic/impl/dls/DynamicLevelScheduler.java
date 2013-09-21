@@ -156,4 +156,8 @@ public class DynamicLevelScheduler implements Scheduler {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return "dls";
+    }
 }

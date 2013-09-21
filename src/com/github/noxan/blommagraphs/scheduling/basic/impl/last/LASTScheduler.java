@@ -456,4 +456,9 @@ public class LASTScheduler implements Scheduler {
         }
         return (float) strength;
     }
+
+    @Override
+    public String getName() {
+        return "last";
+    }
 }

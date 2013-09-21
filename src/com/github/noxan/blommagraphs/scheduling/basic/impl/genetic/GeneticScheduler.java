@@ -116,4 +116,9 @@ public class GeneticScheduler implements Scheduler {
 
         return solutionScheduledTaskList;
     }
+
+    @Override
+    public String getName() {
+        return "genetic";
+    }
 }
