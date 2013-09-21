@@ -486,6 +486,7 @@ public class StatisticsBuilder {
         }
         html += "                               </tbody>" +
                 "                           </table>" +
+                generateSchedulerAlgorithmDurationChart() +
                 "                      </div><!-- panel-body -->" +
                 "                    </div><!-- tab-pane -->";
         return html;
