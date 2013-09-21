@@ -193,4 +193,6 @@ public interface TaskGraph extends Cloneable {
             TaskGraphNode nextNode, int nextCommunicationTime);
 
     public TaskGraph clone();
+
+    public void setDeadline(int deadline);
 }

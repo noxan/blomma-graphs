@@ -301,4 +301,11 @@ public class DefaultTaskGraph implements TaskGraph {
         }
         return clonedTaskGraph;
     }
+
+    @Override
+    public void setDeadline(int deadline) {
+        for (TaskGraphNode node : getNodeSet()) {
+            node.setDeadLine(deadline);
+        }
+    }
 }
