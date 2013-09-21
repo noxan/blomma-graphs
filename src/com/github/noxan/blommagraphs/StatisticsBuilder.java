@@ -503,8 +503,15 @@ public class StatisticsBuilder {
                       "         <title>BlommaGraphs - statistics.html</title>" +
                       "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
                       "         <style rel=\"stylesheet\">" +
+                      "             body, html {" +
+                      "             }" +
+
+                      "             .container {" +
+                      "             }" +
+
                       "             footer {" +
-                      "                 margin: 10px 0 0 0;" +
+                      "                 margin-top: 20px;" +
+                      "                 height: 40px;" +
                       "             }" +
 
                       "             .popover {" +
