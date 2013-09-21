@@ -28,7 +28,7 @@ public class StatisticsBuilder {
         private int nodeCount;
         private float edgeCount;
         private float cpDuration;
-        private float algorithmDuration;
+        private double algorithmDuration;
         private float singleBlockExecutionTime;
         private float scheduleCpRatio;
         private float scheduleCpVariance;
@@ -156,7 +156,7 @@ public class StatisticsBuilder {
                     scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
                             systemMetaInformation);
                     currentAlgorithmDuration = (System.currentTimeMillis() - currentAlgorithmDuration);
-                    System.out.println("Algorithm duration: " + (float) currentAlgorithmDuration
+                    System.out.println("Algorithm duration: " + (double) currentAlgorithmDuration
                             / 1000);
 
                     // Calculate taskGraphStatistics here.
@@ -166,7 +166,7 @@ public class StatisticsBuilder {
                     currentStatistic.nodeCount = graph.getNodeCount();
                     currentStatistic.edgeCount = graph.getEdgeCount();
                     currentStatistic.cpDuration = criticalPathDuration;
-                    currentStatistic.algorithmDuration = currentAlgorithmDuration / 1000;
+                    currentStatistic.algorithmDuration = (double) currentAlgorithmDuration / 1000;
                     currentStatistic.scheduleCpRatio = (float) scheduledTaskList.getFinishTime()
                             / criticalPathDuration;
                     currentStatistic.scheduleCpVariance = criticalPathDuration
