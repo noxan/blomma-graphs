@@ -217,8 +217,11 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphNode> getNodeSet() {
-        Set<TaskGraphNode> nodeSet = getNodeSet(firstNode);
-        nodeSet.add(firstNode);
+        Set<TaskGraphNode> nodeSet = new HashSet<TaskGraphNode>();
+        for (TaskGraphEdge edge : edgeSet) {
+            nodeSet.add(edge.getNextNode());
+            nodeSet.add(edge.getPrevNode());
+        }
         return nodeSet;
     }
 
