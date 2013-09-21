@@ -342,7 +342,7 @@ public class StatisticsBuilder {
                     "             </div><!-- panel-heading -->" +
                     "             <div id=\"" + currentScheduler + "\" class=\"panel-collapse collapse\">" +
                     "                  <div class=\"panel-body\">" +
-                    "                      <table class=\"table table-hover\">" +
+                    "                      <table class=\"table table-hover table-condensed\">" +
                     "                          <thead>" +
                     "                              <tr>" +
                     "                                  <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
@@ -402,7 +402,7 @@ public class StatisticsBuilder {
                     "             </div><!-- panel-heading -->" +
                     "             <div id=\"" + currentScheduler + currentScheduler + "\" class=\"panel-collapse collapse\">" +
                     "                  <div class=\"panel-body\">" +
-                    "                      <table class=\"table\">" +
+                    "                      <table class=\"table table-condensed\">" +
                     "                          <thead>" +
                     "                              <tr>" +
                     "                                  <th><a class=\"tooltips\" title=\"Counter\" data-placement=\"top\">#</a></th>" +
@@ -451,11 +451,10 @@ public class StatisticsBuilder {
     private String generateSchedulerStatisticsHTML() {
         String html  = "                 <div class=\"tab-pane\" class=\"panel-group\" id=\"scheduler\">" +
                        "                    <div class=\"panel-body\">" +
-                       "                      <table class=\"table\">" +
+                       "                      <table class=\"table table-condensed\">" +
                        "                          <thead>" +
                        "                              <tr>" +
-                       "                                  <th><a class=\"tooltips\" title=\"Counter\" data-placement=\"top\">#</a></th>" +
-                       "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Scheduler\" data-placement=\"top\">Scheduler</a></th>" +
                        "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
                        "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
                        "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
@@ -468,11 +467,12 @@ public class StatisticsBuilder {
                        "                          </thead>" +
                        "                          <tbody>";
 
+        int schedulerCounter = 0;
         for(Statistic scheduler : schedulerStatistics) {
+
             html +=
                     "                               <tr>" +
                     "                                   <td>1</td>" +
-                    "                                   <td><span class=\"badge\">" + scheduler.nodeCount + "</span></td>" +
                     "                                   <td>" + scheduler.edgeCount +"</td>" +
                     "                                   <td>" + scheduler.throughput + "</td>" +
                     "                                   <td>" + scheduler.cpDuration + "</td>" +
@@ -482,6 +482,7 @@ public class StatisticsBuilder {
                     "                                   <td>" + scheduler.scheduleCpVariance + "</td>" +
                     "                                   <td>" + scheduler.averageCommunicationTime + "</td>" +
                     "                               </tr>";
+            schedulerCounter++;
         }
         html += "                               </tbody>" +
                 "                           </table>" +
