@@ -8,7 +8,7 @@ public class TimebasedScheduleSimulationWorker implements ScheduleSimulationWork
     @Override
     public void work(int workTime) {
         double startTime = System.nanoTime();
-        while (System.nanoTime() - startTime < 2000000 * workTime) {
+        while (System.nanoTime() - startTime < 20000000 * workTime) {
             Thread.yield();
         }
     }
