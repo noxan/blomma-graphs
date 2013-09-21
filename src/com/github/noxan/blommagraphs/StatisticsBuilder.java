@@ -587,7 +587,12 @@ public class StatisticsBuilder {
     private String generateGroupAlgorithmDurationChart() {
         String html = "<h1><small>Algorithm durations</small></h1>\n" +
                 "<canvas id=\"canvas\" width=\"400\" height=\"400\"></canvas>\n" +
-                "<script type=\"text/javascript\">\n" +
+                "<p>Key: " +
+                " <span class=\"badge\" style=\"background-color: rgba" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
+                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",0.5)\">DLS</span>" +
+                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ", 0.5)\">Genetic</span>" +
+                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",0.5)\">Custom</span>" +
+                " <script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"canvas\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
                 "  labels : [\"10\", \"50\",\"100\",\"300\",\"500\"],\n" +
