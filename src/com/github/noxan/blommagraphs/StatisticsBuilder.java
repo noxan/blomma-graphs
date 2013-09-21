@@ -361,7 +361,7 @@ public class StatisticsBuilder {
             int currentGraph = 0;
             for(Statistic statistics : scheduler) {
                 html += "                       <tbody>" +
-                        "                                   <tr>" +
+                        "                                   <tr rel=\"popover\" data-content=\"<div style='height:100px; width:100px;'>test</div>\">" +
                         "                                       <td>" + currentGraph + "</td>" +
                         "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
                         "                                       <td>" + statistics.edgeCount +"</td>" +
@@ -519,9 +519,12 @@ public class StatisticsBuilder {
                       "         <script>" +
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
-                      "                 " +
-                      "                 $('.table-hover tr').click(function() {\n" +
-                      "                     alert(\"test\");\n" +
+
+                      "                 $('.table-hover tr').on('mouseenter', function() {\n" +
+                      "                     $(this).popover({\n" +
+                      "                         placement : \"top\",\n" +
+                      "                         html : true" +
+                      "                     });\n" +
                       "                 });" +
                       "             });" +
 
