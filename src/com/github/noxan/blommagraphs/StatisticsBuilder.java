@@ -650,7 +650,7 @@ public class StatisticsBuilder {
     
     private String generateChartKey() {
         return "<p>Key: " +
-        " <span class=\"badge\" style=\"background-color: rgba" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",0.5)\">DLS</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ", 0.5)\">Genetic</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",0.5)\">Custom</span>";
