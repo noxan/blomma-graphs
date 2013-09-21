@@ -83,7 +83,27 @@ public class StatisticsBuilder {
             }
             for (int taskGroup = 0; taskGroup < taskGroupCount; ++taskGroup) {
                 taskGroupStatistics.get(scheduler).add(new Statistic());
+                Statistic stat = taskGroupStatistics.get(scheduler).get(taskGroup);
+                
+                switch(taskGroup)  {
+                case 0:
+                    stat.nodeCount = 10;
+                    break;
+                case 1:
+                    stat.nodeCount = 50;
+                    break;
+                case 2:
+                    stat.nodeCount = 100;
+                    break;
+                case 3:
+                    stat.nodeCount = 300;
+                    break;
+                case 4:
+                    stat.nodeCount = 500;
+                    break;
+                }
             }
+            
         }
 
         // Create Schedulers
