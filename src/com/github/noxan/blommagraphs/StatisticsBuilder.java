@@ -443,7 +443,7 @@ public class StatisticsBuilder {
                     "        </div><!-- panel panel-default -->";
             currentScheduler++;
         }
-        html += generateScheduleAlgorithmDurationChart() +
+        html += generateGroupAlgorithmDurationChart() +
               "         </div><!-- tab-pane -->";
         return html;
     }
@@ -583,7 +583,7 @@ public class StatisticsBuilder {
      * 
      * @return
      */
-    private String generateScheduleAlgorithmDurationChart() {
+    private String generateGroupAlgorithmDurationChart() {
         String html = "<h1><small>Algorithm durations</small></h1>\n" +
                 "<canvas id=\"canvas\" width=\"400\" height=\"400\"></canvas>\n" +
                 "<script type=\"text/javascript\">\n" +
