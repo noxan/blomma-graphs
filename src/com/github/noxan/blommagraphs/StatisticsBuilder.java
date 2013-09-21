@@ -488,6 +488,7 @@ public class StatisticsBuilder {
                 "                           </table>" +
                 generateSchedulerAlgorithmDurationChart() +
                 generateSchedulerThroughputChart() +
+                generateSchedulerScheduleDurationChart() +
                 "                      </div><!-- panel-body -->" +
                 "                    </div><!-- tab-pane -->";
         return html;
@@ -681,6 +682,36 @@ public class StatisticsBuilder {
         
         return html;
     }
+    
+    private String generateSchedulerScheduleDurationChart() {
+        String html = "<h1><small>Throughput</small></h1>\n" +
+                "<canvas id=\"schedulerThroughputChart\" width=\"400\" height=\"400\"></canvas>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerThroughputChart\").getContext(\"2d\");\n" +
+                "  var data = {\n" +
+                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
+                "  datasets : [\n" +
+                "       {\n" +
+                getSchedulerChartJSColors(1) + "\n" +
+                "        data : [";
+        
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    Statistic stat = schedulerStatistics.get(currentScheduler);
+                    html += stat.singleBlockExecutionTime;
+                    if(currentScheduler < schedulerStatistics.size() - 1)
+                         html += ",";
+                }
+                html += "    ]\n" +
+                "     }\n" +
+                "  ]\n" +
+                "}\n" +
+                "  var myNewChart = new Chart(ctx).Bar(data);\n" +
+                "</script>\n";
+        
+        return html;
+    }
+
     private String generateChartKey() {
         return "<p>Key: " +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",1)\">LAST</span>" +
