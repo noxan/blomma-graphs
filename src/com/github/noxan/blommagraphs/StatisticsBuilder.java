@@ -7,7 +7,6 @@ import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
-import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
@@ -16,7 +15,8 @@ import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInf
 import com.github.noxan.blommagraphs.utils.FileUtils;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +39,9 @@ public class StatisticsBuilder {
     private final String statisticsFilePath = "export/statistics/statistics.html";
 
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
-    private final int schedulerCount = 3;
+    private final int schedulerCount = 2;
     private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 100;
+    private final int taskGraphGroupSize = 5;
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
@@ -111,7 +111,7 @@ public class StatisticsBuilder {
         schedulers = new StreamScheduler[schedulerCount];
         schedulers[0] = new BasicStreamScheduler(new LASTScheduler());
         schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
-        schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
+        // schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
         // schedulers[3] = new CustomStreamScheduler();
 
         systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
@@ -553,7 +553,7 @@ public class StatisticsBuilder {
                       "     <body>" +
                       "         <div class=\"container\">" +
                       "             <div class=\"page-header\">\n" +
-                      "                 <h1>BlommaGraphs <small>Statistics</small></h1>" +
+                      "                 <h1><a href=\"statistics.html\">BlommaGraphs</a><small> Statistics</small></h1>" +
                       "             </div>" +
                       "        <div class=\"tabbable\">" +
                       "                 <ul class=\"nav nav-tabs\">" +
