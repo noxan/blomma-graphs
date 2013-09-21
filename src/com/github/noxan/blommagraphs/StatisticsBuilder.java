@@ -642,7 +642,7 @@ public class StatisticsBuilder {
                 "  labels : ['LAST', 'DLS','Genetic','Custom'],\n" +
                 "  datasets : [\n" +
                 "       {\n" +
-                getSchedulerChartJSColors(0) + "\n" +
+                getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
         
                 // Generate data set
@@ -670,7 +670,7 @@ public class StatisticsBuilder {
                 "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
                 "  datasets : [\n" +
                 "       {\n" +
-                getSchedulerChartJSColors(0) + "\n" +
+                getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
         
                 // Generate data set
