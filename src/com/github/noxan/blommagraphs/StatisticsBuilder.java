@@ -660,10 +660,10 @@ public class StatisticsBuilder {
      */
     private String getSchedulerChartJSColors(int i) {
         String[] colors = new String[4];
-        colors[0] = "fillColor : \"rgba(89, 107, 205,0.5)\", strokeColor : \"rgba(89, 107, 205,1)\", pointColor : \"rgba(89, 107, 205,1)\",";
-        colors[1] = "fillColor : \"rgba(157, 165, 213,0.5)\", strokeColor : \"rgba(157, 165, 213,1)\", pointColor : \"rgba(157, 165, 213,1)\",";
-        colors[2] = "fillColor : \"rgba(24, 40, 77, 0.5)\", strokeColor : \"rgba(24, 40, 77,1)\", pointColor : \"rgba(24, 40, 77,1)\",";
-        colors[3] = "fillColor : \"rgba(57, 60, 77,0.5)\", strokeColor : \"rgba(57, 60, 77,1)\", pointColor : \"rgba(57, 60, 77,1)\",";
+        colors[0] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[1] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[2] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ")\",";
+        colors[3] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
         return colors[i];
     }
     
