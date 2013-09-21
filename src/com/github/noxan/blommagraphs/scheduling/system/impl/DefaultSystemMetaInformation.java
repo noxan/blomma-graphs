@@ -5,23 +5,23 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 
 public class DefaultSystemMetaInformation implements SystemMetaInformation {
-    private int processorCount;
+    private int cpuCount;
 
     public DefaultSystemMetaInformation() {
         this(2);
     }
 
-    public DefaultSystemMetaInformation(int processorCount) {
-        setProcessorCount(processorCount);
+    public DefaultSystemMetaInformation(int cpu) {
+        setCpuCount(cpu);
     }
 
     @Override
-    public int getProcessorCount() {
-        return processorCount;
+    public int getCpuCount() {
+        return cpuCount;
     }
 
     @Override
-    public void setProcessorCount(int processorCount) {
-        this.processorCount = processorCount;
+    public void setCpuCount(int cpuCount) {
+        this.cpuCount = cpuCount;
     }
 }

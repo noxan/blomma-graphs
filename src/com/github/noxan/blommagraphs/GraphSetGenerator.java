@@ -60,13 +60,15 @@ public class GraphSetGenerator {
             System.err.println("Missconfigured generator: " + generatorException.getMessage());
         }
 
-        System.out.println(String.format("Generating %d graphs...", numberOfGraphs));
+        System.out.println(String.format("Number of graphs per size: %d", numberOfGraphs));
 
         TaskGraphSerializer serializer = new STGSerializer();
 
         for (int i = 0; i < numberOfNodes.length; ++i) {
             graphsFolder = Integer.toString(numberOfNodes[i]);
             new File(rootFolder + "/" + graphsFolder).mkdir();
+
+            System.out.println("Generating graphs with " + numberOfNodes[i] + " nodes...");
 
             try {
                 taskGraphGenerator.setNumberOfNodes(numberOfNodes[i]);

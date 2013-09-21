@@ -8,14 +8,14 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
 public class RandomChromosome extends AbstractChromosome {
-    public RandomChromosome(int numberOfProcessors, TaskGraph taskGraph) {
-        super(numberOfProcessors, taskGraph);
+    public RandomChromosome(int cpuCount, TaskGraph taskGraph) {
+        super(cpuCount, taskGraph);
 
         Random random = new Random(System.nanoTime());
 
         for (TaskGraphNode taskNode : taskGraph.getNodeSet()) {
-            int processorId = random.nextInt(numberOfProcessors);
-            addTaskToProcessor(processorId, taskNode);
+            int cpuId = random.nextInt(cpuCount);
+            addTaskToCpu(cpuId, taskNode);
         }
     }
 

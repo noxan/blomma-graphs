@@ -23,17 +23,23 @@ public class DefaultTaskGraph implements TaskGraph {
     private TaskGraphNode firstNode;
     private TaskGraphNode lastNode;
 
+    private Set<TaskGraphEdge> edgeSet;
+
     public DefaultTaskGraph() {
         this(new DefaultTaskGraphMetaInformation());
     }
 
     public DefaultTaskGraph(TaskGraphMetaInformation metaInformation) {
         this.metaInformation = metaInformation;
-        firstNode = new DefaultTaskGraphNode(0, 1);
-        lastNode = new DefaultTaskGraphNode(1, 1);
+        firstNode = new DefaultTaskGraphNode(this, 0, 1);
+        lastNode = new DefaultTaskGraphNode(this, 1, 1);
+
         TaskGraphEdge edge = new DefaultTaskGraphEdge(firstNode, lastNode, 1);
         ((DefaultTaskGraphNode) firstNode).addNextNode(edge);
         ((DefaultTaskGraphNode) lastNode).addPrevNode(edge);
+
+        edgeSet = new HashSet<TaskGraphEdge>();
+        edgeSet.add(edge);
     }
 
     protected void setFirstNode(TaskGraphNode firstNode) {
@@ -128,12 +134,11 @@ public class DefaultTaskGraph implements TaskGraph {
 
         ((DefaultTaskGraphNode) lastNode).setId(lastId + 1);
 
-        TaskGraphNode node = new DefaultTaskGraphNode(lastId, prevNode, prevCommunicationTime,
-                nextNode, nextCommunicationTime, computationTime);
+        TaskGraphNode node = new DefaultTaskGraphNode(this, lastId, prevNode,
+                prevCommunicationTime, nextNode, nextCommunicationTime, computationTime);
 
         if (!keepExistingEdge) {
-            ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
-            ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
+            deleteEdge(prevNode, nextNode);
         }
 
         return node;
@@ -149,6 +154,7 @@ public class DefaultTaskGraph implements TaskGraph {
             TaskGraphEdge newEdge = new DefaultTaskGraphEdge(prevNode, nextNode, communicationTime);
             ((DefaultTaskGraphNode) prevNode).addNextNode(newEdge);
             ((DefaultTaskGraphNode) nextNode).addPrevNode(newEdge);
+            edgeSet.add(newEdge);
             return newEdge;
         }
     }
@@ -172,6 +178,8 @@ public class DefaultTaskGraph implements TaskGraph {
             ((DefaultTaskGraphNode) prevNode).removeNextNode(nextNode);
             ((DefaultTaskGraphNode) nextNode).removePrevNode(prevNode);
 
+            edgeSet.remove(edge);
+
             return edge;
         } catch (ContainsNoEdgeException e) {
             return null;
@@ -189,7 +197,7 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public Set<TaskGraphEdge> getEdgeSet() {
-        return getEdgeSet(firstNode);
+        return edgeSet;
     }
 
     private Set<TaskGraphEdge> getEdgeSet(TaskGraphNode node) {
@@ -262,8 +270,8 @@ public class DefaultTaskGraph implements TaskGraph {
         // copy nodes with new ids
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
-            TaskGraphNode duplicatedNode = new DefaultTaskGraphNode(
-                    lastNode.getId() + node.getId(), node.getComputationTime());
+            TaskGraphNode duplicatedNode = new DefaultTaskGraphNode(this, lastNode.getId()
+                    + node.getId(), node.getComputationTime());
             duplicatedNode.setDeadLine(node.getDeadLine());
             nodeList.put(node.getId(), duplicatedNode);
         }
@@ -288,7 +296,7 @@ public class DefaultTaskGraph implements TaskGraph {
         Map<Integer, TaskGraphNode> nodeList = new HashMap<Integer, TaskGraphNode>();
         for (TaskGraphNode node : getNodeSet()) {
             nodeList.put(node.getId(),
-                    new DefaultTaskGraphNode(node.getId(), node.getComputationTime()));
+                    new DefaultTaskGraphNode(this, node.getId(), node.getComputationTime()));
         }
         ((DefaultTaskGraph) clonedTaskGraph).setFirstNode(nodeList.get(0));
         ((DefaultTaskGraph) clonedTaskGraph).setLastNode(nodeList.get(nodeList.size() - 1));
@@ -300,5 +308,12 @@ public class DefaultTaskGraph implements TaskGraph {
             }
         }
         return clonedTaskGraph;
+    }
+
+    @Override
+    public void setDeadline(int deadline) {
+        for (TaskGraphNode node : getNodeSet()) {
+            node.setDeadLine(deadline);
+        }
     }
 }

@@ -9,16 +9,16 @@ package com.github.noxan.blommagraphs.scheduling.system;
  */
 public interface SystemMetaInformation {
     /**
-     * Sets the count of processors of the system.
+     * Sets the count of CPUs of the system.
      * 
-     * @param processorCount value for processor count to be set
+     * @param cpuCount value for CPU count to be set
      */
-    public void setProcessorCount(int processorCount);
+    public void setCpuCount(int cpuCount);
 
     /**
-     * Get the count of processors of the system.
+     * Get the count of CPUs of the system.
      * 
-     * @return count of processors
+     * @return count of CPUs
      */
-    public int getProcessorCount();
+    public int getCpuCount();
 }

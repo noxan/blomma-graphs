@@ -5,8 +5,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.exceptions.DuplicateEdgeException;
 
 
 public class DefaultTaskGraphNode implements TaskGraphNode {
@@ -15,25 +17,34 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
     private int deadLine;
     private Set<TaskGraphEdge> prevEdges;
     private Set<TaskGraphEdge> nextEdges;
+    private TaskGraph taskGraph;
 
-    public DefaultTaskGraphNode(int id, int computationTime) {
+    public DefaultTaskGraphNode(TaskGraph taskGraph, int id, int computationTime) {
+        this.taskGraph = taskGraph;
         this.id = id;
         this.computationTime = computationTime;
         prevEdges = new HashSet<TaskGraphEdge>();
         nextEdges = new HashSet<TaskGraphEdge>();
     }
 
-    public DefaultTaskGraphNode(int id, TaskGraphNode prevNode, int prevCommunicationTime,
-            TaskGraphNode nextNode, int nextCommunicationTime, int computationTime) {
-        this(id, computationTime);
+    public DefaultTaskGraphNode(TaskGraph taskGraph, int id, TaskGraphNode prevNode,
+            int prevCommunicationTime, TaskGraphNode nextNode, int nextCommunicationTime,
+            int computationTime) {
+        this(taskGraph, id, computationTime);
 
-        TaskGraphEdge prevEdge = new DefaultTaskGraphEdge(prevNode, this, prevCommunicationTime);
-        addPrevNode(prevEdge);
-        ((DefaultTaskGraphNode) prevNode).addNextNode(prevEdge);
+        try {
+            taskGraph.insertEdge(prevNode, this, prevCommunicationTime);
+        } catch (DuplicateEdgeException e) {
+        }
+        try {
+            taskGraph.insertEdge(this, nextNode, nextCommunicationTime);
+        } catch (DuplicateEdgeException e) {
+        }
+    }
 
-        TaskGraphEdge nextEdge = new DefaultTaskGraphEdge(this, nextNode, nextCommunicationTime);
-        addNextNode(nextEdge);
-        ((DefaultTaskGraphNode) nextNode).addPrevNode(nextEdge);
+    @Override
+    public TaskGraph getTaskGraph() {
+        return taskGraph;
     }
 
     protected void addPrevNode(TaskGraphEdge prevEdge) {

@@ -22,7 +22,7 @@ public class DynamicLevelScheduler implements Scheduler {
 
     @Override
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
-        int cpuCount = systemInformation.getProcessorCount();
+        int cpuCount = systemInformation.getCpuCount();
         scheduledTaskList = new DefaultScheduledTaskList(cpuCount);
         List<ReadyPoolNode> readyNodePool = new ArrayList<ReadyPoolNode>();
         ArrayList<ArrayList<ScheduledTask>> allCpuScheduleTasks = new ArrayList<ArrayList<ScheduledTask>>();
@@ -39,6 +39,7 @@ public class DynamicLevelScheduler implements Scheduler {
         while (!readyNodePool.isEmpty()) {
             // write first start time for every ready pool node for every cpu
             for (ReadyPoolNode poolNode : readyNodePool) {
+                int communicationTime = 0;
                 // check first start time for every cpu
                 for (int i = 0; i < allCpuScheduleTasks.size(); i++) {
                     ArrayList<ScheduledTask> cpuScheduleTaskList = allCpuScheduleTasks.get(i);
@@ -60,8 +61,13 @@ public class DynamicLevelScheduler implements Scheduler {
                             // check all dependent tasks
                             for (ScheduledTask task : otherCpuSchedulerTaskList) {
                                 int currentDependencyTimePerTask = 0;
+                                int communicationTimePerCpu = 0;
                                 if (graph.containsEdge(task.getTaskGraphNode(), poolNode.getNode())) {
                                     try {
+                                        // get communication costs
+                                        communicationTimePerCpu = graph.findEdge(
+                                                task.getTaskGraphNode(), poolNode.getNode())
+                                                .getCommunicationTime();
                                         // get latest dependency time per task
                                         currentDependencyTimePerTask = task.getStartTime()
                                                 + task.getComputationTime()
@@ -74,6 +80,7 @@ public class DynamicLevelScheduler implements Scheduler {
                                 // get the latest dependency time per cpu
                                 if (currentDependencyTimePerTask > latestDependencyTimePerCpu) {
                                     latestDependencyTimePerCpu = currentDependencyTimePerTask;
+                                    communicationTime = communicationTimePerCpu;
                                 }
                             }
                             // get the latest dependency time in total
@@ -88,10 +95,11 @@ public class DynamicLevelScheduler implements Scheduler {
                     }
                     // set first start time per cpu in pool node
                     poolNode.setEarliestStarttime(i, firstStarttime);
+                    poolNode.setCommunicationTimes(i, communicationTime);
                 }
             }
 
-            // choose the node-processor pair with the biggest dynamic level and
+            // choose the node-CPU pair with the biggest dynamic level and
             ReadyPoolNode chosenScheduledTask = null;
             int maxDynamicLevel = Integer.MIN_VALUE;
             int nextCpu = 0;
@@ -103,12 +111,14 @@ public class DynamicLevelScheduler implements Scheduler {
                 }
             }
 
-            // commit it to the processor
+            // commit it to the CPU
             // setup new ScheduledTask
             ScheduledTask newScheduledTask = new DefaultScheduledTask();
             newScheduledTask.setCpuId(nextCpu);
             newScheduledTask.setStartTime(chosenScheduledTask.getEarliestStarttime(nextCpu));
             newScheduledTask.setTaskGraphNode(chosenScheduledTask.getNode());
+            newScheduledTask.setCommunicationTime(chosenScheduledTask
+                    .getCommunicationTimes(nextCpu));
             // add new ScheduleTask to CPU scheduleTask list
             allCpuScheduleTasks.get(nextCpu).add(newScheduledTask);
             // remove readyPoolNode from pool
@@ -147,4 +157,8 @@ public class DynamicLevelScheduler implements Scheduler {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return "dls";
+    }
 }

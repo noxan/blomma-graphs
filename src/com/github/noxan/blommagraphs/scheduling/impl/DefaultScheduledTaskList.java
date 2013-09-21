@@ -9,15 +9,16 @@ import java.util.Iterator;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 
 
 public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implements ScheduledTaskList {
     private static final long serialVersionUID = -3333940630170033338L;
 
-    private int processorCount;
+    private int cpuCount;
 
-    public DefaultScheduledTaskList(int processorCount) {
-        this.processorCount = processorCount;
+    public DefaultScheduledTaskList(int cpuCount) {
+        this.cpuCount = cpuCount;
     }
 
     @Override
@@ -45,16 +46,16 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
-    public int getProcessorCount() {
-        return processorCount;
+    public int getCpuCount() {
+        return cpuCount;
     }
 
     @Override
-    public boolean isTaskOnProcessor(int processorId, int taskId) {
+    public boolean isTaskOnCpu(int cpuId, int taskId) {
         Iterator<ScheduledTask> it = iterator();
         while (it.hasNext()) {
             ScheduledTask scheduledTask = it.next();
-            if (scheduledTask.getTaskId() == taskId && scheduledTask.getCpuId() == processorId) {
+            if (scheduledTask.getTaskId() == taskId && scheduledTask.getCpuId() == cpuId) {
                 return true;
             }
         }
@@ -73,13 +74,24 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     }
 
     @Override
-    public ScheduledTask getLastScheduledTaskOnProcessor(int processorId) {
+    public boolean containsTask(TaskGraphNode node) {
+        Iterator<ScheduledTask> it = iterator();
+        while (it.hasNext()) {
+            if (it.next().getTaskGraphNode() == node) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public ScheduledTask getLastScheduledTaskOnCpu(int cpuId) {
         ScheduledTask lastTask = null;
 
         Iterator<ScheduledTask> it = iterator();
         while (it.hasNext()) {
             ScheduledTask task = it.next();
-            if (task.getCpuId() == processorId
+            if (task.getCpuId() == cpuId
                     && (lastTask == null || task.getStartTime() > lastTask.getStartTime())) {
                 lastTask = task;
             }
@@ -92,8 +104,8 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
     public int getFinishTime() {
         int maxFinishTime = -1;
 
-        for (int processorId = 0; processorId < processorCount; processorId++) {
-            ScheduledTask scheduledTask = getLastScheduledTaskOnProcessor(processorId);
+        for (int cpuId = 0; cpuId < cpuCount; cpuId++) {
+            ScheduledTask scheduledTask = getLastScheduledTaskOnCpu(cpuId);
             if (scheduledTask != null) {
                 int finishTime = scheduledTask.getFinishTime();
                 if (finishTime > maxFinishTime) {
@@ -130,5 +142,28 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         boolean result = super.addAll(index, c);
         Collections.sort(this);
         return result;
+    }
+
+    @Override
+    public ScheduledTaskListStatus validate() {
+        for (ScheduledTask task : this) {
+            for (TaskGraphNode dependencyTask : task.getTaskGraphNode().getPrevNodes()) {
+                if (!containsTask(dependencyTask)) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
+                ScheduledTask dependencyScheduledTask = getScheduledTask(dependencyTask);
+                if (task.getStartTime() < dependencyScheduledTask.getFinishTime()) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
+            }
+        }
+
+        for (ScheduledTask task : this) {
+            if (task.getTaskGraphNode().getDeadLine() < task.getFinishTime()) {
+                return ScheduledTaskListStatus.INVALID_DEADLINE;
+            }
+        }
+
+        return ScheduledTaskListStatus.VALID;
     }
 }

@@ -41,8 +41,7 @@ public class LASTScheduler implements Scheduler {
             groups.get(highestNode.getCpuId()).add(highestNode);
         }
 
-        ScheduledTaskList list = new DefaultScheduledTaskList(
-                systemMetaInformation.getProcessorCount());
+        ScheduledTaskList list = new DefaultScheduledTaskList(systemMetaInformation.getCpuCount());
         for (List<LASTNode> group : groups) {
             for (LASTNode listNode : group) {
                 list.add(listNode);
@@ -80,40 +79,55 @@ public class LASTScheduler implements Scheduler {
 
             // check with the dependencies to other cpus
             int latestDependencyTime = 0;
+            int actualCommunicationTime = 0;
+
             for (List<LASTNode> otherGroup : groups) {
                 // just if its not the actual cpu
                 if (otherGroup != group) {
                     int latestDependencyTimePerCpu = 0;
+                    int currentCommunicationTimePerCpu = 0;
+
                     // check all dependent tasks
                     for (LASTNode task : otherGroup) {
                         int currentDependencyTimePerTask = 0;
+                        int currentCommunicationTime = 0;
+
                         if (taskGraph
                                 .containsEdge(task.getTaskGraphNode(), node.getTaskGraphNode()))
                             try {
                                 // get dependency time for current task
+                                currentCommunicationTime = taskGraph.findEdge(
+                                        task.getTaskGraphNode(), node.getTaskGraphNode())
+                                        .getCommunicationTime();
+
                                 currentDependencyTimePerTask = task.getStartTime()
-                                        + task.getComputationTime()
-                                        + taskGraph.findEdge(task.getTaskGraphNode(),
-                                                node.getTaskGraphNode()).getCommunicationTime();
+                                        + task.getComputationTime() + currentCommunicationTime;
+
                             } catch (ContainsNoEdgeException e) {
                                 e.printStackTrace();
                             }
+
                         // get the latest dependency time per cpu
                         if (currentDependencyTimePerTask > latestDependencyTimePerCpu) {
                             latestDependencyTimePerCpu = currentDependencyTimePerTask;
+                            currentCommunicationTimePerCpu = currentCommunicationTime;
                         }
                     }
                     // get the latest dependency time in total
                     if (latestDependencyTimePerCpu > latestDependencyTime) {
                         latestDependencyTime = latestDependencyTimePerCpu;
+                        actualCommunicationTime = currentCommunicationTimePerCpu;
                     }
                 }
             }
             // compare first start time with latest dependency time
             if (latestDependencyTime > firstStarttime) {
                 firstStarttime = latestDependencyTime;
+            } else if (latestDependencyTime < firstStarttime) {
+                actualCommunicationTime = 0;
             }
             if (currentCpuId == 0 || node.getStartTime() > firstStarttime) {
+                node.setCommunicationTime(actualCommunicationTime);
                 node.setCpuId(currentCpuId);
                 node.setStartTime(firstStarttime);
             }
@@ -143,12 +157,12 @@ public class LASTScheduler implements Scheduler {
     protected void initialize(TaskGraph graph, SystemMetaInformation systemMetaInformation) {
         systemInformation = systemMetaInformation;
         taskGraph = graph;
-        int processorCount = systemMetaInformation.getProcessorCount();
+        int cpuCount = systemMetaInformation.getCpuCount();
 
         groups = new ArrayList<List<LASTNode>>();
         frontiers = new ArrayList<List<LASTNode>>();
 
-        for (int i = 0; i < processorCount; ++i) {
+        for (int i = 0; i < cpuCount; ++i) {
             groups.add(new ArrayList<LASTNode>());
             frontiers.add(new ArrayList<LASTNode>());
         }
@@ -265,7 +279,7 @@ public class LASTScheduler implements Scheduler {
         float strength = 0f;
         ArrayList<Integer> frontierList = new ArrayList<Integer>();
 
-        for (int i = 0; i < systemInformation.getProcessorCount(); i++) {
+        for (int i = 0; i < systemInformation.getCpuCount(); i++) {
             for (int j = 0; j < frontiers.get(i).size(); j++) {
                 if (frontiers.get(i).get(j) == node) {
                     frontierList.add(i);
@@ -340,7 +354,7 @@ public class LASTScheduler implements Scheduler {
 
     /**
      * Calculates the D_EDGE value which says if the edge between node1 and node2 is defined. An
-     * edge is defined if either node1 or node2 is already scheduled on a processor.
+     * edge is defined if either node1 or node2 is already scheduled on a CPU.
      * 
      * @param node1
      * @param node2
@@ -441,5 +455,10 @@ public class LASTScheduler implements Scheduler {
             }
         }
         return (float) strength;
+    }
+
+    @Override
+    public String getName() {
+        return "last";
     }
 }

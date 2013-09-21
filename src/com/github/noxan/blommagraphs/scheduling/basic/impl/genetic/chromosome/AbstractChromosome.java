@@ -20,26 +20,26 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 public abstract class AbstractChromosome implements Chromosome {
     private List<List<TaskGraphNode>> genes;
 
-    private int numberOfProcessors;
+    private int cpuCount;
     private TaskGraph taskGraph;
 
-    public AbstractChromosome(int numberOfProcessors, TaskGraph taskGraph) {
-        this.numberOfProcessors = numberOfProcessors;
+    public AbstractChromosome(int cpuCount, TaskGraph taskGraph) {
+        this.cpuCount = cpuCount;
         this.taskGraph = taskGraph;
         genes = new ArrayList<List<TaskGraphNode>>();
-        for (int i = 0; i < numberOfProcessors; i++) {
+        for (int i = 0; i < cpuCount; i++) {
             genes.add(new ArrayList<TaskGraphNode>());
         }
     }
 
-    protected void addTaskToProcessor(int cpu, TaskGraphNode task) {
+    protected void addTaskToCpu(int cpu, TaskGraphNode task) {
         genes.get(cpu).add(task);
     }
 
-    public int getProcessorForTask(TaskGraphNode task) {
-        for (int processorId = 0; processorId < genes.size(); processorId++) {
-            if (genes.get(processorId).contains(task)) {
-                return processorId;
+    public int getCpuForTask(TaskGraphNode task) {
+        for (int cpuId = 0; cpuId < genes.size(); cpuId++) {
+            if (genes.get(cpuId).contains(task)) {
+                return cpuId;
             }
         }
         return -1; // TODO: should not happen but not nice
@@ -76,7 +76,7 @@ public abstract class AbstractChromosome implements Chromosome {
 
         if (unscheduledNodes.remove(taskNode)) {
             // schedule current task node
-            int processorId = getProcessorForTask(taskNode);
+            int cpuId = getCpuForTask(taskNode);
             int communicationTime = 0;
             int startTime = 0;
 
@@ -96,29 +96,28 @@ public abstract class AbstractChromosome implements Chromosome {
                 TaskGraphEdge prevEdge = it.next();
                 TaskGraphNode prevNode = prevEdge.getPrevNode();
                 ScheduledTask prevScheduledTask = scheduledTaskList.getTaskById(prevNode.getId());
-                // just if previous task is scheduled on another processor, else it stays zero
-                if (prevScheduledTask.getCpuId() != processorId) {
+                // just if previous task is scheduled on another CPU, else it stays zero
+                if (prevScheduledTask.getCpuId() != cpuId) {
                     tempCommunicationTime = prevEdge.getCommunicationTime();
                 }
                 tempFinishTime = prevScheduledTask.getFinishTime() + tempCommunicationTime;
 
                 // use minimum startTime for the next task
                 if (tempFinishTime < startTime) {
-                    // check if processor is free
-                    ScheduledTask prevTaskOnProcessor = scheduledTaskList
-                            .getLastScheduledTaskOnProcessor(processorId);
-                    if (prevTaskOnProcessor == null
-                            || prevTaskOnProcessor.getFinishTime() <= tempFinishTime) {
+                    // check if CPU is free
+                    ScheduledTask prevTaskOnCpu = scheduledTaskList
+                            .getLastScheduledTaskOnCpu(cpuId);
+                    if (prevTaskOnCpu == null || prevTaskOnCpu.getFinishTime() <= tempFinishTime) {
                         startTime = tempFinishTime;
                     } else {
-                        startTime = prevTaskOnProcessor.getFinishTime() + communicationTime;
+                        startTime = prevTaskOnCpu.getFinishTime() + communicationTime;
                     }
                     communicationTime = tempCommunicationTime;
                 }
             }
 
-            scheduledTaskList.add(new DefaultScheduledTask(startTime, processorId,
-                    communicationTime, taskNode));
+            scheduledTaskList.add(new DefaultScheduledTask(startTime, cpuId, communicationTime,
+                    taskNode));
         }
 
         // select next task node
@@ -134,7 +133,7 @@ public abstract class AbstractChromosome implements Chromosome {
 
     @Override
     public ScheduledTaskList decode() {
-        ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(numberOfProcessors);
+        ScheduledTaskList scheduledTaskList = new DefaultScheduledTaskList(cpuCount);
 
         Set<TaskGraphNode> unscheduledNodes = taskGraph.getNodeSet();
 
