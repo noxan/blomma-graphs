@@ -220,4 +220,8 @@ public class CustomStreamScheduler implements StreamScheduler {
             }
         }
     }
+    
+    public String getName() {
+        return "CustomStreamScheduler";
+    }
 }

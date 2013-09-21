@@ -26,4 +26,8 @@ public class BasicStreamScheduler implements StreamScheduler {
         graph.deleteEdge(graph.getFirstNode(), graph.getLastNode());
         return scheduler.schedule(graph, systemInfo);
     }
+    
+    public String getName() {
+        return "BasicStreamScheduler(" + scheduler.getName() + ")";
+    }
 }
