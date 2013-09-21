@@ -492,6 +492,8 @@ public class StatisticsBuilder {
 
 
     private void generateHTML() throws IOException {
+        System.out.println("Generate statistics.html.");
+        
         String html = "<!DOCTYPE HTML>" +
                       "<html>" +
                       "     <head>" +
@@ -570,10 +572,10 @@ public class StatisticsBuilder {
                       "</html>";
 
 
-        System.out.println("Generate statistics.html.");
-
+        System.out.println("Done.\nWriting results to file.\n");
         new File("export/statistics").mkdirs();
         FileUtils.writeFile(statisticsFilePath, html);
+        System.out.println("Done.\nStatisticsBuilder done.\n");
     }
     
     /**
