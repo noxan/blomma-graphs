@@ -15,4 +15,6 @@ public interface Scheduler {
      * @return List which holds all scheduled tasks ordered by starting time.
      */
     public ScheduledTaskList schedule(TaskGraph taskGraph, SystemMetaInformation metaInformation);
+
+    public String getName();
 }

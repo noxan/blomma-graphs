@@ -66,8 +66,8 @@ public class DynamicLevelScheduler implements Scheduler {
                                     try {
                                         // get communication costs
                                         communicationTimePerCpu = graph.findEdge(
-                                                task.getTaskGraphNode(),
-                                                poolNode.getNode()).getCommunicationTime();
+                                                task.getTaskGraphNode(), poolNode.getNode())
+                                                .getCommunicationTime();
                                         // get latest dependency time per task
                                         currentDependencyTimePerTask = task.getStartTime()
                                                 + task.getComputationTime()
@@ -117,7 +117,8 @@ public class DynamicLevelScheduler implements Scheduler {
             newScheduledTask.setCpuId(nextCpu);
             newScheduledTask.setStartTime(chosenScheduledTask.getEarliestStarttime(nextCpu));
             newScheduledTask.setTaskGraphNode(chosenScheduledTask.getNode());
-            newScheduledTask.setCommunicationTime(chosenScheduledTask.getCommunicationTimes(nextCpu));
+            newScheduledTask.setCommunicationTime(chosenScheduledTask
+                    .getCommunicationTimes(nextCpu));
             // add new ScheduleTask to CPU scheduleTask list
             allCpuScheduleTasks.get(nextCpu).add(newScheduledTask);
             // remove readyPoolNode from pool
@@ -156,4 +157,8 @@ public class DynamicLevelScheduler implements Scheduler {
         return true;
     }
 
+    @Override
+    public String getName() {
+        return "dls";
+    }
 }

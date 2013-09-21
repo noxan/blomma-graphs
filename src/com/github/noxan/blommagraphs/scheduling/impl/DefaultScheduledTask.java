@@ -38,7 +38,7 @@ public class DefaultScheduledTask implements ScheduledTask {
 
     @Override
     public int getFinishTime() {
-        return this.startTime + this.communicationTime + this.node.getComputationTime();
+        return this.startTime + this.node.getComputationTime();
     }
 
     @Override
