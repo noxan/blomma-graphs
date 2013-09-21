@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -38,7 +39,7 @@ public class DefaultTaskGraph implements TaskGraph {
         ((DefaultTaskGraphNode) firstNode).addNextNode(edge);
         ((DefaultTaskGraphNode) lastNode).addPrevNode(edge);
 
-        edgeSet = new HashSet<TaskGraphEdge>();
+        edgeSet = new TreeSet<TaskGraphEdge>();
         edgeSet.add(edge);
     }
 
