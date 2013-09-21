@@ -337,7 +337,7 @@ public class StatisticsBuilder {
             html += "         <div class=\"panel panel-default\">" +
                     "             <div class=\"panel-heading\">" +
                     "                 <h4 class=\"panel-title\">" +
-                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#graph\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
+                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#graph\" href=\"#" + currentScheduler + "\">" + schedulers[currentScheduler].getName() + "</a>" +
                     "                 </h4>" +
                     "             </div><!-- panel-heading -->" +
                     "             <div id=\"" + currentScheduler + "\" class=\"panel-collapse collapse\">" +
@@ -397,7 +397,7 @@ public class StatisticsBuilder {
             html += "         <div class=\"panel panel-default\">" +
                     "             <div class=\"panel-heading\">" +
                     "                 <h4 class=\"panel-title\">" +
-                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#group\" href=\"#" + currentScheduler + currentScheduler + "\">" + currentScheduler + "</a>" +
+                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#group\" href=\"#" + currentScheduler + currentScheduler + "\">" + schedulers[currentScheduler].getName() + "</a>" +
                     "                 </h4>" +
                     "             </div><!-- panel-heading -->" +
                     "             <div id=\"" + currentScheduler + currentScheduler + "\" class=\"panel-collapse collapse\">" +
@@ -491,7 +491,6 @@ public class StatisticsBuilder {
         return html;
     }
 
-
     private void generateHTML() throws IOException {
         System.out.println("Generate statistics.html.");
         
@@ -512,16 +511,18 @@ public class StatisticsBuilder {
 
                       "         <meta charset=\"utf-8\">" +
 
-                      "         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->" +
-                      "         <script src=\"http://code.jquery.com/jquery.js\"></script>" +
+                      "         <script src=\"../../ressources/jquery.js\"></script>" +
 
-                      "         <!-- Include all compiled plugins (below), or include individual files as needed -->" +
                       "         <script src=\"../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>" +
-                      "         <script src=\"../../ressources/Chart.js\"></script>" +
-                      
+                      "         <script src=\"../../ressources/Chart.js \"></script>" +
+
                       "         <script>" +
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
+                      "                 " +
+                      "                 $('.table-hover tr').click(function() {\n" +
+                      "                     alert(\"test\");\n" +
+                      "                 });" +
                       "             });" +
 
                       "             $('#graph a').click(function (e) {\n" +
@@ -536,10 +537,6 @@ public class StatisticsBuilder {
                       "                 e.preventDefault()\n" +
                       "                 $(this).tab('show')\n" +
                       "             });"  +
-
-                       "            $('.table > tr').click(function() {" +
-                       "                $('this').popover()" +
-                       "            });" +
                       "         </script>" +
 
                       "     </head>" +
