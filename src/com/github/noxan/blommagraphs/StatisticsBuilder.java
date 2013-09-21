@@ -63,8 +63,8 @@ public class StatisticsBuilder {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
 
-        statBuilder.generateHTML();
         statBuilder.buildStatistics();
+        statBuilder.generateHTML();
 
     }
 
@@ -361,7 +361,7 @@ public class StatisticsBuilder {
             int currentGraph = 0;
             for(Statistic statistics : scheduler) {
                 html += "                       <tbody>" +
-                        "                                   <tr rel=\"popover\" data-content=\"<div style='height:100px; width:100px;'>test</div>\">" +
+                        "                                   <tr rel=\"popover\" data-content=\""+ generateSchedulerAlgorithmDurationChart().replace("\"", "'") + "\">" +
                         "                                       <td>" + currentGraph + "</td>" +
                         "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
                         "                                       <td>" + statistics.edgeCount +"</td>" +
@@ -505,6 +505,10 @@ public class StatisticsBuilder {
                       "                 margin: 10px 0 0 0;" +
                       "             }" +
 
+                      "             .popover {" +
+                      "                 max-width: 1000px;" +
+                      "             }" +
+
                       "             .panel {" +
                       "                 margin: 10px 0 0 0;" +
                       "             }" +
@@ -523,7 +527,7 @@ public class StatisticsBuilder {
 
                       "                 $('.table-hover tr').on('mouseenter', function() {\n" +
                       "                     $(this).popover({\n" +
-                      "                         placement : \"top\",\n" +
+                      "                         placement : \"bottom\",\n" +
                       "                         html : true" +
                       "                     });\n" +
                       "                 });" +
@@ -591,7 +595,7 @@ public class StatisticsBuilder {
                 " <script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"canvas\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
-                "  labels : [\"10\", \"50\",\"100\",\"300\",\"500\"],\n" +
+                "  labels : ['10', '50','100','300','500'],\n" +
                 "  datasets : [\n";
                 
                 // Generate data set
@@ -622,11 +626,11 @@ public class StatisticsBuilder {
      */
     private String generateSchedulerAlgorithmDurationChart() {
         String html = "<h1><small>Algorithm durations</small></h1>\n" +
-                "<canvas id=\"schedulerAlgorithmDurationChart\" width=\"400\" height=\"400\"></canvas>\n" +
-                "<script type=\"text/javascript\">\n" +
-                "  var ctx = document.getElementById(\"schedulerAlgorithmDurationChart\").getContext(\"2d\");\n" +
+                "<canvas id='schedulerAlgorithmDurationChart' width='400' height='400'></canvas>\n" +
+                "<script type='text/javascript'>\n" +
+                "  var ctx = document.getElementById('schedulerAlgorithmDurationChart').getContext('2d');\n" +
                 "  var data = {\n" +
-                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
+                "  labels : ['LAST', 'DLS','Genetic','Custom'],\n" +
                 "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(0) + "\n" +
