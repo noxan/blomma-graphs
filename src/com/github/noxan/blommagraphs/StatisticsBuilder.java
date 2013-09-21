@@ -495,8 +495,10 @@ public class StatisticsBuilder {
                 "                           <div class=\"diagramWrapper\">" +
                 generateSchedulerScheduleDurationChart() +
                 "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
+                generateSchedulerCpRatioChart() +
+                "                           </div>" +
                 "                           <div class=\"clear\"></div><!-- clear -->" +
-
                 "                      </div><!-- panel-body -->" +
                 "                    </div><!-- tab-pane -->";
         return html;
@@ -736,6 +738,31 @@ public class StatisticsBuilder {
         return html;
     }
 
+    private String generateSchedulerCpRatioChart() {
+        String html = "<h1><small>Schedule CP ratio</small></h1>\n" +
+                "<canvas id=\"schedulerCPRatioChart\" width=\"370\" height=\"400\"></canvas>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerCPRatioChart\").getContext(\"2d\");\n" +
+                "  var data = [";
+               
+                for(int i = 0; i < schedulerCount; ++i) {
+                    Statistic stat = schedulerStatistics.get(i);
+                    html += "       {\n" +
+                            "           value : " + stat.scheduleCpRatio + "," +
+                            "           color: \"rgba(" + getSchedulerRGBColors(i) + ", 1)\"\n" +
+                            "       }";
+                            
+                    if (i < schedulerCount - 1)
+                        html += ",\n";
+                }
+
+                html += "   ];" +
+                "  var myNewChart = new Chart(ctx).PolarArea(data);\n" +
+                "</script>\n";
+        
+        return html;
+    }
+    
     private String generateChartKey() {
         return "<p>Key: " +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",1)\">LAST</span>" +
