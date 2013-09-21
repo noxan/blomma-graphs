@@ -486,9 +486,17 @@ public class StatisticsBuilder {
         }
         html += "                               </tbody>" +
                 "                           </table>" +
+                "                           <div class=\"diagramWrapper\">" +
                 generateSchedulerAlgorithmDurationChart() +
+                "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
                 generateSchedulerThroughputChart() +
+                "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
                 generateSchedulerScheduleDurationChart() +
+                "                           </div>" +
+                "                           <div class=\"clear\"></div><!-- clear -->" +
+
                 "                      </div><!-- panel-body -->" +
                 "                    </div><!-- tab-pane -->";
         return html;
@@ -520,6 +528,15 @@ public class StatisticsBuilder {
 
                       "             .panel {" +
                       "                 margin: 10px 0 0 0;" +
+                      "             }" +
+
+                      "             .diagramWrapper {" +
+                      "                 width: 370px;" +
+                      "                 float: left;" +
+                      "             }" +
+
+                      "             .clear {" +
+                      "                 clear: both;" +
                       "             }" +
                       "         </style>" +
 
@@ -635,7 +652,7 @@ public class StatisticsBuilder {
      */
     private String generateSchedulerAlgorithmDurationChart() {
         String html = "<h1><small>Algorithm durations</small></h1>\n" +
-                "<canvas id='schedulerAlgorithmDurationChart' width='400' height='400'></canvas>\n" +
+                "<canvas id='schedulerAlgorithmDurationChart' width='370' height='370'></canvas>\n" +
                 "<script type='text/javascript'>\n" +
                 "  var ctx = document.getElementById('schedulerAlgorithmDurationChart').getContext('2d');\n" +
                 "  var data = {\n" +
@@ -663,7 +680,7 @@ public class StatisticsBuilder {
     
     private String generateSchedulerThroughputChart() {
         String html = "<h1><small>Throughput</small></h1>\n" +
-                "<canvas id=\"schedulerThroughputChart\" width=\"400\" height=\"400\"></canvas>\n" +
+                "<canvas id=\"schedulerThroughputChart\" width=\"370\" height=\"370\"></canvas>\n" +
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerThroughputChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
@@ -692,7 +709,7 @@ public class StatisticsBuilder {
     
     private String generateSchedulerScheduleDurationChart() {
         String html = "<h1><small>Single block execution time</small></h1>\n" +
-                "<canvas id=\"schedulerScheduleDurationChart\" width=\"400\" height=\"400\"></canvas>\n" +
+                "<canvas id=\"schedulerScheduleDurationChart\" width=\"370\" height=\"370\"></canvas>\n" +
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerScheduleDurationChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
