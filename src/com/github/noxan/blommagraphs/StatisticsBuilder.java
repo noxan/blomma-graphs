@@ -661,5 +661,14 @@ public class StatisticsBuilder {
         colors[3] = "fillColor : \"rgba(57, 60, 77,0.5)\", strokeColor : \"rgba(57, 60, 77,1)\", pointColor : \"rgba(57, 60, 77,1)\",";
         return colors[i];
     }
+    
+    private String getSchedulerRGBColors(int i) {
+        String[] colors = new String[4];
+        colors[0] = "89, 107, 205";
+        colors[1] = "157, 165, 213";
+        colors[2] = "24, 40, 77";
+        colors[3] = "57, 60, 77";
+        return colors[i];
+    }
 }
 
