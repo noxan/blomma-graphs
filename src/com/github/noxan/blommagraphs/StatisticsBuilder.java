@@ -650,10 +650,10 @@ public class StatisticsBuilder {
     
     private String generateChartKey() {
         return "<p>Key: " +
-        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
-        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",0.5)\">DLS</span>" +
-        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ", 0.5)\">Genetic</span>" +
-        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",0.5)\">Custom</span>";
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",1)\">LAST</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",1)\">DLS</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ",1)\">Genetic</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",1)\">Custom</span>";
     }
     /**
      * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
@@ -663,17 +663,17 @@ public class StatisticsBuilder {
      */
     private String getSchedulerChartJSColors(int i) {
         String[] colors = new String[4];
-        colors[0] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
-        colors[1] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
-        colors[2] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ")\",";
-        colors[3] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.5)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[0] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[1] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[2] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ", 1)\",";
+        colors[3] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
         return colors[i];
     }
     
     private String getSchedulerRGBColors(int i) {
         String[] colors = new String[4];
-        colors[0] = "89, 107, 205";
-        colors[1] = "157, 165, 213";
+        colors[0] = "120, 0, 230";
+        colors[1] = "43, 66, 194";
         colors[2] = "24, 40, 77";
         colors[3] = "57, 60, 77";
         return colors[i];
