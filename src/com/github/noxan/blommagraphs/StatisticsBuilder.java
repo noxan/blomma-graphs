@@ -41,7 +41,7 @@ public class StatisticsBuilder {
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
     private final int schedulerCount = 3;
     private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 1;      // !! default: 100
+    private final int taskGraphGroupSize = 100;
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
@@ -65,6 +65,7 @@ public class StatisticsBuilder {
 
         statBuilder.generateHTML();
         statBuilder.buildStatistics();
+
     }
 
     private StatisticsBuilder() {
@@ -183,7 +184,7 @@ public class StatisticsBuilder {
                     int criticalPathDuration = calcCriticalPathDuration(graph);
 
                     currentStatistic.filePath = graphFiles[graphId].getAbsolutePath();
-                    currentStatistic.nodeCount = graph.getNodeCount();
+                    currentStatistic.nodeCount = (graph.getNodeCount()-2);
                     currentStatistic.edgeCount = graph.getEdgeCount();
                     currentStatistic.cpDuration = criticalPathDuration;
                     currentStatistic.algorithmDuration = (double) currentAlgorithmDuration / 1000;
@@ -219,19 +220,19 @@ public class StatisticsBuilder {
             for (Statistic taskStatistic : schedulerTaskList) {
                 // Get the correct task group list
                 switch (taskStatistic.nodeCount) {
-                case 12:
+                case 10:
                     groupStatistic = schedulerGroupList.get(0);
                     break;
-                case 52:
+                case 50:
                     groupStatistic = schedulerGroupList.get(1);
                     break;
-                case 102:
+                case 100:
                     groupStatistic = schedulerGroupList.get(2);
                     break;
-                case 302:
+                case 300:
                     groupStatistic = schedulerGroupList.get(3);
                     break;
-                case 502:
+                case 500:
                     groupStatistic = schedulerGroupList.get(4);
                     break;
                 }
@@ -339,9 +340,9 @@ public class StatisticsBuilder {
                     "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#graph\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
                     "                 </h4>" +
                     "             </div><!-- panel-heading -->" +
-                    "             <div id=\"" + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
+                    "             <div id=\"" + currentScheduler + "\" class=\"panel-collapse collapse\">" +
                     "                  <div class=\"panel-body\">" +
-                    "                      <table class=\"table\">" +
+                    "                      <table class=\"table table-hover\">" +
                     "                          <thead>" +
                     "                              <tr>" +
                     "                                  <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
@@ -399,7 +400,7 @@ public class StatisticsBuilder {
                     "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#group\" href=\"#" + currentScheduler + currentScheduler + "\">" + currentScheduler + "</a>" +
                     "                 </h4>" +
                     "             </div><!-- panel-heading -->" +
-                    "             <div id=\"" + currentScheduler + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
+                    "             <div id=\"" + currentScheduler + currentScheduler + "\" class=\"panel-collapse collapse\">" +
                     "                  <div class=\"panel-body\">" +
                     "                      <table class=\"table\">" +
                     "                          <thead>" +
@@ -442,63 +443,53 @@ public class StatisticsBuilder {
                     "        </div><!-- panel panel-default -->";
             currentScheduler++;
         }
-
-        html += "         </div><!-- tab-pane -->";
+        html += generateScheduleAlgorithmDurationChart() +
+              "         </div><!-- tab-pane -->";
         return html;
     }
 
     private String generateSchedulerStatisticsHTML() {
-        String html  = "                 <div class=\"tab-pane\" class=\"panel-group\" id=\"scheduler\">";
+        String html  = "                 <div class=\"tab-pane\" class=\"panel-group\" id=\"scheduler\">" +
+                       "                    <div class=\"panel-body\">" +
+                       "                      <table class=\"table\">" +
+                       "                          <thead>" +
+                       "                              <tr>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Counter\" data-placement=\"top\">#</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                       "                              </tr>" +
+                       "                          </thead>" +
+                       "                          <tbody>";
 
-        int currentScheduler = 0;
         for(Statistic scheduler : schedulerStatistics) {
-            html += "         <div class=\"panel panel-default\">" +
-                    "             <div class=\"panel-heading\">" +
-                    "                 <h4 class=\"panel-title\">" +
-                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#scheduler\" href=\"#" + currentScheduler + currentScheduler + currentScheduler + "\">" + currentScheduler + "</a>" +
-                    "                 </h4>" +
-                    "             </div><!-- panel-heading -->" +
-                    "             <div id=\"" + currentScheduler + currentScheduler + currentScheduler +  "\" class=\"panel-collapse collapse in\">" +
-                    "                  <div class=\"panel-body\">" +
-                    "                      <table class=\"table\">" +
-                    "                          <thead>" +
-                    "                              <tr>" +
-                    "                                  <th><a class=\"tooltips\" title=\"Counter\" data-placement=\"top\">#</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
-                    "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
-                    "                              </tr>" +
-                    "                          </thead>" +
-                    "                          <tbody>" +
-                    "                            <tr>" +
-                    "                                <td>1</td>" +
-                    "                                <td><span class=\"badge\">" + scheduler.nodeCount + "</span></td>" +
-                    "                                <td>" + scheduler.edgeCount +"</td>" +
-                    "                                <td>" + scheduler.throughput + "</td>" +
-                    "                                <td>" + scheduler.cpDuration + "</td>" +
-                    "                                <td>" + scheduler.algorithmDuration + "</td>" +
-                    "                                <td>" + scheduler.singleBlockExecutionTime + "</td>" +
-                    "                                <td>" + scheduler.scheduleCpRatio + "</td>" +
-                    "                                <td>" + scheduler.scheduleCpVariance + "</td>" +
-                    "                                <td>" + scheduler.averageCommunicationTime + "</td>" +
-                    "                            </tr>" +
-                    "                           </tbody>" +
-                    "                     </table>" +
-                    "                 </div><!-- panel-body -->" +
-                    "            </div><!-- schedulerCount -->" +
-                    "        </div><!-- panel panel-default -->";
-            currentScheduler++;
+            html +=
+                    "                               <tr>" +
+                    "                                   <td>1</td>" +
+                    "                                   <td><span class=\"badge\">" + scheduler.nodeCount + "</span></td>" +
+                    "                                   <td>" + scheduler.edgeCount +"</td>" +
+                    "                                   <td>" + scheduler.throughput + "</td>" +
+                    "                                   <td>" + scheduler.cpDuration + "</td>" +
+                    "                                   <td>" + scheduler.algorithmDuration + "</td>" +
+                    "                                   <td>" + scheduler.singleBlockExecutionTime + "</td>" +
+                    "                                   <td>" + scheduler.scheduleCpRatio + "</td>" +
+                    "                                   <td>" + scheduler.scheduleCpVariance + "</td>" +
+                    "                                   <td>" + scheduler.averageCommunicationTime + "</td>" +
+                    "                               </tr>";
         }
-        html += "         </div><!-- tab-pane -->";
-
+        html += "                               </tbody>" +
+                "                           </table>" +
+                "                      </div><!-- panel-body -->" +
+                "                    </div><!-- tab-pane -->";
         return html;
     }
+
 
     private void generateHTML() throws IOException {
         String html = "<!DOCTYPE HTML>" +
@@ -529,6 +520,7 @@ public class StatisticsBuilder {
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
                       "             });" +
+
                       "             $('#graph a').click(function (e) {\n" +
                       "                 e.preventDefault()\n" +
                       "                 $(this).tab('show')\n" +
@@ -542,6 +534,9 @@ public class StatisticsBuilder {
                       "                 $(this).tab('show')\n" +
                       "             });"  +
 
+                       "            $('.table > tr').click(function() {" +
+                       "                $('this').popover()" +
+                       "            });" +
                       "         </script>" +
 
                       "     </head>" +
