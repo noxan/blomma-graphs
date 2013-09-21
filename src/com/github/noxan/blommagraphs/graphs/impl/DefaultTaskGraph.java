@@ -237,12 +237,7 @@ public class DefaultTaskGraph implements TaskGraph {
 
     @Override
     public boolean containsEdge(TaskGraphNode prevNode, TaskGraphNode nextNode) {
-        try {
-            findEdge(prevNode, nextNode);
-            return true;
-        } catch (ContainsNoEdgeException e) {
-            return false;
-        }
+        return edgeSet.contains(new DefaultTaskGraphEdge(prevNode, nextNode, 0));
     }
 
     @Override
