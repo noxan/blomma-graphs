@@ -616,6 +616,37 @@ public class StatisticsBuilder {
     }
     
     /**
+     * 
+     */
+    private String generateSchedulerAlgorithmDurationChart() {
+        String html = "<h1><small>Algorithm durations</small></h1>\n" +
+                "<canvas id=\"schedulerAlgorithmDurationChart\" width=\"400\" height=\"400\"></canvas>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerAlgorithmDurationChart\").getContext(\"2d\");\n" +
+                "  var data = {\n" +
+                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
+                "  datasets : [\n" +
+                "       {\n" +
+                getSchedulerChartJSColors(0) + "\n" +
+                "        data : [";
+        
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    Statistic stat = schedulerStatistics.get(currentScheduler);
+                    html += stat.algorithmDuration;
+                    if(currentScheduler < schedulerStatistics.size() - 1)
+                         html += ",";
+                }
+                html += "    ]\n" +
+                "     }\n" +
+                "  ]\n" +
+                "}\n" +
+                "  var myNewChart = new Chart(ctx).Bar(data);\n" +
+                "</script>\n";
+       return html;
+    }
+    
+    /**
      * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
      * diagrams.
      * @param i Number of the scheduler.
