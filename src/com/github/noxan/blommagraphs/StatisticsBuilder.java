@@ -587,11 +587,7 @@ public class StatisticsBuilder {
     private String generateGroupAlgorithmDurationChart() {
         String html = "<h1><small>Algorithm durations</small></h1>\n" +
                 "<canvas id=\"canvas\" width=\"400\" height=\"400\"></canvas>\n" +
-                "<p>Key: " +
-                " <span class=\"badge\" style=\"background-color: rgba" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
-                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",0.5)\">DLS</span>" +
-                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ", 0.5)\">Genetic</span>" +
-                " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",0.5)\">Custom</span>" +
+                generateChartKey() +
                 " <script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"canvas\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
@@ -652,6 +648,13 @@ public class StatisticsBuilder {
        return html;
     }
     
+    private String generateChartKey() {
+        return "<p>Key: " +
+        " <span class=\"badge\" style=\"background-color: rgba" + getSchedulerRGBColors(0) + ",0.5)\">LAST</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",0.5)\">DLS</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ", 0.5)\">Genetic</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",0.5)\">Custom</span>";
+    }
     /**
      * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
      * diagrams.
