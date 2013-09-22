@@ -56,8 +56,6 @@ public class CustomStreamScheduler implements StreamScheduler {
         int nextScheduledTaskListSize;
         do {
             if(i >= phantomTaskList.size()) {
-                if (scheduledTaskList.size() <= 4)
-                    System.out.println("Back from " + scheduledTaskList.size());
                 return scheduledTaskList;
             }
             nextPhantomTask = phantomTaskList.get(i);
