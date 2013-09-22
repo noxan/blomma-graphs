@@ -131,10 +131,8 @@ public class CustomStreamScheduler implements StreamScheduler {
         ArrayList<PhantomTask> phantomTaskList = new ArrayList<PhantomTask>();
         for (TaskGraphNode currentTask : readySet) {
 
-            Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
-            for (TaskGraphNode dependencyNode : currentTask.getPrevNodes()) {
-                dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
-            }
+            // get set of task which the currenttask depend on
+            Set<ScheduledTask> dependencySet = getDependencySet(scheduledTaskList, currentTask);
 
             for (int cpuId = 0; cpuId < scheduledTaskList.getCpuCount(); cpuId++) {
                 ScheduledTask lastScheduledTask = scheduledTaskList
@@ -215,6 +213,20 @@ public class CustomStreamScheduler implements StreamScheduler {
             }
         }
         return phantomTaskList;
+    }
+
+    /**
+     * creats a set of scheduledTasks which the task depends on
+     * @param scheduledTaskList
+     * @param task
+     * @return
+     */
+    private Set<ScheduledTask> getDependencySet(ScheduledTaskList scheduledTaskList, TaskGraphNode task) {
+        Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
+        for (TaskGraphNode dependencyNode : task.getPrevNodes()) {
+            dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
+        }
+        return dependencySet;
     }
 
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
