@@ -77,15 +77,10 @@ public class GeneticScheduler implements Scheduler {
         for (int index = 0; index < populationSize; index++) {
             Chromosome chromosome = sortedPopulation.get(index);
 
-            if (chromosome.decode().validate() == ScheduledTaskListStatus.VALID) {
-                if (elitismRatio >= (float) index / (float) populationSize) {
-                    elitismPopulation.add(chromosome);
-                } else {
-                    matingPopulation.add(chromosome);
-                }
+            if (elitismRatio >= (float) index / (float) populationSize) {
+                elitismPopulation.add(chromosome);
             } else {
-                matingPopulation
-                        .add(new RandomChromosome(metaInformation.getCpuCount(), taskGraph));
+                matingPopulation.add(chromosome);
             }
         }
     }
@@ -101,6 +96,17 @@ public class GeneticScheduler implements Scheduler {
         Set<Chromosome> nextPopulation = new HashSet<Chromosome>();
         nextPopulation.addAll(elitismPopulation);
         nextPopulation.addAll(matingPopulation);
+
+        for (Chromosome chromosome : nextPopulation) {
+            if (chromosome.decode().validate() != ScheduledTaskListStatus.VALID) {
+                Chromosome fillChromosome = new ScheduledChromosome(metaInformation.getCpuCount(),
+                        taskGraph, initialTaskSchedule);
+
+                fillChromosome.swapMutate();
+                matingPopulation.add(fillChromosome);
+            }
+        }
+
         splitPopulation(nextPopulation);
     }
 
