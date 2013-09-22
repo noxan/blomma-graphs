@@ -166,4 +166,14 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
 
         return ScheduledTaskListStatus.VALID;
     }
+
+    public ScheduledTaskList getScheduledTasksOnCpu(int cpuId) {
+        DefaultScheduledTaskList ScheduledCpuTasks = new DefaultScheduledTaskList(this.cpuCount);
+        for (ScheduledTask task : this) {
+            if (task.getCpuId() == cpuId) {
+                ScheduledCpuTasks.add(task);
+            }
+        }
+        return ScheduledCpuTasks;
+    }
 }
