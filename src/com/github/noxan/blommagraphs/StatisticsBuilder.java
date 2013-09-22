@@ -189,7 +189,7 @@ public class StatisticsBuilder {
                     String fileName = "export/statistics/scheduledtasks" + schedulerId + "_" +
                             taskGroupCounter + "_" + graphId + ".html";
                     currentStatistic.scheduledTaskHTMLFilePath = fileName;
-                    generateScheduledTaskHTMLFile(fileName, scheduledTaskList);
+                    generateScheduledTaskHTMLFile(fileName, scheduledTaskList, graph);
 
                     // Calculate taskGraphStatistics here.
                     int criticalPathDuration = calcCriticalPathDuration(graph);
@@ -806,8 +806,8 @@ public class StatisticsBuilder {
         return colors[i];
     }
     
-    private void generateScheduledTaskHTMLFile(String filePath, ScheduledTaskList scheduledTaskList)
-            throws IOException {
+    private void generateScheduledTaskHTMLFile(String filePath, ScheduledTaskList scheduledTaskList,
+            TaskGraph graph) throws IOException {
         StringBuilder html = new StringBuilder();
         html.append("<!DOCTYPE HTML>\n");
         html.append("<html>\n");
