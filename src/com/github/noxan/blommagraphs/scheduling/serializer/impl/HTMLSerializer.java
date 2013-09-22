@@ -15,7 +15,7 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
         for (int i = 0; i < scheduledTaskList.getCpuCount(); i++) {
             System.out.println("CPU COUNT" + scheduledTaskList.getCpuCount());
 
-            string.append("         <div class=\"processor").append(i+1).append("\">\n");
+            string.append("         <div class=\"processor").append(i + 1).append("\">\n");
             boolean bitch = true;
             int counti = 1;
             int flummi = 1;
@@ -25,13 +25,17 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
 
                 if (bitch) {
                     string.append("             <div class=\"header\">\n");
-                    string.append("                 <h4>").append(i + 1).append("<small> Processor</small></h4>\n");
+                    string.append("                 <h4>").append(i + 1)
+                            .append("<small> Processor</small></h4>\n");
                     string.append("             </div><!-- header -->\n");
                     bitch = false;
                 }
                 flummi = j;
                 if (j == 0 && i != 0) {
-                    string.append("         <div class=\"waitTime\" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getStartTime() * 12).append("px;\"></div><!-- waittime -->\n");
+                    string.append("         <div class=\"waitTime\" style=\"height: ")
+                            .append(scheduledTaskOnCpuList.get(j).getStartTime()
+                                    - scheduledTaskOnCpuList.get(j).getCommunicationTime() * 12)
+                            .append("px;\"></div><!-- waittime -->\n");
                 }
                 int waitTime = 0;
                 if (j == 0) {
@@ -54,16 +58,24 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 counti += 1;
 
                 if (waitTime > 0) {
-                    string.append("             <div class=\"waitTime\" style=\"height: ").append(waitTime * 12).append("px;\">");
+                    string.append("             <div class=\"waitTime\" style=\"height: ")
+                            .append(waitTime * 12).append("px;\">");
                     string.append("             </div><!-- waittime -->\n");
                     waitTime = 0;
                 }
 
                 if (scheduledTaskOnCpuList.get(j).getCommunicationTime() != 0) {
-                    string.append("         <div class=\"gap\" style=\"height: ").append(scheduledTaskList.getScheduledTasksOnCpu(i).get(j).getCommunicationTime() * 12).append("px;\"></div><!-- gap -->\n");
+                    string.append("         <div class=\"gap\" style=\"height: ")
+                            .append(scheduledTaskList.getScheduledTasksOnCpu(i).get(j)
+                                    .getCommunicationTime() * 12)
+                            .append("px;\"></div><!-- gap -->\n");
                 }
-                string.append("             <div class=\"task\"").append(" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getComputationTime() * 12).append("px;\">\n");
-                string.append("                 <h4><small>").append(scheduledTaskOnCpuList.get(j).getTaskId()).append("</small></h4>\n");
+                string.append("             <div class=\"task\"").append(" style=\"height: ")
+                        .append(scheduledTaskOnCpuList.get(j).getComputationTime() * 12)
+                        .append("px;\">\n");
+                string.append("                 <h4><small>")
+                        .append(scheduledTaskOnCpuList.get(j).getTaskId())
+                        .append("</small></h4>\n");
                 string.append("             </div>\n");
 
             }
