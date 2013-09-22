@@ -34,7 +34,7 @@ public class ReadyPoolNode {
     }
 
     public int getDynamicLevel(int cpuId) {
-        return bLevel - (earliestStarttime.get(cpuId) + this.node.getDeadLine());
+        return bLevel - (earliestStarttime.get(cpuId) + this.getNode().getDeadLine());
     }
 
     public int getEarliestStarttime(int cpuId) {
