@@ -58,13 +58,22 @@ var Renderer = function(canvas){
         var radius = 20
         ctx.beginPath();
         ctx.arc(pt.x, pt.y, radius, 0, 2 * Math.PI, false);
-        ctx.fillStyle = (node.data.alone) ? "orange" : "black";
+        ctx.fillStyle = '#efefef';
         ctx.fill();
+        ctx.lineWidth = 2;
+        if (node.data.first) {
+          ctx.strokeStyle = "blue";
+        } else if (node.data.last) {
+          ctx.strokeStyle = "orange";
+        } else {
+          ctx.strokeStyle = "black";
+        }
+        ctx.stroke();
 
         ctx.font = "bold 12px Arial"
         ctx.textAlign = "center"
 
-        ctx.fillStyle = "#888888"
+        ctx.fillStyle = "#000000"
         ctx.fillText(node._id||"", pt.x, pt.y+4)
       })
     },

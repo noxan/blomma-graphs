@@ -131,9 +131,9 @@ public class EvaluationBuilder {
             for (TaskGraphNode node : taskGraph.getNodeSet()) {
                 arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
                 if (node == taskGraph.getFirstNode()) {
-                    arborTaskGraphBuilder.append(", {'fixed': true, 'y': 10}");
-                } else {
-
+                    arborTaskGraphBuilder.append(", {'first': true}");
+                } else if (node == taskGraph.getLastNode()) {
+                    arborTaskGraphBuilder.append(", {'last': true}");
                 }
                 arborTaskGraphBuilder.append(")\n");
             }
