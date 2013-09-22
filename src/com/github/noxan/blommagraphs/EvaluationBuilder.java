@@ -85,6 +85,9 @@ public class EvaluationBuilder {
                 scheduledTaskListBuilder.append(task.getComputationTime());
                 scheduledTaskListBuilder.append("</td>");
                 scheduledTaskListBuilder.append("<td>");
+                scheduledTaskListBuilder.append(task.getCommunicationTime());
+                scheduledTaskListBuilder.append("</td>");
+                scheduledTaskListBuilder.append("<td>");
                 scheduledTaskListBuilder.append(task.getCpuId());
                 scheduledTaskListBuilder.append("</td>");
                 scheduledTaskListBuilder.append("</tr>");
@@ -108,6 +111,9 @@ public class EvaluationBuilder {
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
                 evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
+                evaluatedTaskListBuilder.append("</td>");
+                evaluatedTaskListBuilder.append("<td>");
+                evaluatedTaskListBuilder.append(0);
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
                 evaluatedTaskListBuilder.append(evaluatedTask.getCpuId());
