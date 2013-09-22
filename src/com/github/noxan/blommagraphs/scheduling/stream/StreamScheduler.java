@@ -8,4 +8,6 @@ import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
 public interface StreamScheduler {
     public ScheduledTaskList schedule(TaskGraph taskGraphs[], SystemMetaInformation systemInfo);
+    
+    public String getName();
 }

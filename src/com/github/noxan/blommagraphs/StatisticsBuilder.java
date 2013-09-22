@@ -1,15 +1,17 @@
 package com.github.noxan.blommagraphs;
 
-
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
-import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -17,7 +19,8 @@ import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInf
 import com.github.noxan.blommagraphs.utils.FileUtils;
 import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,10 +29,11 @@ public class StatisticsBuilder {
 
     private class Statistic {
         private String filePath;
+        private String scheduledTaskHTMLFilePath;
         private int nodeCount;
         private float edgeCount;
         private float cpDuration;
-        private float algorithmDuration;
+        private double algorithmDuration;
         private float singleBlockExecutionTime;
         private float scheduleCpRatio;
         private float scheduleCpVariance;
@@ -37,12 +41,12 @@ public class StatisticsBuilder {
         private float averageCommunicationTime;
     };
 
-    private final String statisticsFilePath = "export/statistics.html";
+    private final String statisticsFilePath = "export/statistics/statistics.html";
 
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
-    private final int schedulerCount = 3;
+    private final int schedulerCount = 2;
     private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 1;      // !! default: 100
+    private final int taskGraphGroupSize = 5;
     private final int taskGroupCount = 5;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
@@ -56,6 +60,8 @@ public class StatisticsBuilder {
     private SystemMetaInformation systemMetaInformation;
 
     private TaskGraphSerializer taskGraphSerializer;
+    private ScheduledTaskListSerializer scheduledTaskListHTMLSerializer;
+    private ScheduledTaskListSerializer scheduledTaskListTextSerializer;
 
     /**
      * @param args
@@ -64,8 +70,12 @@ public class StatisticsBuilder {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
 
+        // Create directory where statistics are saved.
+        new File("export/statistics/scheduledtasks").mkdirs();
+        
         statBuilder.buildStatistics();
         statBuilder.generateHTML();
+
     }
 
     private StatisticsBuilder() {
@@ -84,19 +94,41 @@ public class StatisticsBuilder {
             }
             for (int taskGroup = 0; taskGroup < taskGroupCount; ++taskGroup) {
                 taskGroupStatistics.get(scheduler).add(new Statistic());
+                Statistic stat = taskGroupStatistics.get(scheduler).get(taskGroup);
+                
+                switch(taskGroup)  {
+                case 0:
+                    stat.nodeCount = 10;
+                    break;
+                case 1:
+                    stat.nodeCount = 50;
+                    break;
+                case 2:
+                    stat.nodeCount = 100;
+                    break;
+                case 3:
+                    stat.nodeCount = 300;
+                    break;
+                case 4:
+                    stat.nodeCount = 500;
+                    break;
+                }
             }
+            
         }
 
         // Create Schedulers
         schedulers = new StreamScheduler[schedulerCount];
         schedulers[0] = new BasicStreamScheduler(new LASTScheduler());
         schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
-        schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
+        // schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
         // schedulers[3] = new CustomStreamScheduler();
 
         systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
 
         taskGraphSerializer = new STGSerializer();
+        scheduledTaskListHTMLSerializer = new HTMLSerializer();
+        scheduledTaskListTextSerializer = new ExtendedScheduledTaskListSerializer();
     }
 
     /**
@@ -154,20 +186,27 @@ public class StatisticsBuilder {
 
                     // Starttime measurement
                     long currentAlgorithmDuration = System.currentTimeMillis();
+                    // SCHEDULING
                     scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
                             systemMetaInformation);
                     currentAlgorithmDuration = (System.currentTimeMillis() - currentAlgorithmDuration);
-                    System.out.println("Algorithm duration: " + (float) currentAlgorithmDuration
+                    System.out.println("Algorithm duration: " + (double) currentAlgorithmDuration
                             / 1000);
+                    
+                    // Write scheduledtasklist to file.
+                    String fileName = "export/statistics/scheduledtasks/" + schedulerId + "_" +
+                            taskGroupCounter + "_" + graphId + ".html";
+                    currentStatistic.scheduledTaskHTMLFilePath = "../../" + fileName;
+                    generateScheduledTaskHTMLFile(fileName, scheduledTaskList, graph);
 
                     // Calculate taskGraphStatistics here.
                     int criticalPathDuration = calcCriticalPathDuration(graph);
 
                     currentStatistic.filePath = graphFiles[graphId].getAbsolutePath();
-                    currentStatistic.nodeCount = graph.getNodeCount();
+                    currentStatistic.nodeCount = (graph.getNodeCount()-2);
                     currentStatistic.edgeCount = graph.getEdgeCount();
                     currentStatistic.cpDuration = criticalPathDuration;
-                    currentStatistic.algorithmDuration = currentAlgorithmDuration / 1000;
+                    currentStatistic.algorithmDuration = (double) currentAlgorithmDuration / 1000;
                     currentStatistic.scheduleCpRatio = (float) scheduledTaskList.getFinishTime()
                             / criticalPathDuration;
                     currentStatistic.scheduleCpVariance = criticalPathDuration
@@ -285,120 +324,6 @@ public class StatisticsBuilder {
      * @param taskGraph
      * @return Duration of the critical path.
      */
-
-    private String generateTaskGraphStatisticsHTML() {
-        return "HTML";
-    }
-
-    private String generateTaskGroupStatisticsHTML() {
-        return "HTML";
-    }
-
-    private String generateSchedulerStatisticsHTML() {
-        return "HTML";
-    }
-
-    private void generateHTML() throws IOException {
-        String taskGraphStatisticsHTML = generateTaskGraphStatisticsHTML();
-        String taskGroupStatisticsHTML = generateTaskGroupStatisticsHTML();
-        String schedulerStatisticsHTML = generateSchedulerStatisticsHTML();
-        String html = "<!DOCTYPE HTML>" +
-                      "<html>" +
-                      "     <head>" +
-                      "         <title>BlommaGraphs - statistics.html</title>" +
-                      "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
-                      "         <style rel=\"stylesheet\">" +
-                      "             " +
-                      "         </style>" +
-
-                      "         <meta charset=\"utf-8\">" +
-
-                      "         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->" +
-                      "         <script src=\"http://code.jquery.com/jquery.js\"></script>" +
-
-                      "         <!-- Include all compiled plugins (below), or include individual files as needed -->" +
-                      "         <script src=\"../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>" +
-
-                      "         <script>" +
-                      "             $(function() {" +
-                      "                 $('.tooltips').tooltip();" +
-                      "             });" +
-                      "         </script>" +
-
-                      "     </head>" +
-                      "     <body>" +
-                      "         <div class=\"container\">" +
-                      "             <div class=\"page-header\">\n" +
-                      "                 <h1>BlommaGraphs <small>Statistics</small></h1>" +
-                      "             </div>" +
-
-                      "             <div class=\"panel-group\" id=\"accordion\">";
-
-
-                      int currentScheduler = 0;
-                      for(List<Statistic> scheduler : taskGraphStatistics) {
-                          html += "     <div class=\"panel panel-default\">" +
-                                  "         <div class=\"panel-heading\">" +
-                                  "             <h4 class=\"panel-title\">" +
-                                  "                 <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#" + currentScheduler + "\">" + currentScheduler + "</a>" +
-                                  "             </h4>" +
-                                  "         </div><!-- panel-heading -->" +
-                                  "         <div id=\"" + currentScheduler + "\" class=\"" + (currentScheduler == 0 ? "panel-collapse collapse in" : "panel-collapse collapse") + "\">" +
-                                  "              <div class=\"panel-body\">" +
-                                  "                  <table class=\"table\">" +
-                                  "                      <thead>" +
-                                  "                          <tr>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
-                                  "                              <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
-                                  "                          </tr>" +
-                                  "                      </thead>";
-
-                            int currentGraph = 0;
-                            for(Statistic statistics : scheduler) {
-                            html += "                    <tbody>" +
-                            "                                <tr>" +
-                            "                                    <td>" + currentGraph + "</td>" +
-                            "                                    <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
-                            "                                    <td>" + statistics.edgeCount +"</td>" +
-                            "                                    <td>" + statistics.cpDuration + "</td>" +
-                            "                                    <td>" + statistics.throughput + "</td>" +
-                            "                                    <td>" + statistics.algorithmDuration + "</td>" +
-                            "                                    <td>" + statistics.singleBlockExecutionTime + "</td>" +
-                            "                                    <td>" + statistics.scheduleCpRatio + "</td>" +
-                            "                                    <td>" + statistics.scheduleCpVariance + "</td>" +
-                            "                                    <td>" + statistics.averageCommunicationTime + "</td>" +
-                            "                                </tr>" +
-                            "                            </tbody>";
-                            currentGraph++;
-                            }
-
-                          html += "                  </table>" +
-                                  "              </div><!-- panel-body -->" +
-                                  "         </div><!-- schedulerCount -->" +
-                                  "     </div><!-- panel panel-default -->";
-                          currentScheduler++;
-                      }
-
-                      html += "     </div><!-- accordion -->" +
-                      "         </div><!-- container -->" +
-                      "     </body>" +
-                      "</html>";
-
-
-        System.out.println("Generate statistics.html.");
-
-        new File("export/statistics").mkdirs();
-        FileUtils.writeFile("export/statistics/statistics.html", html);
-    }
-
     private int calcCriticalPathDuration(TaskGraph taskGraph) {
         List<TaskGraphEdge> cpEdges = taskGraph.getCriticalPath();
         int duration = 0;
@@ -421,6 +346,573 @@ public class StatisticsBuilder {
             totalCommunicationTime += task.getCommunicationTime();
         }
         return (float) totalCommunicationTime / scheduledTaskList.size();
+    }
+
+    private String generateTaskGraphStatisticsHTML() {
+        String html = "                 <div class=\"tab-pane active\" class=\"panel-group\" id=\"graph\">";
+
+        int currentScheduler = 0;
+        for(List<Statistic> scheduler : taskGraphStatistics) {
+            html += "         <div class=\"panel panel-default\">" +
+                    "             <div class=\"panel-heading\">" +
+                    "                 <h4 class=\"panel-title\">" +
+                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#graph\" href=\"#" + currentScheduler + "\">" + schedulers[currentScheduler].getName() + "</a>" +
+                    "                 </h4>" +
+                    "             </div><!-- panel-heading -->" +
+                    "             <div id=\"" + currentScheduler + "\" class=\"panel-collapse collapse\">" +
+                    "                  <div class=\"panel-body\">" +
+                    "                      <table class=\"table table-hover table-condensed\">" +
+                    "                          <thead>" +
+                    "                              <tr>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Graph\" data-placement=\"top\">Graph</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                    "                              </tr>" +
+                    "                          </thead>";
+
+            int currentGraph = 0;
+            for(Statistic statistics : scheduler) {
+                html += "                       <tbody>" +
+                        "                                   <tr data-link=\"" + statistics.scheduledTaskHTMLFilePath  + "\">" +
+                        "                                       <td>" + currentGraph + "</td>" +
+                        "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
+                        "                                       <td>" + statistics.edgeCount +"</td>" +
+                        "                                       <td>" + statistics.throughput + "</td>" +
+                        "                                       <td>" + statistics.cpDuration + "</td>" +
+                        "                                       <td>" + statistics.algorithmDuration + "</td>" +
+                        "                                       <td>" + statistics.singleBlockExecutionTime + "</td>" +
+                        "                                       <td>" + statistics.scheduleCpRatio + "</td>" +
+                        "                                       <td>" + statistics.scheduleCpVariance + "</td>" +
+                        "                                       <td>" + statistics.averageCommunicationTime + "</td>" +
+                        "                                   </tr>" +
+                        "                               </tbody>";
+                currentGraph++;
+            }
+
+            html += "                     </table>" +
+                    "                 </div><!-- panel-body -->" +
+                    "            </div><!-- schedulerCount -->" +
+                    "        </div><!-- panel panel-default -->";
+            currentScheduler++;
+        }
+
+        html += "         </div><!-- tab-pane -->";
+
+        return html;
+    }
+
+    private String generateTaskGroupStatisticsHTML() {
+        String html  = "                 <div class=\"tab-pane\" class=\"panel-group\" id=\"group\">";
+
+        int currentScheduler = 0;
+        for(List<Statistic> scheduler : taskGroupStatistics) {
+            html += "         <div class=\"panel panel-default\">" +
+                    "             <div class=\"panel-heading\">" +
+                    "                 <h4 class=\"panel-title\">" +
+                    "                     <a class=\"accordion-toggle\" data-toggle=\"collapse\" data-parent=\"#group\" href=\"#" + currentScheduler + currentScheduler + "\">" + schedulers[currentScheduler].getName() + "</a>" +
+                    "                 </h4>" +
+                    "             </div><!-- panel-heading -->" +
+                    "             <div id=\"" + currentScheduler + currentScheduler + "\" class=\"panel-collapse collapse\">" +
+                    "                  <div class=\"panel-body\">" +
+                    "                      <table class=\"table table-condensed\">" +
+                    "                          <thead>" +
+                    "                              <tr>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Counter\" data-placement=\"top\">#</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Nodes\" data-placement=\"top\">Nodes</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                    "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                    "                              </tr>" +
+                    "                          </thead>";
+
+            int currentGroup = 1;
+            for(Statistic statistics : scheduler) {
+                html += "                       <tbody>" +
+                        "                                   <tr>" +
+                        "                                       <td>" + currentGroup + "</td>" +
+                        "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
+                        "                                       <td>" + statistics.edgeCount +"</td>" +
+                        "                                       <td>" + statistics.throughput + "</td>" +
+                        "                                       <td>" + statistics.cpDuration + "</td>" +
+                        "                                       <td>" + statistics.algorithmDuration + "</td>" +
+                        "                                       <td>" + statistics.singleBlockExecutionTime + "</td>" +
+                        "                                       <td>" + statistics.scheduleCpRatio + "</td>" +
+                        "                                       <td>" + statistics.scheduleCpVariance + "</td>" +
+                        "                                       <td>" + statistics.averageCommunicationTime + "</td>" +
+                        "                                   </tr>" +
+                        "                               </tbody>";
+                currentGroup++;
+            }
+
+            html += "                     </table>" +
+                    "                 </div><!-- panel-body -->" +
+                    "            </div><!-- schedulerCount -->" +
+                    "        </div><!-- panel panel-default -->";
+            currentScheduler++;
+        }
+        html += generateGroupAlgorithmDurationChart() +
+              "         </div><!-- tab-pane -->";
+        return html;
+    }
+
+    private String generateSchedulerStatisticsHTML() {
+        String html  = "                 <div class=\"tab-pane\" class=\"panel-group\" id=\"scheduler\">" +
+                       "                    <div class=\"panel-body\">" +
+                       "                      <table class=\"table table-condensed\">" +
+                       "                          <thead>" +
+                       "                              <tr>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Scheduler\" data-placement=\"top\">Scheduler</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Edges\" data-placement=\"top\">Edges</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"Throughput\" data-placement=\"top\">T</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"CriticalPathDuration\" data-placement=\"top\">CpD</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"AlgorithmDuration\" data-placement=\"top\">AD</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"SingleBlockExecutionTime\" data-placement=\"top\">SBET</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathRatio\" data-placement=\"top\">SCpR</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"ScheduleCriticalPathVariance\" data-placement=\"top\">SCpV</a></th>" +
+                       "                                  <th><a class=\"tooltips\" title=\"AverageCommunicationTime\" data-placement=\"top\">ACT</a></th>" +
+                       "                              </tr>" +
+                       "                          </thead>" +
+                       "                          <tbody>";
+
+        int schedulerCounter = 0;
+        for(Statistic scheduler : schedulerStatistics) {
+
+            html +=
+                    "                               <tr>" +
+                    "                                   <td><strong>" + schedulers[schedulerCounter].getName() + "</strong></td>" +
+                    "                                   <td>" + scheduler.edgeCount +"</td>" +
+                    "                                   <td>" + scheduler.throughput + "</td>" +
+                    "                                   <td>" + scheduler.cpDuration + "</td>" +
+                    "                                   <td>" + scheduler.algorithmDuration + "</td>" +
+                    "                                   <td>" + scheduler.singleBlockExecutionTime + "</td>" +
+                    "                                   <td>" + scheduler.scheduleCpRatio + "</td>" +
+                    "                                   <td>" + scheduler.scheduleCpVariance + "</td>" +
+                    "                                   <td>" + scheduler.averageCommunicationTime + "</td>" +
+                    "                               </tr>";
+            schedulerCounter++;
+        }
+        html += "                               </tbody>" +
+                "                           </table>" +
+                "                           <div class=\"diagramWrapper\">" +
+                generateSchedulerAlgorithmDurationChart() +
+                "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
+                generateSchedulerThroughputChart() +
+                "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
+                generateSchedulerScheduleDurationChart() +
+                "                           </div>" +
+                "                           <div class=\"diagramWrapper\">" +
+                generateSchedulerCpRatioChart() +
+                "                           </div>" +
+                "                           <div class=\"clear\"></div><!-- clear -->" +
+                "                      </div><!-- panel-body -->" +
+                "                    </div><!-- tab-pane -->";
+        return html;
+    }
+
+    private void generateHTML() throws IOException {
+        System.out.println("Generate statistics.html.");
+        
+        String html = "<!DOCTYPE HTML>" +
+                      "<html>" +
+                      "     <head>" +
+                      "         <title>BlommaGraphs - statistics.html</title>" +
+                      "         <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">" +
+                      "         <style rel=\"stylesheet\">" +
+                      "             body, html {" +
+                      "             }" +
+
+                      "             .container {" +
+                      "             }" +
+
+                      "             footer {" +
+                      "                 margin-top: 20px;" +
+                      "                 height: 40px;" +
+                      "             }" +
+
+                      "             .popover {" +
+                      "                 max-width: 1000px;" +
+                      "             }" +
+
+                      "             .panel {" +
+                      "                 margin: 10px 0 0 0;" +
+                      "             }" +
+
+                      "             .diagramWrapper {" +
+                      "                 width: 370px;" +
+                      "                 float: left;" +
+                      "             }" +
+
+                      "             .clear {" +
+                      "                 clear: both;" +
+                      "             }" +
+                      "         </style>" +
+
+                      "         <meta charset=\"utf-8\">" +
+
+                      "         <script src=\"../../ressources/jquery.js\"></script>" +
+
+                      "         <script src=\"../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>" +
+                      "         <script src=\"../../ressources/Chart.js \"></script>" +
+
+                      "         <script>" +
+                      "             $(function() {" +
+                      "                 $('.tooltips').tooltip();" +
+
+                      "                 $('.table-hover tr').click( function() {\n" +
+                      "                     var link = $(this).data(\"link\");" +
+                      "                     window.open(link);" +
+                      "                 });" +
+                      "             });" +
+
+                      "             $('#graph a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+                      "             $('#group a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+                      "             $('#scheduler a').click(function (e) {\n" +
+                      "                 e.preventDefault()\n" +
+                      "                 $(this).tab('show')\n" +
+                      "             });"  +
+                      "         </script>" +
+
+                      "     </head>" +
+                      "     <body>" +
+                      "         <div class=\"container\">" +
+                      "             <div class=\"page-header\">\n" +
+                      "                 <h1><a href=\"statistics.html\">BlommaGraphs</a><small> Statistics</small></h1>" +
+                      "             </div>" +
+                      "        <div class=\"tabbable\">" +
+                      "                 <ul class=\"nav nav-tabs\">" +
+                      "                     <li class=\"active\"><a href=\"#graph\" data-toggle=\"tab\">Graph</a></li>" +
+                      "                     <li><a href=\"#group\" data-toggle=\"tab\">Group</a></li>" +
+                      "                     <li><a href=\"#scheduler\" data-toggle=\"tab\">Scheduler</a></li>" +
+                      "                 </ul>" +
+                      "                 <div class=\"tab-content\">" +
+
+                      generateTaskGraphStatisticsHTML() +
+                      generateTaskGroupStatisticsHTML() +
+                      generateSchedulerStatisticsHTML() +
+
+                      "                 </div><!-- tab-content -->" +
+                      "             </div><!-- tabable -->" +
+                      "         </div><!-- container -->" +
+
+                      "         <footer>" +
+                      "             <div class=\"container\">" +
+                      "                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>" +
+                      "             </div>" +
+                      "         </footer>" +
+                      "     </body>" +
+                      "</html>";
+
+
+        System.out.println("Done.\nWriting results to file.\n");
+        new File("export/statistics").mkdirs();
+        FileUtils.writeFile(statisticsFilePath, html);
+        System.out.println("Done.\nStatisticsBuilder done.\n");
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    private String generateGroupAlgorithmDurationChart() {
+        String html = "<h1><small>Algorithm durations</small></h1>\n" +
+                "<canvas id=\"canvas\" width=\"400\" height=\"400\"></canvas>\n" +
+                generateChartKey() +
+                " <script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"canvas\").getContext(\"2d\");\n" +
+                "  var data = {\n" +
+                "  labels : ['10', '50','100','300','500'],\n" +
+                "  datasets : [\n";
+                
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    List<Statistic> statList = taskGroupStatistics.get(currentScheduler);
+                    html += "  {\n" +
+                    getSchedulerChartJSColors(currentScheduler) + "\n" +
+                    "        data : [";
+                    
+                    for(int currStat = 0; currStat < statList.size(); ++currStat) {
+                        html += statList.get(currStat).algorithmDuration;
+                        if(currStat < statList.size() - 1)
+                            html += ",";
+                    }
+                        
+                    html += "]\n" +
+                    "      },\n";
+                }
+                html += "    ]\n" +
+                "  }\n" +
+                "  var myNewChart = new Chart(ctx).Line(data);\n" +
+                "</script>\n";
+       return html;
+    }
+    
+    /**
+     * 
+     */
+    private String generateSchedulerAlgorithmDurationChart() {
+        String html = "<h1><small>Algorithm durations</small></h1>\n" +
+                "<canvas id='schedulerAlgorithmDurationChart' width='370' height='370'></canvas>\n" +
+                "<script type='text/javascript'>\n" +
+                "  var ctx = document.getElementById('schedulerAlgorithmDurationChart').getContext('2d');\n" +
+                "  var data = {\n" +
+                "  labels : ['LAST', 'DLS','Genetic','Custom'],\n" +
+                "  datasets : [\n" +
+                "       {\n" +
+                getSchedulerChartJSColors(1) + "\n" +
+                "        data : [";
+        
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    Statistic stat = schedulerStatistics.get(currentScheduler);
+                    html += stat.algorithmDuration;
+                    if(currentScheduler < schedulerStatistics.size() - 1)
+                         html += ",";
+                }
+                html += "    ]\n" +
+                "     }\n" +
+                "  ]\n" +
+                "}\n" +
+                "  var myNewChart = new Chart(ctx).Bar(data);\n" +
+                "</script>\n";
+       return html;
+    }
+    
+    private String generateSchedulerThroughputChart() {
+        String html = "<h1><small>Throughput</small></h1>\n" +
+                "<canvas id=\"schedulerThroughputChart\" width=\"370\" height=\"370\"></canvas>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerThroughputChart\").getContext(\"2d\");\n" +
+                "  var data = {\n" +
+                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
+                "  datasets : [\n" +
+                "       {\n" +
+                getSchedulerChartJSColors(1) + "\n" +
+                "        data : [";
+        
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    Statistic stat = schedulerStatistics.get(currentScheduler);
+                    html += stat.throughput;
+                    if(currentScheduler < schedulerStatistics.size() - 1)
+                         html += ",";
+                }
+                html += "    ]\n" +
+                "     }\n" +
+                "  ]\n" +
+                "}\n" +
+                "  var myNewChart = new Chart(ctx).Bar(data);\n" +
+                "</script>\n";
+        
+        return html;
+    }
+    
+    private String generateSchedulerScheduleDurationChart() {
+        String html = "<h1><small>Single block execution time</small></h1>\n" +
+                "<canvas id=\"schedulerScheduleDurationChart\" width=\"370\" height=\"370\"></canvas>\n" +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerScheduleDurationChart\").getContext(\"2d\");\n" +
+                "  var data = {\n" +
+                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
+                "  datasets : [\n" +
+                "       {\n" +
+                getSchedulerChartJSColors(1) + "\n" +
+                "        data : [";
+        
+                // Generate data set
+                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                    Statistic stat = schedulerStatistics.get(currentScheduler);
+                    html += stat.singleBlockExecutionTime;
+                    if(currentScheduler < schedulerStatistics.size() - 1)
+                         html += ",";
+                }
+                html += "    ]\n" +
+                "     }\n" +
+                "  ]\n" +
+                "}\n" +
+                "  var myNewChart = new Chart(ctx).Bar(data);\n" +
+                "</script>\n";
+        
+        return html;
+    }
+
+    private String generateSchedulerCpRatioChart() {
+        String html = "<h1><small>Schedule CP ratio</small></h1>\n" +
+                "<canvas id=\"schedulerCPRatioChart\" width=\"370\" height=\"400\"></canvas>\n" +
+                generateChartKey() +
+                "<script type=\"text/javascript\">\n" +
+                "  var ctx = document.getElementById(\"schedulerCPRatioChart\").getContext(\"2d\");\n" +
+                "  var data = [";
+               
+                for(int i = 0; i < schedulerCount; ++i) {
+                    Statistic stat = schedulerStatistics.get(i);
+                    html += "       {\n" +
+                            "           value : " + stat.scheduleCpRatio + "," +
+                            "           color: \"rgba(" + getSchedulerRGBColors(i) + ", 1)\"\n" +
+                            "       }";
+                            
+                    if (i < schedulerCount - 1)
+                        html += ",\n";
+                }
+
+                html += "   ];" +
+                "  var myNewChart = new Chart(ctx).PolarArea(data);\n" +
+                "</script>\n";
+        
+        return html;
+    }
+    
+    private String generateChartKey() {
+        return "<p>Key: " +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(0) + ",1)\">LAST</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",1)\">DLS</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ",1)\">Genetic</span>" +
+        " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",1)\">Custom</span>";
+    }
+    /**
+     * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
+     * diagrams.
+     * @param i Number of the scheduler.
+     * @return String holding js formatted color definitions.
+     */
+    private String getSchedulerChartJSColors(int i) {
+        String[] colors = new String[4];
+        colors[0] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[1] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        colors[2] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ", 1)\",";
+        colors[3] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
+        return colors[i];
+    }
+    
+    private String getSchedulerRGBColors(int i) {
+        String[] colors = new String[4];
+        colors[0] = "120, 0, 230";
+        colors[1] = "43, 66, 194";
+        colors[2] = "24, 40, 77";
+        colors[3] = "57, 60, 77";
+        return colors[i];
+    }
+    
+    private void generateScheduledTaskHTMLFile(String filePath, ScheduledTaskList scheduledTaskList,
+            TaskGraph graph) throws IOException {
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE HTML>\n");
+        html.append("<html>\n");
+        html.append("  <head>\n");
+        html.append("    <title>blommagraphs - scheduled task</title>\n");
+
+        html.append("    <script src=\"../../../ressources/jquery.js\"></script>");
+        html.append("    <script src=\"../../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>\n");
+        html.append("    <script src=\"../../../ressources/arborjs/arbor.js\"></script>\n");
+        html.append("    <script src=\"../../../ressources/arborjs/renderer.js\"></script>\n");
+
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/css/GraphVisualizerHTML.css\">");
+        html.append("    <style>");
+        html.append("       footer {");
+        html.append("           height: 40px;");
+        html.append("           margin-top: 20px;");
+        html.append("       }");
+        html.append("    </style>");
+        html.append("  </head>\n");
+        html.append("  <body>\n");
+        html.append("    <div class=\"container\">\n");
+        html.append("       <div class=\"page-header\">\n");
+        html.append("          <h1>BlommaGraphs<small> Scheduled Task</small></h1>\n");
+        html.append("       </div><!-- page-header -->\n");
+        
+        
+        html.append("       <div class=\"row\">\n");
+        
+        html.append("         <div class=\"col-md-6\" id=\"arborgraph\">\n");
+        html.append("               <canvas id=\"taskgraphviewport\" style=\"width:100%;\" width=\"555\" height=\"600\"></canvas> ");
+        html.append("    <script>");
+        html.append("       $(document).ready(function() {\n");
+        html.append("           var sys = arbor.ParticleSystem(1000, 600, 0.5);\n");
+        html.append("           sys.renderer = Renderer(\"#taskgraphviewport\")\n");
+        html.append("           sys.parameters({gravity:true})\n");
+
+                                // arbor task graph
+                                StringBuilder arborTaskGraphBuilder = new StringBuilder();
+
+                                for (TaskGraphNode node : graph.getNodeSet()) {
+                                    arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
+                                    if (node == graph.getFirstNode()) {
+                                        arborTaskGraphBuilder
+                                                .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
+                                    } else if (node == graph.getLastNode()) {
+                                        arborTaskGraphBuilder
+                                                .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
+                                    }
+                                    arborTaskGraphBuilder.append(")\n");
+                                }
+                                for (TaskGraphEdge edge : graph.getEdgeSet()) {
+                                    arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                                            + edge.getNextNode().getId() + "')\n");
+                                }
+
+        html.append(        arborTaskGraphBuilder.toString());
+        html.append("      });");
+        html.append("    </script>");
+        html.append("         </div><!-- arborgraph -->\n");
+
+        html.append("         <div class=\"col-md-6\" id=\"stggraph\">\n");
+        html.append("           <p>\n");
+        html.append("             <pre>\n");
+        html.append(                taskGraphSerializer.serialize(graph));
+        html.append("             </pre>\n");
+        html.append("           </p>");
+        html.append("         </div><!-- stggraph -->\n");
+
+        html.append("       </div><!-- row -->\n");
+        
+        
+        html.append("       <div class=\"row\">\n");
+        html.append("         <div class=\"col-md-6\" id=\"visualizedschedule\">\n");
+        html.append(            scheduledTaskListHTMLSerializer.serialize(scheduledTaskList));
+        html.append("         </div><!-- visualizedschedule -->\n");
+        
+        html.append("         <div class=\"col-md-6\" id=\"textualschedule\">\n");
+        html.append("           <p>\n");
+        html.append("              <pre>\n");
+        html.append(                 scheduledTaskListTextSerializer.serialize(scheduledTaskList));
+        html.append("              </pre>\n");
+        html.append("           </p>\n");
+        html.append("         </div><!-- textualschedule -->\n");
+        
+        html.append("       </div><!-- row -->\n");
+        
+        
+        html.append("       <div class=\"clear\"></div>");
+        html.append("    </div><!-- container -->\n");
+        html.append("         <footer>\n");
+        html.append("             <div class=\"container\">\n");
+        html.append("                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>\n");
+        html.append("             </div>\n");
+        html.append("         </footer>\n");
+        html.append("  </body>\n");
+        html.append("</html>\n");
+     
+        FileUtils.writeFile(filePath, html.toString());
     }
 }
 
