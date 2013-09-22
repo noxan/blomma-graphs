@@ -24,4 +24,6 @@ public interface ScheduledTaskList extends List<ScheduledTask> {
     public boolean containsTask(TaskGraphNode node);
 
     public ScheduledTaskListStatus validate();
+
+    public ScheduledTaskList getScheduledTasksOnCpu(int cpuId);
 }
