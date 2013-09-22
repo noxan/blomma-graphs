@@ -1,0 +1,35 @@
+#processorWrapper {
+    margin: 0 auto;
+}
+
+.clear {
+    clear: both;
+}
+
+.processor {
+    width: 100px;
+    float: left;
+    margin: 0 5px 0 0;
+}
+
+.header {
+    text-align: center;
+}
+
+.task {
+    background-color: rgba(43, 66, 194,0.2);
+    box-shadow: inset 0px 0px 7px rgba(43, 66, 194, 0.21);
+}
+
+.task h4 {
+    margin: 0;
+    text-align: center;
+}
+
+.waitTime {
+    background-color: #ffffff;
+}
+
+.gap {
+    background-color: #f0ad4e;
+}

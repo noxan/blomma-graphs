@@ -13,14 +13,16 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
         string.append("<html>\n");
         string.append(" <head>\n");
         string.append("     <title>HTML Serializer</title>\n");
-        string.append("     <link rel=\"stylesheet\" href=\"styleshit.css\" type=\"text/css\" media=\"screen\" />\n");
+        string.append("     <link rel=\"stylesheet\" href=\"ressources/css/GraphVisualizerHTML.css\" type=\"text/css\" media=\"screen\" />\n");
+        string.append("     <link rel=\"stylesheet\" href=\"ressources/bootstrap-3.0.0/dist/css/bootstrap.min.css\" type=\"text/css\" media=\"screen\" />\n");
         string.append(" </head>\n");
         string.append(" <body>\n");
+        string.append("     <div id=\"processorWrapper\">\n");
 
         for (int i = 0; i < scheduledTaskList.getCpuCount(); i++) {
             System.out.println("CPU COUNT" + scheduledTaskList.getCpuCount());
 
-            string.append("<div id=\"p").append(i + 1).append("\">\n");
+            string.append("         <div class=\"processor\">\n");
             boolean bitch = true;
             int counti = 1;
             int flummi = 1;
@@ -29,14 +31,14 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                         .getScheduledTasksOnCpu(i);
 
                 if (bitch) {
-                    string.append("<div class=\"header\">\n");
-                    string.append(" <h1>Processor ").append(i + 1).append("</h1>\n");
-                    string.append("</div><!-- header -->\n");
+                    string.append("             <div class=\"header\">\n");
+                    string.append("                 <h4>").append(i + 1).append("<small> Processor</small></h4>\n");
+                    string.append("             </div><!-- header -->\n");
                     bitch = false;
                 }
                 flummi = j;
                 if (j == 0 && i != 0) {
-                    string.append("<div class=\"waitTime\" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getStartTime() * 10).append("px;\"></div><!-- waittime -->\n");
+                    string.append("         <div class=\"waitTime\" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getStartTime() * 12).append("px;\"></div><!-- waittime -->\n");
                 }
                 int waitTime = 0;
                 if (j == 0) {
@@ -59,21 +61,24 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 counti += 1;
 
                 if (waitTime > 0) {
-                    string.append("<div class=\"waitTime\" style=\"height: ").append(waitTime * 10).append("px;\"></div><!-- waittime -->\n");
+                    string.append("             <div class=\"waitTime\" style=\"height: ").append(waitTime * 12).append("px;\">");
+                    string.append("             </div><!-- waittime -->\n");
                     waitTime = 0;
                 }
 
                 if (scheduledTaskOnCpuList.get(j).getCommunicationTime() != 0) {
-                    string.append("<div class=\"gap\" style=\"height: ").append(scheduledTaskList.getScheduledTasksOnCpu(i).getTaskById(j).getCommunicationTime() * 10).append("px;\"></div><!-- gap -->\n");
+                    string.append("         <div class=\"gap\" style=\"height: ").append(scheduledTaskList.getScheduledTasksOnCpu(i).getTaskById(j).getCommunicationTime() * 12).append("px;\"></div><!-- gap -->\n");
                 }
-                string.append("<div class=\"pd").append(i + 1).append("\" style=\" width: 200px; height: ").append(scheduledTaskOnCpuList.get(j).getComputationTime() * 10).append("px;\">\n");
-                string.append(" <p>Task ").append(scheduledTaskOnCpuList.get(j).getTaskId()).append("</p>\n");
-                string.append("</div>\n");
+                string.append("             <div class=\"task\"").append(" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getComputationTime() * 12).append("px;\">\n");
+                string.append("                 <h4><small>").append(scheduledTaskOnCpuList.get(j).getTaskId()).append("</small></h4>\n");
+                string.append("             </div>\n");
 
             }
 
-            string.append("</div><!-- processor n -->\n");
+            string.append("         </div><!-- processor n -->\n");
         }
+        string.append("         <div class=\"clear\"></div><!-- clear -->");
+        string.append("     </div><!-- processorWrapper -->\n");
 
         return string.toString();
     }
