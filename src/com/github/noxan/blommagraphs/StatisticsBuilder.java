@@ -8,6 +8,9 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -56,6 +59,8 @@ public class StatisticsBuilder {
     private SystemMetaInformation systemMetaInformation;
 
     private TaskGraphSerializer taskGraphSerializer;
+    private ScheduledTaskListSerializer scheduledTaskListHTMLSerializer;
+    private ScheduledTaskListSerializer scheduledTaskListTextSerializer;
 
     /**
      * @param args
@@ -121,6 +126,8 @@ public class StatisticsBuilder {
         systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
 
         taskGraphSerializer = new STGSerializer();
+        scheduledTaskListHTMLSerializer = new HTMLSerializer();
+        scheduledTaskListTextSerializer = new ExtendedScheduledTaskListSerializer();
     }
 
     /**
