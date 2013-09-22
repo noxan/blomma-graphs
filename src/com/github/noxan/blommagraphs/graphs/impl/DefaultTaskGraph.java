@@ -230,13 +230,6 @@ public class DefaultTaskGraph implements TaskGraph {
     }
 
     @Override
-    public void resetDeadLine(int deadLine) {
-        for (TaskGraphNode node : getNodeSet()) {
-            node.setDeadLine(deadLine);
-        }
-    }
-
-    @Override
     public void mergeGraph(TaskGraph taskGraph, TaskGraphNode prevNode, int prevCommunicationTime,
             TaskGraphNode nextNode, int nextCommunicationTime) {
         // copy nodes with new ids
