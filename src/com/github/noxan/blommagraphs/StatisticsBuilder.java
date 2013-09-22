@@ -826,6 +826,11 @@ public class StatisticsBuilder {
         html.append("       </div><!-- arborgraph -->\n");
         
         html.append("       <div id=\"stggraph\">\n");
+        html.append("         <p>\n");
+        html.append("           <pre>\n");
+        html.append(              taskGraphSerializer.serialize(graph));
+        html.append("           </pre>\n");
+        html.append("         </p>");
         html.append("       </div><!-- stggraph -->\n");
         
         html.append("       <div id=\"visualizedschedule\">\n");
