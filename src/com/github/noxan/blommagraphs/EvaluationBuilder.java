@@ -25,6 +25,7 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
