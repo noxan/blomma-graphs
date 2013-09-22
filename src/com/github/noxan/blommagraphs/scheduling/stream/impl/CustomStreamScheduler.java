@@ -106,7 +106,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                                     newPhantomTask);
                             break;
                         } else {
-                            System.out.print("ELSE " + startTimeOnCpu + "|" + phantomTask.getEarliestStarttime() + " DL:" + currentTask.getDeadLine() + "|" + phantomTask.getTaskGraphNode().getDeadLine() + "||");
+                            //System.out.print("ELSE " + startTimeOnCpu + "|" + phantomTask.getEarliestStarttime() + " DL:" + currentTask.getDeadLine() + "|" + phantomTask.getTaskGraphNode().getDeadLine() + "||");
                             phantomTaskList.add(newPhantomTask);
                             break;
                         }
@@ -114,48 +114,23 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
             }
         }
-        System.out.print("PhantomTaskList: ");
-        for(PhantomTask phantomTask : phantomTaskList) {
-            System.out.print(phantomTask.getTaskGraphNode().getId() + "|" + phantomTask.getCpuId() +  "|>" + phantomTask.getGap() + " ");
-        }
-        System.out.println();
 
+        // check ifs last task of last graph and check deadlines
         if(phantomTaskList.size() == scheduledTaskList.getCpuCount()
                 && phantomTaskList.get(0).getTaskGraphNode().getNextNodes().isEmpty()) {
-            ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
-            ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
-
-            for (ScheduledTask scheduledTask : scheduledTaskList) {
-                if (scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
-                    startTasks.add(scheduledTask);
-                } else if (scheduledTask.getTaskGraphNode().getNextNodes().isEmpty()) {
-                    endTasks.add(scheduledTask);
-                }
-            }
 
             PhantomTask lastPhantomTask = phantomTaskList.get(0);
             ScheduledTask lastTask = new DefaultScheduledTask(
                     lastPhantomTask.getEarliestStarttime(), lastPhantomTask.getCpuId(),
                     lastPhantomTask.getCommunicationTime(), lastPhantomTask.getTaskGraphNode());
-
-            endTasks.add(lastTask);
-
-            for(ScheduledTask startTask : startTasks) {
-                for(ScheduledTask endTask : endTasks) {
-                    if(startTask.getTaskGraphNode().getTaskGraph()
-                            == endTask.getTaskGraphNode().getTaskGraph()) {
-                        if((endTask.getFinishTime()-startTask.getStartTime())
-                                > endTask.getTaskGraphNode().getDeadLine()) {
-                            System.out.println("FALSE: ! " + endTask.getFinishTime() + " - " + startTask.getStartTime() + " > " + endTask.getTaskGraphNode().getDeadLine());
-                            return scheduledTaskList;
-                        }
-                    }
-                }
-
-            }
             scheduledTaskList.add(lastTask);
-            System.out.println("RIGHT!!! " + scheduledTaskList.size() + " " + lastPhantomTask.getCpuId());
-            return scheduledTaskList;
+
+            if (checkDeadline(scheduledTaskList)) {
+                return scheduledTaskList;
+            } else {
+                scheduledTaskList.remove(lastTask);
+                return scheduledTaskList;
+            }
         }
 
         PhantomTask nextPhantomTask;
@@ -197,6 +172,37 @@ public class CustomStreamScheduler implements StreamScheduler {
         zu lange deadlines: throughput is schrott da nur auf einem cpus
         geht noch nicht kommentar in der falschen sprache und an der falschen stelle
      */
+
+    /**
+     * checks the deadline if all tasks have been scheduled
+     * @param scheduledTaskList
+     * @return
+     */
+    private boolean checkDeadline(ScheduledTaskList scheduledTaskList) {
+        ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
+        ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
+
+        for (ScheduledTask scheduledTask : scheduledTaskList) {
+            if (scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
+                startTasks.add(scheduledTask);
+            } else if (scheduledTask.getTaskGraphNode().getNextNodes().isEmpty()) {
+                endTasks.add(scheduledTask);
+            }
+        }
+
+        for(ScheduledTask startTask : startTasks) {
+            for(ScheduledTask endTask : endTasks) {
+                if(startTask.getTaskGraphNode().getTaskGraph()
+                        == endTask.getTaskGraphNode().getTaskGraph()) {
+                    if((endTask.getFinishTime()-startTask.getStartTime())
+                            > endTask.getTaskGraphNode().getDeadLine()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
         Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
