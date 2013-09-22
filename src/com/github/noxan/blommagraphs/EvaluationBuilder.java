@@ -42,6 +42,10 @@ public class EvaluationBuilder {
     private final String evaluationTemplatePathname = "ressources/evaluation/index.html";
 
     public void start() {
+        // vm warmup
+        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+        }
+
         new File(evaluationRootPath).mkdir();
 
         TaskGraphGenerator generator = new DefaultTaskGraphGenerator();
