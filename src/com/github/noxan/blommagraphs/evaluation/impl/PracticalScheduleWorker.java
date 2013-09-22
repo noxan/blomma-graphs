@@ -2,23 +2,32 @@ package com.github.noxan.blommagraphs.evaluation.impl;
 
 
 import java.util.List;
-import java.util.Map;
 
 import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
+import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 
 
 public class PracticalScheduleWorker implements Runnable {
     private List<ScheduledTask> list;
-    private Map<Long, TaskGraphNode> simulatedScheduledTaskList;
+    private List<EvaluatedTask> simulatedScheduledTaskList;
     private ScheduleSimulationWorker worker;
 
     public PracticalScheduleWorker(List<ScheduledTask> list,
-            Map<Long, TaskGraphNode> simulatedScheduledTaskList) {
+            List<EvaluatedTask> simulatedScheduledTaskList) {
         this.list = list;
         this.simulatedScheduledTaskList = simulatedScheduledTaskList;
         this.worker = new TimebasedScheduleSimulationWorker();
+    }
+
+    private boolean isDependencyReady(TaskGraphNode dependency) {
+        for (EvaluatedTask evaluatedTask : simulatedScheduledTaskList) {
+            if (evaluatedTask.getTask() == dependency) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

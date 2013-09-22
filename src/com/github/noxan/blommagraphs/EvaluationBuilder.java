@@ -10,16 +10,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
+import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
-import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -91,21 +89,20 @@ public class EvaluationBuilder {
 
             // content - evaluatedTaskList
             StringBuilder evaluatedTaskListBuilder = new StringBuilder();
-            Map<Long, TaskGraphNode> result = simulator.simulateExecution(scheduledTaskList);
+            List<EvaluatedTask> result = simulator.simulateExecution(scheduledTaskList);
 
-            List<Long> timeList = new ArrayList<Long>(result.keySet());
-            Collections.sort(timeList);
+            Collections.sort(result);
 
-            for (long time : timeList) {
+            for (EvaluatedTask evaluatedTask : result) {
                 evaluatedTaskListBuilder.append("<tr>");
                 evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(time);
+                evaluatedTaskListBuilder.append(evaluatedTask.getStartTime());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(result.get(time).getId());
+                evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append("unknown");
+                evaluatedTaskListBuilder.append(evaluatedTask.getCpuId());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("</tr>");
             }
