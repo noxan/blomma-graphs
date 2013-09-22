@@ -196,7 +196,7 @@ public class StatisticsBuilder {
                     // Write scheduledtasklist to file.
                     String fileName = "export/statistics/scheduledtasks/" + schedulerId + "_" +
                             taskGroupCounter + "_" + graphId + ".html";
-                    currentStatistic.scheduledTaskHTMLFilePath = fileName;
+                    currentStatistic.scheduledTaskHTMLFilePath = "../../" + fileName;
                     generateScheduledTaskHTMLFile(fileName, scheduledTaskList, graph);
 
                     // Calculate taskGraphStatistics here.
@@ -380,7 +380,7 @@ public class StatisticsBuilder {
             int currentGraph = 0;
             for(Statistic statistics : scheduler) {
                 html += "                       <tbody>" +
-                        "                                   <tr rel=\"popover\" data-content=\""+ generateSchedulerAlgorithmDurationChart().replace("\"", "'") + "\">" +
+                        "                                   <tr data-link=\"" + statistics.scheduledTaskHTMLFilePath  + "\">" +
                         "                                       <td>" + currentGraph + "</td>" +
                         "                                       <td><span class=\"badge\">" + statistics.nodeCount + "</span></td>" +
                         "                                       <td>" + statistics.edgeCount +"</td>" +
@@ -572,11 +572,9 @@ public class StatisticsBuilder {
                       "             $(function() {" +
                       "                 $('.tooltips').tooltip();" +
 
-                      "                 $('.table-hover tr').on('mouseenter', function() {\n" +
-                      "                     $(this).popover({\n" +
-                      "                         placement : \"bottom\",\n" +
-                      "                         html : true" +
-                      "                     });\n" +
+                      "                 $('.table-hover tr').click( function() {\n" +
+                      "                     var link = $(this).data(\"link\");" +
+                      "                     window.open(link);" +
                       "                 });" +
                       "             });" +
 
