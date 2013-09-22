@@ -901,6 +901,11 @@ public class StatisticsBuilder {
         
         html.append("       <div class=\"clear\"></div>");
         html.append("    </div><!-- container -->\n");
+        html.append("         <footer>\n");
+        html.append("             <div class=\"container\">\n");
+        html.append("                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>\n");
+        html.append("             </div>\n");
+        html.append("         </footer>\n");
         html.append("  </body>\n");
         html.append("</html>\n");
      
