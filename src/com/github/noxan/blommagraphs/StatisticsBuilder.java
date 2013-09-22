@@ -848,9 +848,15 @@ public class StatisticsBuilder {
         
         html.append("       <div class=\"row\">\n");
         html.append("         <div class=\"col-md-6\" id=\"visualizedschedule\">\n");
+        html.append(            scheduledTaskListHTMLSerializer.serialize(scheduledTaskList));
         html.append("         </div><!-- visualizedschedule -->\n");
         
         html.append("         <div class=\"col-md-6\" id=\"textualschedule\">\n");
+        html.append("           <p>\n");
+        html.append("              <pre>\n");
+        html.append(                 scheduledTaskListTextSerializer.serialize(scheduledTaskList));
+        html.append("              </pre>\n");
+        html.append("           </p>\n");
         html.append("         </div><!-- textualschedule -->\n");
         
         html.append("       </div><!-- row -->\n");
