@@ -827,7 +827,12 @@ public class StatisticsBuilder {
 
         html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
         html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/css/GraphVisualizerHTML.css\">");
-
+        html.append("    <style>");
+        html.append("       footer {");
+        html.append("           height: 40px;");
+        html.append("           margin-top: 20px;");
+        html.append("       }");
+        html.append("    </style>");
         html.append("  </head>\n");
         html.append("  <body>\n");
         html.append("    <div class=\"container\">\n");
