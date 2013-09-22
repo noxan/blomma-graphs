@@ -124,18 +124,20 @@ public class EvaluationBuilder {
             // arbor task graph
             StringBuilder arborTaskGraphBuilder = new StringBuilder();
 
-            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
-                arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
-                        + edge.getNextNode().getId() + "')\n");
-            }
             for (TaskGraphNode node : taskGraph.getNodeSet()) {
                 arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
                 if (node == taskGraph.getFirstNode()) {
-                    arborTaskGraphBuilder.append(", {'first': true}");
+                    arborTaskGraphBuilder
+                            .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
                 } else if (node == taskGraph.getLastNode()) {
-                    arborTaskGraphBuilder.append(", {'last': true}");
+                    arborTaskGraphBuilder
+                            .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
                 }
                 arborTaskGraphBuilder.append(")\n");
+            }
+            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+                arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                        + edge.getNextNode().getId() + "')\n");
             }
 
             html = html.replace("arborTaskGraph", arborTaskGraphBuilder.toString());
