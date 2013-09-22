@@ -74,7 +74,7 @@ var Renderer = function(canvas){
         ctx.textAlign = "center"
 
         ctx.fillStyle = "#000000"
-        ctx.fillText(node._id||"", pt.x, pt.y+4)
+        ctx.fillText(node.name||"", pt.x, pt.y+4)
       })
     },
 
