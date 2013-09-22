@@ -135,47 +135,9 @@ public class CustomStreamScheduler implements StreamScheduler {
             Set<ScheduledTask> dependencySet = getDependencySet(scheduledTaskList, currentTask);
 
             for (int cpuId = 0; cpuId < scheduledTaskList.getCpuCount(); cpuId++) {
-                ScheduledTask lastScheduledTask = scheduledTaskList
-                        .getLastScheduledTaskOnCpu(cpuId);
 
-                int startTimeOnCpu;
-                int communicationTimeOnCpu = 0;
-
-                if (lastScheduledTask == null) {
-                    startTimeOnCpu = 0;
-                } else {
-                    startTimeOnCpu = lastScheduledTask.getFinishTime();
-                }
-
-                int maxDependencyTime = Integer.MIN_VALUE;
-                for (ScheduledTask dependencyTask : dependencySet) {
-                    if (dependencyTask.getCpuId() != cpuId) {
-                        int currentDependencyTime = dependencyTask.getFinishTime();
-                        TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(
-                                currentTask);
-                        currentDependencyTime += edge.getCommunicationTime();
-                        if (currentDependencyTime > maxDependencyTime) {
-                            maxDependencyTime = currentDependencyTime;
-                            communicationTimeOnCpu = edge.getCommunicationTime();
-                        }
-                    }
-                }
-
-                if (startTimeOnCpu < maxDependencyTime) {
-                    startTimeOnCpu = maxDependencyTime;
-                }
-
-                int gap;
-                if (lastScheduledTask != null) {
-                    gap = startTimeOnCpu
-                            - (lastScheduledTask.getStartTime() + lastScheduledTask
-                            .getComputationTime());
-                } else {
-                    gap = startTimeOnCpu; // correct????? could be maybe -1
-                }
-
-                PhantomTask newPhantomTask = new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
-                        communicationTimeOnCpu);
+                // get the phantomtask with the gap
+                PhantomTask newPhantomTask = createPhantomTask(scheduledTaskList, cpuId, dependencySet, currentTask);
 
                 if (phantomTaskList.isEmpty()) {
                     phantomTaskList.add(newPhantomTask);
@@ -184,20 +146,20 @@ public class CustomStreamScheduler implements StreamScheduler {
                     for(PhantomTask phantomTask : phantomTaskList) {
                         // optimization if the one with the bigger communication time would be put
                         // on the cpu with the prev task or something in this case
-                        if (gap < phantomTask.getGap()) {
+                        if (newPhantomTask.getGap() < phantomTask.getGap()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     newPhantomTask);
                             break;
-                        } else if (gap == phantomTask.getGap()
+                        } else if (newPhantomTask.getGap() == phantomTask.getGap()
                                 && currentTask.getDeadLine() <
                                 phantomTask.getTaskGraphNode().getDeadLine()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     newPhantomTask);
                             break;
-                        } else if (gap == phantomTask.getGap()
+                        } else if (newPhantomTask.getGap() == phantomTask.getGap()
                                 && currentTask.getDeadLine() ==
                                 phantomTask.getTaskGraphNode().getDeadLine()
-                                && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
+                                && newPhantomTask.getEarliestStarttime() < phantomTask.getEarliestStarttime()) {
                             // adding pure deadline priority just makes sense if all graphes
                             // are the same, if not calculate a relation to the number of
                             // nodes of a graph
@@ -213,6 +175,60 @@ public class CustomStreamScheduler implements StreamScheduler {
             }
         }
         return phantomTaskList;
+    }
+
+    /**
+     * create the phantomtask with the gap
+     * @param scheduledTaskList
+     * @param cpuId
+     * @param dependencySet
+     * @param currentTask
+     * @return
+     */
+    private PhantomTask createPhantomTask(ScheduledTaskList scheduledTaskList, int cpuId, Set<ScheduledTask> dependencySet, TaskGraphNode currentTask) {
+        ScheduledTask lastScheduledTask = scheduledTaskList
+                .getLastScheduledTaskOnCpu(cpuId);
+
+        int startTimeOnCpu;
+        int communicationTimeOnCpu = 0;
+
+        if (lastScheduledTask == null) {
+            startTimeOnCpu = 0;
+        } else {
+            startTimeOnCpu = lastScheduledTask.getFinishTime();
+        }
+
+        int maxDependencyTime = Integer.MIN_VALUE;
+        for (ScheduledTask dependencyTask : dependencySet) {
+            if (dependencyTask.getCpuId() != cpuId) {
+                int currentDependencyTime = dependencyTask.getFinishTime();
+                TaskGraphEdge edge = dependencyTask.getTaskGraphNode().findNextEdge(
+                        currentTask);
+                currentDependencyTime += edge.getCommunicationTime();
+                if (currentDependencyTime > maxDependencyTime) {
+                    maxDependencyTime = currentDependencyTime;
+                    communicationTimeOnCpu = edge.getCommunicationTime();
+                }
+            }
+        }
+
+        if (startTimeOnCpu < maxDependencyTime) {
+            startTimeOnCpu = maxDependencyTime;
+        }
+
+        int gap;
+        if (lastScheduledTask != null) {
+            gap = startTimeOnCpu
+                    - (lastScheduledTask.getStartTime() + lastScheduledTask
+                    .getComputationTime());
+        } else {
+            gap = startTimeOnCpu; // correct????? could be maybe -1
+        }
+
+        PhantomTask newPhantomTask = new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
+                communicationTimeOnCpu);
+
+        return newPhantomTask;
     }
 
     /**
