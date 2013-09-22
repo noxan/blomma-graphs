@@ -12,7 +12,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.impl.DefaultTaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
-import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
+import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 
@@ -56,8 +56,8 @@ public class LASTSchedulerTest {
 
     @Test
     public void scheduleTest() {
-        String expectedString = "0 0 0\n10 0 1\n15 1 2\n45 1 3\n85 1 4\n";
-        ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
+        String expectedString = "0\t0\t0\t10\t0\n10\t0\t1\t20\t0\n15\t1\t2\t30\t5\n45\t1\t3\t40\t0\n85\t1\t4\t50\t0\n";
+        ScheduledTaskListSerializer serializer = new ExtendedScheduledTaskListSerializer();
 
         ScheduledTaskList list = lastScheduler.schedule(graph, systemInformation);
         Assert.assertEquals(expectedString, serializer.serialize(list));

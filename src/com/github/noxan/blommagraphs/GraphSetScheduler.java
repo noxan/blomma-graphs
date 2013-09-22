@@ -3,11 +3,18 @@ package com.github.noxan.blommagraphs;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
-import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticDLSScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticLASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.DefaultScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
@@ -30,59 +37,112 @@ import com.github.noxan.blommagraphs.utils.TaskGraphFileUtils;
  * 
  */
 public class GraphSetScheduler {
-
-    /**
-     * @param args
-     */
     public static void main(String[] args) throws IOException {
+        GraphSetScheduler graphSetScheduler = new GraphSetScheduler();
+        graphSetScheduler.start();
+    }
+
+    private List<Class<? extends Scheduler>> schedulers;
+    private SystemMetaInformation systemMetaInformation;
+
+    public GraphSetScheduler() {
+        schedulers = new ArrayList<Class<? extends Scheduler>>();
+        schedulers.add(GeneticLASTScheduler.class);
+        schedulers.add(GeneticDLSScheduler.class);
+
+        systemMetaInformation = new DefaultSystemMetaInformation(2);
+    }
+
+    public void start() {
         // Get folders and paths
         String rootGraphFolder = "export/graphs";
-        File rootFile = new File(rootGraphFolder);
-        File graphFolders[] = rootFile.listFiles();
-        File graphFiles[] = null;
+        File[] graphFolders = new File(rootGraphFolder).listFiles();
 
-        String lastSchedulFolder = "export/scheduled/last";
-        String geneticSchedulFolder = "export/scheduled/genetic";
-        new File(lastSchedulFolder).mkdirs();
-        new File(geneticSchedulFolder).mkdirs();
+        String schedulesExportFolder = "export/schedules";
+        new File(schedulesExportFolder).mkdirs();
 
-        // Create schedulers
-        LASTScheduler lastScheduler = new LASTScheduler();
-        String scheduledGraphString = null;
+        for (Class<? extends Scheduler> schedulerClass : schedulers) {
+            String schedulerName = schedulerClass.getSimpleName();
 
-        TaskGraph taskGraph = null;
-        SystemMetaInformation systemInfo = new DefaultSystemMetaInformation(2);
-        TaskGraphSerializer serializer = new STGSerializer();
-        ScheduledTaskListSerializer scheduledSerializer = new DefaultScheduledTaskListSerializer();
+            String schedulerExportFolder = schedulesExportFolder + "/" + schedulerName;
+            new File(schedulerExportFolder).mkdir();
 
-        // Deserialize all graphs, schedule them and write them back to disk.
-        for (int i = 0; i < graphFolders.length; ++i) {
-            graphFiles = graphFolders[i].listFiles();
+            for (File graphFolder : graphFolders) {
+                File graphSetExportFolder = new File(schedulerExportFolder + "/"
+                        + graphFolder.getName());
+                graphSetExportFolder.mkdir();
 
-            for (int j = 0; j < graphFiles.length; ++j) {
-                // Create folder
-                new File(lastSchedulFolder + "/" + Integer.toString(i)).mkdirs();
-
-                // Deserialize
-                taskGraph = TaskGraphFileUtils
-                        .readFile(graphFiles[j].getAbsolutePath(), serializer);
-
-                // Schedule & write back for LAST scheduler
-                scheduledGraphString = scheduledSerializer.serialize(lastScheduler.schedule(
-                        taskGraph, systemInfo));
-                FileUtils.writeFile(
-                        lastSchedulFolder + "/" + Integer.toString(i) + "/" + Integer.toString(j)
-                                + ".sgf", scheduledGraphString);
-
-                // Schedule & write back for genetic scheduler
-                // scheduledGraphString =
-                // scheduledSerializer.serialize(geneticScheduler.schedule(
-                // taskGraph, systemInfo));
-                // FileUtils.writeFile(geneticSchedulFolder +
-                // Integer.toString(j),
-                // scheduledGraphString);
-
+                File graphFiles[] = graphFolder.listFiles();
+                GraphSetSchedulerWorker worker = new GraphSetSchedulerWorker(schedulerClass,
+                        systemMetaInformation, graphSetExportFolder, graphFiles);
+                new Thread(worker).start();
             }
+        }
+    }
+
+    private class GraphSetSchedulerWorker implements Runnable {
+        private Scheduler scheduler;
+        private SystemMetaInformation systemMetaInformation;
+        private File graphSetExportFolder;
+        private File graphFiles[];
+
+        private TaskGraphSerializer serializer;
+        private ScheduledTaskListSerializer scheduledSerializer;
+
+        public GraphSetSchedulerWorker(Class<? extends Scheduler> schedulerClass,
+                SystemMetaInformation systemMetaInformation, File graphSetExportFolder,
+                File graphFiles[]) {
+            try {
+                Constructor<? extends Scheduler> constructor = schedulerClass.getConstructor();
+                this.scheduler = constructor.newInstance();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+
+            this.systemMetaInformation = systemMetaInformation;
+            this.graphSetExportFolder = graphSetExportFolder;
+            this.graphFiles = graphFiles;
+            serializer = new STGSerializer();
+            scheduledSerializer = new DefaultScheduledTaskListSerializer();
+        }
+
+        @Override
+        public void run() {
+            long startTime = System.currentTimeMillis();
+
+            System.out.println("Performing schedules for folder " + graphSetExportFolder);
+
+            for (int i = 0; i < graphFiles.length; i++) {
+                File graphFile = graphFiles[i];
+
+                try {
+                    TaskGraph taskGraph = TaskGraphFileUtils.readFile(graphFile.getAbsolutePath(),
+                            serializer);
+
+                    ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph,
+                            systemMetaInformation);
+                    String scheduledGraphString = scheduledSerializer.serialize(scheduledTaskList);
+
+                    String exportPathname = graphSetExportFolder + "/" + i + ".sgf";
+
+                    FileUtils.writeFile(exportPathname, scheduledGraphString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Schedules for folder in " + graphSetExportFolder + " done in "
+                    + (System.currentTimeMillis() - startTime));
         }
     }
 }

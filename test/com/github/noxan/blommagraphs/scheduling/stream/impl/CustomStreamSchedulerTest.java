@@ -23,19 +23,19 @@ public class CustomStreamSchedulerTest {
     @Before
     public void initialize() {
         TaskGraph taskGraph = new DefaultTaskGraph();
-        taskGraph.insertNode(taskGraph.getFirstNode(), 3, taskGraph.getLastNode(), 2, 5);
-        taskGraph.insertNode(taskGraph.getFirstNode(), 5, taskGraph.getLastNode(), 3, 4);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 3, taskGraph.getLastNode(), 2, 6);
+        taskGraph.insertNode(taskGraph.getFirstNode(), 2, taskGraph.getLastNode(), 3, 6);
 
         List<Integer> deadlines = new ArrayList<Integer>();
-        deadlines.add(5);
         deadlines.add(10);
         deadlines.add(15);
+        deadlines.add(20);
 
         taskGraphs = new TaskGraph[deadlines.size()];
 
         for (int i = 0; i < deadlines.size(); i++) {
             TaskGraph taskGraphClone = taskGraph.clone();
-            taskGraphClone.getLastNode().setDeadLine(deadlines.get(i));
+            taskGraphClone.setDeadline(deadlines.get(i));
             taskGraphs[i] = taskGraphClone;
         }
     }
@@ -50,5 +50,6 @@ public class CustomStreamSchedulerTest {
 
         ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
         System.out.println(serializer.serialize(scheduledTaskList));
+        System.out.println(scheduledTaskList.validate());
     }
 }

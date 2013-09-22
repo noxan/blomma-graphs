@@ -5,7 +5,7 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
 
-public class DefaultTaskGraphEdge implements TaskGraphEdge {
+public class DefaultTaskGraphEdge implements TaskGraphEdge, Comparable<DefaultTaskGraphEdge> {
     private int communicationTime;
     private TaskGraphNode prevNode;
     private TaskGraphNode nextNode;
@@ -34,5 +34,14 @@ public class DefaultTaskGraphEdge implements TaskGraphEdge {
 
     protected void setCommunicationTime(int newCommunicationTime) {
         this.communicationTime = newCommunicationTime;
+    }
+
+    @Override
+    public int compareTo(DefaultTaskGraphEdge edge) {
+        int value = nextNode.compareTo(edge.getNextNode());
+        if (value != 0) {
+            return value;
+        }
+        return prevNode.compareTo(edge.getPrevNode());
     }
 }

@@ -24,9 +24,9 @@ public class GeneticScheduler implements Scheduler {
     private Scheduler initialScheduler;
     private ScheduledTaskList initialTaskSchedule;
 
-    private int randomPopulationSize = 10;
+    private int randomPopulationSize = 2;
     private float elitismRatio = 0.1f;
-    private int generationCount = 10;
+    private int generationCount = 5;
 
     private List<Chromosome> elitismPopulation;
     private Set<Chromosome> matingPopulation;
@@ -115,5 +115,10 @@ public class GeneticScheduler implements Scheduler {
         ScheduledTaskList solutionScheduledTaskList = solutionChromosome.decode();
 
         return solutionScheduledTaskList;
+    }
+
+    @Override
+    public String getName() {
+        return "genetic";
     }
 }

@@ -276,4 +276,13 @@ public class DefaultTaskGraphTest {
         }
         Assert.assertEquals(nodeIdSet.size(), taskGraph.getNodeCount());
     }
+
+    @Test
+    public void setDeadline() {
+        taskGraph.setDeadline(25);
+
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            Assert.assertEquals(25, node.getDeadLine());
+        }
+    }
 }

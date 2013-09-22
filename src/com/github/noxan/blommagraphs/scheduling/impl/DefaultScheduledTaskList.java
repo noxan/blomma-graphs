@@ -9,6 +9,7 @@ import java.util.Iterator;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 
 
 public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implements ScheduledTaskList {
@@ -152,5 +153,27 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
             }
         }
         return ScheduledCpuTasks;
+    }
+    
+    public ScheduledTaskListStatus validate() {
+        for (ScheduledTask task : this) {
+            for (TaskGraphNode dependencyTask : task.getTaskGraphNode().getPrevNodes()) {
+                if (!containsTask(dependencyTask)) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
+                ScheduledTask dependencyScheduledTask = getScheduledTask(dependencyTask);
+                if (task.getStartTime() < dependencyScheduledTask.getFinishTime()) {
+                    return ScheduledTaskListStatus.INVALID_DEPENDENCY;
+                }
+            }
+        }
+
+        for (ScheduledTask task : this) {
+            if (task.getTaskGraphNode().getDeadLine() < task.getFinishTime()) {
+                return ScheduledTaskListStatus.INVALID_DEADLINE;
+            }
+        }
+
+        return ScheduledTaskListStatus.VALID;
     }
 }
