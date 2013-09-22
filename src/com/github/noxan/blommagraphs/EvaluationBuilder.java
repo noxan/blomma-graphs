@@ -133,7 +133,7 @@ public class EvaluationBuilder {
                 evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(0);
+                evaluatedTaskListBuilder.append(evaluatedTask.getCommunicationTime());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
                 evaluatedTaskListBuilder.append(evaluatedTask.getCpuId());
