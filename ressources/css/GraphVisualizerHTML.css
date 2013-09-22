@@ -6,20 +6,30 @@
     clear: both;
 }
 
-.processor {
+.processor1, .processor2, .processor3{
     width: 100px;
     float: left;
     margin: 0 5px 0 0;
 }
 
-.header {
-    text-align: center;
-}
+    .header {
+        text-align: center;
+    }
 
-.task {
-    background-color: rgba(43, 66, 194,0.2);
-    box-shadow: inset 0px 0px 7px rgba(43, 66, 194, 0.21);
-}
+    .processor1 .task {
+        background-color: rgba(43, 66, 194,0.2);
+        box-shadow: inset 0px 0px 7px rgba(43, 66, 194, 0.21);
+    }
+
+    .processor2 .task {
+        background-color: rgba(120, 0, 230,0.2);
+        box-shadow: inset 0px 0px 7px rgba(120, 0, 230, 0.21);
+    }
+
+    .processor3 .task {
+        background-color: rgba(24, 40, 77,0.2);
+        box-shadow: inset 0px 0px 7px rgba(24, 40, 77, 0.21);
+    }
 
 .task h4 {
     margin: 0;
@@ -31,5 +41,5 @@
 }
 
 .gap {
-    background-color: #f0ad4e;
+    background-color: #f3f2f2;
 }
