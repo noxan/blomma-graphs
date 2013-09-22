@@ -20,6 +20,8 @@ import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
+import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
+import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
@@ -109,6 +111,10 @@ public class EvaluationBuilder {
             }
 
             html = html.replace("{{evaluatedTaskList}}", evaluatedTaskListBuilder.toString());
+
+            TaskGraphSerializer taskGraphSerializer = new STGSerializer();
+
+            html = html.replace("{{taskGraph}}", taskGraphSerializer.serialize(taskGraph));
             // content end
 
             FileOutputStream fos = new FileOutputStream(new File(evaluationRootPath + "/"
