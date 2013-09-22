@@ -75,9 +75,11 @@ public class CustomStreamScheduler implements StreamScheduler {
                     gap = startTimeOnCpu; // correct????? could be maybe -1
                 }
 
+                PhantomTask newPhantomTask = new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
+                        communicationTimeOnCpu);
+                
                 if (phantomTaskList.isEmpty()) {
-                    phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
-                            communicationTimeOnCpu));
+                    phantomTaskList.add(newPhantomTask);
                 }
                 else {
                     for(PhantomTask phantomTask : phantomTaskList) {
@@ -85,14 +87,12 @@ public class CustomStreamScheduler implements StreamScheduler {
                         // on the cpu with the prev task or something in this case
                         if (gap < phantomTask.getGap()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
-                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
-                                            communicationTimeOnCpu));
+                                    newPhantomTask);
                             break;
                         } else if (gap == phantomTask.getGap()
                                 && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
-                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
-                                            communicationTimeOnCpu));
+                                    newPhantomTask);
                             break;
                         } else if (gap == phantomTask.getGap()
                                 && startTimeOnCpu == phantomTask.getEarliestStarttime()
@@ -102,13 +102,11 @@ public class CustomStreamScheduler implements StreamScheduler {
                                 // are the same, if not calculate a relation to the number of
                                 // nodes of a graph
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
-                                    new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
-                                            communicationTimeOnCpu));
+                                    newPhantomTask);
                             break;
                         } else {
                             System.out.print("ELSE " + startTimeOnCpu + "|" + phantomTask.getEarliestStarttime() + " DL:" + currentTask.getDeadLine() + "|" + phantomTask.getTaskGraphNode().getDeadLine() + "||");
-                            phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
-                                    startTimeOnCpu, communicationTimeOnCpu));
+                            phantomTaskList.add(newPhantomTask);
                             break;
                         }
                     }
