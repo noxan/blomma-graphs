@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blomma-graphs - evaluation</title>
+    <link rel="stylesheet" media="screen" href="../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css">
+    <link rel="stylesheet" media="screen" href="../../ressources/css/GraphVisualizerHTML.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>blomma-graphs <small>Evaluation</small></h1>
+      </div>
+
+      <ul class="nav nav-tabs" id="tabs">
+        <li class="active"><a href="#scheduleVisual">Schedule (Visual)</a></li>
+        <li><a href="#schedule">Schedule (Text)</a></li>
+        <li><a href="#taskgraph">TaskGraph</a></li>
+        <li><a href="#information">Information</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="scheduleVisual">
+          <div class="row">
+            <div class="col-md-6">
+              {{visualTaskList1}}
+            </div>
+            <div class="col-md-6">
+              {{visualTaskList2}}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="schedule">
+          <div class="row">
+            <div class="col-md-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>startTime</th>
+                    <th>taskId</th>
+                    <th>computationTime</th>
+                    <th>communicationTime</th>
+                    <th>cpuId</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{scheduledTaskList}}
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>startTime</th>
+                    <th>taskId</th>
+                    <th>computationTime</th>
+                    <th>communicationTime</th>
+                    <th>cpuId</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {{evaluatedTaskList}}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="taskgraph">
+          <div class="row">
+            <div class="col-md-6">
+              <canvas id="taskgraphViewport" style="width: 100%;" width="555" height="600"></canvas>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <pre>{{taskGraph}}</pre>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="information">...</div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="../../ressources/arborjs/arbor.js"></script>
+    <script src="../../ressources/arborjs/renderer.js"></script>
+    <script>
+      $(function () {
+        $('#tabs a').click(function(evt) {
+          evt.preventDefault();
+          $(this).tab('show');
+        });
+      });
+
+      $(document).ready(function() {
+        var sys = arbor.ParticleSystem(1000, 600, 0.5);
+        sys.renderer = Renderer("#taskgraphViewport")
+        sys.parameters({gravity:true})
+        {{arborTaskGraph}}
+      });
+    </script>
+  </body>
+</html>

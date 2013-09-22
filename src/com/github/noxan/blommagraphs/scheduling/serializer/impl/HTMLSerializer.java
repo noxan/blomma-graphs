@@ -10,13 +10,6 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
     @Override
     public String serialize(ScheduledTaskList scheduledTaskList) {
         StringBuilder string = new StringBuilder();
-        string.append("<html>\n");
-        string.append(" <head>\n");
-        string.append("     <title>HTML Serializer</title>\n");
-        string.append("     <link rel=\"stylesheet\" href=\"ressources/css/GraphVisualizerHTML.css\" type=\"text/css\" media=\"screen\" />\n");
-        string.append("     <link rel=\"stylesheet\" href=\"ressources/bootstrap-3.0.0/dist/css/bootstrap.min.css\" type=\"text/css\" media=\"screen\" />\n");
-        string.append(" </head>\n");
-        string.append(" <body>\n");
         string.append("     <div id=\"processorWrapper\">\n");
 
         for (int i = 0; i < scheduledTaskList.getCpuCount(); i++) {

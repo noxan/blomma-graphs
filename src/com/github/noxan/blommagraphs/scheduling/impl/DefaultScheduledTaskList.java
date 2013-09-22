@@ -154,7 +154,7 @@ public class DefaultScheduledTaskList extends ArrayList<ScheduledTask> implement
         }
         return ScheduledCpuTasks;
     }
-    
+
     public ScheduledTaskListStatus validate() {
         for (ScheduledTask task : this) {
             for (TaskGraphNode dependencyTask : task.getTaskGraphNode().getPrevNodes()) {
