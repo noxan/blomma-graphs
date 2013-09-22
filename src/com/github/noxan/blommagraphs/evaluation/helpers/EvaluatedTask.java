@@ -7,14 +7,17 @@ import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 public class EvaluatedTask implements Comparable<EvaluatedTask> {
     private long startTime;
     private long computationTime;
+    private long communicationTime;
     private int cpuId;
     private TaskGraphNode task;
 
     // private long communicationTime;
 
-    public EvaluatedTask(long startTime, long computationTime, int cpuId, TaskGraphNode task) {
+    public EvaluatedTask(long startTime, long computationTime, long communicationTime, int cpuId,
+            TaskGraphNode task) {
         this.startTime = startTime;
         this.computationTime = computationTime;
+        this.communicationTime = communicationTime;
         this.cpuId = cpuId;
         this.task = task;
     }
@@ -25,6 +28,10 @@ public class EvaluatedTask implements Comparable<EvaluatedTask> {
 
     public long getComputationTime() {
         return computationTime;
+    }
+
+    public long getCommunicationTime() {
+        return communicationTime;
     }
 
     public int getCpuId() {

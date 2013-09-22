@@ -48,13 +48,19 @@ public class PracticalScheduleWorker implements Runnable {
             if (ready) {
                 System.out.println("Start task " + task.getTaskId());
                 long taskStartTime = System.currentTimeMillis();
+                worker.work(task.getCommunicationTime());
+                long afterCommunicationTime = System.currentTimeMillis();
                 list.remove(task);
-                worker.work(task.getComputationTime() + task.getCommunicationTime());
+                worker.work(task.getComputationTime());
                 System.out.println("Finish task " + task.getTaskId());
+
+                long startTime = afterCommunicationTime - workerStartTime;
+                long computationTime = System.currentTimeMillis() - afterCommunicationTime;
+                long communicationTime = afterCommunicationTime - taskStartTime;
+
                 synchronized (simulatedScheduledTaskList) {
-                    simulatedScheduledTaskList.add(new EvaluatedTask(taskStartTime
-                            - workerStartTime, System.currentTimeMillis() - taskStartTime, task
-                            .getCpuId(), task.getTaskGraphNode()));
+                    simulatedScheduledTaskList.add(new EvaluatedTask(startTime, computationTime,
+                            communicationTime, task.getCpuId(), task.getTaskGraphNode()));
                 }
             }
         }
