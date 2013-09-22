@@ -25,6 +25,7 @@ public class StatisticsBuilder {
 
     private class Statistic {
         private String filePath;
+        private String scheduledTaskHTMLFilePath;
         private int nodeCount;
         private float edgeCount;
         private float cpDuration;
@@ -174,11 +175,18 @@ public class StatisticsBuilder {
 
                     // Starttime measurement
                     long currentAlgorithmDuration = System.currentTimeMillis();
+                    // SCHEDULING
                     scheduledTaskList = schedulers[schedulerId].schedule(taskGraphs,
                             systemMetaInformation);
                     currentAlgorithmDuration = (System.currentTimeMillis() - currentAlgorithmDuration);
                     System.out.println("Algorithm duration: " + (double) currentAlgorithmDuration
                             / 1000);
+                    
+                    // Write scheduledtasklist to file.
+                    String fileName = "export/statistics/scheduledtasks" + schedulerId + "_" +
+                            taskGroupCounter + "_" + graphId + ".html";
+                    currentStatistic.scheduledTaskHTMLFilePath = fileName;
+                    generateScheduledTaskHTMLFile(fileName, scheduledTaskList);
 
                     // Calculate taskGraphStatistics here.
                     int criticalPathDuration = calcCriticalPathDuration(graph);
