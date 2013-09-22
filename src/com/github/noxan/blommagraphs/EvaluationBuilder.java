@@ -87,7 +87,8 @@ public class EvaluationBuilder {
                     systemMetaInformation.getCpuCount());
             for (EvaluatedTask task : result) {
                 evaluatedScheduledTaskList.add(new DefaultScheduledTask(
-                        (int) task.getStartTime() / 20, task.getCpuId(), 0, task.getTask()));
+                        (int) task.getStartTime() / 20, task.getCpuId(), (int) (task
+                                .getCommunicationTime() / 20), task.getTask()));
             }
             html = html.replace("{{visualTaskList2}}",
                     visualSerializer.serialize(evaluatedScheduledTaskList));
