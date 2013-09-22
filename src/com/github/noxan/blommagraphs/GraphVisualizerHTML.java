@@ -6,6 +6,7 @@ import java.io.IOException;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.factories.impl.DefaultTaskGraphFactory;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
@@ -21,17 +22,16 @@ import com.github.noxan.blommagraphs.utils.FileUtils;
 public class GraphVisualizerHTML {
 
     public static void main(String[] args) throws IOException {
-        TaskGraphGenerator taskGraphGenerator = new DefaultTaskGraphGenerator();
-        TaskGraph taskGraph = taskGraphGenerator.generator();
+        TaskGraph taskGraph = DefaultTaskGraphFactory.makeGraph();
         SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(3);
+
         Scheduler scheduler = new LASTScheduler();
         ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
+
         ScheduledTaskListSerializer scheduledTaskListSerializer = new HTMLSerializer();
-        TaskGraphSerializer taskGraphSerializer = new STGSerializer();
         FileUtils.writeFile("./serialized.html",
                 scheduledTaskListSerializer.serialize(scheduledTaskList));
-        FileUtils.writeFile("./serialized.txt", taskGraphSerializer.serialize(taskGraph));
-        System.out.println("" + taskGraphSerializer.serialize(taskGraph));
+
         System.out.println("Done.");
 
     }
