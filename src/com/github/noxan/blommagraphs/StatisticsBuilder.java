@@ -820,6 +820,8 @@ public class StatisticsBuilder {
         html.append("  <head>\n");
         html.append("    <title>blommagraphs - scheduled task</title>\n");
 
+        html.append("    <meta charset=\"utf-8\">");
+                
         html.append("    <script src=\"../../../ressources/jquery.js\"></script>");
         html.append("    <script src=\"../../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>\n");
         html.append("    <script src=\"../../../ressources/arborjs/arbor.js\"></script>\n");
