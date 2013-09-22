@@ -9,15 +9,16 @@ import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
 import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 
 
 public class PracticalScheduleWorker implements Runnable {
     private List<ScheduledTask> list;
-    private List<EvaluatedTask> simulatedScheduledTaskList;
+    private ScheduledTaskList simulatedScheduledTaskList;
     private ScheduleSimulationWorker worker;
 
     public PracticalScheduleWorker(List<ScheduledTask> list,
-            List<EvaluatedTask> simulatedScheduledTaskList,
+            ScheduledTaskList simulatedScheduledTaskList,
             Class<? extends ScheduleSimulationWorker> workerClass) {
         this.list = list;
         this.simulatedScheduledTaskList = simulatedScheduledTaskList;
@@ -33,8 +34,8 @@ public class PracticalScheduleWorker implements Runnable {
     }
 
     private boolean isDependencyReady(TaskGraphNode dependency) {
-        for (EvaluatedTask evaluatedTask : simulatedScheduledTaskList) {
-            if (evaluatedTask.getTask() == dependency) {
+        for (ScheduledTask evaluatedTask : simulatedScheduledTaskList) {
+            if (evaluatedTask.getTaskGraphNode() == dependency) {
                 return true;
             }
         }
@@ -70,8 +71,9 @@ public class PracticalScheduleWorker implements Runnable {
                 long communicationTime = afterCommunicationTime - taskStartTime;
 
                 synchronized (simulatedScheduledTaskList) {
-                    simulatedScheduledTaskList.add(new EvaluatedTask(startTime, computationTime,
-                            communicationTime, task.getCpuId(), task.getTaskGraphNode()));
+                    simulatedScheduledTaskList.add(new EvaluatedTask(startTime / 20,
+                            computationTime / 20, communicationTime / 20, task.getCpuId(), task
+                                    .getTaskGraphNode()));
                 }
             }
         }

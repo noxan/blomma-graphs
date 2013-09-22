@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Collections;
-import java.util.List;
 
-import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.evaluation.impl.TimebasedScheduleSimulationWorker;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
@@ -27,9 +25,6 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
-import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
-import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
-import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
@@ -59,9 +54,9 @@ public class EvaluationBuilder {
         ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
 
         PracticalScheduleSimulator simulator = new PracticalScheduleSimulator();
-        List<EvaluatedTask> result = simulator.simulateExecution(scheduledTaskList,
-                TimebasedScheduleSimulationWorker.class);
-        Collections.sort(result);
+        ScheduledTaskList evaluatedScheduledTaskList = simulator.simulateExecution(
+                scheduledTaskList, TimebasedScheduleSimulationWorker.class);
+        Collections.sort(evaluatedScheduledTaskList);
 
         StringBuilder htmlBuilder = new StringBuilder();
 
@@ -85,13 +80,6 @@ public class EvaluationBuilder {
 
             html = html.replace("{{visualTaskList1}}",
                     visualSerializer.serialize(scheduledTaskList));
-            ScheduledTaskList evaluatedScheduledTaskList = new DefaultScheduledTaskList(
-                    systemMetaInformation.getCpuCount());
-            for (EvaluatedTask task : result) {
-                evaluatedScheduledTaskList.add(new DefaultScheduledTask(
-                        (int) task.getStartTime() / 20, task.getCpuId(), (int) (task
-                                .getCommunicationTime() / 20), task.getTask()));
-            }
             html = html.replace("{{visualTaskList2}}",
                     visualSerializer.serialize(evaluatedScheduledTaskList));
 
@@ -123,13 +111,13 @@ public class EvaluationBuilder {
             // content - evaluatedTaskList
             StringBuilder evaluatedTaskListBuilder = new StringBuilder();
 
-            for (EvaluatedTask evaluatedTask : result) {
+            for (ScheduledTask evaluatedTask : evaluatedScheduledTaskList) {
                 evaluatedTaskListBuilder.append("<tr>");
                 evaluatedTaskListBuilder.append("<td>");
                 evaluatedTaskListBuilder.append(evaluatedTask.getStartTime());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getTask().getId());
+                evaluatedTaskListBuilder.append(evaluatedTask.getTaskId());
                 evaluatedTaskListBuilder.append("</td>");
                 evaluatedTaskListBuilder.append("<td>");
                 evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
