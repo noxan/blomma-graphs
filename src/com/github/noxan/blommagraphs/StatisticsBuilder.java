@@ -2,6 +2,7 @@ package com.github.noxan.blommagraphs;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -820,8 +821,15 @@ public class StatisticsBuilder {
         html.append("<html>\n");
         html.append("  <head>\n");
         html.append("    <title>blommagraphs - scheduled task</title>\n");
+
+        html.append("    <script src=\"../../../ressources/jquery.js\"></script>");
+        html.append("    <script src=\"../../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js\"></script>\n");
+        html.append("    <script src=\"../../../ressources/arborjs/arbor.js\"></script>\n");
+        html.append("    <script src=\"../../../ressources/arborjs/renderer.js\"></script>\n");
+
         html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
         html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/css/GraphVisualizerHTML.css\">");
+
         html.append("  </head>\n");
         html.append("  <body>\n");
         html.append("    <div class=\"container\">\n");
@@ -833,8 +841,37 @@ public class StatisticsBuilder {
         html.append("       <div class=\"row\">\n");
         
         html.append("         <div class=\"col-md-6\" id=\"arborgraph\">\n");
+        html.append("               <canvas id=\"taskgraphviewport\" style=\"width:100%;\" width=\"555\" height=\"600\"></canvas> ");
+        html.append("    <script>");
+        html.append("       $(document).ready(function() {\n");
+        html.append("           var sys = arbor.ParticleSystem(1000, 600, 0.5);\n");
+        html.append("           sys.renderer = Renderer(\"#taskgraphviewport\")\n");
+        html.append("           sys.parameters({gravity:true})\n");
+
+                                // arbor task graph
+                                StringBuilder arborTaskGraphBuilder = new StringBuilder();
+
+                                for (TaskGraphNode node : graph.getNodeSet()) {
+                                    arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
+                                    if (node == graph.getFirstNode()) {
+                                        arborTaskGraphBuilder
+                                                .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
+                                    } else if (node == graph.getLastNode()) {
+                                        arborTaskGraphBuilder
+                                                .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
+                                    }
+                                    arborTaskGraphBuilder.append(")\n");
+                                }
+                                for (TaskGraphEdge edge : graph.getEdgeSet()) {
+                                    arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                                            + edge.getNextNode().getId() + "')\n");
+                                }
+
+        html.append(        arborTaskGraphBuilder.toString());
+        html.append("      });");
+        html.append("    </script>");
         html.append("         </div><!-- arborgraph -->\n");
-        
+
         html.append("         <div class=\"col-md-6\" id=\"stggraph\">\n");
         html.append("           <p>\n");
         html.append("             <pre>\n");
