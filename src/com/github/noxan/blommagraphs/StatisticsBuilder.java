@@ -805,5 +805,41 @@ public class StatisticsBuilder {
         colors[3] = "57, 60, 77";
         return colors[i];
     }
+    
+    private void generateScheduledTaskHTMLFile(String filePath, ScheduledTaskList scheduledTaskList)
+            throws IOException {
+        StringBuilder html = new StringBuilder();
+        html.append("<!DOCTYPE HTML>\n");
+        html.append("<html>\n");
+        html.append("  <head>\n");
+        html.append("    <title>blommagraphs - scheduled task</title>\n");
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/css/GraphVisualizerHTML.css\">");
+        html.append("  </head>\n");
+        html.append("  <body>\n");
+        html.append("    <div class=\"container\">\n");
+        html.append("       <div class=\"page-header\">\n");
+        html.append("          <h1>BlommaGraphs<small> Scheduled Task</small></h1>\n");
+        html.append("       </div><!-- page-header -->\n");
+        
+        html.append("       <div id=\"arborgraph\">\n");
+        html.append("       </div><!-- arborgraph -->\n");
+        
+        html.append("       <div id=\"stggraph\">\n");
+        html.append("       </div><!-- stggraph -->\n");
+        
+        html.append("       <div id=\"visualizedschedule\">\n");
+        html.append("       </div><!-- visualizedschedule -->\n");
+        
+        html.append("       <div id=\"textualschedule\">\n");
+        html.append("       </div><!-- textualschedule -->\n");
+        
+        html.append("       <div class=\"clear\"></div>");
+        html.append("    </div><!-- container -->\n");
+        html.append("  </body>\n");
+        html.append("</html>\n");
+     
+        FileUtils.writeFile(filePath, html.toString());
+    }
 }
 
