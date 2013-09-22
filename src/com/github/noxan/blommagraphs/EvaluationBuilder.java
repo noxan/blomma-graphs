@@ -40,7 +40,7 @@ public class EvaluationBuilder {
         evaluationBuilder.start();
     }
 
-    private final String evaluationRootPath = "export/evaulation";
+    private final String evaluationRootPath = "export/evaluation";
 
     private final String evaluationTemplatePathname = "ressources/evaluation/index.html";
 
