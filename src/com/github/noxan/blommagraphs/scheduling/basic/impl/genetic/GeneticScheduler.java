@@ -9,6 +9,7 @@ import java.util.Set;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 import com.github.noxan.blommagraphs.scheduling.basic.Scheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.Chromosome;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.chromosome.CpuChromosome;
@@ -76,10 +77,15 @@ public class GeneticScheduler implements Scheduler {
         for (int index = 0; index < populationSize; index++) {
             Chromosome chromosome = sortedPopulation.get(index);
 
-            if (elitismRatio >= (float) index / (float) populationSize) {
-                elitismPopulation.add(chromosome);
+            if (chromosome.decode().validate() == ScheduledTaskListStatus.VALID) {
+                if (elitismRatio >= (float) index / (float) populationSize) {
+                    elitismPopulation.add(chromosome);
+                } else {
+                    matingPopulation.add(chromosome);
+                }
             } else {
-                matingPopulation.add(chromosome);
+                matingPopulation
+                        .add(new RandomChromosome(metaInformation.getCpuCount(), taskGraph));
             }
         }
     }
