@@ -4,13 +4,15 @@ package com.github.noxan.blommagraphs.evaluation.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
 import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 
 
 public class PracticalScheduleSimulator {
-    public List<EvaluatedTask> simulateExecution(ScheduledTaskList scheduledTaskList) {
+    public List<EvaluatedTask> simulateExecution(ScheduledTaskList scheduledTaskList,
+            Class<? extends ScheduleSimulationWorker> workerClass) {
         PracticalScheduleWorker workers[] = new PracticalScheduleWorker[scheduledTaskList
                 .getCpuCount()];
         Thread[] threads = new Thread[scheduledTaskList.getCpuCount()];
@@ -27,7 +29,7 @@ public class PracticalScheduleSimulator {
 
         for (int cpuId = 0; cpuId < scheduledTaskList.getCpuCount(); cpuId++) {
             workers[cpuId] = new PracticalScheduleWorker(processorScheduledTaskList.get(cpuId),
-                    simulatedScheduledTaskList);
+                    simulatedScheduledTaskList, workerClass);
             threads[cpuId] = new Thread(workers[cpuId]);
         }
 

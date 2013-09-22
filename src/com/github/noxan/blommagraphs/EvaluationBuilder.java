@@ -15,6 +15,7 @@ import java.util.List;
 
 import com.github.noxan.blommagraphs.evaluation.helpers.EvaluatedTask;
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
+import com.github.noxan.blommagraphs.evaluation.impl.TimebasedScheduleSimulationWorker;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
@@ -58,7 +59,8 @@ public class EvaluationBuilder {
         ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
 
         PracticalScheduleSimulator simulator = new PracticalScheduleSimulator();
-        List<EvaluatedTask> result = simulator.simulateExecution(scheduledTaskList);
+        List<EvaluatedTask> result = simulator.simulateExecution(scheduledTaskList,
+                TimebasedScheduleSimulationWorker.class);
         Collections.sort(result);
 
         StringBuilder htmlBuilder = new StringBuilder();

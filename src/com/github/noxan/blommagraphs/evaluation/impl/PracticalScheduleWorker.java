@@ -1,6 +1,8 @@
 package com.github.noxan.blommagraphs.evaluation.impl;
 
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import com.github.noxan.blommagraphs.evaluation.ScheduleSimulationWorker;
@@ -15,10 +17,19 @@ public class PracticalScheduleWorker implements Runnable {
     private ScheduleSimulationWorker worker;
 
     public PracticalScheduleWorker(List<ScheduledTask> list,
-            List<EvaluatedTask> simulatedScheduledTaskList) {
+            List<EvaluatedTask> simulatedScheduledTaskList,
+            Class<? extends ScheduleSimulationWorker> workerClass) {
         this.list = list;
         this.simulatedScheduledTaskList = simulatedScheduledTaskList;
-        this.worker = new TimebasedScheduleSimulationWorker();
+
+        try {
+            Constructor<? extends ScheduleSimulationWorker> constructor = workerClass
+                    .getConstructor();
+            this.worker = constructor.newInstance();
+        } catch (NoSuchMethodException | SecurityException | InstantiationException
+                | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     private boolean isDependencyReady(TaskGraphNode dependency) {
