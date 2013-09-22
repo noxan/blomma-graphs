@@ -822,22 +822,32 @@ public class StatisticsBuilder {
         html.append("          <h1>BlommaGraphs<small> Scheduled Task</small></h1>\n");
         html.append("       </div><!-- page-header -->\n");
         
-        html.append("       <div id=\"arborgraph\">\n");
-        html.append("       </div><!-- arborgraph -->\n");
         
-        html.append("       <div id=\"stggraph\">\n");
-        html.append("         <p>\n");
-        html.append("           <pre>\n");
-        html.append(              taskGraphSerializer.serialize(graph));
-        html.append("           </pre>\n");
-        html.append("         </p>");
-        html.append("       </div><!-- stggraph -->\n");
+        html.append("       <div class=\"row\">\n");
         
-        html.append("       <div id=\"visualizedschedule\">\n");
-        html.append("       </div><!-- visualizedschedule -->\n");
+        html.append("         <div class=\"col-md-6\" id=\"arborgraph\">\n");
+        html.append("         </div><!-- arborgraph -->\n");
         
-        html.append("       <div id=\"textualschedule\">\n");
-        html.append("       </div><!-- textualschedule -->\n");
+        html.append("         <div class=\"col-md-6\" id=\"stggraph\">\n");
+        html.append("           <p>\n");
+        html.append("             <pre>\n");
+        html.append(                taskGraphSerializer.serialize(graph));
+        html.append("             </pre>\n");
+        html.append("           </p>");
+        html.append("         </div><!-- stggraph -->\n");
+
+        html.append("       </div><!-- row -->\n");
+        
+        
+        html.append("       <div class=\"row\">\n");
+        html.append("         <div class=\"col-md-6\" id=\"visualizedschedule\">\n");
+        html.append("         </div><!-- visualizedschedule -->\n");
+        
+        html.append("         <div class=\"col-md-6\" id=\"textualschedule\">\n");
+        html.append("         </div><!-- textualschedule -->\n");
+        
+        html.append("       </div><!-- row -->\n");
+        
         
         html.append("       <div class=\"clear\"></div>");
         html.append("    </div><!-- container -->\n");
