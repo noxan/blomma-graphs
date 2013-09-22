@@ -64,6 +64,9 @@ public class StatisticsBuilder {
         // TODO Auto-generated method stub
         StatisticsBuilder statBuilder = new StatisticsBuilder();
 
+        // Create directory where statistics are saved.
+        new File("export/statistics/scheduledtasks").mkdirs();
+        
         statBuilder.buildStatistics();
         statBuilder.generateHTML();
 
