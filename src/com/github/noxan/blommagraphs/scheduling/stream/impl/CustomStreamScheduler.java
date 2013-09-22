@@ -90,14 +90,15 @@ public class CustomStreamScheduler implements StreamScheduler {
                                     newPhantomTask);
                             break;
                         } else if (gap == phantomTask.getGap()
-                                && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
+                                && currentTask.getDeadLine() <
+                                phantomTask.getTaskGraphNode().getDeadLine()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     newPhantomTask);
                             break;
                         } else if (gap == phantomTask.getGap()
-                                && startTimeOnCpu == phantomTask.getEarliestStarttime()
-                                && currentTask.getDeadLine() <
-                                phantomTask.getTaskGraphNode().getDeadLine()) {
+                                && currentTask.getDeadLine() ==
+                                phantomTask.getTaskGraphNode().getDeadLine()
+                                && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
                                 // adding pure deadline priority just makes sense if all graphes
                                 // are the same, if not calculate a relation to the number of
                                 // nodes of a graph
@@ -190,13 +191,10 @@ public class CustomStreamScheduler implements StreamScheduler {
     }
 
     /*
-        geht noch nicht:
+        Muss noch gecheckt werden:
         zu kurze deadlines
-            >geht: leerer output
         kritische deadline: alle taskgraphen haben min deadline (root nicht ganz oben)
-
         zu lange deadlines: throughput is schrott da nur auf einem cpus
-            >geht
         geht noch nicht kommentar in der falschen sprache und an der falschen stelle
      */
 
