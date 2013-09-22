@@ -813,8 +813,8 @@ public class StatisticsBuilder {
         html.append("<html>\n");
         html.append("  <head>\n");
         html.append("    <title>blommagraphs - scheduled task</title>\n");
-        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
-        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../ressources/css/GraphVisualizerHTML.css\">");
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css\">");
+        html.append("    <link rel=\"stylesheet\" media=\"screen\" href=\"../../../ressources/css/GraphVisualizerHTML.css\">");
         html.append("  </head>\n");
         html.append("  <body>\n");
         html.append("    <div class=\"container\">\n");
