@@ -72,7 +72,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                             - (lastScheduledTask.getStartTime() + lastScheduledTask
                                     .getComputationTime());
                 } else {
-                    gap = 0; // correct????? could be maybe -1
+                    gap = startTimeOnCpu; // correct????? could be maybe -1
                 }
 
                 if (phantomTaskList.isEmpty()) {
