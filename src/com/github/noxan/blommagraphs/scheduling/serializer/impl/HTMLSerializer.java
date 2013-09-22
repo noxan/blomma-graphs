@@ -40,8 +40,8 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 flummi = j;
                 if (j == 0 && i != 0) {
                     string.append("         <div class=\"waitTime\" style=\"height: ")
-                            .append(scheduledTaskOnCpuList.get(j).getStartTime()
-                                    - scheduledTaskOnCpuList.get(j).getCommunicationTime() * 12)
+                            .append((scheduledTaskOnCpuList.get(j).getStartTime() - scheduledTaskOnCpuList
+                                    .get(j).getCommunicationTime()) * 12)
                             .append("px;\"></div><!-- waittime -->\n");
                 }
                 int waitTime = 0;
