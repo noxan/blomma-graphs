@@ -186,7 +186,7 @@ public class StatisticsBuilder {
                             / 1000);
                     
                     // Write scheduledtasklist to file.
-                    String fileName = "export/statistics/scheduledtasks" + schedulerId + "_" +
+                    String fileName = "export/statistics/scheduledtasks/" + schedulerId + "_" +
                             taskGroupCounter + "_" + graphId + ".html";
                     currentStatistic.scheduledTaskHTMLFilePath = fileName;
                     generateScheduledTaskHTMLFile(fileName, scheduledTaskList, graph);
