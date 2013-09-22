@@ -6,7 +6,8 @@ import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSeri
 
 
 public class HTMLSerializer implements ScheduledTaskListSerializer {
-
+    private final int timePixelFactor = 20;
+    
     @Override
     public String serialize(ScheduledTaskList scheduledTaskList) {
         StringBuilder string = new StringBuilder();
@@ -34,7 +35,7 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 if (j == 0 && i != 0) {
                     string.append("         <div class=\"waitTime\" style=\"height: ")
                             .append((scheduledTaskOnCpuList.get(j).getStartTime() - scheduledTaskOnCpuList
-                                    .get(j).getCommunicationTime()) * 12)
+                                    .get(j).getCommunicationTime()) * timePixelFactor)
                             .append("px;\"></div><!-- waittime -->\n");
                 }
                 int waitTime = 0;
@@ -59,7 +60,7 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
 
                 if (waitTime > 0) {
                     string.append("             <div class=\"waitTime\" style=\"height: ")
-                            .append(waitTime * 12).append("px;\">");
+                            .append(waitTime * timePixelFactor).append("px;\">");
                     string.append("             </div><!-- waittime -->\n");
                     waitTime = 0;
                 }
@@ -67,11 +68,11 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 if (scheduledTaskOnCpuList.get(j).getCommunicationTime() != 0) {
                     string.append("         <div class=\"gap\" style=\"height: ")
                             .append(scheduledTaskList.getScheduledTasksOnCpu(i).get(j)
-                                    .getCommunicationTime() * 12)
+                                    .getCommunicationTime() * timePixelFactor)
                             .append("px;\"></div><!-- gap -->\n");
                 }
                 string.append("             <div class=\"task\"").append(" style=\"height: ")
-                        .append(scheduledTaskOnCpuList.get(j).getComputationTime() * 12)
+                        .append(scheduledTaskOnCpuList.get(j).getComputationTime() * timePixelFactor)
                         .append("px;\">\n");
                 string.append("                 <h4><small>")
                         .append(scheduledTaskOnCpuList.get(j).getTaskId())
