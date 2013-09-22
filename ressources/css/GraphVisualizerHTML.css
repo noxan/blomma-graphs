@@ -1,35 +1,35 @@
 #processorWrapper {
-    margin: 0 auto;
+  margin: 0 auto;
 }
 
 .clear {
-    clear: both;
+  clear: both;
 }
 
 .processor1, .processor2, .processor3, .processor4 {
-    width: 100px;
-    float: left;
-    margin: 0 5px 0 0;
+  width: 100px;
+  float: left;
+  margin: 0 5px 0 0;
 }
 
-    .header {
-        text-align: center;
-    }
+.header {
+  text-align: center;
+}
 
-    .processor1 .task {
-        background-color: rgba(43, 66, 194,0.2);
-        box-shadow: inset 0px 0px 7px rgba(43, 66, 194, 0.21);
-    }
+.processor1 .task {
+  background-color: rgba(43, 66, 194,0.2);
+  box-shadow: inset 0px 0px 7px rgba(43, 66, 194, 0.21);
+}
 
-    .processor2 .task {
-        background-color: rgba(120, 0, 230,0.2);
-        box-shadow: inset 0px 0px 7px rgba(120, 0, 230, 0.21);
-    }
+.processor2 .task {
+  background-color: rgba(120, 0, 230,0.2);
+  box-shadow: inset 0px 0px 7px rgba(120, 0, 230, 0.21);
+}
 
-    .processor3 .task {
-        background-color: rgba(24, 40, 77,0.2);
-        box-shadow: inset 0px 0px 7px rgba(24, 40, 77, 0.21);
-    }
+.processor3 .task {
+  background-color: rgba(24, 40, 77,0.2);
+  box-shadow: inset 0px 0px 7px rgba(24, 40, 77, 0.21);
+}
 
 .processor4 .task {
   background-color: rgba(75, 0, 150, 0.2);
@@ -37,14 +37,14 @@
 }
 
 .task h4 {
-    margin: 0;
-    text-align: center;
+  margin: 0;
+  text-align: center;
 }
 
 .waitTime {
-    background-color: #ffffff;
+  background-color: #ffffff;
 }
 
 .gap {
-    background-color: #f3f2f2;
+  background-color: #f3f2f2;
 }
