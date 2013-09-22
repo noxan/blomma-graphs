@@ -15,7 +15,7 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
         for (int i = 0; i < scheduledTaskList.getCpuCount(); i++) {
             System.out.println("CPU COUNT" + scheduledTaskList.getCpuCount());
 
-            string.append("         <div class=\"processor\">\n");
+            string.append("         <div class=\"processor").append(i+1).append("\">\n");
             boolean bitch = true;
             int counti = 1;
             int flummi = 1;
@@ -60,7 +60,7 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 }
 
                 if (scheduledTaskOnCpuList.get(j).getCommunicationTime() != 0) {
-                    string.append("         <div class=\"gap\" style=\"height: ").append(scheduledTaskList.getScheduledTasksOnCpu(i).getTaskById(j).getCommunicationTime() * 12).append("px;\"></div><!-- gap -->\n");
+                    string.append("         <div class=\"gap\" style=\"height: ").append(scheduledTaskList.getScheduledTasksOnCpu(i).get(j).getCommunicationTime() * 12).append("px;\"></div><!-- gap -->\n");
                 }
                 string.append("             <div class=\"task\"").append(" style=\"height: ").append(scheduledTaskOnCpuList.get(j).getComputationTime() * 12).append("px;\">\n");
                 string.append("                 <h4><small>").append(scheduledTaskOnCpuList.get(j).getTaskId()).append("</small></h4>\n");
