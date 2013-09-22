@@ -28,7 +28,6 @@ public class CustomStreamScheduler implements StreamScheduler {
     private ScheduledTaskList getScheduledTaskList(Set<TaskGraphNode> readySet,
             ScheduledTaskList scheduledTaskList) {
         ArrayList<PhantomTask> phantomTaskList = new ArrayList<PhantomTask>();
-
         for (TaskGraphNode currentTask : readySet) {
 
             Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
@@ -59,7 +58,6 @@ public class CustomStreamScheduler implements StreamScheduler {
                         if (currentDependencyTime > maxDependencyTime) {
                             maxDependencyTime = currentDependencyTime;
                             communicationTimeOnCpu = edge.getCommunicationTime();
-
                         }
                     }
                 }
@@ -74,7 +72,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                             - (lastScheduledTask.getStartTime() + lastScheduledTask
                                     .getComputationTime());
                 } else {
-                    gap = 0; // correct?????
+                    gap = 0; // correct????? could be maybe -1
                 }
 
                 if (phantomTaskList.isEmpty()) {
@@ -83,22 +81,32 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
                 else {
                     for(PhantomTask phantomTask : phantomTaskList) {
+                        // optimization if the one with the bigger communication time would be put
+                        // on the cpu with the prev task or something in this case
                         if (gap < phantomTask.getGap()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
                                             communicationTimeOnCpu));
                             break;
-                        } else if (gap == phantomTask.getGap() && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
+                        } else if (gap == phantomTask.getGap()
+                                && startTimeOnCpu < phantomTask.getEarliestStarttime()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
                                             communicationTimeOnCpu));
                             break;
-                        } else if (gap == phantomTask.getGap() && startTimeOnCpu == phantomTask.getEarliestStarttime() && currentTask.getDeadLine() < phantomTask.getTaskGraphNode().getDeadLine()) {
+                        } else if (gap == phantomTask.getGap()
+                                && startTimeOnCpu == phantomTask.getEarliestStarttime()
+                                && currentTask.getDeadLine() <
+                                phantomTask.getTaskGraphNode().getDeadLine()) {
+                                // adding pure deadline priority just makes sense if all graphes
+                                // are the same, if not calculate a relation to the number of
+                                // nodes of a graph
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
                                             communicationTimeOnCpu));
                             break;
                         } else {
+                            System.out.print("ELSE " + startTimeOnCpu + "|" + phantomTask.getEarliestStarttime() + " DL:" + currentTask.getDeadLine() + "|" + phantomTask.getTaskGraphNode().getDeadLine() + "||");
                             phantomTaskList.add(new PhantomTask(cpuId, currentTask, gap,
                                     startTimeOnCpu, communicationTimeOnCpu));
                             break;
@@ -107,7 +115,6 @@ public class CustomStreamScheduler implements StreamScheduler {
                 }
             }
         }
-
         System.out.print("PhantomTaskList: ");
         for(PhantomTask phantomTask : phantomTaskList) {
             System.out.print(phantomTask.getTaskGraphNode().getId() + "|" + phantomTask.getCpuId() +  "|>" + phantomTask.getGap() + " ");
@@ -159,9 +166,10 @@ public class CustomStreamScheduler implements StreamScheduler {
         int nextScheduledTaskListSize;
         do {
             if(i >= phantomTaskList.size()) {
+                if (scheduledTaskList.size() <= 4)
+                    System.out.println("Back from " + scheduledTaskList.size());
                 return scheduledTaskList;
             }
-            System.out.println("Take: " + i);
             nextPhantomTask = phantomTaskList.get(i);
             Set<TaskGraphNode> newReadySet = new HashSet<TaskGraphNode>();
             for (TaskGraphNode currentNode : readySet) {
@@ -178,7 +186,6 @@ public class CustomStreamScheduler implements StreamScheduler {
             updateReadySet(newReadySet, nextScheduledTaskList, nextPhantomTask.getTaskGraphNode());
             nextScheduledTaskListSize = nextScheduledTaskList.size();
             currentTaskList = getScheduledTaskList(newReadySet, nextScheduledTaskList);
-            System.out.println("Back: " + currentTaskList.size() + " old: " + nextScheduledTaskList.size());
             i++;
         } while(currentTaskList.size() == nextScheduledTaskListSize);
         return currentTaskList;
@@ -187,8 +194,11 @@ public class CustomStreamScheduler implements StreamScheduler {
     /*
         geht noch nicht:
         zu kurze deadlines
+            >geht: leerer output
         kritische deadline: alle taskgraphen haben min deadline (root nicht ganz oben)
+
         zu lange deadlines: throughput is schrott da nur auf einem cpus
+            >geht
         geht noch nicht kommentar in der falschen sprache und an der falschen stelle
      */
 
