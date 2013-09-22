@@ -54,21 +54,31 @@
           </div>
         </div>
         <div class="tab-pane" id="taskgraph">
-          <p>
+          <canvas id="taskgraphViewport" width="800" height="600"></canvas>
+          <!--<p>
             <pre>{{taskGraph}}</pre>
-          </p>
+          </p>-->
         </div>
         <div class="tab-pane" id="information">...</div>
       </div>
     </div>
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <script src="../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="../../ressources/arborjs/arbor.js"></script>
+    <script src="../../ressources/arborjs/renderer.js"></script>
     <script>
       $(function () {
         $('#tabs a').click(function(evt) {
           evt.preventDefault();
           $(this).tab('show');
         });
+      });
+
+      $(document).ready(function() {
+        var sys = arbor.ParticleSystem(1000, 600, 0.5);
+        sys.renderer = Renderer("#taskgraphViewport")
+        sys.parameters({gravity:true})
+        {{arborTaskGraph}}
       });
     </script>
   </body>

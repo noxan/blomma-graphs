@@ -18,6 +18,8 @@ import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
+import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
+import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.graphs.serializer.TaskGraphSerializer;
 import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
@@ -118,6 +120,25 @@ public class EvaluationBuilder {
             TaskGraphSerializer taskGraphSerializer = new STGSerializer();
 
             html = html.replace("{{taskGraph}}", taskGraphSerializer.serialize(taskGraph));
+
+            // arbor task graph
+            StringBuilder arborTaskGraphBuilder = new StringBuilder();
+
+            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+                arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                        + edge.getNextNode().getId() + "')\n");
+            }
+            for (TaskGraphNode node : taskGraph.getNodeSet()) {
+                arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
+                if (node == taskGraph.getFirstNode()) {
+                    arborTaskGraphBuilder.append(", {'fixed': true, 'y': 10}");
+                } else {
+
+                }
+                arborTaskGraphBuilder.append(")\n");
+            }
+
+            html = html.replace("arborTaskGraph", arborTaskGraphBuilder.toString());
             // content end
 
             FileOutputStream fos = new FileOutputStream(new File(evaluationRootPath + "/"
