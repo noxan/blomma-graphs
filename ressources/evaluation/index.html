@@ -14,13 +14,24 @@
       </div>
 
       <ul class="nav nav-tabs" id="tabs">
-        <li class="active"><a href="#schedule">Schedule</a></li>
+        <li class="active"><a href="#scheduleVisual">Schedule (Visual)</a></li>
+        <li><a href="#schedule">Schedule (Text)</a></li>
         <li><a href="#taskgraph">TaskGraph</a></li>
         <li><a href="#information">Information</a></li>
       </ul>
 
       <div class="tab-content">
-        <div class="tab-pane active" id="schedule">
+        <div class="tab-pane active" id="scheduleVisual">
+          <div class="row">
+            <div class="col-md-6">
+              {{visualTaskList1}}
+            </div>
+            <div class="col-md-6">
+              {{visualTaskList2}}
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="schedule">
           <div class="row">
             <div class="col-md-6">
               <table class="table">
