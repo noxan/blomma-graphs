@@ -14,8 +14,6 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
         string.append("     <div id=\"processorWrapper\">\n");
 
         for (int i = 0; i < scheduledTaskList.getCpuCount(); i++) {
-            System.out.println("CPU COUNT" + scheduledTaskList.getCpuCount());
-
             string.append("         <div class=\"processor").append(i + 1).append("\">\n");
             boolean bitch = true;
             int counti = 1;
@@ -46,16 +44,6 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 waitTime = scheduledTaskOnCpuList.get(j).getStartTime()
                         - (scheduledTaskOnCpuList.get(flummi - 1).getFinishTime() + scheduledTaskOnCpuList
                                 .get(j).getCommunicationTime());
-                System.out.println("start " + scheduledTaskOnCpuList.get(j).getStartTime());
-                System.out.println("finish "
-                        + scheduledTaskOnCpuList.get(flummi - 1).getFinishTime());
-                System.out.println("ID " + scheduledTaskOnCpuList.get(j).getTaskId());
-                System.out.println("waitTime " + (waitTime));
-                System.out.println("LOOPREPITITIONS " + counti);
-                System.out.println("CPU: " + scheduledTaskOnCpuList.get(j).getCpuId());
-                System.out.println("COMMUNICATION TIME: "
-                        + scheduledTaskOnCpuList.get(j).getCommunicationTime());
-                System.out.println("");
                 counti += 1;
 
                 if (waitTime > 0) {
