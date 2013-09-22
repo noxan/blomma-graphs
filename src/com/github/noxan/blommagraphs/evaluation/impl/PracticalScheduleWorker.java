@@ -32,23 +32,29 @@ public class PracticalScheduleWorker implements Runnable {
 
     @Override
     public void run() {
-        long startTime = System.nanoTime();
+        long workerStartTime = System.currentTimeMillis();
         System.out.println("Worker starting...");
         while (list.size() > 0) {
             ScheduledTask task = list.get(0);
             boolean ready = true;
-            for (TaskGraphNode dependency : task.getTaskGraphNode().getPrevNodes()) {
-                if (!simulatedScheduledTaskList.containsValue(dependency)) {
-                    ready = false;
+            synchronized (simulatedScheduledTaskList) {
+                for (TaskGraphNode dependency : task.getTaskGraphNode().getPrevNodes()) {
+                    if (!isDependencyReady(dependency)) {
+                        ready = false;
+                        break;
+                    }
                 }
-            }
-            if (ready) {
-                System.out.println("Start task " + task.getTaskId());
-                list.remove(task);
-                worker.work(task.getComputationTime() + task.getCommunicationTime());
-                System.out.println("Finish task " + task.getTaskId());
-                simulatedScheduledTaskList.put(System.nanoTime() - startTime,
-                        task.getTaskGraphNode());
+                if (ready) {
+                    System.out.println("Start task " + task.getTaskId());
+                    long taskStartTime = System.currentTimeMillis();
+                    list.remove(task);
+                    worker.work(task.getComputationTime() + task.getCommunicationTime());
+                    System.out.println("Finish task " + task.getTaskId());
+                    simulatedScheduledTaskList.add(new EvaluatedTask(taskStartTime
+                            - workerStartTime, System.currentTimeMillis() - taskStartTime, task
+                            .getCpuId(), task.getTaskGraphNode()));
+
+                }
             }
         }
     }
