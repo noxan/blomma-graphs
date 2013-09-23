@@ -22,6 +22,22 @@ title: Sprint4
   <section>
     <h1>Practical evaluation</h1>
   </section>
+  <section>
+    <h2>Approach</h2>
+    <ul>
+      <li>Execute given schedule</li>
+      <li>One Java thread (worker) for each cpu</li>
+      <li>Check dependencies instead of startTime</li>
+      <li>Synchronized results list across all workers</li>
+      <li>Perform fake work with time scale of 1 : 20
+        <ul>
+          <li>Time based worker</li>
+          <li>Load based worker</li>
+        </ul>
+      </li>
+      <li>Returns schedule of simulated execution</li>
+    </ul>
+  </section>
 </section>
 
 <section>
