@@ -101,25 +101,8 @@ public class EvaluationBuilder {
             html = html.replace("{{taskGraph}}", taskGraphSerializer.serialize(taskGraph));
 
             // arbor task graph
-            StringBuilder arborTaskGraphBuilder = new StringBuilder();
 
-            for (TaskGraphNode node : taskGraph.getNodeSet()) {
-                arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
-                if (node == taskGraph.getFirstNode()) {
-                    arborTaskGraphBuilder
-                            .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
-                } else if (node == taskGraph.getLastNode()) {
-                    arborTaskGraphBuilder
-                            .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
-                }
-                arborTaskGraphBuilder.append(")\n");
-            }
-            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
-                arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
-                        + edge.getNextNode().getId() + "')\n");
-            }
-
-            html = html.replace("arborTaskGraph", arborTaskGraphBuilder.toString());
+            html = html.replace("arborTaskGraph", taskGraphToArborGraph(taskGraph));
             // content end
 
             FileOutputStream fos = new FileOutputStream(new File(evaluationRootPath + "/"
@@ -134,6 +117,28 @@ public class EvaluationBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String taskGraphToArborGraph(TaskGraph taskGraph) {
+        StringBuilder arborTaskGraphBuilder = new StringBuilder();
+
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
+            if (node == taskGraph.getFirstNode()) {
+                arborTaskGraphBuilder
+                        .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
+            } else if (node == taskGraph.getLastNode()) {
+                arborTaskGraphBuilder
+                        .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
+            }
+            arborTaskGraphBuilder.append(")\n");
+        }
+        for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+            arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                    + edge.getNextNode().getId() + "')\n");
+        }
+
+        return arborTaskGraphBuilder.toString();
     }
 
     private String scheduledTaskListToHTMLTable(ScheduledTaskList scheduledTaskList) {
