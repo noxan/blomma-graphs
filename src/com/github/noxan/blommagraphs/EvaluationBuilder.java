@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Collections;
 
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.evaluation.impl.TimebasedScheduleSimulationWorker;
@@ -42,6 +41,10 @@ public class EvaluationBuilder {
     private final String evaluationTemplatePathname = "ressources/evaluation/index.html";
 
     public void start() {
+        // vm warmup
+        for (int i = Integer.MIN_VALUE; i < Integer.MAX_VALUE; i++) {
+        }
+
         new File(evaluationRootPath).mkdir();
 
         TaskGraphGenerator generator = new DefaultTaskGraphGenerator();
@@ -57,24 +60,9 @@ public class EvaluationBuilder {
         PracticalScheduleSimulator simulator = new PracticalScheduleSimulator();
         ScheduledTaskList evaluatedScheduledTaskList = simulator.simulateExecution(
                 scheduledTaskList, TimebasedScheduleSimulationWorker.class);
-        Collections.sort(evaluatedScheduledTaskList);
-
-        StringBuilder htmlBuilder = new StringBuilder();
 
         try {
-            FileInputStream fis = new FileInputStream(new File(evaluationTemplatePathname));
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                htmlBuilder.append(line + "\n");
-            }
-
-            reader.close();
-            fis.close();
-
-            String html = htmlBuilder.toString();
+            String html = readFile(evaluationTemplatePathname);
 
             // content - visual scheduledTaskList
             ScheduledTaskListSerializer visualSerializer = new HTMLSerializer();
@@ -85,92 +73,101 @@ public class EvaluationBuilder {
                     visualSerializer.serialize(evaluatedScheduledTaskList));
 
             // content - scheduledTaskList
-            StringBuilder scheduledTaskListBuilder = new StringBuilder();
-
-            for (ScheduledTask task : scheduledTaskList) {
-                scheduledTaskListBuilder.append("<tr>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getStartTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getTaskGraphNode().getId());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getComputationTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getCommunicationTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getCpuId());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("</tr>");
-            }
-
-            html = html.replace("{{scheduledTaskList}}", scheduledTaskListBuilder.toString());
+            html = html.replace("{{scheduledTaskList}}",
+                    scheduledTaskListToHTMLTable(scheduledTaskList));
 
             // content - evaluatedTaskList
-            StringBuilder evaluatedTaskListBuilder = new StringBuilder();
-
-            for (ScheduledTask evaluatedTask : evaluatedScheduledTaskList) {
-                evaluatedTaskListBuilder.append("<tr>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getStartTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getTaskId());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getCommunicationTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getCpuId());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("</tr>");
-            }
-
-            html = html.replace("{{evaluatedTaskList}}", evaluatedTaskListBuilder.toString());
+            html = html.replace("{{evaluatedTaskList}}",
+                    scheduledTaskListToHTMLTable(evaluatedScheduledTaskList));
 
             TaskGraphSerializer taskGraphSerializer = new STGSerializer();
 
             html = html.replace("{{taskGraph}}", taskGraphSerializer.serialize(taskGraph));
 
             // arbor task graph
-            StringBuilder arborTaskGraphBuilder = new StringBuilder();
 
-            for (TaskGraphNode node : taskGraph.getNodeSet()) {
-                arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
-                if (node == taskGraph.getFirstNode()) {
-                    arborTaskGraphBuilder
-                            .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
-                } else if (node == taskGraph.getLastNode()) {
-                    arborTaskGraphBuilder
-                            .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
-                }
-                arborTaskGraphBuilder.append(")\n");
-            }
-            for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
-                arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
-                        + edge.getNextNode().getId() + "')\n");
-            }
-
-            html = html.replace("arborTaskGraph", arborTaskGraphBuilder.toString());
+            html = html.replace("arborTaskGraph", taskGraphToArborGraph(taskGraph));
             // content end
 
-            FileOutputStream fos = new FileOutputStream(new File(evaluationRootPath + "/"
-                    + "test.html"));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-            writer.write(html);
-
-            writer.close();
-            fos.close();
+            writeFile(evaluationRootPath + "/" + "test.html", html);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void writeFile(String pathname, String content) throws IOException {
+        FileOutputStream fos = new FileOutputStream(new File(pathname));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+        writer.write(content);
+
+        writer.close();
+        fos.close();
+    }
+
+    private String readFile(String pathname) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        FileInputStream fis = new FileInputStream(new File(evaluationTemplatePathname));
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line + "\n");
+        }
+
+        reader.close();
+        fis.close();
+
+        return stringBuilder.toString();
+    }
+
+    private String taskGraphToArborGraph(TaskGraph taskGraph) {
+        StringBuilder arborTaskGraphBuilder = new StringBuilder();
+
+        for (TaskGraphNode node : taskGraph.getNodeSet()) {
+            arborTaskGraphBuilder.append("sys.addNode('" + node.getId() + "'");
+            if (node == taskGraph.getFirstNode()) {
+                arborTaskGraphBuilder
+                        .append(", {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}}");
+            } else if (node == taskGraph.getLastNode()) {
+                arborTaskGraphBuilder
+                        .append(", {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}}");
+            }
+            arborTaskGraphBuilder.append(")\n");
+        }
+        for (TaskGraphEdge edge : taskGraph.getEdgeSet()) {
+            arborTaskGraphBuilder.append("sys.addEdge('" + edge.getPrevNode().getId() + "','"
+                    + edge.getNextNode().getId() + "')\n");
+        }
+
+        return arborTaskGraphBuilder.toString();
+    }
+
+    private String scheduledTaskListToHTMLTable(ScheduledTaskList scheduledTaskList) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (ScheduledTask scheduledTask : scheduledTaskList) {
+            stringBuilder.append("<tr>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getStartTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getTaskId());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getComputationTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getCommunicationTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getCpuId());
+            stringBuilder.append("</td>");
+            stringBuilder.append("</tr>");
+        }
+
+        return stringBuilder.toString();
     }
 }
