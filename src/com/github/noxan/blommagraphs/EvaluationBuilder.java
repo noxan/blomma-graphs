@@ -63,22 +63,8 @@ public class EvaluationBuilder {
                 scheduledTaskList, TimebasedScheduleSimulationWorker.class);
         Collections.sort(evaluatedScheduledTaskList);
 
-        StringBuilder htmlBuilder = new StringBuilder();
-
         try {
-            FileInputStream fis = new FileInputStream(new File(evaluationTemplatePathname));
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-
-            String line;
-            while ((line = reader.readLine()) != null) {
-                htmlBuilder.append(line + "\n");
-            }
-
-            reader.close();
-            fis.close();
-
-            String html = htmlBuilder.toString();
+            String html = readFile(evaluationTemplatePathname);
 
             // content - visual scheduledTaskList
             ScheduledTaskListSerializer visualSerializer = new HTMLSerializer();
@@ -117,6 +103,23 @@ public class EvaluationBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String readFile(String pathname) throws IOException {
+        StringBuilder stringBuilder = new StringBuilder();
+        FileInputStream fis = new FileInputStream(new File(evaluationTemplatePathname));
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+
+        String line;
+        while ((line = reader.readLine()) != null) {
+            stringBuilder.append(line + "\n");
+        }
+
+        reader.close();
+        fis.close();
+
+        return stringBuilder.toString();
     }
 
     private String taskGraphToArborGraph(TaskGraph taskGraph) {
