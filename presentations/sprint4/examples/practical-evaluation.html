@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blomma-graphs - evaluation</title>
+    <link rel="stylesheet" media="screen" href="../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css">
+    <link rel="stylesheet" media="screen" href="../../ressources/css/GraphVisualizerHTML.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="page-header">
+        <h1>blomma-graphs <small>Evaluation</small></h1>
+      </div>
+
+      <ul class="nav nav-tabs" id="tabs">
+        <li class="active"><a href="#scheduleVisual">Schedule (Visual)</a></li>
+        <li><a href="#schedule">Schedule (Text)</a></li>
+        <li><a href="#taskgraph">TaskGraph</a></li>
+        <li><a href="#information">Information</a></li>
+      </ul>
+
+      <div class="tab-content">
+        <div class="tab-pane active" id="scheduleVisual">
+          <div class="row">
+            <div class="col-md-6">
+                   <div id="processorWrapper">
+         <div class="processor1">
+             <div class="header">
+                 <h4>1<small> Processor</small></h4>
+             </div><!-- header -->
+             <div class="task" style="height: 12px;">
+                 <h4><small>0</small></h4>
+             </div>
+             <div class="task" style="height: 72px;">
+                 <h4><small>1</small></h4>
+             </div>
+             <div class="task" style="height: 108px;">
+                 <h4><small>4</small></h4>
+             </div>
+             <div class="task" style="height: 48px;">
+                 <h4><small>8</small></h4>
+             </div>
+         <div class="gap" style="height: 96px;"></div><!-- gap -->
+             <div class="task" style="height: 36px;">
+                 <h4><small>6</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor2">
+             <div class="header">
+                 <h4>2<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 12px;"></div><!-- waittime -->
+         <div class="gap" style="height: 108px;"></div><!-- gap -->
+             <div class="task" style="height: 72px;">
+                 <h4><small>2</small></h4>
+             </div>
+         <div class="gap" style="height: 24px;"></div><!-- gap -->
+             <div class="task" style="height: 96px;">
+                 <h4><small>9</small></h4>
+             </div>
+             <div class="task" style="height: 48px;">
+                 <h4><small>10</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor3">
+             <div class="header">
+                 <h4>3<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 12px;"></div><!-- waittime -->
+         <div class="gap" style="height: 96px;"></div><!-- gap -->
+             <div class="task" style="height: 84px;">
+                 <h4><small>3</small></h4>
+             </div>
+         <div class="gap" style="height: 84px;"></div><!-- gap -->
+             <div class="task" style="height: 72px;">
+                 <h4><small>7</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 12px;">
+                 <h4><small>11</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor4">
+             <div class="header">
+                 <h4>4<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 12px;"></div><!-- waittime -->
+         <div class="gap" style="height: 12px;"></div><!-- gap -->
+             <div class="task" style="height: 84px;">
+                 <h4><small>5</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="clear"></div><!-- clear -->     </div><!-- processorWrapper -->
+
+            </div>
+            <div class="col-md-6">
+                   <div id="processorWrapper">
+         <div class="processor1">
+             <div class="header">
+                 <h4>1<small> Processor</small></h4>
+             </div><!-- header -->
+             <div class="task" style="height: 12px;">
+                 <h4><small>0</small></h4>
+             </div>
+             <div class="waitTime" style="height: 36px;">             </div><!-- waittime -->
+             <div class="task" style="height: 72px;">
+                 <h4><small>1</small></h4>
+             </div>
+             <div class="task" style="height: 108px;">
+                 <h4><small>4</small></h4>
+             </div>
+             <div class="task" style="height: 48px;">
+                 <h4><small>8</small></h4>
+             </div>
+         <div class="gap" style="height: 96px;"></div><!-- gap -->
+             <div class="task" style="height: 36px;">
+                 <h4><small>6</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor2">
+             <div class="header">
+                 <h4>2<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 48px;"></div><!-- waittime -->
+         <div class="gap" style="height: 108px;"></div><!-- gap -->
+             <div class="task" style="height: 72px;">
+                 <h4><small>2</small></h4>
+             </div>
+             <div class="waitTime" style="height: 12px;">             </div><!-- waittime -->
+         <div class="gap" style="height: 24px;"></div><!-- gap -->
+             <div class="task" style="height: 96px;">
+                 <h4><small>9</small></h4>
+             </div>
+             <div class="task" style="height: 48px;">
+                 <h4><small>10</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor3">
+             <div class="header">
+                 <h4>3<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 48px;"></div><!-- waittime -->
+         <div class="gap" style="height: 96px;"></div><!-- gap -->
+             <div class="task" style="height: 84px;">
+                 <h4><small>3</small></h4>
+             </div>
+         <div class="gap" style="height: 84px;"></div><!-- gap -->
+             <div class="task" style="height: 72px;">
+                 <h4><small>7</small></h4>
+             </div>
+             <div class="waitTime" style="height: 24px;">             </div><!-- waittime -->
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 12px;">
+                 <h4><small>11</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor4">
+             <div class="header">
+                 <h4>4<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 48px;"></div><!-- waittime -->
+         <div class="gap" style="height: 12px;"></div><!-- gap -->
+             <div class="task" style="height: 84px;">
+                 <h4><small>5</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="clear"></div><!-- clear -->     </div><!-- processorWrapper -->
+
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="schedule">
+          <div class="row">
+            <div class="col-md-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>startTime</th>
+                    <th>taskId</th>
+                    <th>computationTime</th>
+                    <th>communicationTime</th>
+                    <th>cpuId</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>6</td><td>0</td><td>0</td></tr><tr><td>2</td><td>5</td><td>7</td><td>1</td><td>3</td></tr><tr><td>7</td><td>4</td><td>9</td><td>0</td><td>0</td></tr><tr><td>9</td><td>3</td><td>7</td><td>8</td><td>2</td></tr><tr><td>10</td><td>2</td><td>6</td><td>9</td><td>1</td></tr><tr><td>16</td><td>8</td><td>4</td><td>0</td><td>0</td></tr><tr><td>18</td><td>9</td><td>8</td><td>2</td><td>1</td></tr><tr><td>23</td><td>7</td><td>6</td><td>7</td><td>2</td></tr><tr><td>24</td><td>6</td><td>3</td><td>8</td><td>0</td></tr><tr><td>26</td><td>10</td><td>4</td><td>0</td><td>1</td></tr><tr><td>32</td><td>11</td><td>1</td><td>5</td><td>2</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>startTime</th>
+                    <th>taskId</th>
+                    <th>computationTime</th>
+                    <th>communicationTime</th>
+                    <th>cpuId</th>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>4</td><td>1</td><td>6</td><td>0</td><td>0</td></tr><tr><td>5</td><td>5</td><td>7</td><td>1</td><td>3</td></tr><tr><td>10</td><td>4</td><td>9</td><td>0</td><td>0</td></tr><tr><td>12</td><td>3</td><td>7</td><td>8</td><td>2</td></tr><tr><td>13</td><td>2</td><td>6</td><td>9</td><td>1</td></tr><tr><td>19</td><td>8</td><td>4</td><td>0</td><td>0</td></tr><tr><td>22</td><td>9</td><td>8</td><td>2</td><td>1</td></tr><tr><td>26</td><td>7</td><td>6</td><td>7</td><td>2</td></tr><tr><td>30</td><td>10</td><td>4</td><td>0</td><td>1</td></tr><tr><td>31</td><td>6</td><td>3</td><td>8</td><td>0</td></tr><tr><td>39</td><td>11</td><td>1</td><td>5</td><td>2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="taskgraph">
+          <div class="row">
+            <div class="col-md-6">
+              <canvas id="taskgraphViewport" style="width: 100%;" width="555" height="600"></canvas>
+            </div>
+            <div class="col-md-6">
+              <p>
+                <pre>12
+0 1 0
+1 6 1
+	0 7
+2 6 1
+	0 9
+3 7 1
+	0 8
+4 9 1
+	0 9
+5 7 1
+	0 1
+6 3 2
+	2 3
+	3 8
+7 6 2
+	2 7
+	3 9
+8 4 1
+	4 5
+9 8 1
+	3 2
+10 4 2
+	5 7
+	9 4
+11 1 6
+	1 1
+	5 8
+	6 5
+	7 4
+	8 1
+	10 2
+
+# BlommaGraphs:	this is a Standard Task Graph project file
+# edgesPerNodeRatio:	1
+# minComputationTime:	1
+# maxCommunicationTime:	10
+# layerCount:	5
+# seed:	5204731633266095604
+# minCommunicationTime:	1
+# spreadComputationTime:	1
+# spreadCommunicationTime:	1
+# edgeCount:	19
+# numberOfNodes:	10
+# spreadEdges:	1
+# generatorName:	DefaultTaskGraphGenerator
+# generatorVersion:	0.1.0
+# minIncomingEdges:	1
+# maxIncomingEdges:	2
+# maxComputationTime:	10
+# nodeCount:	12
+# dummyEdgeCount:	11
+# dummyNodeCount:	2
+</pre>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="information">...</div>
+      </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="../../ressources/arborjs/arbor.js"></script>
+    <script src="../../ressources/arborjs/renderer.js"></script>
+    <script>
+      $(function () {
+        $('#tabs a').click(function(evt) {
+          evt.preventDefault();
+          $(this).tab('show');
+        });
+      });
+
+      $(document).ready(function() {
+        var sys = arbor.ParticleSystem(1000, 600, 0.5);
+        sys.renderer = Renderer("#taskgraphViewport")
+        sys.parameters({gravity:true})
+        {{sys.addNode('10')
+sys.addNode('8')
+sys.addNode('0', {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}})
+sys.addNode('9')
+sys.addNode('7')
+sys.addNode('6')
+sys.addNode('1')
+sys.addNode('4')
+sys.addNode('5')
+sys.addNode('11', {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}})
+sys.addNode('2')
+sys.addNode('3')
+sys.addEdge('0','1')
+sys.addEdge('0','2')
+sys.addEdge('0','3')
+sys.addEdge('0','4')
+sys.addEdge('0','5')
+sys.addEdge('2','6')
+sys.addEdge('3','6')
+sys.addEdge('2','7')
+sys.addEdge('3','7')
+sys.addEdge('4','8')
+sys.addEdge('3','9')
+sys.addEdge('5','10')
+sys.addEdge('9','10')
+sys.addEdge('1','11')
+sys.addEdge('5','11')
+sys.addEdge('6','11')
+sys.addEdge('7','11')
+sys.addEdge('8','11')
+sys.addEdge('10','11')
+}}
+      });
+    </script>
+  </body>
+</html>
