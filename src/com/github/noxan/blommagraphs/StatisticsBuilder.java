@@ -14,6 +14,7 @@ import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedSchedule
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.FileUtils;
@@ -43,11 +44,9 @@ public class StatisticsBuilder {
 
     private final String statisticsFilePath = "export/statistics/statistics.html";
 
-    // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
-    private final int schedulerCount = 2;
-    private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 5;
+    private final int taskGraphGroupSize = 100;
     private final int taskGroupCount = 5;
+    private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
     private final int blockSize = 2;
@@ -79,12 +78,20 @@ public class StatisticsBuilder {
     }
 
     private StatisticsBuilder() {
+        // Create Schedulers
+        StreamScheduler[] createdSchedulers = {
+                new BasicStreamScheduler(new LASTScheduler()),
+                new BasicStreamScheduler(new DynamicLevelScheduler()),
+                new CustomStreamScheduler()
+        };
+        this.schedulers = createdSchedulers;
+         
         // Build lists
         taskGraphStatistics = new ArrayList<List<Statistic>>();
         taskGroupStatistics = new ArrayList<List<Statistic>>();
         schedulerStatistics = new ArrayList<Statistic>();
 
-        for (int scheduler = 0; scheduler < schedulerCount; ++scheduler) {
+        for (int scheduler = 0; scheduler < schedulers.length; ++scheduler) {
             taskGraphStatistics.add(new ArrayList<Statistic>());
             taskGroupStatistics.add(new ArrayList<Statistic>());
             schedulerStatistics.add(new Statistic());
@@ -117,15 +124,9 @@ public class StatisticsBuilder {
             
         }
 
-        // Create Schedulers
-        schedulers = new StreamScheduler[schedulerCount];
-        schedulers[0] = new BasicStreamScheduler(new LASTScheduler());
-        schedulers[1] = new BasicStreamScheduler(new DynamicLevelScheduler());
-        // schedulers[2] = new BasicStreamScheduler(new GeneticScheduler(new DynamicLevelScheduler()));
-        // schedulers[3] = new CustomStreamScheduler();
-
         systemMetaInformation = new DefaultSystemMetaInformation(cpuCount);
 
+        // Serializers
         taskGraphSerializer = new STGSerializer();
         scheduledTaskListHTMLSerializer = new HTMLSerializer();
         scheduledTaskListTextSerializer = new ExtendedScheduledTaskListSerializer();
@@ -158,8 +159,8 @@ public class StatisticsBuilder {
 
         int taskGroupCounter = 0;
 
-        for (File graphDirectory : graphDirectories) {
-            File[] graphFiles = graphDirectory.listFiles();
+        for (int dirCount = 0; dirCount < taskGroupCount; ++dirCount) {
+            File[] graphFiles = graphDirectories[dirCount].listFiles();
 
             for (int graphId = 0; graphId < taskGraphGroupSize; ++graphId) {
 
@@ -178,7 +179,7 @@ public class StatisticsBuilder {
                 System.out.println("Done.\nscheduling graph with " + graph.getNodeCount()
                         + " nodes...\n");
 
-                for (int schedulerId = 0; schedulerId < schedulerCount; ++schedulerId) {
+                for (int schedulerId = 0; schedulerId < schedulers.length; ++schedulerId) {
                     System.out.println("Calculate taskGraphStatistics here!");
 
                     Statistic currentStatistic = taskGraphStatistics.get(schedulerId).get(
@@ -232,7 +233,7 @@ public class StatisticsBuilder {
         Statistic groupStatistic = null;
 
         // Sum up all values
-        for (int i = 0; i < schedulerCount; ++i) {
+        for (int i = 0; i < schedulers.length; ++i) {
             schedulerTaskList = taskGraphStatistics.get(i);
             schedulerGroupList = taskGroupStatistics.get(i);
 
@@ -290,7 +291,7 @@ public class StatisticsBuilder {
         Statistic schedulerStatistic = null;
 
         // Sum up all statistic values
-        for (int i = 0; i < schedulerCount; ++i) {
+        for (int i = 0; i < schedulers.length; ++i) {
             schedulerStatistic = schedulerStatistics.get(i);
             for (Statistic groupStatistic : taskGroupStatistics.get(i)) {
 
@@ -644,7 +645,7 @@ public class StatisticsBuilder {
                 "  datasets : [\n";
                 
                 // Generate data set
-                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
                     List<Statistic> statList = taskGroupStatistics.get(currentScheduler);
                     html += "  {\n" +
                     getSchedulerChartJSColors(currentScheduler) + "\n" +
@@ -675,14 +676,14 @@ public class StatisticsBuilder {
                 "<script type='text/javascript'>\n" +
                 "  var ctx = document.getElementById('schedulerAlgorithmDurationChart').getContext('2d');\n" +
                 "  var data = {\n" +
-                "  labels : ['LAST', 'DLS','Genetic','Custom'],\n" +
+                generateChartLabels() +
                 "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
         
                 // Generate data set
-                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
                     Statistic stat = schedulerStatistics.get(currentScheduler);
                     html += stat.algorithmDuration;
                     if(currentScheduler < schedulerStatistics.size() - 1)
@@ -703,14 +704,17 @@ public class StatisticsBuilder {
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerThroughputChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
-                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
-                "  datasets : [\n" +
+                generateChartLabels();
+                
+
+                
+                html += "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
         
                 // Generate data set
-                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
                     Statistic stat = schedulerStatistics.get(currentScheduler);
                     html += stat.throughput;
                     if(currentScheduler < schedulerStatistics.size() - 1)
@@ -732,17 +736,18 @@ public class StatisticsBuilder {
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerScheduleDurationChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
-                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
-                "  datasets : [\n" +
+                generateChartLabels();
+
+        html += "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
         
                 // Generate data set
-                for (int currentScheduler = 0; currentScheduler < schedulerCount; ++currentScheduler) {
+                for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
                     Statistic stat = schedulerStatistics.get(currentScheduler);
                     html += stat.singleBlockExecutionTime;
-                    if(currentScheduler < schedulerStatistics.size() - 1)
+                    if(currentScheduler < schedulers.length - 1)
                          html += ",";
                 }
                 html += "    ]\n" +
@@ -757,20 +762,20 @@ public class StatisticsBuilder {
 
     private String generateSchedulerCpRatioChart() {
         String html = "<h1><small>Schedule CP ratio</small></h1>\n" +
-                "<canvas id=\"schedulerCPRatioChart\" width=\"370\" height=\"400\"></canvas>\n" +
+                "<canvas id=\"schedulerCPRatioChart\" width=\"300\" height=\"300\"></canvas>\n" +
                 generateChartKey() +
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerCPRatioChart\").getContext(\"2d\");\n" +
                 "  var data = [";
                
-                for(int i = 0; i < schedulerCount; ++i) {
+                for(int i = 0; i < schedulers.length; ++i) {
                     Statistic stat = schedulerStatistics.get(i);
                     html += "       {\n" +
                             "           value : " + stat.scheduleCpRatio + "," +
                             "           color: \"rgba(" + getSchedulerRGBColors(i) + ", 1)\"\n" +
                             "       }";
                             
-                    if (i < schedulerCount - 1)
+                    if (i < schedulers.length - 1)
                         html += ",\n";
                 }
 
@@ -787,6 +792,18 @@ public class StatisticsBuilder {
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",1)\">DLS</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ",1)\">Genetic</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",1)\">Custom</span>";
+    }
+    
+    private String generateChartLabels() {
+        String html = "  labels : [";
+        // Create labels from scheduler names
+        for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
+            html += "\"" + schedulers[currentScheduler].getName() + "\"";
+            if (currentScheduler < schedulers.length - 1)
+                html += ",";
+        }
+        html += " ],\n";
+        return html;
     }
     /**
      * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
