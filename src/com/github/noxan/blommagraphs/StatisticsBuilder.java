@@ -762,7 +762,7 @@ public class StatisticsBuilder {
 
     private String generateSchedulerCpRatioChart() {
         String html = "<h1><small>Schedule CP ratio</small></h1>\n" +
-                "<canvas id=\"schedulerCPRatioChart\" width=\"370\" height=\"400\"></canvas>\n" +
+                "<canvas id=\"schedulerCPRatioChart\" width=\"300\" height=\"300\"></canvas>\n" +
                 generateChartKey() +
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerCPRatioChart\").getContext(\"2d\");\n" +
