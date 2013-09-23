@@ -46,7 +46,7 @@ public class StatisticsBuilder {
     // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
     private final int taskGraphCount = 500;
     private final int taskGraphGroupSize = 5;
-    private final int taskGroupCount = 5;
+    private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
     private final int blockSize = 2;
