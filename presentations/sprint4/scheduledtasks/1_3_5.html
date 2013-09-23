@@ -1,0 +1,868 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>blommagraphs - scheduled task</title>
+    <meta charset="utf-8">    <script src="../../../ressources/jquery.js"></script>    <script src="../../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="../../../ressources/arborjs/arbor.js"></script>
+    <script src="../../../ressources/arborjs/renderer.js"></script>
+    <link rel="stylesheet" media="screen" href="../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css">    <link rel="stylesheet" media="screen" href="../../../ressources/css/GraphVisualizerHTML.css">    <style>       footer {           height: 40px;           margin-top: 20px;       }    </style>  </head>
+  <body>
+    <div class="container">
+       <div class="page-header">
+          <h1>BlommaGraphs<small> Scheduled Task</small></h1>
+       </div><!-- page-header -->
+       <div class="row">
+         <div class="col-md-6" id="arborgraph">
+               <canvas id="taskgraphviewport" style="width:100%;" width="555" height="600"></canvas>     <script>       $(document).ready(function() {
+           var sys = arbor.ParticleSystem(1000, 600, 0.5);
+           sys.renderer = Renderer("#taskgraphviewport")
+           sys.parameters({gravity:true})
+sys.addNode('32')
+sys.addNode('6')
+sys.addNode('21')
+sys.addNode('42')
+sys.addNode('43')
+sys.addNode('46')
+sys.addNode('12')
+sys.addNode('31')
+sys.addNode('16')
+sys.addNode('9')
+sys.addNode('20')
+sys.addNode('39')
+sys.addNode('15')
+sys.addNode('10')
+sys.addNode('17')
+sys.addNode('3')
+sys.addNode('33')
+sys.addNode('50')
+sys.addNode('34')
+sys.addNode('45')
+sys.addNode('13')
+sys.addNode('19')
+sys.addNode('47')
+sys.addNode('1')
+sys.addNode('28')
+sys.addNode('26')
+sys.addNode('25')
+sys.addNode('11')
+sys.addNode('8')
+sys.addNode('2')
+sys.addNode('4')
+sys.addNode('48')
+sys.addNode('18')
+sys.addNode('24')
+sys.addNode('0', {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}})
+sys.addNode('49')
+sys.addNode('7')
+sys.addNode('35')
+sys.addNode('37')
+sys.addNode('38')
+sys.addNode('29')
+sys.addNode('41')
+sys.addNode('51', {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}})
+sys.addNode('36')
+sys.addNode('27')
+sys.addNode('14')
+sys.addNode('23')
+sys.addNode('22')
+sys.addNode('30')
+sys.addNode('5')
+sys.addNode('40')
+sys.addNode('44')
+sys.addEdge('0','1')
+sys.addEdge('0','2')
+sys.addEdge('0','3')
+sys.addEdge('0','4')
+sys.addEdge('0','5')
+sys.addEdge('0','6')
+sys.addEdge('0','7')
+sys.addEdge('0','8')
+sys.addEdge('0','9')
+sys.addEdge('0','10')
+sys.addEdge('0','11')
+sys.addEdge('0','12')
+sys.addEdge('0','13')
+sys.addEdge('0','14')
+sys.addEdge('0','15')
+sys.addEdge('0','16')
+sys.addEdge('0','17')
+sys.addEdge('0','18')
+sys.addEdge('0','19')
+sys.addEdge('0','20')
+sys.addEdge('0','21')
+sys.addEdge('0','22')
+sys.addEdge('0','23')
+sys.addEdge('0','24')
+sys.addEdge('0','25')
+sys.addEdge('0','26')
+sys.addEdge('0','27')
+sys.addEdge('12','28')
+sys.addEdge('23','28')
+sys.addEdge('7','29')
+sys.addEdge('6','30')
+sys.addEdge('19','30')
+sys.addEdge('5','31')
+sys.addEdge('8','31')
+sys.addEdge('31','32')
+sys.addEdge('0','33')
+sys.addEdge('10','33')
+sys.addEdge('15','34')
+sys.addEdge('28','34')
+sys.addEdge('13','35')
+sys.addEdge('33','35')
+sys.addEdge('8','36')
+sys.addEdge('9','36')
+sys.addEdge('14','37')
+sys.addEdge('28','38')
+sys.addEdge('26','39')
+sys.addEdge('35','39')
+sys.addEdge('4','40')
+sys.addEdge('17','40')
+sys.addEdge('24','41')
+sys.addEdge('10','42')
+sys.addEdge('20','42')
+sys.addEdge('1','43')
+sys.addEdge('6','44')
+sys.addEdge('10','45')
+sys.addEdge('13','45')
+sys.addEdge('8','46')
+sys.addEdge('1','47')
+sys.addEdge('11','47')
+sys.addEdge('16','48')
+sys.addEdge('46','48')
+sys.addEdge('18','49')
+sys.addEdge('2','50')
+sys.addEdge('3','51')
+sys.addEdge('4','51')
+sys.addEdge('5','51')
+sys.addEdge('9','51')
+sys.addEdge('16','51')
+sys.addEdge('20','51')
+sys.addEdge('21','51')
+sys.addEdge('22','51')
+sys.addEdge('23','51')
+sys.addEdge('25','51')
+sys.addEdge('26','51')
+sys.addEdge('27','51')
+sys.addEdge('29','51')
+sys.addEdge('30','51')
+sys.addEdge('32','51')
+sys.addEdge('33','51')
+sys.addEdge('34','51')
+sys.addEdge('36','51')
+sys.addEdge('37','51')
+sys.addEdge('38','51')
+sys.addEdge('39','51')
+sys.addEdge('40','51')
+sys.addEdge('41','51')
+sys.addEdge('42','51')
+sys.addEdge('43','51')
+sys.addEdge('44','51')
+sys.addEdge('45','51')
+sys.addEdge('47','51')
+sys.addEdge('48','51')
+sys.addEdge('49','51')
+sys.addEdge('50','51')
+      });    </script>         </div><!-- arborgraph -->
+         <div class="col-md-6" id="stggraph">
+           <p>
+             <pre>
+52
+0 1 0
+1 4 1
+	0 3
+2 4 1
+	0 7
+3 3 1
+	0 3
+4 10 1
+	0 9
+5 3 1
+	0 3
+6 2 1
+	0 5
+7 8 1
+	0 4
+8 2 1
+	0 4
+9 8 1
+	0 7
+10 7 1
+	0 7
+11 7 1
+	0 3
+12 3 1
+	0 5
+13 5 1
+	0 2
+14 3 1
+	0 8
+15 7 1
+	0 8
+16 4 1
+	0 3
+17 1 1
+	0 8
+18 5 1
+	0 7
+19 7 1
+	0 1
+20 10 1
+	0 5
+21 3 1
+	0 6
+22 5 1
+	0 4
+23 4 1
+	0 8
+24 6 1
+	0 2
+25 8 1
+	0 8
+26 3 1
+	0 3
+27 3 1
+	0 7
+28 7 2
+	23 2
+	12 1
+29 3 1
+	7 6
+30 5 2
+	19 6
+	6 6
+31 5 2
+	5 6
+	8 3
+32 1 1
+	31 2
+33 8 2
+	0 8
+	10 7
+34 6 2
+	28 5
+	15 1
+35 3 2
+	33 5
+	13 3
+36 7 2
+	8 3
+	9 8
+37 5 1
+	14 1
+38 10 1
+	28 7
+39 5 2
+	35 4
+	26 6
+40 5 2
+	17 4
+	4 3
+41 4 1
+	24 7
+42 3 2
+	20 4
+	10 10
+43 4 1
+	1 5
+44 9 1
+	6 2
+45 3 2
+	10 8
+	13 2
+46 5 1
+	8 7
+47 4 2
+	1 6
+	11 2
+48 6 2
+	16 4
+	46 10
+49 8 1
+	18 5
+50 3 1
+	2 2
+51 1 31
+	3 1
+	4 5
+	5 4
+	9 9
+	16 6
+	21 4
+	20 4
+	23 10
+	22 4
+	25 6
+	27 5
+	26 1
+	29 7
+	30 6
+	34 8
+	32 7
+	33 4
+	38 7
+	39 6
+	36 2
+	37 2
+	42 5
+	43 2
+	40 3
+	41 9
+	47 4
+	44 10
+	45 8
+	50 9
+	49 9
+	48 5
+
+# BlommaGraphs:	this is a Standard Task Graph project file
+# edgesPerNodeRatio:	1
+# layerCount:	6
+# edgeCount:	94
+# nodeCount:	52
+# dummyEdgeCount:	59
+# dummyNodeCount:	2
+             </pre>
+           </p>         </div><!-- stggraph -->
+       </div><!-- row -->
+       <div class="row">
+         <div class="col-md-6" id="visualizedschedule">
+     <div id="processorWrapper">
+         <div class="processor1">
+             <div class="header">
+                 <h4>1<small> Processor</small></h4>
+             </div><!-- header -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>0</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>1</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>53</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>63</small></h4>
+             </div>
+             <div class="task" style="height: 80px;">
+                 <h4><small>76</small></h4>
+             </div>
+             <div class="task" style="height: 60px;">
+                 <h4><small>65</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>81</small></h4>
+             </div>
+             <div class="task" style="height: 160px;">
+                 <h4><small>62</small></h4>
+             </div>
+             <div class="task" style="height: 200px;">
+                 <h4><small>5</small></h4>
+             </div>
+             <div class="task" style="height: 200px;">
+                 <h4><small>73</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>14</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>72</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>64</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>12</small></h4>
+             </div>
+             <div class="task" style="height: 120px;">
+                 <h4><small>77</small></h4>
+             </div>
+             <div class="task" style="height: 80px;">
+                 <h4><small>69</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 180px;">
+                 <h4><small>45</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>50</small></h4>
+             </div>
+             <div class="task" style="height: 160px;">
+                 <h4><small>78</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>89</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>32</small></h4>
+             </div>
+         <div class="gap" style="height: 200px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>101</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>70</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>18</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>41</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>93</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>31</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>54</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>2</small></h4>
+             </div>
+             <div class="task" style="height: 80px;">
+                 <h4><small>44</small></h4>
+             </div>
+             <div class="task" style="height: 80px;">
+                 <h4><small>48</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>51</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>30</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>43</small></h4>
+             </div>
+             <div class="task" style="height: 60px;">
+                 <h4><small>56</small></h4>
+             </div>
+             <div class="task" style="height: 60px;">
+                 <h4><small>28</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>85</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>104</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor2">
+             <div class="header">
+                 <h4>2<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>11</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>34</small></h4>
+             </div>
+         <div class="gap" style="height: 180px;"></div><!-- gap -->
+             <div class="task" style="height: 200px;">
+                 <h4><small>57</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>71</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>61</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>68</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>9</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>16</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>20</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>60</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>7</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 200px;">
+                 <h4><small>91</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>17</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 180px;">
+                 <h4><small>97</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>36</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>102</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>27</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>26</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>3</small></h4>
+             </div>
+         <div class="gap" style="height: 200px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>49</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>87</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>40</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>90</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>75</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>42</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>96</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>103</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>82</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>95</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>80</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>4</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>33</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>52</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>105</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor3">
+             <div class="header">
+                 <h4>3<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>13</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>24</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>29</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>86</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>10</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>66</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 200px;">
+                 <h4><small>21</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>19</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>47</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>99</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>59</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 160px;">
+                 <h4><small>8</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 200px;">
+                 <h4><small>39</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>25</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>58</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>6</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>88</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>67</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>79</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>15</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
+                 <h4><small>37</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>55</small></h4>
+             </div>
+         <div class="gap" style="height: 60px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>84</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>35</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>38</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>92</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>83</small></h4>
+             </div>
+         <div class="gap" style="height: 80px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>23</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>94</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 80px;">
+                 <h4><small>100</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>46</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>98</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>74</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>22</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="clear"></div><!-- clear -->     </div><!-- processorWrapper -->
+         </div><!-- visualizedschedule -->
+         <div class="col-md-6" id="textualschedule">
+           <p>
+              <pre>
+0	0	0	1	0
+1	0	1	1	0
+2	0	53	1	0
+3	0	63	7	0
+7	2	13	3	5
+9	1	11	7	7
+10	0	76	4	0
+10	2	24	4	8
+14	0	65	3	0
+14	2	29	7	2
+16	1	34	8	8
+17	0	81	7	0
+21	2	86	8	7
+24	0	62	8	0
+24	1	57	10	9
+29	2	10	8	7
+32	0	5	10	0
+34	1	71	5	7
+37	2	66	5	2
+39	1	61	2	4
+41	1	68	7	8
+42	0	73	10	0
+42	2	21	10	5
+48	1	9	2	4
+50	1	16	7	8
+52	0	14	5	0
+52	2	19	5	7
+57	0	72	7	0
+57	1	20	7	1
+57	2	47	5	7
+62	2	99	5	7
+64	0	64	7	0
+64	1	60	8	4
+67	2	59	2	5
+69	2	8	8	4
+71	0	12	7	0
+72	1	7	2	5
+74	1	91	10	7
+77	2	39	10	7
+78	0	77	6	0
+84	0	69	4	0
+84	1	17	4	3
+87	2	25	6	2
+88	0	45	9	2
+88	1	97	9	2
+93	2	58	3	3
+96	2	6	3	3
+97	0	50	8	5
+97	1	36	3	3
+99	2	88	3	3
+100	1	102	8	5
+102	2	67	3	8
+105	0	78	8	0
+105	2	79	3	3
+108	1	27	3	3
+108	2	15	3	8
+111	1	26	8	8
+111	2	37	7	3
+113	0	89	7	3
+118	2	55	4	7
+119	1	3	4	7
+120	0	32	5	6
+122	2	84	5	3
+123	1	49	6	10
+125	0	101	6	10
+127	2	35	6	1
+129	1	87	6	5
+131	0	70	1	0
+132	0	18	1	0
+133	0	41	5	0
+133	2	38	5	1
+135	1	40	5	6
+138	0	93	5	3
+138	2	92	5	6
+140	1	90	5	1
+143	0	31	5	6
+143	2	83	5	6
+145	1	75	5	4
+148	0	54	1	0
+148	2	23	5	4
+149	0	2	1	0
+150	0	44	4	0
+150	1	42	4	7
+153	2	94	4	7
+154	0	48	4	0
+154	1	96	4	5
+157	2	100	4	6
+158	0	51	3	2
+158	1	103	3	2
+161	0	30	3	6
+161	1	82	3	6
+161	2	46	3	8
+164	0	43	3	4
+164	1	95	3	4
+164	2	98	3	8
+167	0	56	3	0
+167	1	80	3	7
+167	2	74	3	6
+170	0	28	3	0
+170	1	4	3	3
+170	2	22	3	6
+173	0	85	1	2
+173	1	33	1	2
+175	0	104	1	8
+178	1	52	1	4
+179	1	105	1	1
+              </pre>
+           </p>
+         </div><!-- textualschedule -->
+       </div><!-- row -->
+       <div class="clear"></div>    </div><!-- container -->
+         <footer>
+             <div class="container">
+                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>
+             </div>
+         </footer>
+  </body>
+</html>

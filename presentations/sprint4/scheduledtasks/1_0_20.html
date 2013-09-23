@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>blommagraphs - scheduled task</title>
+    <meta charset="utf-8">    <script src="../../../ressources/jquery.js"></script>    <script src="../../../ressources/bootstrap-3.0.0/dist/js/bootstrap.min.js"></script>
+    <script src="../../../ressources/arborjs/arbor.js"></script>
+    <script src="../../../ressources/arborjs/renderer.js"></script>
+    <link rel="stylesheet" media="screen" href="../../../ressources/bootstrap-3.0.0/dist/css/bootstrap.css">    <link rel="stylesheet" media="screen" href="../../../ressources/css/GraphVisualizerHTML.css">    <style>       footer {           height: 40px;           margin-top: 20px;       }    </style>  </head>
+  <body>
+    <div class="container">
+       <div class="page-header">
+          <h1>BlommaGraphs<small> Scheduled Task</small></h1>
+       </div><!-- page-header -->
+       <div class="row">
+         <div class="col-md-6" id="arborgraph">
+               <canvas id="taskgraphviewport" style="width:100%;" width="555" height="600"></canvas>     <script>       $(document).ready(function() {
+           var sys = arbor.ParticleSystem(1000, 600, 0.5);
+           sys.renderer = Renderer("#taskgraphviewport")
+           sys.parameters({gravity:true})
+sys.addNode('2')
+sys.addNode('1')
+sys.addNode('3')
+sys.addNode('0', {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}})
+sys.addNode('8')
+sys.addNode('4')
+sys.addNode('11', {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}})
+sys.addNode('6')
+sys.addNode('10')
+sys.addNode('7')
+sys.addNode('9')
+sys.addNode('5')
+sys.addEdge('0','1')
+sys.addEdge('0','2')
+sys.addEdge('0','3')
+sys.addEdge('0','4')
+sys.addEdge('0','5')
+sys.addEdge('0','6')
+sys.addEdge('2','7')
+sys.addEdge('1','8')
+sys.addEdge('3','8')
+sys.addEdge('6','9')
+sys.addEdge('2','10')
+sys.addEdge('9','10')
+sys.addEdge('3','11')
+sys.addEdge('4','11')
+sys.addEdge('5','11')
+sys.addEdge('7','11')
+sys.addEdge('8','11')
+sys.addEdge('9','11')
+sys.addEdge('10','11')
+      });    </script>         </div><!-- arborgraph -->
+         <div class="col-md-6" id="stggraph">
+           <p>
+             <pre>
+12
+0 1 0
+1 1 1
+	0 5
+2 2 1
+	0 2
+3 5 1
+	0 6
+4 3 1
+	0 2
+5 6 1
+	0 7
+6 5 1
+	0 10
+7 6 1
+	2 5
+8 9 2
+	1 2
+	3 9
+9 3 1
+	6 8
+10 2 2
+	2 6
+	9 4
+11 1 7
+	3 4
+	4 6
+	5 7
+	7 9
+	8 4
+	9 9
+	10 2
+
+# BlommaGraphs:	this is a Standard Task Graph project file
+# edgesPerNodeRatio:	1
+# layerCount:	5
+# edgeCount:	19
+# nodeCount:	12
+# dummyEdgeCount:	13
+# dummyNodeCount:	2
+             </pre>
+           </p>         </div><!-- stggraph -->
+       </div><!-- row -->
+       <div class="row">
+         <div class="col-md-6" id="visualizedschedule">
+     <div id="processorWrapper">
+         <div class="processor1">
+             <div class="header">
+                 <h4>1<small> Processor</small></h4>
+             </div><!-- header -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>0</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>13</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>1</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>4</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>16</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>7</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 180px;">
+                 <h4><small>21</small></h4>
+             </div>
+             <div class="task" style="height: 60px;">
+                 <h4><small>5</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor2">
+             <div class="header">
+                 <h4>2<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>14</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>2</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>3</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>8</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>6</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>18</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>22</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>17</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>23</small></h4>
+             </div>
+         <div class="gap" style="height: 180px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>24</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="processor3">
+             <div class="header">
+                 <h4>3<small> Processor</small></h4>
+             </div><!-- header -->
+         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>15</small></h4>
+             </div>
+         <div class="gap" style="height: 100px;"></div><!-- gap -->
+             <div class="task" style="height: 120px;">
+                 <h4><small>20</small></h4>
+             </div>
+         <div class="gap" style="height: 200px;"></div><!-- gap -->
+             <div class="task" style="height: 100px;">
+                 <h4><small>19</small></h4>
+             </div>
+         <div class="gap" style="height: 40px;"></div><!-- gap -->
+             <div class="task" style="height: 180px;">
+                 <h4><small>9</small></h4>
+             </div>
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 60px;">
+                 <h4><small>10</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 40px;">
+                 <h4><small>11</small></h4>
+             </div>
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>12</small></h4>
+             </div>
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>25</small></h4>
+             </div>
+         </div><!-- processor n -->
+         <div class="clear"></div><!-- clear -->     </div><!-- processorWrapper -->
+         </div><!-- visualizedschedule -->
+         <div class="col-md-6" id="textualschedule">
+           <p>
+              <pre>
+0	0	0	1	0
+1	0	13	1	0
+2	0	1	1	0
+3	0	4	5	0
+3	1	14	1	1
+4	1	2	1	1
+4	2	15	2	2
+5	1	3	2	2
+6	2	20	6	5
+7	1	8	6	5
+8	0	16	5	0
+12	2	19	5	10
+13	0	7	5	0
+13	1	6	6	7
+17	2	9	9	2
+18	0	21	9	2
+19	1	18	6	7
+25	1	22	3	8
+26	2	10	3	8
+27	0	5	3	0
+28	1	17	3	2
+29	2	11	2	6
+31	1	23	2	6
+33	1	24	1	9
+36	2	12	1	7
+37	2	25	1	1
+              </pre>
+           </p>
+         </div><!-- textualschedule -->
+       </div><!-- row -->
+       <div class="clear"></div>    </div><!-- container -->
+         <footer>
+             <div class="container">
+                 <small>BlommaGraphs © Copyright 2013 | Simon Kerler, Richard Stromer, Manuel Oswald, Ziad Nörpel, Benjamin Wöhrl</small>
+             </div>
+         </footer>
+  </body>
+</html>
