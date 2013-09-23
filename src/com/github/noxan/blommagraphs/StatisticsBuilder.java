@@ -676,7 +676,7 @@ public class StatisticsBuilder {
                 "<script type='text/javascript'>\n" +
                 "  var ctx = document.getElementById('schedulerAlgorithmDurationChart').getContext('2d');\n" +
                 "  var data = {\n" +
-                "  labels : ['LAST', 'DLS','Genetic','Custom'],\n" +
+                generateChartLabels() +
                 "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
@@ -704,8 +704,11 @@ public class StatisticsBuilder {
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerThroughputChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
-                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
-                "  datasets : [\n" +
+                generateChartLabels();
+                
+
+                
+                html += "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
@@ -733,8 +736,9 @@ public class StatisticsBuilder {
                 "<script type=\"text/javascript\">\n" +
                 "  var ctx = document.getElementById(\"schedulerScheduleDurationChart\").getContext(\"2d\");\n" +
                 "  var data = {\n" +
-                "  labels : [\"LAST\", \"DLS\",\"Genetic\",\"Custom\"],\n" +
-                "  datasets : [\n" +
+                generateChartLabels();
+
+        html += "  datasets : [\n" +
                 "       {\n" +
                 getSchedulerChartJSColors(1) + "\n" +
                 "        data : [";
@@ -743,7 +747,7 @@ public class StatisticsBuilder {
                 for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
                     Statistic stat = schedulerStatistics.get(currentScheduler);
                     html += stat.singleBlockExecutionTime;
-                    if(currentScheduler < schedulerStatistics.size() - 1)
+                    if(currentScheduler < schedulers.length - 1)
                          html += ",";
                 }
                 html += "    ]\n" +
@@ -788,6 +792,18 @@ public class StatisticsBuilder {
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(1) + ",1)\">DLS</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(2) + ",1)\">Genetic</span>" +
         " <span class=\"badge\" style=\"background-color: rgba(" + getSchedulerRGBColors(3) + ",1)\">Custom</span>";
+    }
+    
+    private String generateChartLabels() {
+        String html = "  labels : [";
+        // Create labels from scheduler names
+        for (int currentScheduler = 0; currentScheduler < schedulers.length; ++currentScheduler) {
+            html += "\"" + schedulers[currentScheduler].getName() + "\"";
+            if (currentScheduler < schedulers.length - 1)
+                html += ",";
+        }
+        html += " ],\n";
+        return html;
     }
     /**
      * Return the color for schedulers that is used inside the generate chart methods to build Chart.js
