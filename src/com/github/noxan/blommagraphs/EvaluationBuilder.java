@@ -89,54 +89,12 @@ public class EvaluationBuilder {
                     visualSerializer.serialize(evaluatedScheduledTaskList));
 
             // content - scheduledTaskList
-            StringBuilder scheduledTaskListBuilder = new StringBuilder();
-
-            for (ScheduledTask task : scheduledTaskList) {
-                scheduledTaskListBuilder.append("<tr>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getStartTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getTaskGraphNode().getId());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getComputationTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getCommunicationTime());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("<td>");
-                scheduledTaskListBuilder.append(task.getCpuId());
-                scheduledTaskListBuilder.append("</td>");
-                scheduledTaskListBuilder.append("</tr>");
-            }
-
-            html = html.replace("{{scheduledTaskList}}", scheduledTaskListBuilder.toString());
+            html = html.replace("{{scheduledTaskList}}",
+                    scheduledTaskListToHTMLTable(scheduledTaskList));
 
             // content - evaluatedTaskList
-            StringBuilder evaluatedTaskListBuilder = new StringBuilder();
-
-            for (ScheduledTask evaluatedTask : evaluatedScheduledTaskList) {
-                evaluatedTaskListBuilder.append("<tr>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getStartTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getTaskId());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getComputationTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getCommunicationTime());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("<td>");
-                evaluatedTaskListBuilder.append(evaluatedTask.getCpuId());
-                evaluatedTaskListBuilder.append("</td>");
-                evaluatedTaskListBuilder.append("</tr>");
-            }
-
-            html = html.replace("{{evaluatedTaskList}}", evaluatedTaskListBuilder.toString());
+            html = html.replace("{{evaluatedTaskList}}",
+                    scheduledTaskListToHTMLTable(evaluatedScheduledTaskList));
 
             TaskGraphSerializer taskGraphSerializer = new STGSerializer();
 
@@ -176,5 +134,31 @@ public class EvaluationBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String scheduledTaskListToHTMLTable(ScheduledTaskList scheduledTaskList) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (ScheduledTask scheduledTask : scheduledTaskList) {
+            stringBuilder.append("<tr>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getStartTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getTaskId());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getComputationTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getCommunicationTime());
+            stringBuilder.append("</td>");
+            stringBuilder.append("<td>");
+            stringBuilder.append(scheduledTask.getCpuId());
+            stringBuilder.append("</td>");
+            stringBuilder.append("</tr>");
+        }
+
+        return stringBuilder.toString();
     }
 }
