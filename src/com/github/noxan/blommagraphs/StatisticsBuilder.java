@@ -43,7 +43,6 @@ public class StatisticsBuilder {
 
     private final String statisticsFilePath = "export/statistics/statistics.html";
 
-    // TODO: have to be 4! Just use 3 until CustomStreamscheduler is fixed :]
     private final int taskGraphCount = 500;
     private final int taskGraphGroupSize = 5;
     private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
@@ -159,8 +158,8 @@ public class StatisticsBuilder {
 
         int taskGroupCounter = 0;
 
-        for (File graphDirectory : graphDirectories) {
-            File[] graphFiles = graphDirectory.listFiles();
+        for (int dirCount = 0; dirCount < taskGroupCount; ++dirCount) {
+            File[] graphFiles = graphDirectories[dirCount].listFiles();
 
             for (int graphId = 0; graphId < taskGraphGroupSize; ++graphId) {
 
