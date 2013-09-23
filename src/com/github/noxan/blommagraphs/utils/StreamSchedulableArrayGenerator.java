@@ -33,7 +33,7 @@ public class StreamSchedulableArrayGenerator {
 
         for (int i = 0; i < deadLines.length; ++i) {
             graphs[i] = graph.clone();
-            graphs[i].resetDeadLine(deadLines[i]);
+            graphs[i].setDeadline(deadLines[i]);
         }
 
         return graphs;

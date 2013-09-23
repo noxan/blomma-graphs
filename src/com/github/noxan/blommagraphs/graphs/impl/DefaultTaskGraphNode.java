@@ -23,6 +23,7 @@ public class DefaultTaskGraphNode implements TaskGraphNode {
         this.taskGraph = taskGraph;
         this.id = id;
         this.computationTime = computationTime;
+        this.deadLine = Integer.MAX_VALUE;
         prevEdges = new HashSet<TaskGraphEdge>();
         nextEdges = new HashSet<TaskGraphEdge>();
     }

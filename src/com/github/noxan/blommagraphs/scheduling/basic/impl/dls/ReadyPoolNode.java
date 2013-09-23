@@ -1,10 +1,10 @@
 package com.github.noxan.blommagraphs.scheduling.basic.impl.dls;
 
 
+import java.util.ArrayList;
+
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 import com.github.noxan.blommagraphs.utils.Tuple;
-
-import java.util.ArrayList;
 
 
 public class ReadyPoolNode {
@@ -34,7 +34,7 @@ public class ReadyPoolNode {
     }
 
     public int getDynamicLevel(int cpuId) {
-        return bLevel - earliestStarttime.get(cpuId);
+        return bLevel - (earliestStarttime.get(cpuId) + this.getNode().getDeadLine());
     }
 
     public int getEarliestStarttime(int cpuId) {

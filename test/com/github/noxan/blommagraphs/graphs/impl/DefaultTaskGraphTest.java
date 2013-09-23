@@ -235,11 +235,11 @@ public class DefaultTaskGraphTest {
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
             Assert.assertTrue(node.getDeadLine() != 0);
         }
-        taskGraph.resetDeadLine(5);
+        taskGraph.setDeadline(5);
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
             Assert.assertEquals(5, node.getDeadLine());
         }
-        taskGraph.resetDeadLine(0);
+        taskGraph.setDeadline(0);
         for (TaskGraphNode node : taskGraph.getNodeSet()) {
             Assert.assertEquals(0, node.getDeadLine());
         }
