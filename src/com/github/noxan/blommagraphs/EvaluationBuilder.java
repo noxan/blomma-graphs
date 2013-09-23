@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Collections;
 
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.evaluation.impl.TimebasedScheduleSimulationWorker;
@@ -61,7 +60,6 @@ public class EvaluationBuilder {
         PracticalScheduleSimulator simulator = new PracticalScheduleSimulator();
         ScheduledTaskList evaluatedScheduledTaskList = simulator.simulateExecution(
                 scheduledTaskList, TimebasedScheduleSimulationWorker.class);
-        Collections.sort(evaluatedScheduledTaskList);
 
         try {
             String html = readFile(evaluationTemplatePathname);
