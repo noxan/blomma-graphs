@@ -82,8 +82,10 @@ public class CustomStreamScheduler implements StreamScheduler {
     /*
         Muss noch gecheckt werden:
         zu kurze deadlines
+            > leere ergebnis
         kritische deadline: alle taskgraphen haben min deadline (root nicht ganz oben)
         zu lange deadlines: throughput is schrott da nur auf einem cpus
+            > sollte gehen
         geht noch nicht kommentar in der falschen sprache und an der falschen stelle
      */
 
