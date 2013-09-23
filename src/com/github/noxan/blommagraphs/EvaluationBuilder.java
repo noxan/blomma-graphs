@@ -91,18 +91,21 @@ public class EvaluationBuilder {
             html = html.replace("arborTaskGraph", taskGraphToArborGraph(taskGraph));
             // content end
 
-            FileOutputStream fos = new FileOutputStream(new File(evaluationRootPath + "/"
-                    + "test.html"));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
-            writer.write(html);
-
-            writer.close();
-            fos.close();
+            writeFile(evaluationRootPath + "/" + "test.html", html);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void writeFile(String pathname, String content) throws IOException {
+        FileOutputStream fos = new FileOutputStream(new File(pathname));
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(fos));
+        writer.write(content);
+
+        writer.close();
+        fos.close();
     }
 
     private String readFile(String pathname) throws IOException {
