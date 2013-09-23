@@ -14,6 +14,7 @@ import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedSchedule
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.HTMLSerializer;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.stream.impl.BasicStreamScheduler;
+import com.github.noxan.blommagraphs.scheduling.stream.impl.CustomStreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 import com.github.noxan.blommagraphs.scheduling.system.impl.DefaultSystemMetaInformation;
 import com.github.noxan.blommagraphs.utils.FileUtils;
@@ -43,8 +44,8 @@ public class StatisticsBuilder {
 
     private final String statisticsFilePath = "export/statistics/statistics.html";
 
-    private final int taskGraphCount = 500;
-    private final int taskGraphGroupSize = 5;
+    private final int taskGraphGroupSize = 100;
+    private final int taskGroupCount = 5;
     private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
