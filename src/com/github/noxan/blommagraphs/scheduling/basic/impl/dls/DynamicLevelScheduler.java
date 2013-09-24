@@ -16,10 +16,20 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
-
+/**
+ * DLS implementation with ready pool
+ * Dynamic Level Scheduler: schedules a task depending to its dynamic level
+ * dynamic level: B-Level - earliest start-time of a task on a cpu
+ */
 public class DynamicLevelScheduler implements Scheduler {
     private ScheduledTaskList scheduledTaskList;
 
+    /**
+     * schedule methode to schedule a graph
+     * @param graph TaskGraph that is scheduled
+     * @param systemInformation system information like cpu count
+     * @return scheduled task graph list
+     */
     @Override
     public ScheduledTaskList schedule(TaskGraph graph, SystemMetaInformation systemInformation) {
         int cpuCount = systemInformation.getCpuCount();
@@ -37,10 +47,10 @@ public class DynamicLevelScheduler implements Scheduler {
 
         // main loop
         while (!readyNodePool.isEmpty()) {
-            // write first start time for every ready pool node for every cpu
+            // write earliest start time for every ready pool node for every cpu
             for (ReadyPoolNode poolNode : readyNodePool) {
                 int communicationTime = 0;
-                // check first start time for every cpu
+                // check earliest start time for every cpu
                 for (int i = 0; i < allCpuScheduleTasks.size(); i++) {
                     ArrayList<ScheduledTask> cpuScheduleTaskList = allCpuScheduleTasks.get(i);
                     int firstStarttime;
@@ -111,7 +121,6 @@ public class DynamicLevelScheduler implements Scheduler {
                 }
             }
 
-            // commit it to the CPU
             // setup new ScheduledTask
             ScheduledTask newScheduledTask = new DefaultScheduledTask();
             newScheduledTask.setCpuId(nextCpu);
@@ -141,6 +150,11 @@ public class DynamicLevelScheduler implements Scheduler {
         return scheduledTaskList;
     }
 
+    /**
+     * checks if all dependences of a node has been fulfilled
+     * @param taskGraphNode node to be checkt
+     * @return node dependency stat
+     */
     protected boolean isReadyNode(TaskGraphNode taskGraphNode) {
         Set<TaskGraphNode> prevNodes = taskGraphNode.getPrevNodes();
         Set<TaskGraphNode> scheduledTasks = new HashSet<TaskGraphNode>();
