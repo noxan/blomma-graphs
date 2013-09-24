@@ -814,12 +814,7 @@ public class StatisticsBuilder {
      * @return String holding js formatted color definitions.
      */
     private String getSchedulerChartJSColors(int i) {
-        String[] colors = new String[4];
-        colors[0] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
-        colors[1] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
-        colors[2] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ", 1)\",";
-        colors[3] = "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
-        return colors[i];
+        return "fillColor : \"rgba(" + getSchedulerRGBColors(i) + ",0.2)\", strokeColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\", pointColor : \"rgba(" + getSchedulerRGBColors(i) + ",1)\",";
     }
     
     private String getSchedulerRGBColors(int i) {
