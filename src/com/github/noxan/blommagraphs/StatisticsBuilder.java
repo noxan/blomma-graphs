@@ -818,11 +818,14 @@ public class StatisticsBuilder {
     }
     
     private String getSchedulerRGBColors(int i) {
-        String[] colors = new String[4];
-        colors[0] = "120, 0, 230";
-        colors[1] = "43, 66, 194";
-        colors[2] = "24, 40, 77";
-        colors[3] = "57, 60, 77";
+        String[] colors = {
+            "120, 0, 230",
+            "43, 66, 194",
+            "24, 40, 77",
+            "57, 60, 77",
+            "12, 17, 243",
+            "243, 12, 214"
+        };
         return colors[i];
     }
     
