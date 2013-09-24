@@ -44,23 +44,12 @@ public class StatisticsBuilder {
         private float averageCommunicationTime;
     };
 
-    private final String statisticsFilePath = "export/statistics/statistics.html";
-
-    // Folders for each task graph group. Should not be necessary to change
-    // if you use the GraphSetGenerator.
-    String[] taskGroupDirectories = {
-            "export/graphs/10",
-            "export/graphs/50",
-            "export/graphs/100",
-            "export/graphs/300",
-            "export/graphs/500"
-    };
+    // ** Start of user configuration. Feel free to do changes :)
     
-    // Should not be changed! Just add / remove folders from taskgroupFolders[].
-    private final int taskGroupCount = taskGroupDirectories.length;
-    
+    // Set how many task graph groups should be sheduled. 
+    private final int taskGroupCount = 5;
     // Set the number of task graphs that should be sheduled for each group.
-    private final int taskGraphGroupSize = 1;
+    private final int taskGraphGroupSize = 100;
     // The total number of sheduled task graphs. Don't change this!
     private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     // Set the number of cpus.
@@ -76,6 +65,19 @@ public class StatisticsBuilder {
             new BasicStreamScheduler(new GeneticLASTScheduler()),
             new CustomStreamScheduler()
     };
+    
+    // ** End of user configuration. Do not change anything below this point!
+    
+    // Directories containing the task graphs to schedule. Should not be changed.
+    String[] taskGroupDirectories = {
+            "export/graphs/10",
+            "export/graphs/50",
+            "export/graphs/100",
+            "export/graphs/300",
+            "export/graphs/500"
+    };
+    
+    private final String statisticsFilePath = "export/statistics/statistics.html";
     
     private List<List<Statistic>> taskGraphStatistics;
     private List<List<Statistic>> taskGroupStatistics;
