@@ -50,8 +50,6 @@ public class StatisticsBuilder {
     private final int taskGroupCount = 5;
     // Set the number of task graphs that should be sheduled for each group.
     private final int taskGraphGroupSize = 100;
-    // The total number of sheduled task graphs. Don't change this!
-    private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     // Set the number of cpus.
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
@@ -76,6 +74,9 @@ public class StatisticsBuilder {
             "export/graphs/300",
             "export/graphs/500"
     };
+    
+    // The total number of sheduled task graphs. Don't change this!
+    private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
     
     private final String statisticsFilePath = "export/statistics/statistics.html";
     
