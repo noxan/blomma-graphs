@@ -17,35 +17,34 @@
            var sys = arbor.ParticleSystem(1000, 600, 0.5);
            sys.renderer = Renderer("#taskgraphviewport")
            sys.parameters({gravity:true})
-sys.addNode('10')
-sys.addNode('8')
-sys.addNode('0', {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}})
+sys.addNode('9')
+sys.addNode('7')
 sys.addNode('4')
-sys.addNode('1')
-sys.addNode('3')
+sys.addNode('11', {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}})
 sys.addNode('6')
 sys.addNode('5')
-sys.addNode('11', {'last': true, 'fixed': true, 'mass': 20, 'p': {'y': 780, 'x': 'auto'}})
-sys.addNode('7')
+sys.addNode('0', {'first': true, 'fixed': true, 'mass': 20, 'p': {'y': 20, 'x': 'auto'}})
+sys.addNode('8')
+sys.addNode('1')
+sys.addNode('3')
+sys.addNode('10')
 sys.addNode('2')
-sys.addNode('9')
 sys.addEdge('0','1')
-sys.addEdge('0','2')
-sys.addEdge('0','3')
-sys.addEdge('0','4')
+sys.addEdge('1','2')
+sys.addEdge('1','3')
+sys.addEdge('2','3')
 sys.addEdge('3','4')
-sys.addEdge('2','5')
-sys.addEdge('0','6')
-sys.addEdge('5','6')
-sys.addEdge('3','7')
+sys.addEdge('4','5')
+sys.addEdge('4','6')
 sys.addEdge('5','7')
-sys.addEdge('1','8')
+sys.addEdge('4','8')
 sys.addEdge('6','8')
-sys.addEdge('8','9')
+sys.addEdge('3','9')
 sys.addEdge('9','10')
-sys.addEdge('4','11')
+sys.addEdge('2','11')
 sys.addEdge('6','11')
 sys.addEdge('7','11')
+sys.addEdge('8','11')
 sys.addEdge('10','11')
       });    </script>         </div><!-- arborgraph -->
          <div class="col-md-6" id="stggraph">
@@ -54,41 +53,40 @@ sys.addEdge('10','11')
 12
 0 1 0
 1 9 1
-	0 8
-2 9 1
-	0 8
-3 6 1
-	0 4
-4 6 2
-	0 10
-	3 10
-5 9 1
-	2 10
-6 8 2
-	0 8
-	5 8
-7 7 2
-	3 4
-	5 10
-8 8 2
+	0 6
+2 7 1
+	1 9
+3 5 2
 	1 6
-	6 2
-9 6 1
-	8 2
-10 9 1
-	9 2
-11 1 4
-	4 5
-	6 7
-	7 6
-	10 10
+	2 8
+4 10 1
+	3 7
+5 6 1
+	4 7
+6 7 1
+	4 6
+7 9 1
+	5 2
+8 9 2
+	4 4
+	6 3
+9 1 1
+	3 8
+10 8 1
+	9 6
+11 1 5
+	2 9
+	6 1
+	7 1
+	8 7
+	10 7
 
 # BlommaGraphs:	this is a Standard Task Graph project file
 # edgesPerNodeRatio:	1
 # layerCount:	8
-# edgeCount:	18
+# edgeCount:	17
 # nodeCount:	12
-# dummyEdgeCount:	9
+# dummyEdgeCount:	6
 # dummyNodeCount:	2
              </pre>
            </p>         </div><!-- stggraph -->
@@ -104,98 +102,99 @@ sys.addEdge('10','11')
                  <h4><small>0</small></h4>
              </div>
              <div class="task" style="height: 20px;">
-                 <h4><small>1</small></h4>
+                 <h4><small>13</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>14</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>15</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>16</small></h4>
+             </div>
+             <div class="task" style="height: 200px;">
+                 <h4><small>17</small></h4>
+             </div>
+             <div class="task" style="height: 140px;">
+                 <h4><small>19</small></h4>
              </div>
              <div class="task" style="height: 180px;">
-                 <h4><small>3</small></h4>
+                 <h4><small>21</small></h4>
              </div>
-             <div class="task" style="height: 180px;">
-                 <h4><small>6</small></h4>
+             <div class="waitTime" style="height: 120px;">             </div><!-- waittime -->
+         <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>24</small></h4>
              </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
              <div class="task" style="height: 160px;">
+                 <h4><small>11</small></h4>
+             </div>
+         <div class="gap" style="height: 120px;"></div><!-- gap -->
+             <div class="task" style="height: 140px;">
                  <h4><small>7</small></h4>
              </div>
-             <div class="task" style="height: 140px;">
-                 <h4><small>8</small></h4>
+             <div class="task" style="height: 180px;">
+                 <h4><small>9</small></h4>
              </div>
-             <div class="waitTime" style="height: 40px;">             </div><!-- waittime -->
-         <div class="gap" style="height: 80px;"></div><!-- gap -->
-             <div class="task" style="height: 140px;">
-                 <h4><small>20</small></h4>
+             <div class="task" style="height: 20px;">
+                 <h4><small>12</small></h4>
+             </div>
+             <div class="task" style="height: 20px;">
+                 <h4><small>25</small></h4>
              </div>
          </div><!-- processor n -->
          <div class="processor2">
              <div class="header">
                  <h4>2<small> Processor</small></h4>
              </div><!-- header -->
-         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
-         <div class="gap" style="height: 80px;"></div><!-- gap -->
+         <div class="waitTime" style="height: 500px;"></div><!-- waittime -->
+         <div class="gap" style="height: 140px;"></div><!-- gap -->
              <div class="task" style="height: 120px;">
-                 <h4><small>4</small></h4>
-             </div>
-         <div class="gap" style="height: 200px;"></div><!-- gap -->
-             <div class="task" style="height: 120px;">
-                 <h4><small>5</small></h4>
-             </div>
-             <div class="waitTime" style="height: 200px;">             </div><!-- waittime -->
-         <div class="gap" style="height: 40px;"></div><!-- gap -->
-             <div class="task" style="height: 160px;">
-                 <h4><small>9</small></h4>
-             </div>
-             <div class="task" style="height: 120px;">
-                 <h4><small>10</small></h4>
+                 <h4><small>18</small></h4>
              </div>
              <div class="task" style="height: 180px;">
-                 <h4><small>11</small></h4>
-             </div>
-             <div class="task" style="height: 20px;">
-                 <h4><small>12</small></h4>
+                 <h4><small>20</small></h4>
              </div>
          </div><!-- processor n -->
          <div class="processor3">
              <div class="header">
                  <h4>3<small> Processor</small></h4>
              </div><!-- header -->
-         <div class="waitTime" style="height: 40px;"></div><!-- waittime -->
+         <div class="waitTime" style="height: 20px;"></div><!-- waittime -->
          <div class="gap" style="height: 20px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>1</small></h4>
+             </div>
+             <div class="waitTime" style="height: 240px;">             </div><!-- waittime -->
+         <div class="gap" style="height: 160px;"></div><!-- gap -->
+             <div class="task" style="height: 20px;">
+                 <h4><small>22</small></h4>
+             </div>
              <div class="task" style="height: 20px;">
                  <h4><small>2</small></h4>
              </div>
-             <div class="task" style="height: 20px;">
-                 <h4><small>13</small></h4>
-             </div>
-             <div class="task" style="height: 180px;">
-                 <h4><small>15</small></h4>
-             </div>
-             <div class="task" style="height: 180px;">
-                 <h4><small>18</small></h4>
-             </div>
              <div class="task" style="height: 160px;">
-                 <h4><small>19</small></h4>
-             </div>
-             <div class="task" style="height: 120px;">
-                 <h4><small>16</small></h4>
-             </div>
-             <div class="task" style="height: 120px;">
-                 <h4><small>17</small></h4>
-             </div>
-             <div class="task" style="height: 20px;">
-                 <h4><small>14</small></h4>
-             </div>
-             <div class="task" style="height: 160px;">
-                 <h4><small>21</small></h4>
-             </div>
-             <div class="task" style="height: 120px;">
-                 <h4><small>22</small></h4>
-             </div>
-             <div class="task" style="height: 180px;">
                  <h4><small>23</small></h4>
              </div>
-             <div class="task" style="height: 20px;">
-                 <h4><small>24</small></h4>
+             <div class="task" style="height: 140px;">
+                 <h4><small>3</small></h4>
+             </div>
+             <div class="task" style="height: 100px;">
+                 <h4><small>4</small></h4>
              </div>
              <div class="task" style="height: 20px;">
-                 <h4><small>25</small></h4>
+                 <h4><small>10</small></h4>
+             </div>
+             <div class="task" style="height: 200px;">
+                 <h4><small>5</small></h4>
+             </div>
+             <div class="task" style="height: 120px;">
+                 <h4><small>6</small></h4>
+             </div>
+             <div class="task" style="height: 180px;">
+                 <h4><small>8</small></h4>
              </div>
          </div><!-- processor n -->
          <div class="clear"></div><!-- clear -->     </div><!-- processorWrapper -->
@@ -204,31 +203,31 @@ sys.addEdge('10','11')
            <p>
               <pre>
 0	0	0	1	0
-1	0	1	1	0
-2	0	3	9	0
-3	2	2	1	1
-4	2	13	1	0
-5	2	15	9	0
-6	1	4	6	4
-11	0	6	9	0
-12	1	5	6	10
-14	2	18	9	0
-20	0	7	8	0
-23	2	19	8	0
-28	0	8	7	0
-30	1	9	8	2
-31	2	16	6	0
-37	2	17	6	0
-38	1	10	6	0
-41	0	20	7	4
-43	2	14	1	0
-44	1	11	9	0
-44	2	21	8	0
-52	2	22	6	0
-53	1	12	1	0
-58	2	23	9	0
-67	2	24	1	0
-68	2	25	1	0
+1	0	13	1	0
+2	0	14	1	0
+2	2	1	1	1
+3	0	15	7	0
+10	0	16	5	0
+15	0	17	10	0
+23	2	22	1	8
+24	2	2	1	0
+25	0	19	7	0
+25	2	23	8	0
+32	0	21	9	0
+32	1	18	6	7
+33	2	3	7	0
+38	1	20	9	0
+40	2	4	5	0
+45	2	10	1	0
+46	2	5	10	0
+48	0	24	1	1
+52	0	11	8	6
+56	2	6	6	0
+62	0	7	7	6
+62	2	8	9	0
+69	0	9	9	0
+78	0	12	1	0
+79	0	25	1	0
               </pre>
            </p>
          </div><!-- textualschedule -->
