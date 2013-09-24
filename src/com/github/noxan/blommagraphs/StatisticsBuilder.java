@@ -46,19 +46,34 @@ public class StatisticsBuilder {
 
     private final String statisticsFilePath = "export/statistics/statistics.html";
 
-    private final int taskGraphGroupSize = 100;
-    private final int taskGroupCount = 5;
+    // Folders for each task graph group. Should not be necessary to change
+    // if you use the GraphSetGenerator.
+    String[] taskGroupDirectories = {
+            "export/graphs/10",
+            "export/graphs/50",
+            "export/graphs/100",
+            "export/graphs/300",
+            "export/graphs/500"
+    };
+    
+    // Should not be changed! Just add / remove folders from taskgroupFolders[].
+    private final int taskGroupCount = taskGroupDirectories.length;
+    
+    // Set the number of task graphs that should be sheduled for each group.
+    private final int taskGraphGroupSize = 1;
+    // The total number of sheduled task graphs. Don't change this!
     private final int taskGraphCount = taskGraphGroupSize * taskGroupCount;
+    // Set the number of cpus.
     private final int cpuCount = 3;
     // Number of TaskGraph copies that are scheduled.
     private final int blockSize = 2;
 
-    // Schedulers
+    // Instantiate schedulers that are evaluated.
     private StreamScheduler[] schedulers = {
             new BasicStreamScheduler(new LASTScheduler()),
             new BasicStreamScheduler(new DynamicLevelScheduler()),
-//            new BasicStreamScheduler(new GeneticDLSScheduler()),
-//            new BasicStreamScheduler(new GeneticLASTScheduler()),
+            new BasicStreamScheduler(new GeneticDLSScheduler()),
+            new BasicStreamScheduler(new GeneticLASTScheduler()),
             new CustomStreamScheduler()
     };
     
@@ -152,7 +167,7 @@ public class StatisticsBuilder {
      */
     private void buildTaskGraphStatistics() throws IOException {
         File graphGroupsDirectory = new File("export/graphs");
-        File[] graphDirectories = graphGroupsDirectory.listFiles();
+//        File[] graphDirectories = graphGroupsDirectory.listFiles();
 
         TaskGraph graph;
         // Following task graphs are used for scheduling.
@@ -162,7 +177,7 @@ public class StatisticsBuilder {
         int taskGroupCounter = 0;
 
         for (int dirCount = 0; dirCount < taskGroupCount; ++dirCount) {
-            File[] graphFiles = graphDirectories[dirCount].listFiles();
+            File[] graphFiles = new File(taskGroupDirectories[dirCount]).listFiles();
 
             for (int graphId = 0; graphId < taskGraphGroupSize; ++graphId) {
 
