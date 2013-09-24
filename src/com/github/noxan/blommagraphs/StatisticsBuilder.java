@@ -8,6 +8,8 @@ import com.github.noxan.blommagraphs.graphs.serializer.impl.STGSerializer;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTask;
 import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.dls.DynamicLevelScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticDLSScheduler;
+import com.github.noxan.blommagraphs.scheduling.basic.impl.genetic.GeneticLASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.basic.impl.last.LASTScheduler;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 import com.github.noxan.blommagraphs.scheduling.serializer.impl.ExtendedScheduledTaskListSerializer;
@@ -51,11 +53,19 @@ public class StatisticsBuilder {
     // Number of TaskGraph copies that are scheduled.
     private final int blockSize = 2;
 
+    // Schedulers
+    private StreamScheduler[] schedulers = {
+            new BasicStreamScheduler(new LASTScheduler()),
+            new BasicStreamScheduler(new DynamicLevelScheduler()),
+//            new BasicStreamScheduler(new GeneticDLSScheduler()),
+//            new BasicStreamScheduler(new GeneticLASTScheduler()),
+            new CustomStreamScheduler()
+    };
+    
     private List<List<Statistic>> taskGraphStatistics;
     private List<List<Statistic>> taskGroupStatistics;
     private List<Statistic> schedulerStatistics;
 
-    private StreamScheduler schedulers[];
     private SystemMetaInformation systemMetaInformation;
 
     private TaskGraphSerializer taskGraphSerializer;
@@ -78,14 +88,6 @@ public class StatisticsBuilder {
     }
 
     private StatisticsBuilder() {
-        // Create Schedulers
-        StreamScheduler[] createdSchedulers = {
-                new BasicStreamScheduler(new LASTScheduler()),
-                new BasicStreamScheduler(new DynamicLevelScheduler()),
-                new CustomStreamScheduler()
-        };
-        this.schedulers = createdSchedulers;
-         
         // Build lists
         taskGraphStatistics = new ArrayList<List<Statistic>>();
         taskGroupStatistics = new ArrayList<List<Statistic>>();
