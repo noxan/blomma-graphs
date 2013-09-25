@@ -3,6 +3,11 @@ package com.github.noxan.blommagraphs.scheduling.stream.impl;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphNode;
 
+
+/**
+ * phantom task class to store the gap of every taskgraphnode on every cpu, its earliest start-time
+ * and the communicationtime
+ */
 public class PhantomTask {
     private int cpuId;
     private TaskGraphNode taskGraphNode;
