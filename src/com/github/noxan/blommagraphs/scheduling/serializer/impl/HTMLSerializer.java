@@ -5,9 +5,16 @@ import com.github.noxan.blommagraphs.scheduling.ScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.serializer.ScheduledTaskListSerializer;
 
 
+/**
+ * gets a ScheduledTaskList and builds a HTML-file that displays the tasks on
+ * each processor
+ * 
+ * @author LaPush
+ * 
+ */
 public class HTMLSerializer implements ScheduledTaskListSerializer {
     private final int timePixelFactor = 20;
-    
+
     @Override
     public String serialize(ScheduledTaskList scheduledTaskList) {
         StringBuilder string = new StringBuilder();
@@ -56,12 +63,13 @@ public class HTMLSerializer implements ScheduledTaskListSerializer {
                 if (scheduledTaskOnCpuList.get(j).getCommunicationTime() != 0) {
                     string.append("         <div class=\"gap\" style=\"height: ")
                             .append(scheduledTaskList.getScheduledTasksOnCpu(i).get(j)
-                                    .getCommunicationTime() * timePixelFactor)
-                            .append("px;\"></div><!-- gap -->\n");
+                                    .getCommunicationTime()
+                                    * timePixelFactor).append("px;\"></div><!-- gap -->\n");
                 }
-                string.append("             <div class=\"task\"").append(" style=\"height: ")
-                        .append(scheduledTaskOnCpuList.get(j).getComputationTime() * timePixelFactor)
-                        .append("px;\">\n");
+                string.append("             <div class=\"task\"")
+                        .append(" style=\"height: ")
+                        .append(scheduledTaskOnCpuList.get(j).getComputationTime()
+                                * timePixelFactor).append("px;\">\n");
                 string.append("                 <h4><small>")
                         .append(scheduledTaskOnCpuList.get(j).getTaskId())
                         .append("</small></h4>\n");
