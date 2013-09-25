@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
 import com.github.noxan.blommagraphs.graphs.factories.impl.DefaultTaskGraphFactory;
+import com.github.noxan.blommagraphs.scheduling.ScheduledTaskListStatus;
 import com.sun.jmx.remote.internal.ArrayQueue;
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,13 +28,15 @@ public class CustomStreamSchedulerTest {
     StreamScheduler customStreamScheduler = new CustomStreamScheduler();
     SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(2);
     ScheduledTaskListSerializer serializer = new DefaultScheduledTaskListSerializer();
+    ScheduledTaskListStatus scheduledTaskListStatus;
 
     @Before
     public void initialize() {
-        this.testGraphs = new ArrayList<TaskGraph>();
+        this.testGraphs = new ArrayList<>();
         this.customStreamScheduler = new CustomStreamScheduler();
         this.systemMetaInformation = new DefaultSystemMetaInformation(2);
         this.serializer = new DefaultScheduledTaskListSerializer();
+        this.scheduledTaskListStatus = ScheduledTaskListStatus.VALID;
 
 
         TaskGraph taskGraph0 = new DefaultTaskGraph();
@@ -73,8 +77,8 @@ public class CustomStreamSchedulerTest {
             ScheduledTaskList scheduledTaskList = this.customStreamScheduler.schedule(
                     createTaskGraphArray(deadlines.get(i),this.testGraphs.get(i)),
                     this.systemMetaInformation);
-            System.out.print(this.serializer.serialize(scheduledTaskList));
-            System.out.println(scheduledTaskList.validate());
+            //System.out.print(this.serializer.serialize(scheduledTaskList));
+            Assert.assertEquals(this.scheduledTaskListStatus, scheduledTaskList.validate());
         }
     }
 
@@ -82,19 +86,16 @@ public class CustomStreamSchedulerTest {
     public void testCustomStreamSchedulerCritical() {
         ArrayList<ArrayList<Integer>> deadlines = new ArrayList<ArrayList<Integer>>();
         ArrayList<Integer> deadlines0 = new ArrayList<Integer>();
-        // really critical???
         deadlines0.add(10);
         deadlines0.add(17);
         deadlines0.add(24);
         deadlines.add(deadlines0);
         ArrayList<Integer> deadlines1 = new ArrayList<Integer>();
-        // really critical???
         deadlines1.add(15);
         deadlines1.add(30);
         deadlines1.add(34);
         deadlines.add(deadlines1);
         ArrayList<Integer> deadlines2 = new ArrayList<Integer>();
-        // really critical???
         deadlines2.add(10);
         deadlines2.add(10);
         deadlines2.add(20);
@@ -104,12 +105,12 @@ public class CustomStreamSchedulerTest {
             ScheduledTaskList scheduledTaskList = customStreamScheduler.schedule(
                     createTaskGraphArray(deadlines.get(i),this.testGraphs.get(i)),
                     this.systemMetaInformation);
-            System.out.print(this.serializer.serialize(scheduledTaskList));
-            System.out.println(scheduledTaskList.validate());
+            //System.out.print(this.serializer.serialize(scheduledTaskList));
+            Assert.assertEquals(this.scheduledTaskListStatus, scheduledTaskList.validate());
         }
     }
 
-    // Takes too fucking long to execute
+    // Takes too fucking long to wait for it
     //@Test
     public void testCustomStreamSchedulerTooShort() {
         ArrayList<ArrayList<Integer>> deadlines = new ArrayList<ArrayList<Integer>>();
@@ -129,12 +130,11 @@ public class CustomStreamSchedulerTest {
         deadlines2.add(17);
         deadlines.add(deadlines2);
 
-        for (int i = 0; i < this.testGraphs.size(); i++) {
+        for (int i = 0; i < deadlines.size(); i++) {
             ScheduledTaskList scheduledTaskList = this.customStreamScheduler.schedule(
                     createTaskGraphArray(deadlines.get(i),this.testGraphs.get(i)),
                     this.systemMetaInformation);
-            System.out.print(this.serializer.serialize(scheduledTaskList));
-            System.out.println(scheduledTaskList.validate());
+            Assert.assertEquals(this.scheduledTaskListStatus, scheduledTaskList.validate());
         }
     }
 
@@ -149,8 +149,8 @@ public class CustomStreamSchedulerTest {
         ScheduledTaskList scheduledTaskList = this.customStreamScheduler.schedule(
                 createTaskGraphArray(deadlines,taskGraph),
                 this.systemMetaInformation);
-        System.out.print(this.serializer.serialize(scheduledTaskList));
-        System.out.println(scheduledTaskList.validate());
+        //System.out.print(this.serializer.serialize(scheduledTaskList));
+        Assert.assertEquals(this.scheduledTaskListStatus, scheduledTaskList.validate());
     }
 
     private TaskGraph[] createTaskGraphArray(List<Integer> deadlines, TaskGraph taskGraph) {
