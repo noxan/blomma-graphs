@@ -69,7 +69,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
     /**
      * 
-     * @param seed
+     * @param seed seed to generate the random values
      */
     @Override
     public void setSeed(long seed) {
@@ -87,7 +87,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
 
     /**
      * 
-     * @param numberOfNodes
+     * @param numberOfNodes number of nodes in the graph
      * @throws OutOfRangeException
      */
     @Override
@@ -100,9 +100,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param minIncomingEdges
-     * @throws GeneratorException
+     *
+     * @param minIncomingEdges minimum of incoming edge count
+     * @throws BoundaryConflictException minincomingedges higher than maxincomingedges
+     * @throws OutOfRangeException to low value
      */
     @Override
     public void setMinIncomingEdges(int minIncomingEdges) throws BoundaryConflictException,
@@ -119,9 +120,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param maxIncomingEdges
-     * @throws GeneratorException
+     *
+     * @param maxIncomingEdges maximum of incoming edges
+     * @throws BoundaryConflictException maxincomingedges lower than minincomingedges
+     * @throws OutOfRangeException to low value
      */
     @Override
     public void setMaxIncomingEdges(int maxIncomingEdges) throws BoundaryConflictException,
@@ -138,7 +140,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
+     * still not in use
      * @param spreadEdges
      * @throws OutOfRangeException
      */
@@ -152,9 +154,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param minComputationTime
-     * @throws GeneratorException
+     *
+     * @param minComputationTime minimum computation time
+     * @throws BoundaryConflictException minimumcomputationtime is higher as maxcomputationtime
+     * @throws OutOfRangeException to low value
      */
     @Override
     public void setMinComputationTime(int minComputationTime) throws BoundaryConflictException,
@@ -171,9 +174,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param maxComputationTime
-     * @throws GeneratorException
+     *
+     * @param maxComputationTime maximum computation time
+     * @throws BoundaryConflictException
+     * @throws OutOfRangeException
      */
     @Override
     public void setMaxComputationTime(int maxComputationTime) throws BoundaryConflictException,
@@ -190,7 +194,7 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
+     * still not in use
      * @param spreadComputationTime
      */
     @Override
@@ -200,9 +204,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param minCommunicationTime
-     * @throws GeneratorException
+     *
+     * @param minCommunicationTime minimum communication time
+     * @throws BoundaryConflictException
+     * @throws OutOfRangeException
      */
     @Override
     public void setMinCommunicationTime(int minCommunicationTime) throws BoundaryConflictException,
@@ -219,9 +224,10 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
-     * @param maxCommunicationTime
-     * @throws GeneratorException
+     *
+     * @param maxCommunicationTime maximum communication time
+     * @throws BoundaryConflictException
+     * @throws OutOfRangeException
      */
     @Override
     public void setMaxCommunicationTime(int maxCommunicationTime) throws BoundaryConflictException,
@@ -238,12 +244,11 @@ public class DefaultTaskGraphGenerator implements TaskGraphGenerator {
     }
 
     /**
-     * 
+     * still not in use
      * @param spreadCommunicationTime
      */
     @Override
     public void setSpreadCommunicationTime(int spreadCommunicationTime) {
-        // coming soon...
         this.spreadCommunicationTime = spreadCommunicationTime;
     }
 
