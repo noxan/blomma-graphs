@@ -123,8 +123,13 @@ public class LASTScheduler implements Scheduler {
             // compare first start time with latest dependency time
             if (latestDependencyTime > firstStarttime) {
                 firstStarttime = latestDependencyTime;
+                
             } else if (latestDependencyTime < firstStarttime) {
+                // calculate communication time that still has to be done.
                 actualCommunicationTime = 0;
+            } else {
+                // calculate communication time that still has to be done.
+                actualCommunicationTime = latestDependencyTime - firstStarttime;
             }
             if (currentCpuId == 0 || node.getStartTime() > firstStarttime) {
                 node.setCommunicationTime(actualCommunicationTime);
