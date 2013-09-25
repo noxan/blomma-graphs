@@ -229,10 +229,8 @@ public class CustomStreamScheduler implements StreamScheduler {
             gap = startTimeOnCpu;
         }
 
-        PhantomTask newPhantomTask = new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
+        return new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
                 communicationTimeOnCpu);
-
-        return newPhantomTask;
     }
 
     /**
