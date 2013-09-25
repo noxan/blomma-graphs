@@ -96,8 +96,8 @@ public class CustomStreamScheduler implements StreamScheduler {
      * @return boolean true if all deadlines are met
      */
     private boolean checkDeadline(ScheduledTaskList scheduledTaskList) {
-        ArrayList<ScheduledTask> startTasks = new ArrayList<>();
-        ArrayList<ScheduledTask> endTasks = new ArrayList<>();
+        ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
+        ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
 
         for (ScheduledTask scheduledTask : scheduledTaskList) {
             if (scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
@@ -130,7 +130,7 @@ public class CustomStreamScheduler implements StreamScheduler {
      */
     private ArrayList<PhantomTask> getPhantomTaskList(Set<TaskGraphNode> readySet,
                                                       ScheduledTaskList scheduledTaskList) {
-        ArrayList<PhantomTask> phantomTaskList = new ArrayList<>();
+        ArrayList<PhantomTask> phantomTaskList = new ArrayList<PhantomTask>();
         for (TaskGraphNode currentTask : readySet) {
 
             // get set of task which the currenttask depend on
@@ -240,7 +240,7 @@ public class CustomStreamScheduler implements StreamScheduler {
      * @return dependencyset
      */
     private Set<ScheduledTask> getDependencySet(ScheduledTaskList scheduledTaskList, TaskGraphNode task) {
-        Set<ScheduledTask> dependencySet = new HashSet<>();
+        Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
         for (TaskGraphNode dependencyNode : task.getPrevNodes()) {
             dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
         }
@@ -253,7 +253,7 @@ public class CustomStreamScheduler implements StreamScheduler {
      * @return readyset
      */
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
-        Set<TaskGraphNode> readyList = new HashSet<>();
+        Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
 
         for (TaskGraph taskGraph : taskGraphs) {
             readyList.add(taskGraph.getFirstNode());
