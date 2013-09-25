@@ -15,7 +15,12 @@ import com.github.noxan.blommagraphs.scheduling.impl.DefaultScheduledTaskList;
 import com.github.noxan.blommagraphs.scheduling.stream.StreamScheduler;
 import com.github.noxan.blommagraphs.scheduling.system.SystemMetaInformation;
 
-
+/**
+ * custom stream scheduler
+ * schedules taskgraphs trying to minimize the gaps between the tasks and depending to their
+ * deadline to get the best throughput
+ * to short deadline -> empty scheduledtasklist
+ */
 public class CustomStreamScheduler implements StreamScheduler {
     @Override
     public ScheduledTaskList schedule(TaskGraph[] taskGraphs, SystemMetaInformation systemInfo) {
@@ -25,6 +30,12 @@ public class CustomStreamScheduler implements StreamScheduler {
         return scheduledTaskList;
     }
 
+    /**
+     * recursive methode to schedule taskgraph which first nodes are in the ready set
+     * @param readySet ready set with the first node at the beginning
+     * @param scheduledTaskList empty scheduledtasklist at the beginning
+     * @return scheduled task list
+     */
     private ScheduledTaskList getScheduledTaskList(Set<TaskGraphNode> readySet,
             ScheduledTaskList scheduledTaskList) {
 
@@ -79,24 +90,14 @@ public class CustomStreamScheduler implements StreamScheduler {
         return currentTaskList;
     }
 
-    /*
-        Muss noch gecheckt werden:
-        zu kurze deadlines
-            > leere ergebnis
-        kritische deadline: alle taskgraphen haben min deadline (root nicht ganz oben)
-        zu lange deadlines: throughput is schrott da nur auf einem cpus
-            > sollte gehen
-        geht noch nicht kommentar in der falschen sprache und an der falschen stelle
-     */
-
     /**
      * checks the deadline if all tasks have been scheduled
-     * @param scheduledTaskList
-     * @return boolean
+     * @param scheduledTaskList scheduledtasklist with deadlines to check
+     * @return boolean true if all deadlines are met
      */
     private boolean checkDeadline(ScheduledTaskList scheduledTaskList) {
-        ArrayList<ScheduledTask> startTasks = new ArrayList<ScheduledTask>();
-        ArrayList<ScheduledTask> endTasks = new ArrayList<ScheduledTask>();
+        ArrayList<ScheduledTask> startTasks = new ArrayList<>();
+        ArrayList<ScheduledTask> endTasks = new ArrayList<>();
 
         for (ScheduledTask scheduledTask : scheduledTaskList) {
             if (scheduledTask.getTaskGraphNode().getPrevNodes().isEmpty()) {
@@ -123,12 +124,13 @@ public class CustomStreamScheduler implements StreamScheduler {
     /**
      * creates a phantomTaskList which includes the gaps of every Task on every cpu, taskGraphNode,
      * earliestStarttime, communicationTime
-     * @param readySet
-     * @param scheduledTaskList
+     * @param readySet current ready set
+     * @param scheduledTaskList current scheduledtasklist
      * @return ArrayList<PhantomTask>
      */
-    private ArrayList<PhantomTask> getPhantomTaskList(Set<TaskGraphNode> readySet, ScheduledTaskList scheduledTaskList) {
-        ArrayList<PhantomTask> phantomTaskList = new ArrayList<PhantomTask>();
+    private ArrayList<PhantomTask> getPhantomTaskList(Set<TaskGraphNode> readySet,
+                                                      ScheduledTaskList scheduledTaskList) {
+        ArrayList<PhantomTask> phantomTaskList = new ArrayList<>();
         for (TaskGraphNode currentTask : readySet) {
 
             // get set of task which the currenttask depend on
@@ -137,7 +139,8 @@ public class CustomStreamScheduler implements StreamScheduler {
             for (int cpuId = 0; cpuId < scheduledTaskList.getCpuCount(); cpuId++) {
 
                 // get the phantomtask with the gap
-                PhantomTask newPhantomTask = createPhantomTask(scheduledTaskList, cpuId, dependencySet, currentTask);
+                PhantomTask newPhantomTask = createPhantomTask(scheduledTaskList,
+                        cpuId, dependencySet, currentTask);
 
                 if (phantomTaskList.isEmpty()) {
                     phantomTaskList.add(newPhantomTask);
@@ -145,7 +148,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                 else {
                     for(PhantomTask phantomTask : phantomTaskList) {
                         // optimization if the one with the bigger communication time would be put
-                        // on the cpu with the prev task or something in this case
+                        // on the cpu with the prev depending task to save the communication time
                         if (newPhantomTask.getGap() < phantomTask.getGap()) {
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     newPhantomTask);
@@ -159,9 +162,10 @@ public class CustomStreamScheduler implements StreamScheduler {
                         } else if (newPhantomTask.getGap() == phantomTask.getGap()
                                 && currentTask.getDeadLine() ==
                                 phantomTask.getTaskGraphNode().getDeadLine()
-                                && newPhantomTask.getEarliestStarttime() < phantomTask.getEarliestStarttime()) {
-                            // adding pure deadline priority just makes sense if all graphes
-                            // are the same, if not calculate a relation to the number of
+                                && newPhantomTask.getEarliestStarttime() <
+                                phantomTask.getEarliestStarttime()) {
+                            // adding pure deadline priority just makes sense if all graphs
+                            // are the equals, if not calculate a relation to the number of
                             // nodes of a graph
                             phantomTaskList.add(phantomTaskList.indexOf(phantomTask),
                                     newPhantomTask);
@@ -179,11 +183,11 @@ public class CustomStreamScheduler implements StreamScheduler {
 
     /**
      * create the phantomtask with the gap
-     * @param scheduledTaskList
-     * @param cpuId
-     * @param dependencySet
-     * @param currentTask
-     * @return
+     * @param scheduledTaskList  current scheduledtasklist
+     * @param cpuId cpuId for the new phantomtask
+     * @param dependencySet set of dependent scheduled tasks
+     * @param currentTask task to be in the new phantomtask
+     * @return new phantomtask
      */
     private PhantomTask createPhantomTask(ScheduledTaskList scheduledTaskList, int cpuId, Set<ScheduledTask> dependencySet, TaskGraphNode currentTask) {
         ScheduledTask lastScheduledTask = scheduledTaskList
@@ -222,7 +226,7 @@ public class CustomStreamScheduler implements StreamScheduler {
                     - (lastScheduledTask.getStartTime() + lastScheduledTask
                     .getComputationTime());
         } else {
-            gap = startTimeOnCpu; // correct????? could be maybe -1
+            gap = startTimeOnCpu;
         }
 
         PhantomTask newPhantomTask = new PhantomTask(cpuId, currentTask, gap, startTimeOnCpu,
@@ -233,20 +237,25 @@ public class CustomStreamScheduler implements StreamScheduler {
 
     /**
      * creats a set of scheduledTasks which the task depends on
-     * @param scheduledTaskList
-     * @param task
-     * @return
+     * @param scheduledTaskList current scheduledtasklist
+     * @param task task to get dependencies of
+     * @return dependencyset
      */
     private Set<ScheduledTask> getDependencySet(ScheduledTaskList scheduledTaskList, TaskGraphNode task) {
-        Set<ScheduledTask> dependencySet = new HashSet<ScheduledTask>();
+        Set<ScheduledTask> dependencySet = new HashSet<>();
         for (TaskGraphNode dependencyNode : task.getPrevNodes()) {
             dependencySet.add(scheduledTaskList.getScheduledTask(dependencyNode));
         }
         return dependencySet;
     }
 
+    /**
+     * adds the first node of each taskgraph to the readypool
+     * @param taskGraphs taskgraphs to be added
+     * @return readyset
+     */
     private Set<TaskGraphNode> initializeReadySet(TaskGraph[] taskGraphs) {
-        Set<TaskGraphNode> readyList = new HashSet<TaskGraphNode>();
+        Set<TaskGraphNode> readyList = new HashSet<>();
 
         for (TaskGraph taskGraph : taskGraphs) {
             readyList.add(taskGraph.getFirstNode());
@@ -255,6 +264,13 @@ public class CustomStreamScheduler implements StreamScheduler {
         return readyList;
     }
 
+    /**
+     * removes the scheduled taskgraph from the readypool and adds the new nodes which dependencies
+     * has been fulfilled
+     * @param readySet current readyset
+     * @param scheduledTaskList current scheduledtasklist
+     * @param lastScheduledNode node to remove
+     */
     private void updateReadySet(Set<TaskGraphNode> readySet, ScheduledTaskList scheduledTaskList,
             TaskGraphNode lastScheduledNode) {
         // remove last scheduled task from ready list
