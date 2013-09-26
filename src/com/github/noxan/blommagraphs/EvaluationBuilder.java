@@ -13,7 +13,6 @@ import java.io.OutputStreamWriter;
 
 import com.github.noxan.blommagraphs.evaluation.impl.PracticalScheduleSimulator;
 import com.github.noxan.blommagraphs.evaluation.impl.TimebasedScheduleSimulationWorker;
-import com.github.noxan.blommagraphs.generator.TaskGraphGenerator;
 import com.github.noxan.blommagraphs.generator.impl.DefaultTaskGraphGenerator;
 import com.github.noxan.blommagraphs.graphs.TaskGraph;
 import com.github.noxan.blommagraphs.graphs.TaskGraphEdge;
@@ -47,16 +46,20 @@ public class EvaluationBuilder {
 
         new File(evaluationRootPath).mkdir();
 
-        TaskGraphGenerator generator = new DefaultTaskGraphGenerator();
-
-        TaskGraph taskGraph = generator.generator();
-
+        TaskGraph taskGraph = new DefaultTaskGraphGenerator().generator();
         Scheduler scheduler = new LASTScheduler();
-
         SystemMetaInformation systemMetaInformation = new DefaultSystemMetaInformation(4);
 
-        ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
+        buildEvaluation(taskGraph, scheduler, systemMetaInformation);
+    }
 
+    private void buildEvaluation(TaskGraph taskGraph, Scheduler scheduler,
+            SystemMetaInformation systemMetaInformation) {
+        ScheduledTaskList scheduledTaskList = scheduler.schedule(taskGraph, systemMetaInformation);
+        buildEvaluation(taskGraph, scheduledTaskList);
+    }
+
+    private void buildEvaluation(TaskGraph taskGraph, ScheduledTaskList scheduledTaskList) {
         PracticalScheduleSimulator simulator = new PracticalScheduleSimulator();
         ScheduledTaskList evaluatedScheduledTaskList = simulator.simulateExecution(
                 scheduledTaskList, TimebasedScheduleSimulationWorker.class);
