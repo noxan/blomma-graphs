@@ -15,6 +15,8 @@
   <property name="reports.dir" value="${build.dir}/reports"/>
   <property name="junit.dir" value="${reports.dir}/junit"/>
 
+  <property name="doc.dir" value="${build.dir}/docs"/>
+
 
   <path id="production.class.path">
     <pathelement location="${production.classes}"/>
@@ -77,6 +79,11 @@
       </fileset>
       <report todir="${junit.dir}" format="frames"/>
     </junitreport>
+  </target>
+
+  <target name="javadoc">
+    <mkdir dir="${doc.dir}"/>
+    <javadoc sourcepath="${production.dir}" destdir="${doc.dir}" classpathref="production.class.path"/>
   </target>
 
   <target name="clean-build" depends="clean,package"/>
